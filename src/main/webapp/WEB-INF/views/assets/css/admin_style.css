@@ -1,0 +1,203 @@
+@charset "UTF-8";
+
+h3 {
+    margin-left: 200px;
+ }
+ 
+ /* 전체 테이블의 크기, 테두리 */
+table {
+   width: 900px;
+   /* 테이블의 바깥 테두리 */
+   border: 1px solid #d5d5d5;
+   /* 테이블 테두리 간의 간격을 제거하여 두 줄로 보이는 현상을 방지 */
+   border-collapse: collapse;
+}
+
+th {
+   background-color: #eee;
+   padding: 5px 0;
+   
+}
+
+/* th, td 공통 */
+th, td {
+   /* 테이블의 안쪽 테두리 */
+   border: 1px solid #d5d5d5;
+   height: 40px;
+   text-align: center;
+}
+
+
+#blockUser_reportList {
+   border-left: none;
+   border-right: none;
+}
+
+#blockUser{
+   /* 테이블의 바깥 테두리 */
+   border: 1px solid #d5d5d5;
+   /* 테이블 테두리 간의 간격을 제거하여 두 줄로 보이는 현상을 방지 */
+   border-collapse: collapse;
+}
+
+#blockUserList {
+   margin: auto;
+   /* 테이블의 바깥 테두리 */
+   border: 1px solid #d5d5d5;
+   /* 테이블 테두리 간의 간격을 제거하여 두 줄로 보이는 현상을 방지 */
+   border-collapse: collapse;
+}
+
+#blockUser_reportList th, #blockUser_reportList td {
+   /* 테이블의 안쪽 테두리 */
+   border: 1px solid #d5d5d5;
+   text-align: center;
+   margin-bottom: none;
+}
+
+#blockUser th, #blockUser td {
+   /* 테이블의 안쪽 테두리 */
+   border: 1px solid #d5d5d5;
+   width: 33.33%;
+   text-align: center;
+}
+#blockUserList th, #blockUserList td {
+   /* 테이블의 안쪽 테두리 */
+   border: 1px solid #d5d5d5;
+   width: 33.33%;
+   text-align: center;
+} 
+
+.input {
+   text-align: center;
+   border: 0;
+   width: 100%;
+   height: 30px;
+   display: block;
+}
+
+/* 커서 모양 변경되는 것 방지*/
+#category_rowNumber {
+   cursor: default;
+}
+
+/*blockUser ID 입력박스 */
+#blockUserIdBox {
+   position: relative;
+   margin: auto;
+   background: #ffffff;
+   width: 110px;
+   border: 2px solid #d5d5d5;
+   border-radius: .25em;
+}
+
+/* 줄바뀜 방지용 display속성 변경 */
+.div_add, .div_del, .movePage {
+   display: inline-block;
+   text-decoration: underline;
+}
+
+/* 제목/내용 text-overflow시 생략 */
+#blockUser_reportList .movePage {
+   overflow:hidden; 
+   text-overflow:ellipsis; 
+   white-space:nowrap;
+   width: 300px;
+   vertical-align: middle;
+}
+
+/* 두개의 테이블로 보여지도록 비어있는 행 하나를 hidden처리 함 */
+#category_emptyTr, .category_emptyTd {
+   border-left-style: hidden;
+   border-right-style: hidden;
+}
+
+
+/* 업종명 입력박스 */ 
+.category_name_input {
+   padding: 5px 0;
+   text-align: center;
+   background: #ffffff;
+   width: 130px;
+   border: 2px solid #d5d5d5;
+   border-radius: .25em;
+}
+
+/* 커서 모양 pointer로 되는 것 방지*/
+.category_rowNumber {
+   cursor: default;
+}
+
+/* 첨부버튼 */
+.addBtn {
+   width: 70px;
+   margin: auto;
+   margin-top: 5px;
+   margin-bottom: 5px;
+   padding: 4px 10px;
+   font-size: 13px;
+   font-weight: normal;
+   cursor: pointer;
+   line-height: normal;
+   border: 1px solid #d5d5d5;
+   background-color: #eee;
+   border-radius: .25em;
+}
+
+#condition_emptyTr, .condition_emptyTd {
+   border-left-style: hidden;
+   border-right-style: hidden;
+}
+
+/* 커서 모양 변경되는 것 방지*/
+.condition_rowNumber {
+   cursor: default;
+}
+
+/*건강상태 입력박스 */
+#conditionInfoBox {
+   position: relative;
+   margin: auto;
+   background: #ffffff;
+   width: 110px;
+   border: 2px solid #d5d5d5;
+   border-radius: .25em;
+}
+
+#food_emptyTr, .food_emptyTd {
+   border-left-style: hidden;
+   border-right-style: hidden;
+}
+/* 커서 모양 변경되는 것 방지*/
+.food_rowNumber {
+   cursor: default;
+}
+
+/*음식명 입력박스 */
+#foodNameBox {
+   position: relative;
+   margin: auto;
+   background: #ffffff;
+   width: 80px;
+   border: 2px solid #d5d5d5;
+   border-radius: .25em;
+}
+
+.food_Image label {
+   margin-top: 5px;
+   padding: 4px 10px;
+   font-size: 13px;
+   font-weight: normal;
+   cursor: pointer;
+   line-height: normal;
+   border: 1px solid #d5d5d5;
+   background-color: #eee;
+   border-radius: .25em;
+}
+
+#food_List{
+   margin: auto;
+}
+
+
+

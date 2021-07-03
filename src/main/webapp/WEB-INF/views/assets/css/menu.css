@@ -1,0 +1,598 @@
+@charset "UTF-8";
+
+/** ------------------------- menu_main.jsp */
+.mbody {
+	width: 80%;
+	margin: auto;
+}
+
+.mbody img {
+	width: 89%;
+	margin: 6%;
+	border-radius: 10%;
+}
+
+/** ------------------------- menu_category.jsp */
+.box1 {
+	margin: auto;
+	height: 350px;
+	border: solid 1px #000;
+	width: 750px;
+	margin-top: 40px;
+}
+
+.btn-ttc1 {
+	padding: 7px 30px;
+	background-color: #eee;
+	color: #000;
+	margin-right: 50px;
+}
+
+.btn-ttc3 {
+	margin: auto;
+	max-width: 300px;
+}
+
+div#box {
+	height: 100px;
+	width: 400px;
+	margin-left: 150px;
+	justify-content: space-evenly;
+}
+
+div#box img {
+	width: 60px;
+	height: 60px;
+	margin: 10px 30px;
+}
+
+.menuicon button {
+	background-color: transparent;
+	border: none;
+	letter-spacing: 5px;
+}
+
+.col-md-1 {
+	margin: 0 10px;
+}
+
+button {
+	border-radius: 15px;
+}
+
+.col-md-1 #obj {
+	margin-top: 5px;
+}
+
+.col-md-1 img {
+	padding-bottom: 5px
+}
+
+#btn2, #btn4, #btn6 {
+	padding-top: 10px;
+}
+
+.menu-kor {
+	display: inline-block;
+	background-image: url('../../img/menu/koreanfood.png');
+	background-size: 60px;
+	background-repeat: no-repeat;
+	margin: 10px;
+}
+
+.menu-yangsik {
+	display: inline-block;
+	background-image: url('../../img/menu/westernfood.png');
+	background-size: 60px;
+	background-repeat: no-repeat;
+	margin: 10px;
+}
+
+.menu-jan {
+	display: inline-block;
+	background-image: url('../../img/menu/japanesefood.png');
+	background-size: 60px;
+	background-repeat: no-repeat;
+	margin: 10px;
+}
+
+.menu-china {
+	display: inline-block;
+	background-image: url('../../img/menu/chinesefood.png');
+	background-size: 60px;
+	background-repeat: no-repeat;
+	margin: 10px;
+}
+
+.menu-boonsik {
+	display: inline-block;
+	background-image: url('../../img/menu/boonsik.png');
+	background-size: 60px;
+	background-repeat: no-repeat;
+	margin: 10px;
+}
+
+.menu-other {
+	display: inline-block;
+	background-image: url('../../img/menu/etc.png');
+	background-size: 60px;
+	background-repeat: no-repeat;
+	margin: 10px;
+}
+
+.box8 {
+	width: 100px;
+	height: 100px;
+}
+
+/** ------------------------- menu_weather.jsp */
+.sub_text {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.sub_text span {
+	color: red;
+}
+
+/** ------------------------- menu_condition.jsp */
+p.condition {
+	font-size: 37px;
+}
+
+.condition-img {
+	border: 1px solid;
+}
+
+.condition-img b {
+	padding-left: 10px;
+}
+
+.condi_padding {
+	position: relative;
+	left: 15px;
+}
+
+.select {
+   background: linear-gradient(to left, #87ceeb 80%, #ffffff 20%);
+   border-radius: 30px 12px 12px 30px / 45px 4px 4px 45px;
+}
+
+/** ------------------------- menu_category_list.jsp */
+.body {
+	min-height: 500px;
+	text-align: center;
+	padding-top: 40px;
+}
+
+#list_side {
+	height: 715px;
+	border-left: 1px solid #ddd;
+	padding: 0 5px;
+	overflow-y: scroll;
+	margin-top: 50px;
+}
+
+#menuicon_list {
+	padding: 20px 0 0 0;
+}
+
+#menuicon_list li {
+	display: inline-block;
+	padding: 0 5px;
+}
+
+#menuicon_list span {
+	display: block;
+	padding: 8px 0;
+	font-family: 'S-CoreDream-5Medium';
+}
+
+.menu_iconarea {
+	padding: 10px 12px 0 12px;
+	border-radius: 5px;
+}
+
+.menu_select {
+	background-color: #88B3FF;
+}
+
+#menu_map {
+	width: 550px;
+	height: 570px;
+	border: 1px solid #999;
+	margin: 0 auto;
+	padding: 30px;
+}
+
+#menu_map img {
+	width: 420px;
+	height: 420px;
+	margin: 5px 0;	
+}
+
+#listname {
+	display: block;
+	font-size: 24px;
+	font-weight: bold;
+	padding: 10px 0 15px 0;
+}
+
+.menu_listarea {
+	display: block;
+	width: 100%;
+	height: 100px;
+	font-family: 'S-CoreDream-4Regular';
+	border-bottom: 2px solid #eee;
+	padding: 10px 15px;
+}
+
+.menu_listarea h3 {
+	margin: 0;
+	padding: 5px 0;
+}
+
+.menu_label {
+	color: #004A9A;
+	font-weight: bold;
+}
+
+.jumsu_starcss {
+	color: #C0392B;
+	font-size: 14px;
+}
+
+.review_listarea {
+	display: block;
+	width: 100%;
+	min-height: 90px;
+	font-family: 'S-CoreDream-4Regular';
+	border-bottom: 2px solid #eee;
+	padding: 10px 15px;
+}
+
+.hidden_btn {
+	display: none;
+}
+
+.show_btn {
+	display: inline-block;
+}
+
+#noreview_txt {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#noreview_img {
+	width: 150px;
+	height: 150px;
+}
+
+.center_css {
+	padding-top: 250px;
+	text-align: center;
+}
+
+.list_review {
+	color: #555;
+	cursor: pointer;
+}
+
+.review_content {
+	display: inline-block;
+	padding: 5px 0;
+}
+
+.review_bottom {
+	text-align: right;
+	font-size: 12px;
+}
+
+.review_img {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #666;
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	margin: 7px;
+}
+
+/** ------------------------- menu_weather_list.jsp */
+.weather_title {
+	font-weight: bold;
+	font-size: 30px;
+	padding-bottom: 10px !important;
+}
+
+/** ------------------------- modal_style */
+.modal-dialog {
+	position: relative;
+	top: 200px;
+	width: 430px;
+}
+
+.modal-content {
+	width: 430px;
+}
+
+.modal-title {
+	color: #4041fe;
+	vertical-align: middle;
+	font-size: 16px;
+	font-family: 'S-CoreDream-5Medium';
+}
+
+.modal-body {
+	padding: 0;
+}
+
+.modal-title, .modal-body {
+	text-align: center;
+}
+
+.add_receipt_btn {
+	display: block;
+	padding: 20px 5px;
+	margin: 45px auto 15px auto;
+	width: 250px;
+	height: 70px;
+	background-color: #4041fe;
+	border-radius: 50px;
+	font-size: 24px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.modal-body p {
+	margin-bottom: 5px;
+	line-height: 14px;
+	font-size: 14px;
+	color: #404040;
+}
+
+.modal-body a {
+	font-size: 24px;
+	color: #fff;
+	vertical-align: middle;
+}
+
+.modal-body .visit_dayandloc {
+	color: #4041fe;
+}
+
+.modal-body p:nth-child(3) {
+	color: #4041fe;
+	font-size: 14px;
+	font-weight: 900;
+	padding-top: 30px;
+	padding-bottom: 40px;
+}
+
+.modal-body span img {
+	height: 12px;
+}
+
+#uploaded, .fileis {
+	border: none;
+	font-size: 12px;
+	font-family: 'S-CoreDream-5Medium';
+	display: inline;
+	margin: 0 0 30px 0;
+}
+
+.file_name {
+	margin: 0 auto; /** 중간정렬필요 */
+}
+
+.receiptimg {
+	padding: 20px;
+}
+
+.write_review_wrapper {
+	display: block;
+	padding: 20px 5px;
+	margin: 45px auto;
+	width: 250px;
+	height: 70px;
+	background-color: #4041fe;
+	border-radius: 50px;
+	cursor: pointer;
+}
+
+.write_review_wrapper2 {
+	display: block;
+	padding: 10px 5px;
+	margin: 80px auto 40px auto;
+	width: 150px;
+	height: 40px;
+	background-color: #4041fe;
+	border-radius: 50px;
+	font-size: 16px;
+	color: #fff;
+	text-align: center;
+}
+
+/** 파일 첨부 관련 속성 */
+.addfile_btn {
+	margin: 0 20px 20px 23px;
+	width: 30px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	cursor: pointer;
+	float: left;
+}
+/** 별점 부여 관련 속성 */
+.rating {
+	display: flex;
+	width: 200px;
+	margin: 0 0px 0 0;
+	padding: 0;
+	float: right;
+}
+
+.star {
+	display: inline-block;
+	width: 10px;
+	height: 30px;
+	cursor: pointer;
+}
+
+.star_left {
+	background: url("../../img/menu/rating_empty.png") no-repeat 0 0;
+	background-size: 20px;
+	margin-right: -0.1px;
+}
+
+.star_right {
+	background: url("../../img/menu/rating_empty.png") no-repeat -10px 0;
+	background-size: 20px;
+	margin-left: -0.1px;
+}
+
+.star.on {
+	background-image: url("../../img/menu/rating_full.png");
+}
+
+.rating .user_rating {
+	margin: 0 0px 0 10px;
+	padding: 2px;
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 14px;
+	color: #4041fe;
+	vertical-align: middle;
+	float: right;
+}
+
+.rating p {
+	display: inline;
+	margin: 0 0px 0 2px;
+	padding: 2px;
+	font-family: 'S-CoreDream-4Regular';
+	font-size: 14px;
+	color: #4041fe;
+	vertical-align: middle;
+	float: right;
+}
+
+/** ------------------------- menu_chart.jsp */
+.between {
+	font-size: 25px;
+}
+
+.view {
+	margin-bottom: 6px;
+}
+
+#none {
+	color: #ffffff;
+}
+
+#men {
+	padding: 5px 11px;
+	margin-left: 7px;
+	background-color: #8bf;
+	color: #000000;
+	border-radius: 3px;
+	border: 1px solid #7faffe;
+}
+
+#women {
+	padding: 5px 11px;
+	margin-left: 10px;
+	background-color: #f9b;
+	color: #000000;
+	border-radius: 3px;
+	border: 1px solid #fa8fbf;
+}
+
+#twenties {
+	border-radius: 3px;
+}
+
+#thirties, #fourties, #fifties {
+	margin-left: 10px;
+	border-radius: 3px;
+}
+
+#sunny, #cloudy, #rainy, #snowy {
+	font-size: 24px;
+	padding: 16px 24px;
+	margin-left: 114px;
+	border-radius: 45px;
+}
+
+#sunny {
+	border: 2px solid #d1debe;
+}
+
+#cloudy {
+	border: 2px solid #bbd7e3;
+}
+
+#rainy {
+	border: 2px solid #bcc8df;
+}
+
+#snowy {
+	border: 2px solid #c8c0d4;
+}
+
+.chart1 {
+	padding-top: 30px;
+	min-height: 100px;
+}
+
+.axis {
+	width: 88%;
+	margin: auto;
+	border-left: 2px solid #000000;
+	border-bottom: 2px solid #000000;
+}
+
+#male, #female, #zg, #yg, #xg, #old {
+	color: #ffffff;
+}
+
+.on {
+	width: 160%;
+	height: 40px;
+	margin-left: 60px;
+	background-color: #97e;
+	text-align: center;
+	font-size: 25px;
+}
+
+.type1 {
+	margin-bottom: 2px;
+}
+
+.type2 {
+	text-align: right;
+	margin-top: -10px;
+}
+
+.category {
+	text-align: center;
+	font-size: 16px;
+}
+
+.chart2 {
+	padding-top: 30px;
+	min-height: 100px;
+}
+
+.topfive {
+	text-align: center;
+	font-size: 25px;
+}
+
+.show {
+	width: 80%;
+	margin: auto;
+	border: 1px dotted #0ff;
+}
+
+#food {
+	margin-left: 55px;
+}

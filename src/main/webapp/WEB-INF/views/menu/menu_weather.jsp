@@ -1,0 +1,129 @@
+<!--
+     Date : 2021/07/02
+     Writer : 2조
+     Content : Spring project 변환
+     version : V1.0.0
+-->
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- bootstrap -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
+
+<!-- 메뉴 style -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
+
+<style type="text/css">
+
+.btn-ttc3 {
+	margin-top: 40px;
+}
+
+.box7 img {
+	background-color: #fff;
+	border: 1px solid #000;
+	margin: 4px;
+}
+
+.btn-primary {
+	background-color: #4041fe;
+}
+
+.btn-primary:hover {
+	background-color: #4041fe;
+}
+
+</style>
+
+<!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
+<%@ include file="../inc/header.jsp"%>
+
+</head>
+<body>
+	<div class="container">
+		<!--  include :: container 바로 아래에 있어야합니다 -->
+		<%@ include file="../inc/navbar.jsp"%>
+		<div class="content">
+			<div>
+				<p class="sub_title text-center" >메뉴 추천 > 날씨별</p><br>
+				<p class=" text-center sub_text" >현재 날씨는 [<span>비 옴</span>] 입니다.</p>
+				<div class="text-center box1" id="weather_food">
+					<div class="box2">
+						<h3>오늘의 추천 메뉴는?</h3>
+						<br> <br> <img src="${pageContext.request.contextPath}/img/common/weather-icons/015-rainy.png"
+							width="100" id="weather_today"> <br>
+						<div class=" text-center ">
+							<a href="#">
+								<button type="button"
+									class="btn  btn-primary btn-block btn-ttc3" id="ran">돌리기</button>
+							</a>
+						</div>
+					</div>
+					<div id="box7"><br>
+						<span id="re-recommend"><img alt="된장찌개"
+							src="${pageContext.request.contextPath}/img/menu/doenjan.jpg" width="140">
+							<h1>된장찌개</h1></span> <br><br><span id="re-re"></span> <span class="menu_find_btn">
+							<a><button type="button" class="btn btn-ms btn-ttc1"
+									id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a> <a
+							href="${pageContext.request.contextPath}/menu/menu_weather_list"><button type="button"
+									class="btn  btn-primary btn-ttc2 ">주변음식점찾기</button></a>
+						</span>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	<!-- //container 종료 -->
+
+	<%@ include file="../inc/footer.jsp"%>
+
+	<script type="text/javascript">
+		$(function() {
+			var weather=[];
+
+			//var result="";
+			$('#box7').hide();
+
+			$("#ran").click(function() {
+				$("#box7").toggle();
+				$('.box2,#ran').remove();
+
+			});
+			
+			$("#btn-retry").click(function() {
+				$('#re-recommend,#btn-retry').remove();
+
+					$("#re-re").html("<img src='${pageContext.request.contextPath}/img/menu/ham.jpg' height='130'>"+"<br>"+"<h1>부대찌개</h1>"+"<br>")
+	
+				});
+
+			$("#abc").hovers(function() {
+				var images =['${pageContext.request.contextPath}/img/common/weather-icons/001-cloudy day.png',
+					'${pageContext.request.contextPath}/img/common/weather-icons/002-sunny.png',
+					'${pageContext.request.contextPath}/img/common/weather-icons/015-rainy.png'];
+				
+				
+				var image = document.getElementById("weather_today");
+				image.src=images[i];
+				
+				
+				$("#condition-food").html("감기몸살").css("color", "#4041fe");
+
+			});
+			
+			
+			});
+		
+	</script>
+
+</body>
+</html>

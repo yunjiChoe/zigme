@@ -1,0 +1,850 @@
+@charset "UTF-8";
+
+/** Common 공통 style */
+
+* {
+	font-family: 'S-CoreDream-3Light';
+	padding: 0;
+	border: 0;
+}
+
+.find-id-header {
+	margin: 20px;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.find-id-header a img {
+	width: 200px;
+	padding-bottom: 20px;
+}
+
+p {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.modal-dialog {
+	width: auto;
+	max-width: 400px;
+	margin: auto;
+}
+
+.square {
+	width: 10px;
+	height: 10px;
+	background-color: blue;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.circle {
+	width: 5px;
+	height: 5px;
+	background-color: #000;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 8px;
+	margin-bottom: 2px;
+}
+
+div button a {
+	color: #fff;
+} 
+
+div button a:hover {
+	color: #fff;
+}
+
+fieldset {
+	padding-top: 30px;
+	margin: 35px;
+}
+
+strong {
+	font-size: 18px;
+}
+
+#find-id-modal,
+#find-id-modal2 {
+	padding-top: 150px;
+}
+
+.text-info,
+.text-primary {
+	color: #4041fe;
+}
+
+.hr_solid {
+	margin-top: 0px;
+	margin-bottom: 40px;
+}
+
+.btn-primary {
+	border: 0;
+}
+
+/** common 공통 style END */
+
+
+/**
+*  find_id.jsp style 없음
+*/
+
+
+/**
+* find_pw_reset.jsp style
+*/
+
+.sub_desc p {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+
+/** find_pw_reset_jsp style END*/
+
+
+/**
+* find_pw_.jsp style
+*/
+
+.pw-word {
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+.item {
+	border: 1px dotted #ff6600;
+	margin: 10px auto;
+	padding: 5px 10px;
+}
+
+.btn-ttc3 {
+	padding: 5px 20px;
+}
+
+.timer {
+	width: 50px;
+}
+
+
+/** find_pw.jsp style END*/
+
+
+/**
+* intro_zigme.jsp style
+*/
+
+.intro {
+	float: right;
+	word-spacing: 13px;
+	padding-right: 30px;
+}
+
+.intro span {
+	text-decoration: none;
+	color: gray;
+}
+
+ .clear {
+	clear: both;
+	float: none;
+}
+
+.intro-1 {
+	width: auto;
+	height: 400px;
+}
+
+.intro-content {
+	text-align: center;
+}
+
+.intro-content img {
+	width: 300px;
+	max-width: 100%;
+}
+
+.modal-title {
+	padding-top: 10px;
+	text-align: center;
+}
+
+.modal-footer1 {
+	text-align: center;
+	word-spacing: 10px;
+}
+
+.modal-footer1 span {
+	text-decoration: none;
+	color: gray;
+}
+
+.form-group {
+	padding: 0px 100px;
+	margin-bottom: -10px;
+}
+
+.checkbox {
+	padding-top: 10px;
+	padding-left: 120px;
+}
+
+.modal-button {
+	text-align: center;
+	padding: 10px 100px;
+}
+
+#login-modal {
+	margin: auto;
+	padding-top: 150px;
+}
+
+
+/** intro_zigme.jsp style END*/
+
+
+/**
+* join.jsp style
+*/
+
+#jbody {
+	margin-top: 30px;
+}
+
+.jcontainer {
+	width: auto;
+	max-width: 380px;
+	padding-top: 20px;
+}
+
+#jfieldset {
+	margin: 0 30px;
+}
+
+.btn-ms {
+	width: 29%;
+}
+
+#user_adress {
+	width: 49%;
+	display: inline-block;
+}
+
+.btn-ttc {
+	width: 49%;
+}
+
+
+/** 성별 체크박스 이미지 CSS */
+
+.check-form {
+	margin-top: 20px;
+}
+
+
+/** 버튼 이미지 */
+
+.check-form label::before {
+	content: '';
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(../img/common/checkbox_circle-01.png) no-repeat 0 0;
+	background-size: 20px;
+	vertical-align: top;
+}
+
+.check-form input:checked+label::before {
+	background: url(../img/common/checkbox_circle_selected-01.png) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.check-form input {
+	position: absolute;
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	opacity: 0;
+}
+
+.check-form label {
+	padding-top: 10px;
+	padding-right: 20px;
+}
+
+label::before {
+	margin-right: 10px;
+}
+
+
+/** 여기까지 성별 CSS */
+
+
+/** 동의서 CSS*/
+
+.ch-form {
+	margin-top: 20px;
+}
+
+
+/** 버튼 이미지 */
+
+.ch-form label::after {
+	content: '';
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(../img/common/checkbox_circle-01.png) no-repeat 0 0;
+	background-size: 20px;
+	vertical-align: top;
+}
+
+.ch-form input:checked+label::after {
+	background: url(../img/common/checkbox_circle_selected-01.png) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.ch-form input {
+	position: absolute;
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	opacity: 0;
+}
+
+.ch-form label {
+	padding-top: 10px;
+	padding-right: 20px;
+}
+
+label::after {
+	margin-left: 10px;
+}
+
+
+/** CCSSSS*/
+
+#checkbox1,
+#checkbox2 {
+	margin-left: 10px;
+	margin-top: 0;
+	vertical-align: middle;
+}
+
+.col-md-4 {
+	padding-left: 0;
+}
+
+input#all_check {
+	margin-left: 5px;
+	vertical-align: middle;
+	margin-top: 0;
+}
+
+.col-sm-5 {
+	margin-left: 9px;
+	max-width: 350px;
+	min-width: 350px;
+	max-height: 50px;
+	min-height: 50px;
+}
+
+.btn-ttc5 {
+	margin-bottom: 3px;
+}
+
+.btn1 {
+	width: 300px;
+	margin: auto;
+}
+
+.form-agree {
+	width: auto;
+	min-height: 330px;
+	margin: 0 490px;
+	padding-top: 20px;
+	border-top: solid 1px #000;
+	border-bottom: solid 1px #000;
+}
+
+.agree {
+	padding-left: 18px;
+	margin: auto;
+	min-height: 220px;
+	width: 400px;
+	margin: auto;
+}
+
+
+/** join.jsp style END*/
+
+
+/**
+* main.jsp style 
+*/
+
+.sidebar {      
+      width: 20%;      
+      min-height: 900px;
+       text-align: center;
+       background-repeat: no-repeat;
+       background-image: url("../../img/common/sidebar-background.png");       
+       background-size: 219px 900px;       
+   }
+
+/* sidebar contents */
+#main_time {         
+      position: relative;
+      top: 120px;
+      left: -10px;
+      text-align: center;
+   }
+   
+#main_time > #time_digit {
+      display: inline-block;   
+      font-family: 'Roboto', sans-serif;
+      font-size : 52px;
+      color: #9E9ED0;
+   }
+   
+#main_time > #ampm {
+      display: inline-block;   
+      font-family: 'Roboto', sans-serif;
+      font-size : 27px;
+      color: #9E9ED0;         
+      position: relative;
+      top: -5px;
+      left: -5px;
+   }
+   
+#main_weather {
+      position: relative;
+      top: 150px;
+      
+   }
+   
+#main_weatherIcon {
+      position: relative;      
+      width:104px;
+      height:104px;   
+   }
+   
+#main_whaterdossi {      
+      position: absolute;      
+      left: 70px;
+      top: 105px;
+      font-family: 'Gugi', cursive;
+      font-size : 20px;
+      color: #66A3FF;
+   }
+   
+.alram_area {
+      position: relative;
+      display: inline-block;
+      width: 204px;
+      height: 40px;
+      border-radius: 20px;   
+      background-color: #00D3D3;
+      margin-bottom: 5px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 15px;
+      text-align: left;
+      line-height: 40px;
+      padding-left: 15px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+}
+   
+.alram_area:hover {
+      position: relative;
+      text-decoration: none;
+      background-color: #FAB600;
+      color: #fff;   
+}
+   
+#main_alram{
+      position: relative;
+      left: -5px;   
+      top: 220px;
+}
+   
+   /* sidebar contents 종료 */
+   
+.body {
+      width: 80%;
+     min-height: 800px;     
+     background-color: #fff;
+    padding: 0 10px;   
+}
+   
+.body img {
+      width: 100%;
+}
+   
+/* calendar */
+#dropdownMenu-calendarType {
+      display: none;
+}
+   
+#calendar_data {
+      margin: 10px 0 0 10px;
+      width: 200px;
+      height: 200px;
+      background-color: #0ff;
+}
+   
+#menu {
+      height: 200px;
+      padding-top: 40px;            
+      text-align: center;
+      vertical-align: middle;
+}
+   
+#renderRange {
+      padding-right: 12px;      
+}
+      
+.calendar_menu {
+   display: inline-block;
+   width: 130px;
+   line-height: center;   
+   vertical-align: middle;
+}
+   
+.calendar_menu {   
+    position: relative;    
+}
+   
+.cal_label #text_ads1{
+    width: auto;    
+    left: 22px;   
+    position: absolute;
+}
+   
+.cal_label #text_ads2{
+    width: auto;
+    left: 20px;   
+    position: absolute;    
+}
+   
+.calendar_menu #calendar-prev{    
+    position: absolute;
+    left: 80px;    
+}
+   
+.calendar_menu #calendar-next{    
+    position: absolute;
+    right: 80px;    
+}   
+   
+#calendar{
+    border: 0px solid #000; 
+}
+   
+.ic-arrow-line-left {
+     width: 28px;    
+     height: 28px; 
+}
+   
+.ic-arrow-line-right {
+     width: 28px;    
+     height: 28px; 
+}
+/** main.jsp style END */
+
+
+/**
+* myinfo.jsp style
+*/
+
+div.mycontainer {
+	width: auto;
+	max-width: 370px;
+	padding-top: 20px;
+}
+
+.btn-ttc3 {
+	width: 29%;
+}
+
+#user_adress {
+	width: 49%;
+	display: inline-block;
+}
+
+.btn-ttc {
+	width: 49%;
+}
+
+.check-form {
+	margin-top: 20px;
+}
+
+.check-form label::before {
+	content: '';
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(../img/common/checkbox_circle-01.png) no-repeat 0 0;
+	background-size: 20px;
+	vertical-align: top;
+}
+
+.check-form {
+	margin-top: 20px;
+}
+
+.check-form input:checked+label::before {
+	background: url(../img/common/checkbox_circle_selected-01.png) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.check-form input {
+	position: absolute;
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	opacity: 0;
+}
+
+.check-form label {
+	padding-top: 10px;
+	padding-right: 100px;
+}
+
+label::before {
+	margin-right: 10px;
+}
+
+#checkbox1,
+#checkbox2 {
+	margin-left: 10px;
+	margin-top: 0;
+	vertical-align: middle;
+}
+
+.col-md-4 {
+	padding-left: 0;
+}
+
+input#all_check {
+	margin-left: 5px;
+	vertical-align: middle;
+	margin-top: 0;
+}
+
+.col-sm-5 {
+	max-width: 400px;
+	min-width: 400px;
+	max-height: 50px;
+	min-height: 50px;
+}
+
+.icon h2 {
+	display: inline-block;
+	margin-bottom: 0;
+	margin-top: 0;
+	vertical-align: middle;
+}
+
+div.icon {
+	margin-bottom: 20px;
+}
+
+ul.img-list {
+	list-style: none;
+	margin-bottom: 0;
+	cursor: pointer;
+}
+
+ul.img-list p {
+	list-style: none;
+	margin: -1px 0 0 0;
+}
+
+.btn-ttc5 {
+	margin-bottom: 3px;
+}
+
+li.col-md-3 {
+	padding: 0;
+	margin: auto;
+}
+
+img.col-md-3 {
+	width: 80px;
+}
+
+.nickname {
+	color: #4a6;
+	font-size: 13px;
+}
+
+.off {
+	width: 80px;
+	height: 54px;
+	border: 2px solid #ffffff;
+	border-bottom: none;
+	padding-top: 2px;
+}
+
+.no {
+	width: 80px;
+	height: 20px;
+	border: 2px solid #ffffff;
+	border-top: none;
+}
+
+.yes {
+	width: 80px;
+	height: 20px;
+	border: 2px dotted #00aaff;
+	border-radius: 0 0 15px 15px;
+	border-top: none;
+}
+
+
+/** myinfo.jsp style END */
+
+
+/**
+* noti.jsp style
+*/
+
+
+/** bootstrap.css 재정의 */
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+	vertical-align: middle;
+}
+
+.table>thead>tr>th {
+	border-bottom: none;
+}
+
+
+/** bootstrap.css 재정의 끝 */
+
+.page-header h1 {
+	font-family: 'S-CoreDream-6Bold';
+	text-align: center;
+	color: #4041fe;
+}
+
+.table-header h2 {
+	font-weight: 600;
+	color: #4041fe;
+}
+
+.info th {
+	color: #4041fe;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.noti_row td {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+}
+
+.showingnumber {
+	font-weight: 600;
+}
+
+.noti-box {
+	width: 100%;
+	height: 500px;
+	overflow: scroll;
+}
+
+.noti-table {
+	width: 100%;
+}
+
+.table-header img {
+	width: 30px;
+}
+
+.table-bumper {
+	width: auto;
+	height: 50px;
+}
+
+.boldchar,
+.noti_new {
+	color: #ff5555;
+	font-family: 'S-CoreDream-6Bold';
+}
+
+.close-btn {
+	margin-right: 40%;
+}
+
+.showingnumber a {
+	color: #4041fe;
+	font-family: 'S-CoreDream-6Bold';
+}
+
+.noti_row {
+	cursor: pointer;
+}
+
+.btn_delAll {
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+
+/** noti.jsp style END */
+
+
+/**
+* report_popup.jsp style */
+
+.repo_title {
+   height: 50px;
+   background-color: #eee;
+   text-align: center;
+   padding: 10px 0;
+   font-size: 20px;
+   font-weight: bold;
+   margin-bottom: 10px;
+}
+.repo_label {
+   padding-right: 5px;   
+}
+
+#repo_content {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+#repo_textarea {
+   width: 370px;
+   height: 100px;
+}
+
+#btn-div {
+   text-align: center;
+}
+
+/** report_popup.jsp style END */
