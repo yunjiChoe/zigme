@@ -102,7 +102,7 @@
     <div class="container">
         <div class="content ">
             <div class="find-id-header">
-                <a href="${pageContext.request.contextPath}/intro_zigme"><img src="${pageContext.request.contextPath}/img/common/logo.png"></a>
+                <a href="${pageContext.request.contextPath}"><img src="${pageContext.request.contextPath}/img/common/logo.png"></a>
                 <div class="id-blue">
                     <div class="square"></div>아이디 찾기
                     <div class="sub_desc">

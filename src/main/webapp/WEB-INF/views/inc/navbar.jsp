@@ -72,7 +72,7 @@
               <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/myinfo ">내 정보수정</a></li>
               <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/noti ">알림</a></li>
               <li role="presentation" class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/intro_zigme ">로그아웃</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}">로그아웃</a></li>
             </ul>
           </div>
         </form>

@@ -54,7 +54,7 @@
               <li role="presentation"><a role="menuitem" tabindex="-1" href="#">내 정보수정</a></li>
               <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/main">직메 페이지</a></li>
               <li role="presentation" class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/intro_zigme">로그아웃</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}">로그아웃</a></li>
             </ul>
           </div>
         </form>
