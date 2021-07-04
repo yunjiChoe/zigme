@@ -254,7 +254,7 @@ display: inline-block;
 				</div>
 				<!-- 하단 -->
 				<div class=" text-center">
-					<a href="${pageContext.request.contextPath}/intro_zigme">
+					<a href="${pageContext.request.contextPath}">
 						<button type="button" class="btn  btn-primary btn-lg btn-ttc5">확인
 						</button>
 					</a>

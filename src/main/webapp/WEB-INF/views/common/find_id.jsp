@@ -88,7 +88,7 @@
                 </div>
                 <!-- 하단 -->
                 <div class=" text-center">
-                    <a href="${pageContext.request.contextPath}/intro_zigme"> <button type="button" class="btn  btn-primary btn-lg">
+                    <a href="${pageContext.request.contextPath}"> <button type="button" class="btn  btn-primary btn-lg">
                             확인
                         </button></a>
                 </div>
