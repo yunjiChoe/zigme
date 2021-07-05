@@ -7,6 +7,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
 <html lang="ko">
@@ -27,8 +28,7 @@
   <!-- common.css -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/common.css" />
   
-  <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-  <%@ include file="../inc/header.jsp" %>
+  <c:import url="../inc/header.jsp" />
   
   <style type="text/css">   
   @import url('https://fonts.googleapis.com/css2?family=Gugi&family=Roboto:wght@100&display=swap');  
@@ -46,10 +46,9 @@
 </head>
 
 <body>
-	<div class="container">
-		<!--  <div class="row box">  -->
-	<!--  include :: container 바로 아래에 있어야합니다 -->
-	<%@ include file="../inc/navbar.jsp" %>	
+	<div class="container">	
+	<c:import url="../inc/navbar.jsp" />
+	
     <!-- sidebar 영역 시작 -->
   <div class="sidebar pull-left col-lg-2" >
     	<!-- 시계 -->
@@ -122,8 +121,9 @@
     <script src="${pageContext.request.contextPath}/assets/js/calendar/data/calendars.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>     
     <script src="${pageContext.request.contextPath}/assets/js/calendar/app.js"></script>  
-     
-    <%@ include file="../inc/footer.jsp" %>
+    
+    
+    <c:import url="../inc/footer.jsp" />
     
     <script type="text/javascript">    
 		$(function() {	
