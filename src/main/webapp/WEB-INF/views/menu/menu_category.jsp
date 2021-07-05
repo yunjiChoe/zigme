@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-<%@ include file="../inc/header.jsp"%>
+<c:import url="../inc/header.jsp" />
 
 </head>
 
@@ -38,7 +39,7 @@
 <body>
 	<div class="container" id="menu-container">
 		<!--  include :: container 바로 아래에 있어야합니다 -->
-		<%@ include file="../inc/navbar.jsp"%>
+		<c:import url="../inc/navbar.jsp" />
 		<!--  body 시작 -->
 		<div class="content">
 			<p class="sub_title text-center">메뉴 추천 > 업종별</p>
@@ -123,7 +124,7 @@
 	</div>
 	<!-- //container 종료 -->
 
-	<%@ include file="../inc/footer.jsp"%>
+	<c:import url="../inc/footer.jsp" />
 
 	<script type="text/javascript">
 		$(function() {

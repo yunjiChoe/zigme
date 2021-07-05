@@ -7,6 +7,7 @@
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -17,7 +18,7 @@
     <script src="../assets/js/bootstrap.min.js"></script>    
 	
  	<!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-  	<%@ include file="../inc/header.jsp" %>
+  	<c:import url="../inc/header.jsp" />
   
 	<style type="text/css">
 		/** 웹폰트 설정 */
@@ -97,7 +98,7 @@
 <body>
 <div class="container">
 	<!--  include :: container 바로 아래에 있어야합니다 -->
-	<%@ include file="../inc/navbar.jsp" %>
+	<c:import url="../inc/navbar.jsp" />
 	
 	<h1 class="page-header">업종별 메뉴추천 영수증 첨부 Modal</h1>
 	<!-- 링크로 모달 열기 -->
@@ -145,7 +146,7 @@
 	</div>
 </div>
 
-<%@ include file="../inc/footer.jsp" %> 
+<c:import url="../inc/footer.jsp" />
 
 <script type="text/javascript">
 $(function() {

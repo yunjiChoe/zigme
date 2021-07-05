@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +21,7 @@
 	href="${pageContext.request.contextPath}/plugin/lightbox/css/lightbox.min.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-<%@ include file="../inc/header.jsp"%>
+<c:import url="../inc/header.jsp" />
 
 <!-- 메뉴 style -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
@@ -61,7 +62,7 @@ textarea {
 <body>
 	<div class="container">
 		<!--  include :: container 바로 아래에 있어야합니다 -->
-		<%@ include file="../inc/navbar.jsp"%>
+		<c:import url="../inc/navbar.jsp" />
 
 		<!-- body 시작  -->
 		<div class="body col-lg-7">
@@ -139,7 +140,7 @@ textarea {
 	</div>
 	<!-- //container 종료 -->
 
-	<%@ include file="../inc/footer.jsp"%>
+	<c:import url="../inc/footer.jsp" />
 
 	<!--  lightbox 플러그인 -->
 	<script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
