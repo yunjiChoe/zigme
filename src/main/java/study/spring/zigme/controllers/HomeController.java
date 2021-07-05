@@ -124,7 +124,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "help/help_chart", method = RequestMethod.GET)
+	@RequestMapping(value = "/help/help_chart", method = RequestMethod.GET)
 	public String helpChart(Model model, HttpServletRequest request) {
 		return "help/help_chart";
 	}
@@ -135,7 +135,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "help/help_comm_read", method = RequestMethod.GET)
+	@RequestMapping(value = "/help/help_comm_read", method = RequestMethod.GET)
 	public String helpCommRead(Model model, HttpServletRequest request) {
 		return "help/help_comm_read";
 	}
@@ -267,7 +267,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "util/util_5min", method = RequestMethod.GET)
+	@RequestMapping(value = "/util/util_5min", method = RequestMethod.GET)
 	public String util5min(Model model, HttpServletRequest request) {
 		return "util/util_5min";
 	}
@@ -278,7 +278,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "util/util_alarm", method = RequestMethod.GET)
+	@RequestMapping(value = "/util/util_alarm", method = RequestMethod.GET)
 	public String utilAlarm(Model model, HttpServletRequest request) {
 		return "util/util_alarm";
 	}
@@ -289,7 +289,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "util/util_lotto_result", method = RequestMethod.GET)
+	@RequestMapping(value = "/util/util_lotto_result", method = RequestMethod.GET)
 	public String utilLottoResult(Model model, HttpServletRequest request) {
 		return "util/util_lotto_result";
 	}
@@ -300,7 +300,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "util/util_lotto", method = RequestMethod.GET)
+	@RequestMapping(value = "/util/util_lotto", method = RequestMethod.GET)
 	public String utilLotto(Model model, HttpServletRequest request) {
 		return "util/util_lotto";
 	}
@@ -311,7 +311,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "util/util_main", method = RequestMethod.GET)
+	@RequestMapping(value = "/util/util_main", method = RequestMethod.GET)
 	public String utilMain(Model model, HttpServletRequest request) {
 		return "util/util_main";
 	}
@@ -322,7 +322,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "admin/admin_blockUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/admin_blockUser", method = RequestMethod.GET)
 	public String adminBlockUser(Model model, HttpServletRequest request) {
 		return "admin/admin_blockUser";
 	}
@@ -333,7 +333,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "admin/admin_category", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/admin_category", method = RequestMethod.GET)
 	public String adminCategory(Model model, HttpServletRequest request) {
 		return "admin/admin_category";
 	}
@@ -344,7 +344,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "admin/admin_condition", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/admin_condition", method = RequestMethod.GET)
 	public String adminCondition(Model model, HttpServletRequest request) {
 		return "admin/admin_condition";
 	}
@@ -355,7 +355,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "admin/admin_food", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/admin_food", method = RequestMethod.GET)
 	public String adminFood(Model model, HttpServletRequest request) {
 		return "admin/admin_food";
 	}
@@ -366,7 +366,7 @@ public class HomeController {
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "admin/admin_main", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminMain(Model model, HttpServletRequest request) {
 		return "admin/admin_main";
 	}

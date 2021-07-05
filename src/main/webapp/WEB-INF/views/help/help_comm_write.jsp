@@ -7,7 +7,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
 
@@ -23,13 +23,13 @@
 	 <!-- help.css -->
 	 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/help.css" />
 	 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-	 <%@ include file="../inc/header.jsp" %>
+	 <c:import url="../inc/header.jsp" />
 
 </head>
 <body>
     <div class="container">
       <!--  include :: container 바로 아래에 있어야합니다 -->
-	  <%@ include file="../inc/navbar.jsp" %>
+	  <c:import url="../inc/navbar.jsp" />
 
     <p class="sub_title">커뮤니티 글쓰기</p>
     <br />
@@ -69,7 +69,7 @@
     </form>
 	</div>
 	
-    <%@ include file="../inc/footer.jsp" %>
+    <c:import url="../inc/footer.jsp" />
     
     <script src="${pageContext.request.contextPath}/plugin/editor/js/ckeditor.js"></script>
 

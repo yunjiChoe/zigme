@@ -17,7 +17,7 @@
           <span class="icon-bar"></span>
         </button>
         
-        <a class="navbar-brand" href="${pageContext.request.contextPath}/admin/admin_main"><img src="${pageContext.request.contextPath}/img/common/logo.png"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;관리자</a>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/admin"><img src="${pageContext.request.contextPath}/img/common/logo.png"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;관리자</a>
       </div>
       
         

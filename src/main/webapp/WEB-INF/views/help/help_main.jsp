@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 	href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-<%@ include file="../inc/header.jsp"%>
+<c:import url="../inc/header.jsp" />
 <style type="text/css">
 .hbody {
 	width: 80%;
@@ -36,7 +36,7 @@
 <body>
 	<div class="container">
 		<!--  include :: container 바로 아래에 있어야합니다 -->
-		<%@ include file="../inc/navbar.jsp"%>
+		<c:import url="../inc/navbar.jsp" />
 		<div class="content clearfix">
 			<p class="top_title">직장생활, 도와줘!</p>
 			<div class="hbody">
@@ -53,7 +53,7 @@
 	</div>
 	<!-- //container 종료 -->
 
-	<%@ include file="../inc/footer.jsp"%>
+	<c:import url="../inc/footer.jsp" />
 
 </body>
 </html>

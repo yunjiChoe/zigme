@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -18,7 +19,8 @@
 	href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-<%@ include file="../inc/header.jsp"%>
+<c:import url="../inc/header.jsp" />
+
 <style type="text/css">
 /** help CSS에서  td 제어시 절대 td 단독 사용 금지 -> help_comm에서만 허용 */
 
@@ -134,7 +136,7 @@ option {
 <body>
 	<div class="container">
 		<!--  include :: container 바로 아래에 있어야합니다 -->
-		<%@ include file="../inc/navbar.jsp"%>
+		<c:import url="../inc/navbar.jsp" />
 		<div class="content">
 			<p class="sub_title">메이트들의 고민은?</p>
 			<form class="form-inline pull-right">
@@ -210,7 +212,7 @@ option {
 	</div>
 	<!-- //container 종료 -->
 
-	<%@ include file="../inc/footer.jsp"%>
+	<c:import url="../inc/footer.jsp" />
 
 </body>
 </html>

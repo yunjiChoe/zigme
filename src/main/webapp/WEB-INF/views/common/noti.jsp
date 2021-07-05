@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -20,7 +21,7 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/assets/css/ScoreDreamWebFont.css" />
 
-<%@ include file="../inc/header.jsp"%>
+<c:import url="../inc/header.jsp" />
 
 <!-- common.css -->
 <link rel="stylesheet" type="text/css"
@@ -123,7 +124,7 @@
 	<!-- 웹페이지 영역 -->
 	<div class="container">
 		<!--  include :: container 바로 아래에 있어야합니다 -->
-		<%@ include file="../inc/navbar.jsp"%>
+		<c:import url="../inc/navbar.jsp" />
 		<div class="page-header">
 			<h1>알 림</h1>
 			<div class="table-header">
@@ -347,7 +348,7 @@
 		$('span.noti_new').closest('tr').css('background-color', '#FCE6E6');
 	</script>
 
-	<%@ include file="../inc/footer.jsp"%>
+	<c:import url="../inc/footer.jsp" />
 </body>
 
 </html>

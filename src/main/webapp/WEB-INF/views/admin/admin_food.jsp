@@ -7,6 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@
    href="${pageContext.request.contextPath}/assets/css/admin_style.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-<%@ include file="../inc/header.jsp"%>
+<c:import url="../inc/header.jsp" />
 
 <style type="text/css">
 </style>
@@ -27,8 +28,8 @@
 </head>
 <body>
    <div class="container">
-      <!--  include :: container 바로 아래에 있어야합니다 -->
-      <%@ include file="../inc/admin.jsp"%>
+      <!--  include :: container 바로 아래에 있어야합니다 -->      
+      <c:import url="../inc/admin.jsp" />
 
       <p class="top_title">음식 DB 관리</p>
          <table id="food" align="center">
@@ -123,11 +124,9 @@
 
    <!-- include :: Javascript 파일 포함 
       <script src="../assets/js/jquery.min.js"></script>
-      <script src="../assets/js/bootstrap.min.js"></script>
-      
-      </body> 바로 위에 위치해야합니다. 
-    -->
-   <%@ include file="../inc/footer.jsp"%>
+      <script src="../assets/js/bootstrap.min.js"></script> 
+    -->   
+   <c:import url="../inc/footer.jsp" />
    <script type="text/javascript">
    
       //각각의 <select> id값을 'lower_food'+index로 구분하기 위해 인덱스 사용

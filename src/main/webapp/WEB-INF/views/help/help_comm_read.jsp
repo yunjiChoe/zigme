@@ -7,7 +7,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
     <head>
@@ -30,8 +30,8 @@
       <script type="text/javascript" src="${pageContext.request.contextPath}/plugin/comments/js/jquery-comments.js"></script>
       
       <!-- 공통 Header/Footer include시 jquery.min.js와 충돌이슈 발생  -->
-	  <!-- 별도의 Header/Footer 파일 생성하여 include -->
-      <%@ include file="../inc/help_comm_read_inc/help_comm_read_header.jsp" %>
+	  <!-- 별도의 Header/Footer 파일 생성하여 include -->      
+      <c:import url="../inc/help_comm_read_inc/help_comm_read_header.jsp" />
       
       <!-- help.css -->
       <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/help.css" />
@@ -42,7 +42,7 @@
     <body>
         <div class="container">
 		<!--  include :: container 바로 아래에 있어야합니다 -->
-		<%@ include file="../inc/navbar.jsp" %>
+		<c:import url="../inc/navbar.jsp" />
 	 <div class="content">
 	   <div id="comm_upper">
        <p class="sub_title">커뮤니티</p>
@@ -77,8 +77,8 @@
 		</div>
 	  </div>
 	<!-- 공통 Header/Footer include시 jquery.min.js와 충돌이슈 발생  -->
-	<!-- 별도의 Header/Footer 파일 생성하여 include -->
-	<%@ include file="../inc/help_comm_read_inc/help_comm_read_footer.jsp" %>
+	<!-- 별도의 Header/Footer 파일 생성하여 include -->	
+	<c:import url="../inc/help_comm_read_inc/help_comm_read_footer.jsp" />
 	
       <!--   <script src="../assets/js/jquery.min.js"></script> 충돌나는 것 같음 -->
       <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
