@@ -4,6 +4,24 @@
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<!-- Helper 구동에 필요한 환경설정 값 -->
+    <util:properties id="config">
+        <!-- 기본 인코딩 타입 -->
+        <prop key="encType">UTF-8</prop>
+        <!-- 메일발송 서버 주소 -->
+        <prop key="smtpHost">smtp.gmail.com</prop>
+        <!-- 메일발송 서버 포트 -->
+        <prop key="smtpPort">465</prop>
+        <!-- 메일발송 서버 계정 -->
+        <prop key="smtpUsername">zigme2021@gmail.com</prop>
+        <!-- 메일발송 서버 비밀번호 -->
+        <prop key="smtpPassword">rssrbwclrmrjeowp</prop>
+         <!-- 업로드 디렉토리 (server.xml의 docBase 값과 일치해야 함) -->
+        <prop key="uploadDir">D:/EZEN08/JSP/workspace/springHelper/upload</prop>
+        <!-- 업로드 디렉토리에 대한 WebPath (server.xml의 path 값과 일치해야 함) -->
+        <prop key="uploadPath">/upload</prop>        
+    </util:properties>   
 	    
     <!-- DB연동에 필요한 환경설정 값 -->
     <util:properties id="dbConfig">
