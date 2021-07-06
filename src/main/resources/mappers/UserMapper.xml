@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="UserMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="userMap" type= "study.spring.zigme.model.User">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="userNo" column="userNo" />
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="nickname" column="nickname" />
+		<result property="email" column="email" />
+		<result property="gender" column="gender" />
+		<result property="postcode" column="postcode" />
+		<result property="addr1" column="addr1" />
+		<result property="addr2" column="addr2" />
+		<result property="loc_xy" column="loc_xy" />
+		<result property="icon" column="icon" />
+		<result property="blockUserflag" column="blockUserflag" />	
+	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="selectItem" parameterType= "study.spring.zigme.model.User"
+		resultMap = "userMap">
+		SELECT userNo, password, name, nickname, email, gender,
+		postcode, addr1, addr2, loc_xy, icon, blockUserflag FROM user WHERE userNo = #{userNo};
+	</select>
+</mapper>

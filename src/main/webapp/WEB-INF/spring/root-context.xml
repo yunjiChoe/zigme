@@ -30,7 +30,7 @@
         <!-- 데이터베이스 포트번호 -->
         <prop key="dbPort">3306</prop>
         <!-- 데이터베이스 이름 -->
-        <prop key="dbName">zigme</prop>
+        <prop key="dbName">zigme_test</prop>
         <!-- 데이터베이스 문자셋 -->
         <prop key="dbCharset">utf8</prop>
         <!-- 데이터베이스 계정명 -->
