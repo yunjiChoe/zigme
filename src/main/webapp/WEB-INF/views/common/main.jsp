@@ -167,7 +167,7 @@
         }
         
         function weather_getdossi() {            
-            var result = "21.5" + "°C";            
+            var result = "";            
             document.getElementById("main_whaterdossi").innerHTML = result;
         }
         
@@ -229,6 +229,8 @@
 				$sky = "대기 오염";
 			else
 				$sky = "맑음";
+			
+			Math.ceil
 			
 			$('#wicon').attr('src', iconurl);
 			$('.ctemp').append($temp + "°C");			
