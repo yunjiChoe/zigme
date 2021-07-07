@@ -15,7 +15,9 @@
        <br>
        <span>서울 서초구 서초대로 77길 55, 에이프로 스퀘어 3층 (서초동) | 사업자번호 : 120-00-67890</span>
        <br>
-       <span>대표전화 : 1600-1234 | 팩스 : 050-6000-4646 | 대표메일 : <address><a href="help@workmate.com">help@workmate.com</a></address></span>
+       <span>대표전화 : 1600-1234 | 팩스 : 050-6000-4646 | 대표메일 : <address><a href="mailto:zigme2021@gmail.com">zigme2021@gmail.com</a></address>
+       <a href="${pageContext.request.contextPath}/admin">관리자</a>
+       </span>
       </div>
 	  <!-- // footer 영역 종료 --> 
 	  

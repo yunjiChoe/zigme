@@ -235,9 +235,10 @@ ul, ol {
 	display: inline-block;
 }
 
-.footer address a {
+.footer a {
 	color: #000000;
 }
+
 /* ----------------------------------- footer end */
 /* ---- 스크롤바 꾸미기 ----- */
 ::-webkit-scrollbar {
