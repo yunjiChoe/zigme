@@ -23,7 +23,7 @@
 <style type="text/css">
 
 .btn-ttc3 {
-	margin-top: 40px;
+	margin-top: 10px;
 }
 
 .box7 img {
@@ -53,12 +53,11 @@
 		<div class="content">
 			<div>
 				<p class="sub_title text-center" >메뉴 추천 > 날씨별</p><br>
-				<p class=" text-center sub_text" >현재 날씨는 [<span>비 옴</span>] 입니다.</p>
+				<p class=" text-center sub_text" >현재 날씨는 [<span class="csky"></span>] 입니다.</p>
 				<div class="text-center box1" id="weather_food">
 					<div class="box2">
 						<h3>오늘의 추천 메뉴는?</h3>
-						<br> <br> <img src="${pageContext.request.contextPath}/img/common/weather-icons/015-rainy.png"
-							width="100" id="weather_today"> <br>
+						<br> <br><div id="icon"><img id="wicon" src="" alt="Weather icon" width="130"></div> <br>
 						<div class=" text-center ">
 							<a href="#">
 								<button type="button"
@@ -123,7 +122,30 @@
 			
 			
 			});
-		
+		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?id=1835848&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
+				,function(data){
+			var $temp = data.list[0].main.temp;
+			var $sky = data.list[0].weather[0].main;			
+			var iconcode = data.list[0].weather[0].icon;
+			var iconurl = "${pageContext.request.contextPath}/img/common/weather-icons/" + iconcode + ".png";
+			
+			if($sky == "Clouds","Mist")
+				$sky = "흐림";
+		   
+			else if($sky == "Rain","Squalls","Tornado")
+				$sky = "비";
+			else if($sky == "Snow")
+				$sky = "눈";
+			else if($sky == "Haze","Smoke","Sand","Dust","Ash")
+				$sky = "대기 오염";
+			else
+				$sky = "맑음";
+			
+			$('#wicon').attr('src', iconurl);
+			$('.ctemp').append($temp + "°C");			
+			$('.csky').append($sky);			
+		});
+	
 	</script>
 
 </body>
