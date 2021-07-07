@@ -148,7 +148,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/help/help_comm_write", method = RequestMethod.GET)
    public String helpCommWrite(Model model, HttpServletRequest request) {
-      return "/help/help_comm_write";
+      return "help/help_comm_write";
    }
    
    /**
@@ -159,7 +159,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/help/help_comm", method = RequestMethod.GET)
    public String helpComm(Model model, HttpServletRequest request) {
-      return "/help/help_comm";
+      return "help/help_comm";
    }
    
    /**
@@ -170,7 +170,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/help/help_main", method = RequestMethod.GET)
    public String helpMain(Model model, HttpServletRequest request) {
-      return "/help/help_main";
+      return "help/help_main";
    }
    
    /**
@@ -181,7 +181,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_category_list", method = RequestMethod.GET)
    public String menuCategoryList(Model model, HttpServletRequest request) {
-      return "/menu/menu_category_list";
+      return "menu/menu_category_list";
    }
    
    /**
@@ -192,7 +192,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_category", method = RequestMethod.GET)
    public String menuCategory(Model model, HttpServletRequest request) {
-      return "/menu/menu_category";
+      return "menu/menu_category";
    }
    
    /**
@@ -203,7 +203,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_chart", method = RequestMethod.GET)
    public String menuChart(Model model, HttpServletRequest request) {
-      return "/menu/menu_chart";
+      return "menu/menu_chart";
    }
    
    /**
@@ -214,7 +214,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_condition_list", method = RequestMethod.GET)
    public String menuConditionList(Model model, HttpServletRequest request) {
-      return "/menu/menu_condition_list";
+      return "menu/menu_condition_list";
    }
    
    /**
@@ -225,7 +225,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_condition", method = RequestMethod.GET)
    public String menuCondition(Model model, HttpServletRequest request) {
-      return "/menu/menu_condition";
+      return "menu/menu_condition";
    }
    
    /**
@@ -236,7 +236,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_main", method = RequestMethod.GET)
    public String menuMain(Model model, HttpServletRequest request) {
-      return "/menu/menu_main";
+      return "menu/menu_main";
    }
    
    /**
@@ -247,7 +247,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_weather_list", method = RequestMethod.GET)
    public String menuWeatherList(Model model, HttpServletRequest request) {
-      return "/menu/menu_weather_list";
+      return "menu/menu_weather_list";
    }
    
    /**
@@ -258,7 +258,7 @@ public class HomeController {
     */
    @RequestMapping(value = "/menu/menu_weather", method = RequestMethod.GET)
    public String menuWeather(Model model, HttpServletRequest request) {
-      return "/menu/menu_weather";
+      return "menu/menu_weather";
    }   
    
    /**

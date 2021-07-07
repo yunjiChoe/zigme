@@ -76,6 +76,8 @@
 	 	<span id="listname"></span>
 	 	<img src="${pageContext.request.contextPath}/img/menu/menu_listmap.png" />
 	 </div>		 
+	 
+	 
 	</div> <!-- //body 종료  -->
 		
 	<!-- 음식점 목록 -->
