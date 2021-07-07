@@ -15,6 +15,7 @@ public class User {
 	private String addr1;
 	private String addr2;
 	private String loc_xy;
-	private int icon;
-	private int blockUserflag;
+	private String icon;
+	private String blockUserflag;
+	
 }

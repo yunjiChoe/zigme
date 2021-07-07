@@ -37,4 +37,55 @@ public class UserTest {
 		input.setUserNo(1);
 		sqlSession.selectOne("UserMapper.selectItem", input);
 	}
+	
+	/** 다중행 조회 테스트 */
+	@Test
+	public void testB() {
+		User input = new User();
+		sqlSession.selectList("UserMapper.selectList", input);
+	}
+	/** 데이터 저장 테스트 */
+	@Test
+	public void testC() {
+		User input = new User();
+		input.setId("테스트_id");
+		input.setPassword("테스트_pw");
+		input.setName("테스트이름");
+		input.setNickname("테스트nick");
+		input.setEmail("테스트email");
+		input.setGender("테스트_gen");
+		input.setPostcode("11111");
+		input.setAddr1("테스트1");
+		input.setAddr2("테스트2");
+		input.setLoc_xy("29301293, 80138");
+		input.setIcon("2");
+		input.setBlockUserflag("1");
+		sqlSession.insert("UserMapper.insertItem", input);
+		
+	}
+	
+	/** 데이터 삭제 테스트 */
+	@Test
+	public void testD() {
+		User input = new User();
+		input.setUserNo(3);
+		sqlSession.delete("UserMapper.deleteItem", input);
+	}
+	
+	/** 데이터 수정 테스트 */
+	@Test
+	public void testE() {
+		User input = new User();
+		input.setIcon("0");
+		input.setUserNo(7);
+		sqlSession.update("UserMapper.updateItem", input);
+	}
+	
+	/** 전체 데이터 수 조회 */
+	@Test
+	public void testF() {
+		int count = sqlSession.selectOne("UserMapper.selectCountAll", null);
+		log.debug("전체 데이터 수: " +count);
+	}
+	
 }
