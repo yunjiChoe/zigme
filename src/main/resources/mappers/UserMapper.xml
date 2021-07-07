@@ -7,6 +7,7 @@
 	<resultMap id="userMap" type= "study.spring.zigme.model.User">
 		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
 		<result property="userNo" column="userNo" />
+		<result property="id" column="id" />
 		<result property="password" column="password" />
 		<result property="name" column="name" />
 		<result property="nickname" column="nickname" />
@@ -23,7 +24,7 @@
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id="selectItem" parameterType= "study.spring.zigme.model.User"
 		resultMap = "userMap">
-		SELECT userNo, password, name, nickname, email, gender,
+		SELECT userNo, id, password, name, nickname, email, gender,
 		postcode, addr1, addr2, loc_xy, icon, blockUserflag FROM user WHERE userNo = #{userNo};
 	</select>
 </mapper>

@@ -25,7 +25,6 @@ import study.spring.zigme.model.User;
 
 /**메서드 이름 순서로 실행하도록 설정(설정하지 않을 경우 무작위 순서로 실행됨) */
 
-
 public class UserTest {
 	/**MyBatis의 SQL세션 주입 설정 */
 	@Autowired
