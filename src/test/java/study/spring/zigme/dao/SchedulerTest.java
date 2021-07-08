@@ -38,7 +38,28 @@ public class SchedulerTest {
 	/**단일행 조회 테스트 */
 	public void testA() {
 		Scheduler input = new Scheduler();
-		input.setScheNo(2);
+		input.setUserNo(1);
 		sqlSession.selectOne("SchedulerMapper.selectItem", input);
+	}
+	
+	@Test
+	/**다중행 조회 테스트 */
+	public void testB() {
+		Scheduler input = new Scheduler();
+		input.setUserNo(2);
+		sqlSession.selectList("SchedulerMapper.selectList", input);
+	}
+	
+	@Test
+	/** 데이터 저장 테스트 */
+	public void testC() {
+		Scheduler input = new Scheduler();
+		input.setScheCate("0");
+		input.setScheContent("test");
+		input.setScheLoc("test");
+		input.setScheStartdate("test");
+		input.setScheEnddate("test");
+		input.setUserNo(1);
+		sqlSession.insert("SchedulerMapper.insertItem", input);
 	}
 }

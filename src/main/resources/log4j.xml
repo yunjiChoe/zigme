@@ -35,7 +35,7 @@
         <!-- 에러와 관련된 로그만 기록하도록 지정 -->
         <param name="Threshold" value="ERROR" />
         <!-- 로그 파일 생성위치 -->
-        <param name="File" value="${app.root}/WEB-INF/log/error.log" />
+        <param name="File" value="/zigme_log/zigme.log" />
         <!-- 하루에 한 개씩 날짜를 적용하며 파일이름이 생성되도록 함 -->
         <param name="Append" value="true" />
         <param name="DatePattern" value="'.'yyMMdd" />

@@ -41,6 +41,10 @@
 	border: 0px solid #000; 
 	background-color: #fff;
 }   
+
+strong {
+	font-size: 12px;
+}
    </style>	
     
 </head>
@@ -184,9 +188,12 @@
         	
         }        
         
-		$("#dasom_save").click(function(e){				
-			console.log("정녕 안되는것인가 ㅠㅠ");
+        $(document).on('click', '#dasom_save', function(e){
+        	('#tui-full-calendar-schedule-title').val
+        	console.log("정녕 안되는것인가 ㅠㅠ");
+		});
 			
+		/*
 		$.ajax({
 			// 결과를 읽어올 URL
 			url: '../api/get.do',
@@ -203,7 +210,7 @@
 				$("#calendar_data").append(req);
 			}
 		}); // end $.ajax
-		}); // end click
+		*/
 		
 		main_Time();
 		startTimer();

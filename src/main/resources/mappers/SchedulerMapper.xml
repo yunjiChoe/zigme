@@ -18,6 +18,19 @@
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id="selectItem" parameterType= "study.spring.zigme.model.Scheduler"
 		resultMap = "scheduleMap">
-		SELECT scheNo, scheCate, scheContent, scheLoc, scheStartdate, scheEnddate, userNo FROM scheduler where scheNo=#{scheNo};
+		SELECT * FROM scheduler where userNo=#{userNo};
 	</select>
+	
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id="selectList" parameterType= "study.spring.zigme.model.Scheduler"
+		resultMap = "scheduleMap">
+		SELECT * FROM scheduler where userNo=#{userNo} ORDER BY scheStartdate DESC;
+	</select>
+	
+	<!--  데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem" parameterType= "study.spring.zigme.model.Scheduler"
+		useGeneratedKeys="true" keyProperty="scheNo">
+			INSERT INTO scheduler (scheCate, scheContent, scheLoc, scheStartdate, scheEnddate, userNo)
+				VALUES (#{scheCate}, #{scheContent}, #{scheLoc}, #{scheStartdate}, #{scheEnddate}, #{userNo})
+		</insert>	
 </mapper>

@@ -229,7 +229,8 @@
             raw: {
                 location: location
             },
-            state: 'Busy'
+            state: 'Busy',
+            name: calendar.name /* dasom_210708 */
         }]);
 
         $('#modal-new-schedule').modal('hide');

@@ -29,6 +29,7 @@
 	
 	
 	console.log("dasom_calendar.id "+ dasom_calendar.id);
+	console.log("dasom_calendar.name "+ dasom_calendar.name);
 	console.log("dasom_calendar.title "+ dasom_calendar.title);
 	console.log("dasom_calendar.location "+ dasom_calendar.location);
 	console.log("dasom_calendar.start "+ start_date);
@@ -20433,7 +20434,6 @@ ScheduleCreationPopup.prototype._selectDropdownMenuItem = function(target) {
 
     bgColor = domutil.find('.' + iconClassName, selectedItem).style.backgroundColor || 'transparent';
     title = domutil.find('.' + contentClassName, selectedItem).innerHTML;
-
     dropdown = domutil.closest(selectedItem, config.classname('.dropdown'));
     dropdownBtn = domutil.find(config.classname('.dropdown-button'), dropdown);
     domutil.find('.' + contentClassName, dropdownBtn).innerText = title;
@@ -21040,7 +21040,7 @@ ScheduleCreationPopup.prototype._onClickCreateSchedule = function(form) {
         start: form.start,
         end: form.end,
         isAllDay: form.isAllDay,
-        state: form.state
+        /* state: form.state dasom_210708 */
     });
 };
 
