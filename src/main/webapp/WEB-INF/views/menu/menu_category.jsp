@@ -8,17 +8,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 
 <!-- bootstrap -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
 
 <!-- 메뉴 style -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/menu.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
 <c:import url="../inc/header.jsp" />
@@ -32,6 +34,10 @@
 
 .btn-primary:hover {
 	background-color: #4041fe;
+}
+
+#box7 {
+	margin-top: -140px;
 }
 </style>
 
@@ -47,23 +53,33 @@
 			<ul class="menuicon">
 				<li class="col-md-2 col-sm-3"></li>
 				<li class="col-md-1 col-sm-1 col-xs-4 "><button id="btn-kor">
-						<img src="${pageContext.request.contextPath}/img/menu/koreanfood.png" width="70" />한식
+						<img
+							src="${pageContext.request.contextPath}/img/menu/koreanfood.png"
+							width="70" />한식
 					</button></li>
 				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-yangsik">
-						<img src="${pageContext.request.contextPath}/img/menu/westernfood.png" width="70" />양식
+						<img
+							src="${pageContext.request.contextPath}/img/menu/westernfood.png"
+							width="70" />양식
 					</button></li>
 				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-jan">
-						<img src="${pageContext.request.contextPath}/img/menu/japanesefood.png" width="70" />일식
+						<img
+							src="${pageContext.request.contextPath}/img/menu/japanesefood.png"
+							width="70" />일식
 					</button></li>
 				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-china">
-						<img src="${pageContext.request.contextPath}/img/menu/chinesefood.png" width="70" />중식
+						<img
+							src="${pageContext.request.contextPath}/img/menu/chinesefood.png"
+							width="70" />중식
 					</button></li>
 				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-boonsik">
-						<img src="${pageContext.request.contextPath}/img/menu/boonsik.png" width="70" />분식
+						<img src="${pageContext.request.contextPath}/img/menu/boonsik.png"
+							width="70" />분식
 					</button></li>
 				<li class="col-md-1 col-sm-1 col-xs-4">
 					<button id="btn-other">
-						<img src="${pageContext.request.contextPath}/img/menu/etc.png" width="70" />그외
+						<img src="${pageContext.request.contextPath}/img/menu/etc.png"
+							width="70" />그외
 					</button>
 				</li>
 				<li class="col-md-2 col-sm-3"></li>
@@ -76,38 +92,50 @@
 			<h3 id="today_menu">오늘의 추천 메뉴는?</h3>
 			<br>
 			<!-- 토글로 보여주는 곳 -->
-			<div class="imgbox">
-				<div id="box1" class="menu-kor " style="width: 60px; height: 60px;">
-					<br> <br> <br> <span>한식</span>
+			<div class="clearfix">
+				<div class="pull-left">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
 				</div>
-				<div id="box2" class="menu-yangsik "
-					style="width: 60px; height: 60px;">
-					<br> <br> <br> <span>양식</span>
-				</div>
-				<div id="box3" class="menu-jan " style="width: 60px; height: 60px;">
-					<br> <br> <br> <span>일식</span>
-				</div>
-				<div id="box4" class="menu-china "
-					style="width: 60px; height: 60px;">
-					<br> <br> <br> <span>중식</span>
-				</div>
-				<div id="box5" class="menu-boonsik "
-					style="width: 60px; height: 60px;">
-					<br> <br> <br> <span>분식</span>
-				</div>
-				<div id="box6" class="menu-other" style="width: 60px; height: 60px;">
-					<br> <br> <br> <span>그외</span>
+				<div class="imgbox">
+					<div id="box1" class="menu-kor " style="width: 60px; height: 60px;">
+						<br> <br> <br> <span>한식</span>
+					</div>
+					<div id="box2" class="menu-yangsik "
+						style="width: 60px; height: 60px;">
+						<br> <br> <br> <span>양식</span>
+					</div>
+					<div id="box3" class="menu-jan " style="width: 60px; height: 60px;">
+						<br> <br> <br> <span>일식</span>
+					</div>
+					<div id="box4" class="menu-china "
+						style="width: 60px; height: 60px;">
+						<br> <br> <br> <span>중식</span>
+					</div>
+					<div id="box5" class="menu-boonsik "
+						style="width: 60px; height: 60px;">
+						<br> <br> <br> <span>분식</span>
+					</div>
+					<div id="box6" class="menu-other"
+						style="width: 60px; height: 60px;">
+						<br> <br> <br> <span>그외</span>
+					</div>
 				</div>
 			</div>
-
 			<div id="box7">
 				<span id="re-recommend"> <img alt="자장면"
-					src="${pageContext.request.contextPath}/img/menu/review/210622_001.jpg" width="140">
-					<h1>자장면</h1></span> <span id="re-re"></span> <span class="menu_find_btn">
+					src="${pageContext.request.contextPath}/img/menu/review/210622_001.jpg"
+					width="140"> <br>
+					<h1>자장면</h1></span>
+					<span id="re-re"></span> <br> <br> <span class="menu_find_btn">
 					<a><button type="button" class="btn btn-ms btn-ttc1"
 							id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a> <a
-					href="${pageContext.request.contextPath}/menu/menu_category_list"><button type="button"
-							class="btn btn-primary btn-ttc2 ">주변음식점찾기</button></a>
+					href="${pageContext.request.contextPath}/menu/menu_category_list"><button
+							type="button" class="btn btn-primary btn-ttc2 ">주변음식점찾기</button></a>
 				</span>
 
 			</div>
@@ -169,7 +197,7 @@
 				}
 
 			});
-			
+
 			$("#btn-jan").click(function() {
 				$("#box3").fadeToggle();
 
@@ -193,7 +221,7 @@
 				}
 
 			});
-			
+
 			$("#btn-boonsik").click(function() {
 				$("#box5").fadeToggle();
 
@@ -205,7 +233,7 @@
 				}
 
 			});
-			
+
 			$("#btn-other").click(function() {
 				$("#box6").fadeToggle();
 
@@ -217,17 +245,23 @@
 				}
 
 			});
-			
-			$("#ran").click(function() {
-				$("#box7").toggle();
-				$('#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran').remove();
-			});
 
-			$("#btn-retry").click(function() {
-				$('#re-recommend,#btn-retry').remove();
-				$("#re-re").html("<img src='../img/menu/jjamppong.jpg' height='130'>" + "<br>" + "<h1>짬뽕</h1>" + "<br>")
+			$("#ran")
+					.click(
+							function() {
+								$("#box7").toggle();
+								$(
+										'#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran')
+										.remove();
+							});
 
-			});
+			$("#btn-retry").click(
+					function() {
+						$('#re-recommend,#btn-retry').remove();
+						$("#re-re").html(
+								"<img src='../img/menu/jjamppong.jpg' height='130'>" + "<h1>짬뽕</h1>")
+
+					});
 
 		});
 	</script>
