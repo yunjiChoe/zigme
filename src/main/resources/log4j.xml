@@ -12,14 +12,18 @@
     </appender>
 
     <!-- 파일로 기록되는 로그 설정 -->
-    <appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
+    <appender name="dailyRollingFile" class="org.apache.log4j.RollingFileAppender">
         <!-- 로그 파일 생성위치 -->
-        <param name="file" value="${app.root}/WEB-INF/log/zigme.log" />
+        <param name="file" value="/zigme_log/zigme.log" />
         <param name="Append" value="true" />
         <!-- 로그 파일 하나당 사이즈 100m -->
         <param name="MaxFileSize" value="100mb" />
         <!-- 최대 생성 파일수 ( 50개가 넘으면 순차적으로 파일이 삭제됨 ) -->
         <param name="MaxBackupIndex" value="50" />
+         
+         <param name="encoding" value="UTF-8" />
+         <param name="DatePattern" value="'.'yyyy-MM-dd_HH:mm" />
+         
         <!-- 로그의 출력패턴 정의 -->
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5p] %C{1}.%M(%F:%L) %m%n" />
