@@ -17,5 +17,6 @@ public class User {
 	private String loc_xy;
 	private String icon;
 	private String blockUserflag;
+	private String outUserflag;
 	
 }

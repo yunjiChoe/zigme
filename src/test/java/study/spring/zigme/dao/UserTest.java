@@ -53,13 +53,14 @@ public class UserTest {
 		input.setName("테스트이름");
 		input.setNickname("테스트nick");
 		input.setEmail("테스트email");
-		input.setGender("테스트_gen");
+		input.setGender("M");
 		input.setPostcode("11111");
 		input.setAddr1("테스트1");
 		input.setAddr2("테스트2");
 		input.setLoc_xy("29301293, 80138");
 		input.setIcon("2");
-		input.setBlockUserflag("1");
+		input.setBlockUserflag("0");
+		input.setOutUserflag("N");
 		sqlSession.insert("UserMapper.insertItem", input);
 		
 	}

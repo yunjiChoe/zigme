@@ -25,14 +25,14 @@
 	<select id="selectItem" parameterType= "study.spring.zigme.model.User"
 		resultMap = "userMap">
 		SELECT userNo, id, password, name, nickname, email, gender,
-		postcode, addr1, addr2, loc_xy, icon, blockUserflag FROM user WHERE userNo = #{userNo};
+		postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag FROM user WHERE userNo = #{userNo};
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id="selectList" parameterType= "study.spring.zigme.model.User"
 		resultMap = "userMap">
 		SELECT userNo, id, password, name, nickname, email, gender,
-		postcode, addr1, addr2, loc_xy, icon, blockUserflag FROM user
+		postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag FROM user
 		ORDER BY userNo DESC;	
 	</select>
 	
@@ -42,9 +42,9 @@
 		useGeneratedKeys="true"
 		keyProperty="userNo">
 		INSERT INTO user (id, password, name, nickname, email, gender,
-			postcode, addr1, addr2, loc_xy, icon, blockUserflag) VALUES 
+			postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag) VALUES 
 			(#{id}, #{password}, #{name}, #{nickname}, #{email}, #{gender},
-			#{postcode}, #{addr1}, #{addr2}, #{loc_xy}, #{icon}, #{blockUserflag});
+			#{postcode}, #{addr1}, #{addr2}, #{loc_xy}, #{icon}, #{blockUserflag}, #{outUserflag});
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->
