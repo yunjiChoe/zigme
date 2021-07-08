@@ -10,9 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-
 import lombok.extern.slf4j.Slf4j;
+import study.spring.zigme.model.Post;
 import study.spring.zigme.model.User;
+
 
 /**Lombok의 Log4j 객체 */
 @Slf4j
@@ -27,7 +28,8 @@ import study.spring.zigme.model.User;
 
 /**메서드 이름 순서로 실행하도록 설정(설정하지 않을 경우 무작위 순서로 실행됨) */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserTest {
+
+public class PostTest {
 	/**MyBatis의 SQL세션 주입 설정 */
 	@Autowired
 	private SqlSession sqlSession;
@@ -35,60 +37,57 @@ public class UserTest {
 	@Test
 	/**단일행 조회 테스트 */
 	public void testA() {
-		User input = new User();
-		input.setUserNo(1);
-		sqlSession.selectOne("UserMapper.selectItem", input);
+		Post input = new Post();
+		input.setPostNo(1);
+		sqlSession.selectOne("PostMapper.selectItem", input);
 	}
 	
-	/** 다중행 조회 테스트 */
 	@Test
+	/**다중행 조회 테스트 */
 	public void testB() {
-		User input = new User();
-		sqlSession.selectList("UserMapper.selectList", input);
+		Post input = new Post();
+		input.setPostSubtitle("꿀팁");
+		input.setPostTitle("엑셀");
+		sqlSession.selectList("PostMapper.selectList", input);
 	}
-	/** 데이터 저장 테스트 */
+	
 	@Test
+	/**데이터 저장 테스트 */
 	public void testC() {
-		User input = new User();
-		input.setId("테스트_id");
-		input.setPassword("테스트_pw");
-		input.setName("테스트이름");
-		input.setNickname("테스트nick");
-		input.setEmail("테스트email");
-		input.setGender("M");
-		input.setPostcode("11111");
-		input.setAddr1("테스트1");
-		input.setAddr2("테스트2");
-		input.setLoc_xy("29301293, 80138");
-		input.setIcon("2");
-		input.setBlockUserflag("0");
-		input.setOutUserflag("N");
-		sqlSession.insert("UserMapper.insertItem", input);
-		
+		Post input = new Post();
+		input.setPostSubtitle("도움");
+		input.setPostTitle("회사에서 인정받는 8가지 방법");
+		input.setPostContent("<h3>기록하고 끊임없이 학습하라</h3><p>테스트</p>");
+		input.setPostUpcount(15);
+		input.setPostViewcount(30);
+		input.setPostRegdate("2021-01-01 00:00:00");
+		input.setPostNoti("1");
+		input.setUserNo(1);
+		sqlSession.insert("PostMapper.insertItem", input);
 	}
 	
 	/** 데이터 삭제 테스트 */
 	@Test
 	public void testD() {
-		User input = new User();
-		input.setUserNo(3);
-		sqlSession.delete("UserMapper.deleteItem", input);
+		Post input = new Post();
+		input.setPostNo(3);
+		sqlSession.delete("PostMapper.deleteItem", input);
 	}
 	
 	/** 데이터 수정 테스트 */
 	@Test
 	public void testE() {
-		User input = new User();
-		input.setIcon("0");
-		input.setUserNo(7);
-		sqlSession.update("UserMapper.updateItem", input);
+		Post input = new Post();
+		input.setPostUpcount(100);
+		input.setPostViewcount(100);
+		input.setPostNo(4);
+		sqlSession.update("PostMapper.updateItem", input);
 	}
 	
 	/** 전체 데이터 수 조회 */
 	@Test
 	public void testF() {
-		int count = sqlSession.selectOne("UserMapper.selectCountAll", null);
+		int count = sqlSession.selectOne("PostMapper.selectCountAll", null);
 		log.debug("전체 데이터 수: " +count);
 	}
-	
 }

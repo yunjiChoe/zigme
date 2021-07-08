@@ -18,7 +18,8 @@
 		<result property="addr2" column="addr2" />
 		<result property="loc_xy" column="loc_xy" />
 		<result property="icon" column="icon" />
-		<result property="blockUserflag" column="blockUserflag" />	
+		<result property="blockUserflag" column="blockUserflag" />
+		<result property="outUserflag" column="outUserflag" />	
 	</resultMap>
 	
 	<!-- 단일행 조회를 위한 기능 정의 -->
