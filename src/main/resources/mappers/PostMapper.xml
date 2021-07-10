@@ -49,10 +49,10 @@
         </if>
 	</where>
 	
-	ORDER BY postNo DESC;
+	ORDER BY postNo DESC
 	<if test="listCount > 0">
-            LIMIT #{offset}, #{listCount}
-        </if>
+	LIMIT #{offset}, #{listCount};
+	</if>
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->

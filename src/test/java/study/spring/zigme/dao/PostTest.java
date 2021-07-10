@@ -46,8 +46,6 @@ public class PostTest {
 	/**다중행 조회 테스트 */
 	public void testB() {
 		Post input = new Post();
-		input.setPostSubtitle("꿀팁");
-		input.setPostTitle("엑셀");
 		sqlSession.selectList("PostMapper.selectList", input);
 	}
 	
