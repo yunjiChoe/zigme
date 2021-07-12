@@ -71,7 +71,6 @@ public class PostRestController {
         data.put("keyword", keyword);
         data.put("item", output);
         data.put("meta", pageData);
-
         return webHelper.getJsonData(data);
     } 
 	

@@ -184,7 +184,6 @@ public class WebHelper {
 	public Map<String, Object> getJsonData(int statusCode, String rt, Map<String, Object> data) {
 		/** 1) JSON 형식 출력을 위한 HTTP 헤더 설정 */
 		// JSON 형식임을 명시함
-		response.setContentType("");
 		response.setContentType("application/json");
 
 		// HTTP 상태 코드 설정 (200, 404, 500 등)
