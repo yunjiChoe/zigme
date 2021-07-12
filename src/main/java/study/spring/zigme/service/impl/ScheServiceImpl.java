@@ -1,0 +1,68 @@
+package study.spring.zigme.service.impl;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import lombok.extern.slf4j.Slf4j;
+import study.spring.zigme.model.Scheduler;
+import study.spring.zigme.service.ScheService;
+
+@Service
+@Slf4j
+public class ScheServiceImpl implements ScheService{
+	/** MyBatis */
+    // --> import org.apache.ibatis.session.SqlSession
+    @Autowired
+    SqlSession sqlSession;
+    
+    /**
+     * 일정 상세 조회
+     * @param Scheduler 조회할 일련번호를 가지고 있는 Beans
+     * @return 조회된 데이터가 저장된 Beans
+     * @throws Exception
+     */
+    @Override
+    public Scheduler getscheItem(Scheduler input) throws Exception {
+    	Scheduler result = null;
+
+        try {
+            result = sqlSession.selectOne("SchedulerMapper.selectItem", input);
+
+            if (result == null) {
+                throw new NullPointerException("result=null");
+            }
+        } catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("조회된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+
+        return result;
+    }
+
+	@Override
+	public int addScheduler(Scheduler input) throws Exception {
+		int result = 0;
+
+        try {
+            
+        	result = sqlSession.insert("SchedulerMapper.insertItem", input);
+            
+            if (result == 0) {
+                throw new NullPointerException("result=0");
+            }
+        } catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("저장된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 저장에 실패했습니다.");
+        }
+
+        return result;
+	}
+    
+}

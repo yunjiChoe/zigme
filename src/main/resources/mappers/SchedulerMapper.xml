@@ -18,7 +18,7 @@
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id="selectItem" parameterType= "study.spring.zigme.model.Scheduler"
 		resultMap = "scheduleMap">
-		SELECT * FROM scheduler where userNo=#{userNo};
+		SELECT * FROM scheduler where scheNo=#{scheNo};
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
@@ -32,5 +32,5 @@
 		useGeneratedKeys="true" keyProperty="scheNo">
 			INSERT INTO scheduler (scheCate, scheContent, scheLoc, scheStartdate, scheEnddate, userNo)
 				VALUES (#{scheCate}, #{scheContent}, #{scheLoc}, #{scheStartdate}, #{scheEnddate}, #{userNo})
-		</insert>	
+	</insert>	
 </mapper>
