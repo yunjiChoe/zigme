@@ -27,7 +27,7 @@
 	var start_date = start_date_obj.Year + start_date_obj.Month + start_date_obj.Date + start_date_obj.Hours + start_date_obj.Min;
 	var end_date = end_date_obj.Year + end_date_obj.Month + end_date_obj.Date + end_date_obj.Hours + end_date_obj.Min; 
 	
-	
+	/*
 	console.log("dasom_calendar.id "+ dasom_calendar.id);
 	console.log("dasom_calendar.name "+ dasom_calendar.name);
 	console.log("dasom_calendar.title "+ dasom_calendar.title);
@@ -35,7 +35,7 @@
 	console.log("dasom_calendar.start "+ start_date);
 	console.log("dasom_calendar.end "+  end_date);
 	console.log("dasom_calendar.isAllDay "+ dasom_calendar.isAllDay);
-	
+	*/
 }
 
 (function webpackUniversalModuleDefinition(root, factory) {
