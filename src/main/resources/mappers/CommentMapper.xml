@@ -70,4 +70,10 @@
 	WHERE commNo =#{commNo};
 	</update>
 	
+	<!-- 특정게시글을 참조하는 댓글 데이터를 모두 참조 해제 한다. -->
+	<update id="unsetPost"
+		parameterType= "study.spring.zigme.model.Post">
+		UPDATE comment SET postNo=null WHERE postNo= #{postNo}
+	</update>
+	
 </mapper>
