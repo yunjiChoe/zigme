@@ -368,13 +368,6 @@ p.condition {
 	height: 12px;
 }
 
-#uploaded, .fileis {
-	border: none;
-	font-size: 12px;
-	font-family: 'S-CoreDream-5Medium';
-	display: inline;
-	margin: 0 0 30px 0;
-}
 
 .file_name {
 	margin: 0 auto; /** 중간정렬필요 */

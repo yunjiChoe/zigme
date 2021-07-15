@@ -52,6 +52,16 @@
 			padding: 8px;
 	}
 	
+	#upfile, #fileis {
+	border: none;
+	color: #4041fe;
+	font-size: 12px;
+	font-family: 'S-CoreDream-5Medium';
+	display: inline;
+	margin: 0 0 30px 0;
+	padding: 1px 2px;
+}
+	
 	
 	
 	</style>
@@ -102,7 +112,7 @@
 			<div class="modal-body">
 				<form action="upload" id="uploadForm" method="post" enctype="multipart/form-data">
 						<!--  display: none으로 변경하여 버튼 커스텀  -->
-					<input type="file" id="fileInput" name="file" style="display: none"/>
+					<input type="file" id="fileInput" name="file" accept=".jpg, .gif, .png" style="display: none"/>
 						<!-- 커스텀 버튼 추가 코드 -->
 						<div class="addfile" onclick="onclick=document.all.file.click()">
 							<div class="add_receipt_btn">영수증 첨부</div>
@@ -111,9 +121,9 @@
 					
 					<!-- 파일 이름 표기 -->
 					<div class="file_name">
-					<div class="fileis"></div>
+					<div id="fileis"></div>
 						<span>
-							<input type="text" name="uploaded" id="uploaded" value="" readonly>
+							<input type="text" name="upfile" id="upfile" value="" readonly>
 						</span>
 					</div>
 						<!-- // 파일 이름 표기 -->
@@ -211,30 +221,19 @@
 		// input 요소 중에 name이 file 인 요소의 값이 바뀌었을때 
 		$("input[name=file]").on("change", function() {	
 			
-			/** 추후 구현 
-			$('#uploaded').val(''); 											// 파일 이름 추출 전 초기화
+			$('#uploaded').val('');              									// 파일 이름 추출 전 초기화
 			
-			if(window.FileReader) { 								
-				var filename = $(this)[0].files[0].name;						// 최근 브라우저의 파일명 추출			
-			} else { // old IE
-				var filename = $(this).val().split('/').pop().split('\\').pop(); // 구 브라우저 파일명 추출
-			}
-			
-			// 파일 확장자 확인 -----------------------------------------------------------------------------
-			var ext = filename.split('.').pop().toLowerCase();
-			
-			// 업로드 가능한 확장자 배열처리, 이 외의 확장자에 대해 알람 창 띄우기
-			if($.inArray(ext, ['jpg', 'jpeg', 'gif', 'png']) == -1) {
-				alert('jpg, gif, png 파일만 등록이 가능합니다.');
-				$('#fileInput').val('');
-				return;
+			if(window.FileReader) {
+				var filename = $(this)[0].files[0].name;							// 최근 브라우저의 파일명 추출			
+			} else { 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); 	// 구 브라우저 파일명 추출
 			}
 			
 			// 파일 크기 확인
 			if (filename != ''){
-				var size = 3;  
+				var size = 5;  
 				var fileSize = document.getElementById("fileInput").files[0].size;	// 파일 사이즈 get
-				var maxSize = size * 1024 * 1024 // 3MB
+				var maxSize = size * 1024 * 1024 // 5MB
 				
 				if (fileSize > maxSize) {
 					alert("첨부파일 사이즈는 " + size + "MB 이내로 등록 가능합니다.");
@@ -242,21 +241,24 @@
 					return;
 				}
 			}
+
+			 // 추출한 파일명 삽입
+			$("#upfile").val(filename);
+			$("#upfile").ready(function() {
+				$("#fileis").html("첨부된 파일: "); 
+				
+			});
 			
-			// 추출한 파일명 삽입
-			$("#uploaded").val(filename);		
-			**/
 			
 			$(".modal-header").empty();
 			$(".modal-body").empty();
 			
-			var modal_tag = "<button type='button' class='close' data-dismiss='moda' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
+			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
 			$(".modal-header").html(modal_tag);
 			
 			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div><span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'></span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
 			$(".modal-body").html(modal_tag);
-			
-			
+		
 		});
 		
 		// ------------------------------------ Modal end ------------------------------------		
