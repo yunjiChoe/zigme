@@ -195,27 +195,70 @@ strong {
         	console.log("s-date : " + $('#tui-full-calendar-schedule-start-date').val());
         	console.log("e-date : " + $('#tui-full-calendar-schedule-end-date').val());
         	console.log("checkbox : " + $('#tui-full-calendar-schedule-allday').prop('checked'));
+        	
+        	var type = $('#tui-full-calendar-schedule-calendar').html();        	        	
+        	var scheCate = "";        	
+        	
+        	switch (type) {
+        	case "일정":
+        		scheCate = "0";
+        		break;
+        	case "회사":
+        		scheCate = "1";
+        		break;
+        	case "가족":
+        		scheCate = "2";
+        		break;
+        	case "친구":
+        		scheCate = "3";
+        		break;
+        	case "그 외":
+        		scheCate = "4";
+        		break;
+        	}
+        	
+        	
+        	var scheContent = $('#tui-full-calendar-schedule-title').val();
+        	var scheLoc = $('#tui-full-calendar-schedule-location').val();
+        	var scheStartdate = $('#tui-full-calendar-schedule-start-date').val();
+        	var scheEnddate = $('#tui-full-calendar-schedule-end-date').val(); 
+        	
+        	// 일정을 종일로 체크한 경우 
+        	var allTime_checked = $('#tui-full-calendar-schedule-allday').prop('checked');
+        	if (allTime_checked) {
+        		scheStartdate = scheStartdate.substring(0, 11) + "00:00:00";
+        		scheEnddate = scheEnddate.substring(0, 11) + "23:59:59";
+        	}         	
+        	
+        	var userNo = 1; // test_user
+        	
+        	$.ajax({
+    			// 결과를 읽어올 URL
+    			url: '${pageContext.request.contextPath}/main',
+    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+    			method: 'post',
+    			// 전달할 조건값은 JSON형식으로 구성
+    			data: {
+    				   "scheCate": scheCate,
+    				   "scheContent": scheContent, 
+    				   "scheLoc": scheLoc,
+    				   "scheStartdate" : scheStartdate,
+    				   "scheEnddate" : scheEnddate,
+    				   "userNo" : userNo
+    			},
+    			// 읽어올 내용의 형식(생략할 경우 Json)
+    			dataType: 'json',
+    			// 읽어온 내용을 처리하기 위한 함수
+    			success: function(req) {
+    				
+    				// console.log("통신완료" + req);
+    				
+    			}
+    		}); // end $.ajax
+    		
 		});
-			
-		/*
-		$.ajax({
-			// 결과를 읽어올 URL
-			url: '../api/get.do',
-			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
-			method: 'get',
-			// 전달할 조건값은 JSON형식으로 구성
-			data: {num1: 123, num2: 456},
-			// 읽어올 내용의 형식(생략할 경우 Json)
-			dataType: 'html',
-			// 읽어온 내용을 처리하기 위한 함수
-			success: function(req) {
-				// req는 url에 지정된 페이지에 접속했을 경우
-				// 브라우저에 표시되는 HTML소스 자체.
-				$("#calendar_data").append(req);
-			}
-		}); // end $.ajax
-		*/
-		
+        
+        
 		main_Time();
 		startTimer();
 		weather_getdossi();
@@ -275,6 +318,152 @@ strong {
 			$('.csky').append(sky);			
 		});
 	</script>
+	
+	<script type="text/javascript" class="code-js">
+  function getTimeTemplate(schedule, isAllDay) {
+    var html = [];
+
+    if (!isAllDay) {
+      html.push('<strong>' + moment(schedule.start.getTime()).format('HH:mm') + '</strong> ');
+    }
+    if (schedule.isPrivate) {
+      html.push('<span class="calendar-font-icon ic-lock-b"></span>');
+      html.push(' Private');
+    } else {
+      if (schedule.isReadOnly) {
+        html.push('<span class="calendar-font-icon ic-readonly-b"></span>');
+      } else if (schedule.recurrenceRule) {
+        html.push('<span class="calendar-font-icon ic-repeat-b"></span>');
+      } else if (schedule.attendees.length) {
+        html.push('<span class="calendar-font-icon ic-user-b"></span>');
+      } else if (schedule.location) {
+        html.push('<span class="calendar-font-icon ic-location-b"></span>');
+      }
+      html.push(' ' + schedule.title);
+    }
+
+    return html.join('');
+  }
+
+  function getGridTitleTemplate(type) {
+    var title = '';
+
+    switch(type) {
+      case 'milestone':
+        title = '<span class="tui-full-calendar-left-content">MILESTONE</span>';
+        break;
+      case 'task':
+        title = '<span class="tui-full-calendar-left-content">TASK</span>';
+        break;
+      case 'allday':
+        title = '<span class="tui-full-calendar-left-content">ALL DAY</span>';
+        break;
+    }
+
+    return title;
+  }
+
+  function getGridCategoryTemplate(category, schedule) {
+    var tpl;
+
+    switch(category) {
+      case 'milestone':
+        tpl = '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' + schedule.bgColor + '">' + schedule.title + '</span>';
+        break;
+      case 'task':
+        tpl = '#' + schedule.title;
+        break;
+      case 'allday':
+        tpl = getTimeTemplate(schedule, true);
+        break;
+    }
+
+    return tpl;
+  }
+
+  // register templates
+  var templates = {
+    milestone: function(schedule) {
+      return getGridCategoryTemplate('milestone', schedule);
+    },
+    milestoneTitle: function() {
+      return getGridTitleTemplate('milestone');
+    },
+    task: function(schedule) {
+      return getGridCategoryTemplate('task', schedule);
+    },
+    taskTitle: function() {
+      return getGridTitleTemplate('task');
+    },
+    allday: function(schedule) {
+      return getTimeTemplate(schedule, true);
+    },
+    alldayTitle: function() {
+      return getGridTitleTemplate('allday');
+    },
+    time: function(schedule) {
+      return getTimeTemplate(schedule, false);
+    },
+    goingDuration: function(schedule) {
+      return '<span class="calendar-icon ic-travel-time"></span>' + schedule.goingDuration + 'min.';
+    },
+    comingDuration: function(schedule) {
+      return '<span class="calendar-icon ic-travel-time"></span>' + schedule.comingDuration + 'min.';
+    },
+    monthMoreTitleDate: function(date, dayname) {
+      var day = date.split('.')[2];
+      return '<span class="tui-full-calendar-month-more-title-day">' + day + '</span> <span class="tui-full-calendar-month-more-title-day-label">' + dayname + '</span>';
+    },
+    monthMoreClose: function() {
+      return '<span class="tui-full-calendar-icon tui-full-calendar-ic-close"></span>';
+    },
+    monthGridHeader: function(dayModel) {
+      var date = parseInt(dayModel.date.split('-')[2], 10);
+      var classNames = ['tui-full-calendar-weekday-grid-date '];
+
+      if (dayModel.isToday) {
+        classNames.push('tui-full-calendar-weekday-grid-date-decorator');
+      }
+
+      return '<span class="' + classNames.join(' ') + '">' + date + '</span>';
+    },
+    monthGridHeaderExceed: function(hiddenSchedules) {
+      return '<span class="weekday-grid-more-schedules">+' + hiddenSchedules + '</span>';
+    },
+    monthGridFooter: function() {
+      return '';
+    },
+    monthGridFooterExceed: function(hiddenSchedules) {
+      return '';
+    },
+    monthDayname: function(model) {
+      return String(model.label).toLocaleUpperCase();
+    },
+    dayGridTitle: function(viewName) {
+      /*
+       * use another functions instead of 'dayGridTitle'
+       * milestoneTitle: function() {...}
+       * taskTitle: function() {...}
+       * alldayTitle: function() {...}
+      */
+
+      return getGridTitleTemplate(viewName);
+    },
+    schedule: function(schedule) {
+      /*
+       * use another functions instead of 'schedule'
+       * milestone: function() {...}
+       * task: function() {...}
+       * allday: function() {...}
+      */
+
+      return getGridCategoryTemplate(schedule.category, schedule);
+    }
+  };
+
+
+  </script>  
+  <script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
 
 </body>
 </html>
