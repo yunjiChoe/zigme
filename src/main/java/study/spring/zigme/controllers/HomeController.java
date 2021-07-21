@@ -118,16 +118,22 @@ public class HomeController {
       return "common/report_popup";
    }
    
+   
+   
+   
    /**
     * 메이트들의 고민은 으로 진입하기 위한 메서드
     * @param model
     * @param request
     * @return String
     */
+   
+   /** Ajax구현을 위해 주석처리 
    @RequestMapping(value = "/help/help_chart", method = RequestMethod.GET)
    public String helpChart(Model model, HttpServletRequest request) {
       return "help/help_chart";
    }
+   */
    
    /**
     * 커뮤니티 글보기로 진입하기 위한 메서드
@@ -135,10 +141,13 @@ public class HomeController {
     * @param request
     * @return String
     */
+   
+   /** Ajax구현을 위해 주석처리
    @RequestMapping(value = "/help/help_comm_read", method = RequestMethod.GET)
    public String helpCommRead(Model model, HttpServletRequest request) {
       return "help/help_comm_read";
    }
+   */
    
    /**
     * 커뮤니티 글쓰기로 진입하기 위한 메서드
@@ -146,10 +155,13 @@ public class HomeController {
     * @param request
     * @return String
     */
+   
+   /** Ajax구현을 위해 주석처리
    @RequestMapping(value = "/help/help_comm_write", method = RequestMethod.GET)
    public String helpCommWrite(Model model, HttpServletRequest request) {
       return "help/help_comm_write";
    }
+   */
    
    /**
     * 커뮤니티 글목록으로 진입하기 위한 메서드
@@ -157,10 +169,13 @@ public class HomeController {
     * @param request
     * @return String
     */
+   
+   /** Ajax구현을 위해 주석처리
    @RequestMapping(value = "/help/help_comm", method = RequestMethod.GET)
    public String helpComm(Model model, HttpServletRequest request) {
       return "help/help_comm";
    }
+   */
    
    /**
     * 커뮤니티 메인으로 진입하기 위한 메서드
@@ -168,10 +183,13 @@ public class HomeController {
     * @param request
     * @return String
     */
+   
+   /** Ajax구현을 위해 주석처리
    @RequestMapping(value = "/help/help_main", method = RequestMethod.GET)
    public String helpMain(Model model, HttpServletRequest request) {
       return "help/help_main";
    }
+   */
    
    /**
     * 업종별-음식점 리스트로 진입하기 위한 메서드

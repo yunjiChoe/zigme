@@ -37,6 +37,7 @@ public interface PostService {
 	 * @return int
 	 * @throws Exception
 	 */
+	
 	public int addPost(Post input) throws Exception;
 	
 	/**

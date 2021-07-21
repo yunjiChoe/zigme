@@ -30,7 +30,7 @@ public class PostRestController {
 	@Autowired PostService postService;
 	
 	/**목록 페이지 */
-	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public Map<String, Object> get_list(
             // 검색어
             @RequestParam(value="keyword", required=false) String keyword,
@@ -45,7 +45,7 @@ public class PostRestController {
         /** 2) 데이터 조회하기 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input = new Post();
-        input.setPostSubtitle(keyword);
+        input.setPostTitle(keyword);
 
         List<Post> output = null;   // 조회결과가 저장될 객체
         PageData pageData = null;        // 페이지 번호를 계산한 결과가 저장될 객체
@@ -75,7 +75,7 @@ public class PostRestController {
     } 
 	
 	/**상세 페이지 */
-	@RequestMapping(value= "/post/{postNo}", method = RequestMethod.GET)
+	@RequestMapping(value= "/help/{postNo}", method = RequestMethod.GET)
 	public Map<String, Object> get_item(@PathVariable("postNo") int postNo) {
 		
 		/** 1) 데이터 조회하기*/
@@ -99,7 +99,7 @@ public class PostRestController {
 		return webHelper.getJsonData(data);
 	}
 	/**작성 폼에 대한 action 페이지 */
-	@RequestMapping(value= "/post", method = RequestMethod.POST)
+	@RequestMapping(value= "/help", method = RequestMethod.POST)
 	public Map<String, Object> post(
 			@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
 			@RequestParam(value="postTitle", defaultValue="") String postTitle,
@@ -154,7 +154,7 @@ public class PostRestController {
         return webHelper.getJsonData(map);
 	}
 	/**수정 폼에 대한 action 페이지 */
-	@RequestMapping(value= "/post", method = RequestMethod.PUT)
+	@RequestMapping(value= "/help", method = RequestMethod.PUT)
 	public Map<String, Object> put(
 			@RequestParam(value="postNo", defaultValue="") int postNo,
 			@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
@@ -211,7 +211,7 @@ public class PostRestController {
 	}
 	
 	/** 삭제 처리 */
-	@RequestMapping(value= "/post", method = RequestMethod.DELETE)
+	@RequestMapping(value= "/help", method = RequestMethod.DELETE)
 	public Map<String, Object> delete(
 			@RequestParam(value="postNo", defaultValue = "0") int postNo) {
 		
