@@ -2,7 +2,7 @@
 function init() {
   cal.setCalendars(CalendarList);
 
-  setRenderRangeText();
+  /* setRenderRangeText(); dasom_210722 */
   setSchedules();
   setEventListener();
 }
@@ -93,7 +93,7 @@ function onClickMenu(e) {
   cal.changeView(viewName, true);
 
   setDropdownCalendarType();
-  setRenderRangeText();
+  /* setRenderRangeText(); dasom_210722 */ 
   setSchedules();
 }
 
@@ -114,11 +114,12 @@ function onClickNavi(e) {
       return;
   }
 
-  setRenderRangeText();
+  /* setRenderRangeText(); dasom_210722 */
   setSchedules();
 }
 
 function setRenderRangeText() {
+/*
   var renderRange = document.getElementById('renderRange');
   var options = cal.getOptions();
   var viewName = cal.getViewName();
@@ -134,6 +135,7 @@ function setRenderRangeText() {
     html.push(moment(cal.getDateRangeEnd().getTime()).format(' MM.DD'));
   }
   renderRange.innerHTML = html.join('');
+*/
 }
 
 function setSchedules() {
