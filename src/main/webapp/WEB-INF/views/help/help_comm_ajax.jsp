@@ -47,20 +47,19 @@ tr {
 			</div>
 
 			<form id="comm_middle" class="form-inline pull-right">
-				<div class="form-group">
-					<select id="parent" class="form-control formcon-comm">
-						<option value="">말머리</option>
-						<option value="202010">도움</option>
-						<option value="202011">꿀팁</option>
-						<option value="202012">넋두리</option>
-					</select>
-				</div>
-				
 				<!-- 검색폼 -->
-    <form method="get" action="${pageContext.request.contextPath}/help_ajax/help_comm_ajax.do">
-        <input type="search" name="keyword" id="keyword" placeholder="이름 검색" value="${keyword}" />
-        <button type="submit">검색</button>
-    </form>			
+				<form method="get"
+					action="${pageContext.request.contextPath}/help_ajax/help_comm_ajax.do">				
+						<select name="keyword2" class="form-control formcon-comm keyword2">
+							<option value="">말머리</option>
+							<option value="도움">도움</option>
+							<option value="꿀팁">꿀팁</option>
+							<option value="넋두리">넋두리</option>
+						</select>
+						<input type="search" name="keyword1" id="keyword1"
+						placeholder="제목 검색" value="${keyword1}" />
+					<button type="submit">검색</button>
+				</form>
 			</form>
 
 			<table class="help_comm_table">
@@ -86,25 +85,17 @@ tr {
 						<c:otherwise>
 							<%-- 조회 결과에 따른 반복 처리 --%>
 							<c:forEach var="item" items="${output}" varStatus="status">
-								<%-- 출력을 위해 준비한 교수이름 변수 --%>
-								<c:set var="name" value="${item.postTitle}" />
-								<%-- 검색어가 있다면? --%>
-								<c:if test="${keyword != ''}">
-									<%-- 검색어에 <mark> 태그를 적용하여 형광팬 효과 준비 --%>
-									<c:set var="mark" value="<mark>${keyword}</mark>" />
-									<%-- 출력을 위해 준비한 교수이름에서 검색어와 일치하는 단어를 형광팬 효과로 변경 --%>
-									<c:set var="name" value="${fn:replace(name, keyword, mark)}" />
-								</c:if>
 
 								<%-- 상세페이지로 이동하기 위한 URL --%>
-
+								<%-- 추후에 추가할 예정임 --%>
+								
 								<tr>
-									<td align="left">${item.postNo}</td>
-									<td align="left"><span>[${item.postSubtitle}]</span>${item.postTitle}</td>
-									<td align="left">${item.nickname}</td>
-									<td align="left">${item.postRegdate}</td>
-									<td align="left">${item.postUpcount}</td>
-									<td align="left">${item.postViewcount}</td>
+									<td>${item.postNo}</td>
+									<td id="titles"><span>[${item.postSubtitle}]</span>${item.postTitle}</td>
+									<td>${item.nickname}</td>
+									<td>${item.postRegdate}</td>
+									<td>${item.postUpcount}</td>
+									<td>${item.postViewcount}</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
@@ -112,76 +103,72 @@ tr {
 				</tbody>
 
 			</table>
-			
-			<!-- 페이지 구현 -->
-			<%-- 이전 그룹에 대한 링크 --%>
-			<c:choose>
-				<%-- 이전 그룹으로 이동이 가능하다면? --%>
-				<c:when test="${pageData.prevPage > 0}">
-				<%-- 이동할 URL 생성 --%>
-            		<c:url value="/help_ajax/help_comm.do" var="prevPageUrl">
-                		<c:param name="page" value="${pageData.prevPage}" />
-                		<c:param name="keyword" value="${keyword}" />
-            		</c:url>
-            		<a href="${prevPageUrl}">[이전]</a>
-				</c:when>
-				<c:otherwise>
-            		[이전]
-        		</c:otherwise>
-			</c:choose>
-			
-			<%-- 페이지 번호(시작 페이지 부터 끝 페이지까지 반복 --%>
-			<c:forEach var="i" begin="${pageData.startPage}" end="${pageData.endPage}" varStatus="status">
-				<%-- 이동할 URL 생성 --%>
-        		<c:url value="/help_ajax/help_comm.do" var="pageUrl">
-            		<c:param name="page" value="${i}" />
-            		<c:param name="keyword" value="${keyword}" />
-        		</c:url>
-        		
-        		<%-- 페이지 번호 출력 --%>
-        		<c:choose>
-            		<%-- 현재 머물고 있는 페이지 번호를 출력할 경우 링크 적용 안함 --%>
-            		<c:when test="${pageData.nowPage == i}">
-                		<strong>[${i}]</strong>
-            		</c:when>
-            		<%-- 나머지 페이지의 경우 링크 적용함 --%>
-            		<c:otherwise>
-                		<a href="${pageUrl}">[${i}]</a>
-            		</c:otherwise>
-        		</c:choose>
-			</c:forEach>
-			
-			<%-- 다음 그룹에 대한 링크 --%>
-			<c:choose>
-        	<%-- 다음 그룹으로 이동 가능하다면? --%>
-        		<c:when test="${pageData.nextPage > 0}">
-            		<%-- 이동할 URL 생성 --%>
-            		<c:url value="/help_ajax/help_comm.do" var="nextPageUrl">
-                		<c:param name="page" value="${pageData.nextPage}" />
-                		<c:param name="keyword" value="${keyword}" />
-            		</c:url>
-            		<a href="${nextPageUrl}">[다음]</a>
-        		</c:when>
-        		<c:otherwise>
-            	[다음]
-        		</c:otherwise>
-    		</c:choose>
-			
-			<!-- 전체 페이지 수가 2페이지 이상인 경우 "더보기"버튼 노출 -->
-
-
 
 			<form id="comm_bottom help_comm_point" class="form-inline">
 				<div class="bottom_btns">
+					<!-- 페이지 구현 -->
 					<ul class="pagination">
-						<li class="disabled"><a href="#">&laquo;</a></li>
-						<li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">&raquo;</a></li>
+						<%-- 이전 그룹에 대한 링크 --%>
+						<c:choose>
+							<%-- 이전 그룹으로 이동이 가능하다면? --%>
+							<c:when test="${pageData.prevPage > 0}">
+								<%-- 이동할 URL 생성 --%>
+								<c:url value="/help_ajax/help_comm.do" var="prevPageUrl">
+									<c:param name="page" value="${pageData.prevPage}" />
+									<c:param name="keyword1" value="${keyword1}" />
+									<c:param name="keyword2" value="${keyword2}" />
+								</c:url>
+								<li><a href="${prevPageUrl}">&laquo;</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="disabled"><a href="#none">&laquo;</a></li>
+							</c:otherwise>
+						</c:choose>
+
+
+						<%-- 페이지 번호(시작 페이지 부터 끝 페이지까지 반복 --%>
+						<c:forEach var="i" begin="${pageData.startPage}"
+							end="${pageData.endPage}" varStatus="status">
+							<%-- 이동할 URL 생성 --%>
+							<c:url value="/help_ajax/help_comm.do" var="pageUrl">
+								<c:param name="page" value="${i}" />
+								<c:param name="keyword1" value="${keyword1}" />
+								<c:param name="keyword2" value="${keyword2}" />
+							</c:url>
+
+							<%-- 페이지 번호 출력 --%>
+							<c:choose>
+								<%-- 현재 머물고 있는 페이지 번호를 출력할 경우 링크 적용 안함 --%>
+								<c:when test="${pageData.nowPage == i}">
+									<li class="active"><a href="#">${i}<span
+											class="sr-only">(current)</span></a></li>
+								</c:when>
+								<%-- 나머지 페이지의 경우 링크 적용함 --%>
+								<c:otherwise>
+									<li><a href="${pageUrl}">${i}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+
+
+						<%-- 다음 그룹에 대한 링크 --%>
+						<c:choose>
+							<%-- 다음 그룹으로 이동 가능하다면? --%>
+							<c:when test="${pageData.nextPage > 0}">
+								<%-- 이동할 URL 생성 --%>
+								<c:url value="/help_ajax/help_comm.do" var="nextPageUrl">
+									<c:param name="page" value="${pageData.nextPage}" />
+									<c:param name="keyword1" value="${keyword1}" />
+									<c:param name="keyword2" value="${keyword2}" />
+								</c:url>
+								<li><a href="${nextPageUrl}">&raquo;</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="disabled"><a href="#none">&raquo;</a></li>
+							</c:otherwise>
+						</c:choose>
 					</ul>
+					<!-- 전체 페이지 수가 2페이지 이상인 경우 "더보기"버튼 노출 -->
 
 					<button type="button" id="button_w" class="pull-right"
 						onclick="writePage()">글쓰기</button>
@@ -190,6 +177,13 @@ tr {
 		</div>
 	</div>
 	<!-- //container 종료 -->
+	<script>
+		function writePage() {
+			<!-- 글쓰기 클릭 이벤트 발생시 help_comm_write_ajax페이지로 이동 -->
+			window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_write.do";
+		}
+		
+	</script>
 
 	<c:import url="../inc/footer.jsp" />
 
@@ -219,14 +213,16 @@ tr {
 		src="${pageContext.request.contextPath}/assets/plugins/ajax/ajax_helper.js"></script>
 	<!-- User code -->
 	<script type="text/javascript">
-		function writePage() {
-			<!-- 글쓰기 클릭 이벤트 발생시 help_comm_write_ajax페이지로 이동 -->
-			window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_write";
-		}
 		
 		let nowPage = 1;    // 현재 페이지의 기본값
 		
 		$(function() {
+			
+			$(document).ready(function () {
+				  postSubtitle_val = "${keyword2}";
+				  console.log(postSubtitle_val);
+				  $('select.keyword2 option[value=' + postSubtitle_val + ']').attr('selected', 'selected');
+				});			
             /** 더 보기 버튼에 대한 이벤트 정의 */
             	$("#btnMore").click(function() {
                 // 다음 페이지를 요청하기 위해 페이지 변수 1 증가
@@ -247,6 +243,7 @@ tr {
                     }
                 });
         	});
+		});
 	</script>
 
 </body>

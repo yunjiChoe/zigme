@@ -40,8 +40,11 @@ public class PostAjaxController {
     /** 목록 페이지 */
     @RequestMapping(value = "/help_ajax/help_comm.do", method = RequestMethod.GET)
     public ModelAndView list(Model model,
-            // 검색어
-            @RequestParam(value="keyword", required=false) String keyword,
+            /** 검색어 */
+    		//keyword1 = 글제목(postTitle)
+            @RequestParam(value="keyword1", required=false) String keyword1,
+          //keyword2 = 글서브제목(postSubtitle)
+            @RequestParam(value="keyword2", required=false) String keyword2,
             // 페이지 구현에서 사용할 현재 페이지 번호
             @RequestParam(value="page", defaultValue="1") int nowPage) {
         
@@ -53,7 +56,8 @@ public class PostAjaxController {
         /** 2) 데이터 조회하기 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input = new Post();
-        input.setPostTitle(keyword);
+        input.setPostTitle(keyword1);
+        input.setPostSubtitle(keyword2);
 
         List<Post> output = null;   // 조회결과가 저장될 객체
         PageData pageData = null;        // 페이지 번호를 계산한 결과가 저장될 객체
@@ -75,7 +79,8 @@ public class PostAjaxController {
         }
 
         /** 3) View 처리 */
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("keyword1", keyword1);
+        model.addAttribute("keyword2", keyword2);
         model.addAttribute("output", output);
         model.addAttribute("pageData", pageData);
 
