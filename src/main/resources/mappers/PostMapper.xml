@@ -45,7 +45,7 @@
         	postSubtitle LIKE concat('%', #{postSubtitle}, '%')
         </if>
 		<if test="postTitle != null and postTitle != ''">
-           OR postTitle LIKE concat('%', #{postTitle}, '%')
+           AND postTitle LIKE concat('%', #{postTitle}, '%')
         </if>
 	</where>
 	
