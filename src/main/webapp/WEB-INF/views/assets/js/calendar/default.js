@@ -40,6 +40,7 @@ function setDropdownCalendarType() {
 }
 
 function onClickMenu(e) {
+/*
   var target = $(e.target).closest('a[role="menuitem"]')[0];
   var action = getDataAction(target);
   var options = cal.getOptions();
@@ -93,11 +94,13 @@ function onClickMenu(e) {
   cal.changeView(viewName, true);
 
   setDropdownCalendarType();
-  /* setRenderRangeText(); dasom_210722 */ 
+  setRenderRangeText();  
   setSchedules();
+*/
 }
 
 function onClickNavi(e) {
+  /* 
   var action = getDataAction(e.target);
 
   switch (action) {
@@ -114,8 +117,9 @@ function onClickNavi(e) {
       return;
   }
 
-  /* setRenderRangeText(); dasom_210722 */
+  setRenderRangeText(); dasom_210722 
   setSchedules();
+  */
 }
 
 function setRenderRangeText() {
