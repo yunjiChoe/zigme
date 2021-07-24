@@ -33,12 +33,15 @@
 
     <p class="sub_title">커뮤니티 글쓰기</p>
     <br />
-    <form id="addPostForm" action="${pageContext.request.contextPath}/post">
+    <form id="addPostForm" action="${pageContext.request.contextPath}/help">
         <div>
         	<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력하세요." />
         </div>
         <div>
         	<input type="text" id="postSubtitle" name="postSubtitle" placeholder="말머리를 입력하세요." />
+        </div>
+        <div>
+        	<input type="text" id="postContent" name="postContent" placeholder="내용을 입력하세요." />
         </div>
         <hr />
     <button type="reset" id="write_cancel" class="btn btn-warning">취소</button>

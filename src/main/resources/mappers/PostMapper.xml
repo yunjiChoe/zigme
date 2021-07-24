@@ -62,7 +62,7 @@
 		keyProperty="postNo">
 		INSERT INTO post (postSubtitle, postTitle, postContent, postUpcount, postViewcount, postRegdate,
 			postNoti, userNo) VALUES 
-			(#{postSubtitle}, #{postTitle}, "테스트", 0, 0, now(),
+			(#{postSubtitle}, #{postTitle}, #{postContent}, 0, 0, now(),
 			"1", 1);
 	</insert>
 	

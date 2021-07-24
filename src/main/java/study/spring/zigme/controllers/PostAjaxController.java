@@ -1,6 +1,8 @@
 package study.spring.zigme.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,7 @@ public class PostAjaxController {
     /** Service 패턴 구현체 주입 */
     // --> import study.spring.springhelper.service.ProfessorService;
     @Autowired  PostService postService;
+    
     
     /** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
     // --> import org.springframework.beans.factory.annotation.Value;
@@ -121,29 +124,42 @@ public class PostAjaxController {
     
     /** 작성 폼 페이지 */
     @RequestMapping(value = "/help_ajax/help_comm_write.do", method = RequestMethod.GET)
-    public ModelAndView add(Model model,
+    public ModelAndView add(Model model){	
+    	return new ModelAndView("help/help_comm_write_ajax");
+    }
+    
+    /** 작성 폼에 대한 action 페이지 */
+    @RequestMapping(value = "/help_ajax/help_comm_write_ok.do", method = RequestMethod.POST)
+    public ModelAndView add_ok(Model model,
+    		@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
     		@RequestParam(value="postTitle", defaultValue="") String postTitle,
-    		@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle){
+    		@RequestParam(value="postContent", defaultValue="") String postContent) {
     	
-    	Post input = new Post();
-    	input.setPostTitle(postTitle);
-    	input.setPostSubtitle(postSubtitle);
-    	
-    	int output = 0;
-    	
-    	try {
-            // 데이터 저장
-    		//requestparam필요없다
-    		//2번쨰 콘트롤러에 RequestParam을 작성해야함
-    		
-            output = postService.addPost(input);
-        } catch (Exception e) {
-            return webHelper.redirect(null, e.getLocalizedMessage());
-        }
+    	/** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
+    	if (!regexHelper.isValue(postSubtitle))     { return webHelper.redirect(null, "소제목을 입력하세요."); }
+        if (!regexHelper.isValue(postTitle))     { return webHelper.redirect(null, "제목을 입력하세요."); }
+        if (!regexHelper.isValue(postContent))     { return webHelper.redirect(null, "내용을 입력하세요."); }
         
-        // View에 추가
-        model.addAttribute("output", output);       
-        return new ModelAndView("help/help_comm_write_ajax");
+        /** 2) 데이터 저장하기 */
+		Post input = new Post();
+		input.setPostSubtitle(postSubtitle);
+		input.setPostTitle(postTitle);
+		input.setPostContent(postContent);
+    	
+		// 저장된 결과를 조회하기 위한 객체
+				Post output = null;
+
+		        try {
+		            // 데이터 저장
+		            // --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
+		            postService.addPost(input);
+		            
+		            // 데이터 조회
+		            output = postService.getPostItem(input);
+		        } catch (Exception e) {
+		            return webHelper.redirect(null, e.getLocalizedMessage());
+		        }
+		        return new ModelAndView("help/help_comm_write_ajax_ok.do");
     }
     
     /** 수정 폼 페이지 */
