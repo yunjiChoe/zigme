@@ -64,12 +64,16 @@
 
         <div id="content">
         	<div id="content_group">
-        		<div id="content_title"></div>
-        		<span id="content_nick" class="content_sub"></span> <span id="content_date" class="content_sub"></span>  <span id="content_time" class="content_sub"></span>       		
+        		<div id="content_title">
+        		<h1><span>[${output.postSubtitle}]</span>${output.postTitle}</h1>
+        		</div>
+        		<span id="content_nick" class="content_sub">${output.nickname}</span> 
+        		<span id="content_date" class="content_sub">${output.postRegdate}</span>         		
         	</div>        	
         	        	
         	
         	<div id="content_body">
+        	${output.postContent}
         	</div>
         </div>
 
@@ -85,46 +89,7 @@
 
       <script type="text/javascript">
      
-	  $(function() {
-        	var param = window.location.search.substring(4);
-        	var comm_content_data = [""];
-        	
-        	/*
-			 *  JSON파일을 읽어와 각종 데이터를 세팅하는 함수 
-			 */
-			function data_load() {
-							
-				// 게시글 본문
-				$.ajax({
-					async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-					url : '${pageContext.request.contextPath}/assets/data/comm_read.json',
-					method : 'get',
-					data : {},
-					dataType : 'JSON',
-					success : function(req) {
-						comm_content_data = req;
-					},
-					error : function() {
-						alert("일시적인 오류가 발생하였습니다.");
-					}
-				});
-
-				var count = comm_content_data.length;
-			
-			for(var i=0; i<count; i++) {
-			if(param != comm_content_data[i].page_no) continue;
-			
-			$("#content_title").html(comm_content_data[i].title);
-			$("#content_nick").html(comm_content_data[i].user_nick);
-			$("#content_date").html(comm_content_data[i].date);
-			$("#content_time").html(comm_content_data[i].time);
-			$("#content_body").html(comm_content_data[i].content);
-					
-			}
-		
-		}
-	
-        	
+	  $(function() {     	
 			 $("#writings").click(function() {
 	          window.location.href = "${pageContext.request.contextPath}/help/help_comm";
 	        });
@@ -219,12 +184,7 @@
                   }, 500);
               },
           });
-		
-          /** 함수 호출부 */
-		  data_load(); // 페이지 JSON데이터 load 
-          
         });
-
         </script>
         </body>
 </html>

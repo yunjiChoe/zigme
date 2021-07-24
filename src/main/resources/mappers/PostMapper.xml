@@ -24,11 +24,11 @@
 	<select id ="selectItem" parameterType="study.spring.zigme.model.Post"
 	resultMap="postMap">
 	SELECT postNo, postSubtitle, postTitle, postContent, postUpcount, postViewcount,
-		DATE_FORMAT(postRegdate, '%Y-%m-%d'), postNoti, 
+		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%m:%s') AS postRegdate, postNoti, 
 		p.userNo, nickname, blockUserflag, outUserflag
 	FROM post p
 	INNER JOIN user u ON p.userNo = u.userNo
-	WHERE PostNo = #{postNo} 
+	WHERE PostNo = #{postNo};
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
@@ -62,8 +62,8 @@
 		keyProperty="postNo">
 		INSERT INTO post (postSubtitle, postTitle, postContent, postUpcount, postViewcount, postRegdate,
 			postNoti, userNo) VALUES 
-			(#{postSubtitle}, #{postTitle}, #{postContent}, #{postUpcount}, #{postViewcount}, #{postRegdate},
-			#{postNoti}, #{userNo});
+			(#{postSubtitle}, #{postTitle}, "테스트", 0, 0, now(),
+			"1", 1);
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->

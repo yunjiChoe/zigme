@@ -28,12 +28,6 @@
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
 <c:import url="../inc/header.jsp" />
 
-<style type="text/css">
-tr {
-	cursor: pointer;
-}
-</style>
-
 </head>
 <body>
 	<div class="container">
@@ -87,9 +81,12 @@ tr {
 							<c:forEach var="item" items="${output}" varStatus="status">
 
 								<%-- 상세페이지로 이동하기 위한 URL --%>
+                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
+                            		<c:param name="postNo" value="${item.postNo}" />
+                        		</c:url>
 								<%-- 추후에 추가할 예정임 --%>
 								
-								<tr>
+								<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
 									<td>${item.postNo}</td>
 									<td id="titles"><span>[${item.postSubtitle}]</span>${item.postTitle}</td>
 									<td>${item.nickname}</td>
@@ -178,13 +175,14 @@ tr {
 	</div>
 	<!-- //container 종료 -->
 	<script>
-		function writePage() {
+	function writePage() {
 			<!-- 글쓰기 클릭 이벤트 발생시 help_comm_write_ajax페이지로 이동 -->
 			window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_write.do";
 		}
-		
+	function viewPage() {
+			window.location.href = "${viewUrl}";	
+		}
 	</script>
-
 	<c:import url="../inc/footer.jsp" />
 
 
@@ -218,16 +216,20 @@ tr {
 		
 		$(function() {
 			
+			function writePage() {
+				<!-- 글쓰기 클릭 이벤트 발생시 help_comm_write_ajax페이지로 이동 -->
+				window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_write.do";
+			}
+		function viewPage() {
+				window.location.href = "${viewUrl}";	
+			}
+			
 			$(document).ready(function () {
 				  postSubtitle_val = "${keyword2}";
 				  console.log(postSubtitle_val);
 				  $('select.keyword2 option[value=' + postSubtitle_val + ']').attr('selected', 'selected');
 				});			
-            /** 더 보기 버튼에 대한 이벤트 정의 */
-            	$("#btnMore").click(function() {
-                // 다음 페이지를 요청하기 위해 페이지 변수 1 증가
-                nowPage++;
-                
+                 
                 // Restful API에 GET 방식 요청
                 $.get("${pageContext.request.contextPath}/help", {
                     "page": nowPage     // 페이지 번호는 GET 파라미터로 전송한다.

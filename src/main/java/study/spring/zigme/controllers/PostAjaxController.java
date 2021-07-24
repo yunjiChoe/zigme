@@ -122,14 +122,21 @@ public class PostAjaxController {
     /** 작성 폼 페이지 */
     @RequestMapping(value = "/help_ajax/help_comm_write.do", method = RequestMethod.GET)
     public ModelAndView add(Model model,
-    		@RequestParam(value="postNo", defaultValue="0") int postNo) {
-    	/** 학과 목록 조회하기 */
-        // 조회결과를 저장할 객체 선언
-        List<Post> output = null;
-
-        try {
-            // 데이터 조회 --> 검색조건 없이 모든 학과 조회
-            output = postService.getPostList(null);
+    		@RequestParam(value="postTitle", defaultValue="") String postTitle,
+    		@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle){
+    	
+    	Post input = new Post();
+    	input.setPostTitle(postTitle);
+    	input.setPostSubtitle(postSubtitle);
+    	
+    	int output = 0;
+    	
+    	try {
+            // 데이터 저장
+    		//requestparam필요없다
+    		//2번쨰 콘트롤러에 RequestParam을 작성해야함
+    		
+            output = postService.addPost(input);
         } catch (Exception e) {
             return webHelper.redirect(null, e.getLocalizedMessage());
         }
