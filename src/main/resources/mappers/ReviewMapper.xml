@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="ReviewMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="reviewMap" type= "study.spring.zigme.model.Review">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="reviewNo" column="reviewNo" />
+		<result property="reviewContent" column="reviewContent" />
+		<result property="reviewScope" column="reviewScope" />
+		<result property="reviewRegdate" column="reviewRegdate" />
+		<result property="reviewPlaceId" column="reviewPlaceId" />
+		<result property="userNo" column="userNo" />
+		<result property="userImgNo" column="userImgNo" />
+	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="selectItem" parameterType= "study.spring.zigme.model.Review"
+		resultMap = "reviewMap">
+		SELECT * FROM review where reviewNo=#{reviewNo};
+	</select>
+	
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id="selectList" parameterType= "study.spring.zigme.model.Review"
+		resultMap = "reviewMap">
+		SELECT * FROM review where userNo=#{userNo} ORDER BY reviewPlaceId , reviewRegdate DESC;
+	</select>		
+	
+	<!--  데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem" parameterType= "study.spring.zigme.model.Review"
+		useGeneratedKeys="true" keyProperty="reviewNo">
+			INSERT INTO review (reviewContent, reviewScope, reviewRegdate, reviewPlaceId, userNo, userImgNo)
+				VALUES (#{reviewContent}, #{reviewScope}, #{reviewRegdate}, #{reviewPlaceId}, #{userNo}, #{userImgNo});
+	</insert>	
+	
+	<!--  데이터 수정을 위한 기능 정의 -->
+	<update id="updateItem" parameterType= "study.spring.zigme.model.Review">
+			UPDATE review 
+			<set> 
+				<if test="reviewContent != null"> <!-- <SET>에 if를 사용하면 불필요한 ,는 자동으로 지워준다. -->
+					reviewContent = #{reviewContent},
+				</if>
+				<if test="reviewScope != null">
+					reviewScope = #{reviewScope},
+				</if>
+				<if test="reviewRegdate != null">
+					reviewRegdate = #{reviewRegdate},
+				</if>
+				<if test="reviewPlaceId != null">
+					reviewPlaceId = #{reviewPlaceId}
+				</if>				
+			</set>			
+			WHERE reviewNo = #{reviewNo} AND userNo = #{userNo};									
+	</update>
+	
+	<!--  데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem" parameterType= "study.spring.zigme.model.Review">
+			DELETE FROM review WHERE reviewNo = #{reviewNo} AND userNo = #{userNo};									
+	</delete>
+</mapper>
