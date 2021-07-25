@@ -4,16 +4,28 @@
 	
 <mapper namespace = "NotiMapper">
 	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
-	<resultMap id="postMap" type= "study.spring.zigme.model.Post">
+	<resultMap id="notiMap" type= "study.spring.zigme.model.Noti">
 		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
 		<result property="postNo" column="postNo" />
-		<result property="postNoti" column="postNoti" />
+		<result property="postTitle" column="postTitle" />
+		<result property="postNoti" column="postTitle" />
 		<result property="userNo" column="userNo" />
+		<result property="commNo" column="commNo" />
+		<result property="commContent" column="commContent" />
+		<result property="parentNo" column="parentNo" />
+		<result property="commNoti" column="commNoti" />
 	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의 // 테스트용-->
+	<select id ="selectItem" parameterType="study.spring.zigme.model.Noti"
+	resultMap="notiMap">
+	SELECT p.postTitle, c.commContent from Post p, Comment C
+	WHERE postNoti = '1'; 
+	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
-	resultMap="postMap">
+	resultMap="notiMap">
 	SELECT postNo, postTitle, postNoti, p.userNo
 	FROM post p
 	INNER JOIN user u ON p.userNo = u.userNo
@@ -31,47 +43,19 @@
 		and B.commNoti = '1' 
 		and B.userNo = 1
 		group by A.commNo; -->
-	
-	
-	<!-- 데이터 저장을 위한 기능 정의 -->
-	<insert id="insertItem"
-		parameterType = "study.spring.zigme.model.Post"
-		useGeneratedKeys="true"
-		keyProperty="postNo">
-		INSERT INTO post (postSubtitle, postTitle, postContent, postUpcount, postViewcount, postRegdate,
-			postNoti, userNo) VALUES 
-			(#{postSubtitle}, #{postTitle}, #{postContent}, #{postUpcount}, #{postViewcount}, #{postRegdate},
-			#{postNoti}, #{userNo});
-	</insert>
-	
-	<!-- 데이터 삭제를 위한 기능 정의 -->
-	<delete id="deleteItem"
-	parameterType="study.spring.zigme.model.Post">
-	DELETE FROM post WHERE postNo = #{postNo};
-	</delete>
-	
-	<!-- 데이터 갱신을 위한 기능 정의 -->
+
+
+	<!-- 데이터 갱신을 위한 기능 정의 : 어떻게 해야할까? -->
 	<update id= "updateItem"
-	parameterType="study.spring.zigme.model.Post">
+	parameterType="study.spring.zigme.model.Noti">
 	UPDATE post
 	<set>
-		<if test="postUpcount != null and postUpcount != ''">
-			postUpcount = #{postUpcount}
-		</if>
-		<if test="postViewcount != null and postViewcount != ''">
-			, postViewcount = #{postViewcount}
+		<if test="postNoti =='1'"> <!-- 안읽음일 때 => 확인했을 때로 바꿔야함 -->
+			postNoti = "0"
 		</if>
 	</set>
-	WHERE postNo =#{postNo};
-	</update>
+	WHERE postNo =#{postNo}; 
+	</update> 
 	
-	<!-- 전체 데이터 수 조회 -->
-	<!-- 
-		조건에 맞는 데이터수를 조회할려면 dynamic where절을 이용하면 된다.
-	 -->
-	 <select id="selectCountAll"
-	 parameterType="study.spring.zigme.model.Post"
-	 resultType="int">
-	 SELECT COUNT(*) FROM post;
-	 </select>
+	
 </mapper>

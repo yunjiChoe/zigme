@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace = "FoodMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="foodMap" type= "study.spring.zigme.model.Food">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="foodNo" column="foodNo" />
+		<result property="foodName" column="foodName" />
+		<result property="foodCategory" column="foodCategory" />
+		<result property="foodWeather" column="foodWeather" />
+		<result property="foodCondition" column="foodCondition" />
+		<result property="delFoodflag" column="delFoodflag" />
+		
+	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id ="selectItem" parameterType="study.spring.zigme.model.Food"
+	resultMap="foodMap">
+	SELECT foodName, foodCategory, foodWeather, foodCondition, delFoodflag
+	FROM food
+	WHERE foodNo = #{foodNo} 
+	</select>
+	
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id ="selectList" parameterType="study.spring.zigme.model.Food"
+	resultMap="foodMap">
+	SELECT foodNo, foodName, foodWeather, foodCondition, delFoodflag
+	FROM food
+	WHERE foodCategory = #{foodCatgory} 
+	</select>
+	
+	<!-- 데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem"
+	parameterType = "study.spring.zigme.model.Food"
+	useGeneratedKeys="true"
+	keyProperty="foodNo">
+	INSERT INTO food (foodNo, foodName, foodCategory, foodWeather, foodCondition, delFoodflag) VALUES 
+		(#{foodNo}, #{foodName}, #{foodCategory}, #{foodWeather}, #{foodCondition}, #{delFoodflag});
+	</insert>
+	
+	<!-- 데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem"
+	parameterType="study.spring.zigme.model.Food">
+	DELETE FROM food WHERE foodNo = #{foodNo};
+	</delete>
+	
+	<!-- 데이터 갱신을 위한 기능 정의 -->
+	<update id= "updateItem"
+	parameterType="study.spring.zigme.model.Food">
+	UPDATE food
+	<set>
+		<if test="foodName != null and foodName != ''">
+			foodName = #{foodName}
+		</if>
+		<if test="foodCategory != null and foodCategory != ''">
+			, foodCategory = #{foodCategory}
+		</if>
+	</set>
+	WHERE foodNo =#{foodNo};
+	</update>
+	
+</mapper>
