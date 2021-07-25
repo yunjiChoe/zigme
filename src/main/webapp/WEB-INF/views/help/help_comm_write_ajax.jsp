@@ -34,19 +34,30 @@
     <p class="sub_title">커뮤니티 글쓰기</p>
     <br />
     <form id="addPostForm" action="${pageContext.request.contextPath}/help">
-        <div>
-        	<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력하세요." />
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control editor_title" name="postTitle" placeholder="제목을 입력하세요." />
+            <span class="input-group-addon">
+                <select class="editor_cate" name="postSubtitle">
+                <option value="">말머리</option>
+                <option value="도움">도움</option>
+                <option value="꿀팁">꿀팁</option>
+                <option value="넋두리">넋두리</option>
+            	</select>
+            </span>
         </div>
-        <div>
-        	<input type="text" id="postSubtitle" name="postSubtitle" placeholder="말머리를 입력하세요." />
-        </div>
+        
+        <hr />
+        
         <div>
         	<input type="text" id="postContent" name="postContent" placeholder="내용을 입력하세요." />
         </div>
         <hr />
-    <button type="reset" id="write_cancel" class="btn btn-warning">취소</button>
-    <span>&nbsp;</span>
-    <button type="submit" id="write_submit" class="btn btn-info">등록</button> 
+    	<div class="input-group" id="write_buttons">
+    		<button type="reset" id="write_cancel" class="btn btn-warning">취소</button>
+    		<span>&nbsp;</span>
+    		<!--  추후 submit 으로 버튼 수정필요 -->
+    		<button type="submit" id="write_submit" class="btn btn-info">등록</button> 
+    	</div>
     </form>
 	</div>
 	
@@ -70,8 +81,7 @@
                 
                 // json에 포함된 데이터를 활용하여 상세페이지로 이동한다.
                 if (json.rt == "OK") {
-                    window.location = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do"; 
-                    		+ json.item.postNo;
+                    window.location = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ json.item.postNo;
                 }
             }
         });
