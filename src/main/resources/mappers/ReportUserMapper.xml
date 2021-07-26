@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="ReportUserMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="reportuserMap" type= "study.spring.zigme.model.ReportUser">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="ReportNo" column="ReportNo" />
+		<result property="ReportFlag" column="ReportFlag" />
+		<result property="ReportingUser" column="ReportingUser" />
+		<result property="ReportingContent" column="ReportingContent" />
+		<result property="ReportingDate" column="ReportingDate" />
+		<result property="userNo" column="userNo" />
+		<result property="postNo" column="postNo" />
+		<result property="commNo" column="commNo" />
+		<result property="reviewNo" column="reviewNo" />
+	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="selectItem" parameterType= "study.spring.zigme.model.ReportUser"
+		resultMap = "reportuserMap">
+		SELECT * FROM reportuser where ReportNo=#{ReportNo};
+	</select>
+	
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id="selectList" parameterType= "study.spring.zigme.model.ReportUser"
+		resultMap = "reportuserMap">
+		SELECT * FROM reportuser where ReportingUser=#{ReportingUser} ORDER BY ReportingDate DESC;
+	</select>		
+	
+	<!--  데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem" parameterType= "study.spring.zigme.model.ReportUser"
+		useGeneratedKeys="true" keyProperty="ReportNo">
+		<choose>
+		 <when test = 'ReportFlag != null and ReportFlag == "0"'>		
+			INSERT INTO reportuser (ReportFlag, ReportingUser, ReportingContent, ReportingDate, userNo, postNo)
+				VALUES (#{ReportFlag}, #{ReportingUser}, #{ReportingContent}, #{ReportingDate}, #{userNo}, #{postNo});
+		</when>
+		<when test = 'ReportFlag != null and ReportFlag == "1"'>		
+			INSERT INTO reportuser (ReportFlag, ReportingUser, ReportingContent, ReportingDate, userNo, commNo)
+				VALUES (#{ReportFlag}, #{ReportingUser}, #{ReportingContent}, #{ReportingDate}, #{userNo}, #{commNo});
+		</when>
+		<when test = 'ReportFlag != null and ReportFlag == "2"'>		
+			INSERT INTO reportuser (ReportFlag, ReportingUser, ReportingContent, ReportingDate, userNo, reviewNo)
+				VALUES (#{ReportFlag}, #{ReportingUser}, #{ReportingContent}, #{ReportingDate}, #{userNo}, #{reviewNo});
+		</when>
+		</choose>
+	</insert>	
+	
+	<!--  데이터 수정을 위한 기능 정의 -->
+	<update id="updateItem" parameterType= "study.spring.zigme.model.ReportUser">
+			UPDATE reportuser 
+			<set> 
+				<if test="ReportFlag != null"> <!-- <SET>에 if를 사용하면 불필요한 ,는 자동으로 지워준다. -->
+					ReportFlag = #{ReportFlag},
+				</if>
+				<if test="ReportingUser != null">
+					ReportingUser = #{ReportingUser},
+				</if>
+				<if test="ReportingContent != null">
+					ReportingContent = #{ReportingContent},
+				</if>
+				<if test="ReportingDate != null">
+					ReportingDate = #{ReportingDate},
+				</if>				
+				<if test="userNo != null">
+					userNo = #{userNo},
+				</if>
+				<if test='ReportFlag != null and ReportFlag == "0"'>
+					postNo = #{postNo}, commNo = null, reviewNo = null
+				</if>
+				<if test='ReportFlag != null and ReportFlag == "1"'>
+					commNo = #{commNo}, postNo = null, reviewNo = null
+				</if>
+				<if test= 'ReportFlag != null and ReportFlag == "2"'>
+					reviewNo = #{reviewNo}, postNo = null, commNo = null
+				</if>				
+			</set>			
+			WHERE ReportNo = #{ReportNo};									
+	</update>
+	
+	<!--  데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem" parameterType= "study.spring.zigme.model.ReportUser">
+			DELETE FROM reportuser WHERE ReportNo = #{ReportNo};									
+	</delete>
+</mapper>

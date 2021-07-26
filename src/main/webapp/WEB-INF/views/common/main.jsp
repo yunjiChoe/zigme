@@ -195,27 +195,70 @@ strong {
         	console.log("s-date : " + $('#tui-full-calendar-schedule-start-date').val());
         	console.log("e-date : " + $('#tui-full-calendar-schedule-end-date').val());
         	console.log("checkbox : " + $('#tui-full-calendar-schedule-allday').prop('checked'));
+        	
+        	var type = $('#tui-full-calendar-schedule-calendar').html();        	        	
+        	var scheCate = "";        	
+        	
+        	switch (type) {
+        	case "일정":
+        		scheCate = "0";
+        		break;
+        	case "회사":
+        		scheCate = "1";
+        		break;
+        	case "가족":
+        		scheCate = "2";
+        		break;
+        	case "친구":
+        		scheCate = "3";
+        		break;
+        	case "그 외":
+        		scheCate = "4";
+        		break;
+        	}
+        	
+        	
+        	var scheContent = $('#tui-full-calendar-schedule-title').val();
+        	var scheLoc = $('#tui-full-calendar-schedule-location').val();
+        	var scheStartdate = $('#tui-full-calendar-schedule-start-date').val();
+        	var scheEnddate = $('#tui-full-calendar-schedule-end-date').val(); 
+        	
+        	// 일정을 종일로 체크한 경우 
+        	var allTime_checked = $('#tui-full-calendar-schedule-allday').prop('checked');
+        	if (allTime_checked) {
+        		scheStartdate = scheStartdate.substring(0, 11) + "00:00:00";
+        		scheEnddate = scheEnddate.substring(0, 11) + "23:59:59";
+        	}         	
+        	
+        	var userNo = 1; // test_user
+        	
+        	$.ajax({
+    			// 결과를 읽어올 URL
+    			url: '${pageContext.request.contextPath}/main',
+    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+    			method: 'post',
+    			// 전달할 조건값은 JSON형식으로 구성
+    			data: {
+    				   "scheCate": scheCate,
+    				   "scheContent": scheContent, 
+    				   "scheLoc": scheLoc,
+    				   "scheStartdate" : scheStartdate,
+    				   "scheEnddate" : scheEnddate,
+    				   "userNo" : userNo
+    			},
+    			// 읽어올 내용의 형식(생략할 경우 Json)
+    			dataType: 'json',
+    			// 읽어온 내용을 처리하기 위한 함수
+    			success: function(req) {
+    				
+    				// console.log("통신완료" + req);
+    				
+    			}
+    		}); // end $.ajax
+    		
 		});
-			
-		/*
-		$.ajax({
-			// 결과를 읽어올 URL
-			url: '../api/get.do',
-			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
-			method: 'get',
-			// 전달할 조건값은 JSON형식으로 구성
-			data: {num1: 123, num2: 456},
-			// 읽어올 내용의 형식(생략할 경우 Json)
-			dataType: 'html',
-			// 읽어온 내용을 처리하기 위한 함수
-			success: function(req) {
-				// req는 url에 지정된 페이지에 접속했을 경우
-				// 브라우저에 표시되는 HTML소스 자체.
-				$("#calendar_data").append(req);
-			}
-		}); // end $.ajax
-		*/
-		
+        
+        
 		main_Time();
 		startTimer();
 		weather_getdossi();
@@ -275,6 +318,10 @@ strong {
 			$('.csky').append(sky);			
 		});
 	</script>
-
+	<script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
+	<script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>
+		
+	setSchedules();
+	
 </body>
 </html>

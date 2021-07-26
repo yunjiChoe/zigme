@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "NotiMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="notiMap" type= "study.spring.zigme.model.Noti">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="postNo" column="postNo" />
+		<result property="postTitle" column="postTitle" />
+		<result property="postNoti" column="postTitle" />
+		<result property="userNo" column="userNo" />
+		<result property="commNo" column="commNo" />
+		<result property="commContent" column="commContent" />
+		<result property="parentNo" column="parentNo" />
+		<result property="commNoti" column="commNoti" />
+	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의 // 테스트용-->
+	<select id ="selectItem" parameterType="study.spring.zigme.model.Noti"
+	resultMap="notiMap">
+	SELECT p.postTitle, c.commContent from Post p, Comment C
+	WHERE postNoti = '1'; 
+	</select>
+	
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
+	resultMap="notiMap">
+	SELECT postNo, postTitle, postNoti, p.userNo
+	FROM post p
+	INNER JOIN user u ON p.userNo = u.userNo
+	</select>
+	
+	<!-- 게시글에 댓글이 달린 경우 다중행 조회 쿼리  -->
+	<!-- select p.postNo, p.postTitle, count(commNo) from comment c, post p 
+		where c.postNo = p.postNo and c.postNo IN (select postNo from post where postNoti = '1' and userNo = 1) group by c.postNo; -->
+	
+	<!-- select p.postNo, p.postTitle, count(commNo) from comment c, post p 
+		where c.postNo = p.postNo and c.postNo IN (select postNo from post where postNoti = '1' and userNo = 1) group by c.postNo; -->
+	
+	<!-- 댓글에 댓글이 달린 경우(=대댓글) 다중행 조회 쿼리  -->
+	<!-- select A.postNo, A.commNo, A.commContent, count(A.commNo) from comment A, comment B where A.commNo = B.parentNo 
+		and B.commNoti = '1' 
+		and B.userNo = 1
+		group by A.commNo; -->
+
+
+	<!-- 데이터 갱신을 위한 기능 정의 : 어떻게 해야할까? -->
+	<update id= "updateItem"
+	parameterType="study.spring.zigme.model.Noti">
+	UPDATE post
+	<set>
+		<if test="postNoti =='1'"> <!-- 안읽음일 때 => 확인했을 때로 바꿔야함 -->
+			postNoti = "0"
+		</if>
+	</set>
+	WHERE postNo =#{postNo}; 
+	</update> 
+	
+	
+</mapper>

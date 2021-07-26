@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace = "AdminCateCondiDataMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="adminCateCondiDataMap" type= "study.spring.zigme.model.AdminCateCondiData">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="cateCondiNo" column="cateCondiNo" />
+		<result property="cateCondiName" column="cateCondiName" />
+		<result property="cateCondiFlag" column="cateCondiFlag" />
+		
+	</resultMap>
+	
+ 	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id ="selectItem" parameterType="study.spring.zigme.model.AdminCateCondiData"
+	resultMap="adminCateCondiDataMap">
+	SELECT cateCondiNo, cateCondiName, cateCondiFlag
+	FROM adminCateCondiData
+	WHERE cateCondiNo = #{cateCondiNo} 
+	</select>
+	
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id ="selectList" parameterType="study.spring.zigme.model.AdminCateCondiData"
+	resultMap="adminCateCondiDataMap">
+	SELECT cateCondiNo, cateCondiName, cateCondiFlag
+	FROM adminCateCondiData
+	WHERE cateCondiFlag = #{cateCondiFlag} 
+	</select>
+	
+	<!-- 데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem"
+	parameterType = "study.spring.zigme.model.AdminCateCondiData"
+	useGeneratedKeys="true"
+	keyProperty="cateCondiNo">
+	INSERT INTO adminCateCondiData (cateCondiName, cateCondiFlag) VALUES 
+		( #{cateCondiName}, #{cateCondiFlag});
+	</insert>
+ 	
+	<!-- 데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem"
+	parameterType="study.spring.zigme.model.AdminCateCondiData">
+	DELETE FROM adminCateCondiData WHERE cateCondiNo = #{cateCondiNo};
+	</delete>
+	
+	<!-- 데이터 갱신을 위한 기능 정의 -->
+	<update id= "updateItem"
+	parameterType="study.spring.zigme.model.AdminCateCondiData">
+	UPDATE adminCateCondiData
+	<set>
+		<if test="cateCondiName != null and cateCondiName != ''">
+			cateCondiName = #{cateCondiName}
+		</if>
+		<if test="cateCondiFlag != null and cateCondiFlag != ''">
+			, cateCondiFlag = #{cateCondiFlag}
+		</if>
+	</set>
+	WHERE cateCondiNo =#{cateCondiNo};
+	</update>
+	 
+</mapper>

@@ -233,9 +233,13 @@ option {
 .help_comm_table>tbody>tr>th,
 .help_comm_table>tfoot>tr>th,
 .help_comm_table>thead>tr>td,
-.help_comm_table>tbody>tr>td,
+.help_comm_table>tbody>tr>td
 .help_comm_table>tfoot>tr>td {
 	vertical-align: middle;
+}
+
+#titles{
+	text-align: left;
 }
 
 .help_comm_table>thead>tr>th,

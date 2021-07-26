@@ -88,4 +88,20 @@ public class PostTest {
 		int count = sqlSession.selectOne("PostMapper.selectCountAll", null);
 		log.debug("전체 데이터 수: " +count);
 	}
+	
+	/** 이전 글번호 조회 */
+	@Test
+	public void testG() {
+		Post input = new Post();
+		input.setPostNo(30);
+		sqlSession.selectOne("PostMapper.selectPrevnum", input);
+	}
+	
+	/** 다음 글번호 조회 */
+	@Test
+	public void testH() {
+		Post input = new Post();
+		input.setPostNo(30);
+		sqlSession.selectOne("PostMapper.selectNextnum", input);
+	}
 }

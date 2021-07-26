@@ -94,31 +94,12 @@ public class PostServiceImpl implements PostService{
 	}
 	
 	/**
-     * 게시글 데이터가 저장되어 있는 갯수 조회
-     * @return int
-     * @throws Exception
-     */
-	@Override
-	public int addPost(Post input) throws Exception {
-		int result = 0;
-        
-        try {
-            result = sqlSession.selectOne("PostMapper.selectCountAll", input);
-        } catch (Exception e) {
-            log.error(e.getLocalizedMessage());
-            throw new Exception("데이터 조회에 실패했습니다.");
-        }
-        
-        return result;
-	}
-
-	/**
      * 게시글 데이터 등록하기
      * @param Post 저장할 정보를 담고 있는 Beans
      * @throws Exception
      */
 	@Override
-	public int editPost(Post input) throws Exception {
+	public int addPost(Post input) throws Exception {
 		int result = 0;
 
         try {
@@ -144,7 +125,7 @@ public class PostServiceImpl implements PostService{
      * @throws Exception
      */
 	@Override
-	public int deletePost(Post input) throws Exception {
+	public int editPost(Post input) throws Exception {
 		int result = 0;
 
         try {
@@ -162,5 +143,65 @@ public class PostServiceImpl implements PostService{
         }
 
         return result;
+	}
+
+	
+	@Override
+	public int deletePost(Post input) throws Exception {
+		int result = 0;
+
+        try {
+            //게시글 삭제 전 자신을 참조하는 각각의 테이블들의 postNo컬럼을 null로 수정
+        	sqlSession.update("CommentMapper.unsetPost", input);
+        	
+            result = sqlSession.delete("PostMapper.deleteItem", input);
+
+            if (result == 0) {
+                throw new NullPointerException("result=0");
+            }
+        } catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("삭제된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 삭제에 실패했습니다.");
+        }
+
+        return result;
+	}
+
+	@Override
+	public int getPervnum(Post input) throws Exception {
+		int result = 0;
+		
+		try {
+			result = sqlSession.selectOne("PostMapper.selectPrevnum", input);
+		}catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("조회된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+		
+		return result;
+	}
+
+	@Override
+	public int getNextnum(Post input) throws Exception {
+		int result = 0;
+		
+		try {
+			result = sqlSession.selectOne("PostMapper.selectNextnum", input);
+		} catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("조회된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+		
+		
+		return result;
 	}
 }

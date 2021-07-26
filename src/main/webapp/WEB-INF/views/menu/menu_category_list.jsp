@@ -52,6 +52,16 @@
 			padding: 8px;
 	}
 	
+	#upfile, #fileis {
+	border: none;
+	color: #4041fe;
+	font-size: 12px;
+	font-family: 'S-CoreDream-5Medium';
+	display: inline;
+	margin: 0 0 30px 0;
+	padding: 1px 2px;
+}
+	
 	
 	
 	</style>
@@ -73,9 +83,137 @@
 	 <!-- 지도 div -->
 	 <div id="menu_map"> 
 	 	<span id="listname"></span>
-	 	<img src="${pageContext.request.contextPath}/img/menu/menu_listmap.png" />
+	 	<!-- <img src="${pageContext.request.contextPath}/img/menu/menu_listmap.png" /> -->
+	 	 <div id="map" style="width: 420px; height: 420px; margin: auto;"></div>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ca67f5e7cd2510c89ae719dacc5c926"></script>
+	<script>
+		var MARKER_WIDTH = 33, // 기본, 클릭 마커의 너비
+		MARKER_HEIGHT = 43, // 기본, 클릭 마커의 높이
+		OFFSET_X = 12, // 기본, 클릭 마커의 기준 X좌표
+		OFFSET_Y = MARKER_HEIGHT, // 기본, 클릭 마커의 기준 Y좌표
+		OVER_MARKER_WIDTH = 40, // 오버 마커의 너비
+		OVER_MARKER_HEIGHT = 47, // 오버 마커의 높이
+		OVER_OFFSET_X = 13, // 오버 마커의 기준 X좌표
+		OVER_OFFSET_Y = OVER_MARKER_HEIGHT, // 오버 마커의 기준 Y좌표
+		SPRITE_MARKER_URL = '${pageContext.request.contextPath}/img/menu/marker.png', // 스프라이트 마커 이미지 URL
+		SPRITE_WIDTH = 167, // 스프라이트 이미지 너비
+		SPRITE_HEIGHT = 650, // 스프라이트 이미지 높이
+		SPRITE_GAP = 25; // 스프라이트 이미지에서 마커간 간격
+
+		var markerSize = new kakao.maps.Size(MARKER_WIDTH, MARKER_HEIGHT), // 기본, 클릭 마커의 크기
+		markerOffset = new kakao.maps.Point(OFFSET_X, OFFSET_Y), // 기본, 클릭 마커의 기준좌표
+		overMarkerSize = new kakao.maps.Size(OVER_MARKER_WIDTH, OVER_MARKER_HEIGHT), // 오버 마커의 크기
+		overMarkerOffset = new kakao.maps.Point(OVER_OFFSET_X, OVER_OFFSET_Y), // 오버 마커의 기준 좌표
+		spriteImageSize = new kakao.maps.Size(SPRITE_WIDTH, SPRITE_HEIGHT); // 스프라이트 이미지의 크기
+
+		var positions = [ // 마커의 위치 (키워드로 장소검색 API에서 y, x 받아오기)
+			new kakao.maps.LatLng(37.5020417310185, 127.02400958019028),
+			new kakao.maps.LatLng(37.5016578901354, 127.02407052702),
+			new kakao.maps.LatLng(37.5031458981328, 127.026201702529),
+			new kakao.maps.LatLng(37.5035179215165, 127.022257081563),
+			new kakao.maps.LatLng(37.5049954842784, 127.022709908815),
+			new kakao.maps.LatLng(37.5054740537159, 127.026392520605)],
+		selectedMarker = null; // 클릭한 마커를 담을 변수
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+		mapOption = {
+			center : new kakao.maps.LatLng(37.5021008334827, 127.024465815419), // 지도의 중심좌표 (사용자의 회사 위치 : 회원 테이블에서 가져오기)
+			level : 4	// 지도의 확대 레벨
+		};
+
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+		// 지도 위에 마커를 표시합니다
+		for (var i = 0, len = positions.length; i < len; i++) {
+			var gapX = (MARKER_WIDTH + SPRITE_GAP), // 스프라이트 이미지에서 마커로 사용할 이미지 X좌표 간격 값
+			originY = (MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 기본, 클릭 마커로 사용할 Y좌표 값
+			overOriginY = (OVER_MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 오버 마커로 사용할 Y좌표 값
+			normalOrigin = new kakao.maps.Point(0, originY), // 스프라이트 이미지에서 기본 마커로 사용할 영역의 좌상단 좌표
+			clickOrigin = new kakao.maps.Point(gapX, originY), // 스프라이트 이미지에서 마우스오버 마커로 사용할 영역의 좌상단 좌표
+			overOrigin = new kakao.maps.Point(gapX * 2, overOriginY); // 스프라이트 이미지에서 클릭 마커로 사용할 영역의 좌상단 좌표
+
+			// 마커를 생성하고 지도위에 표시합니다
+			addMarker(positions[i], normalOrigin, overOrigin, clickOrigin);
+		}
+
+		// 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
+		function addMarker(position, normalOrigin, overOrigin, clickOrigin) {
+
+			// 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
+			var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
+			overImage = createMarkerImage(overMarkerSize, overMarkerOffset, overOrigin),
+			clickImage = createMarkerImage(markerSize, markerOffset, clickOrigin);
+
+			// 마커를 생성하고 이미지는 기본 마커 이미지를 사용합니다
+			var marker = new kakao.maps.Marker({
+				map : map,
+				position : position,
+				image : normalImage
+			});
+
+			// 마커 객체에 마커아이디와 마커의 기본 이미지를 추가합니다
+			marker.normalImage = normalImage;
+
+			// 마커에 mouseover 이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, 'mouseover', function() {
+
+				// 클릭된 마커가 없고, mouseover된 마커가 클릭된 마커가 아니면
+				// 마커의 이미지를 오버 이미지로 변경합니다
+				if (!selectedMarker || selectedMarker !== marker) {
+					marker.setImage(overImage);
+				}
+			});
+
+			// 마커에 mouseout 이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, 'mouseout', function() {
+
+				// 클릭된 마커가 없고, mouseout된 마커가 클릭된 마커가 아니면
+				// 마커의 이미지를 기본 이미지로 변경합니다
+				if (!selectedMarker || selectedMarker !== marker) {
+					marker.setImage(normalImage);
+				}
+			});
+
+			// 마커에 click 이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+
+				// 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+				// 마커의 이미지를 클릭 이미지로 변경합니다
+				if (!selectedMarker || selectedMarker !== marker) {
+
+					// 클릭된 마커 객체가 null이 아니면
+					// 클릭된 마커의 이미지를 기본 이미지로 변경하고
+					!!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
+
+					// 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+					marker.setImage(clickImage);
+				}
+
+				// 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+				selectedMarker = marker;
+			});
+		}
+
+		// MakrerImage 객체를 생성하여 반환하는 함수입니다
+		function createMarkerImage(markerSize, offset, spriteOrigin) {
+			var markerImage = new kakao.maps.MarkerImage(SPRITE_MARKER_URL, // 스프라이트 마커 이미지 URL
+			markerSize, // 마커의 크기
+			{
+				offset : offset, // 마커 이미지에서의 기준 좌표
+				spriteOrigin : spriteOrigin, // 스트라이프 이미지 중 사용할 영역의 좌상단 좌표
+				spriteSize : spriteImageSize
+			// 스프라이트 이미지의 크기
+			});
+
+			return markerImage;
+		}
+	</script>
 	 </div>		 
 	</div> <!-- //body 종료  -->
+		
+		
 		
 	<!-- 음식점 목록 -->
 	<div>
@@ -102,7 +240,7 @@
 			<div class="modal-body">
 				<form action="upload" id="uploadForm" method="post" enctype="multipart/form-data">
 						<!--  display: none으로 변경하여 버튼 커스텀  -->
-					<input type="file" id="fileInput" name="file" style="display: none"/>
+					<input type="file" id="fileInput" name="file" accept=".jpg, .gif, .png" style="display: none"/>
 						<!-- 커스텀 버튼 추가 코드 -->
 						<div class="addfile" onclick="onclick=document.all.file.click()">
 							<div class="add_receipt_btn">영수증 첨부</div>
@@ -111,9 +249,9 @@
 					
 					<!-- 파일 이름 표기 -->
 					<div class="file_name">
-					<div class="fileis"></div>
+					<div id="fileis"></div>
 						<span>
-							<input type="text" name="uploaded" id="uploaded" value="" readonly>
+							<input type="text" name="upfile" id="upfile" value="" readonly>
 						</span>
 					</div>
 						<!-- // 파일 이름 표기 -->
@@ -211,30 +349,19 @@
 		// input 요소 중에 name이 file 인 요소의 값이 바뀌었을때 
 		$("input[name=file]").on("change", function() {	
 			
-			/** 추후 구현 
-			$('#uploaded').val(''); 											// 파일 이름 추출 전 초기화
+			$('#uploaded').val('');              									// 파일 이름 추출 전 초기화
 			
-			if(window.FileReader) { 								
-				var filename = $(this)[0].files[0].name;						// 최근 브라우저의 파일명 추출			
-			} else { // old IE
-				var filename = $(this).val().split('/').pop().split('\\').pop(); // 구 브라우저 파일명 추출
-			}
-			
-			// 파일 확장자 확인 -----------------------------------------------------------------------------
-			var ext = filename.split('.').pop().toLowerCase();
-			
-			// 업로드 가능한 확장자 배열처리, 이 외의 확장자에 대해 알람 창 띄우기
-			if($.inArray(ext, ['jpg', 'jpeg', 'gif', 'png']) == -1) {
-				alert('jpg, gif, png 파일만 등록이 가능합니다.');
-				$('#fileInput').val('');
-				return;
+			if(window.FileReader) {
+				var filename = $(this)[0].files[0].name;							// 최근 브라우저의 파일명 추출			
+			} else { 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); 	// 구 브라우저 파일명 추출
 			}
 			
 			// 파일 크기 확인
 			if (filename != ''){
-				var size = 3;  
+				var size = 5;  
 				var fileSize = document.getElementById("fileInput").files[0].size;	// 파일 사이즈 get
-				var maxSize = size * 1024 * 1024 // 3MB
+				var maxSize = size * 1024 * 1024 // 5MB
 				
 				if (fileSize > maxSize) {
 					alert("첨부파일 사이즈는 " + size + "MB 이내로 등록 가능합니다.");
@@ -242,21 +369,24 @@
 					return;
 				}
 			}
+
+			 // 추출한 파일명 삽입
+			$("#upfile").val(filename);
+			$("#upfile").ready(function() {
+				$("#fileis").html("첨부된 파일: "); 
+				
+			});
 			
-			// 추출한 파일명 삽입
-			$("#uploaded").val(filename);		
-			**/
 			
 			$(".modal-header").empty();
 			$(".modal-body").empty();
 			
-			var modal_tag = "<button type='button' class='close' data-dismiss='moda' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
+			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
 			$(".modal-header").html(modal_tag);
 			
 			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div><span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'></span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
 			$(".modal-body").html(modal_tag);
-			
-			
+		
 		});
 		
 		// ------------------------------------ Modal end ------------------------------------		

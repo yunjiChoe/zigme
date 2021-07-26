@@ -25,7 +25,7 @@
 	<select id="selectList" parameterType= "study.spring.zigme.model.Scheduler"
 		resultMap = "scheduleMap">
 		SELECT * FROM scheduler where userNo=#{userNo} ORDER BY scheStartdate DESC;
-	</select>
+	</select>	
 	
 	<!--  데이터 저장을 위한 기능 정의 -->
 	<insert id="insertItem" parameterType= "study.spring.zigme.model.Scheduler"
@@ -33,4 +33,32 @@
 			INSERT INTO scheduler (scheCate, scheContent, scheLoc, scheStartdate, scheEnddate, userNo)
 				VALUES (#{scheCate}, #{scheContent}, #{scheLoc}, #{scheStartdate}, #{scheEnddate}, #{userNo})
 	</insert>	
+	
+	<!--  데이터 수정을 위한 기능 정의 -->
+	<update id="updateItem" parameterType= "study.spring.zigme.model.Scheduler">
+			UPDATE scheduler 
+			<set> 
+				<if test="scheCate != null"> <!-- <SET>에 if를 사용하면 불필요한 ,는 자동으로 지워준다. -->
+					scheCate = #{scheCate},
+				</if>
+				<if test="scheContent != null">
+					scheContent = #{scheContent},
+				</if>
+				<if test="scheLoc != null">
+					scheLoc = #{scheLoc},
+				</if>
+				<if test="scheStartdate != null">
+					scheStartdate = #{scheStartdate},
+				</if>
+				<if test="scheEnddate != null">
+					scheEnddate = #{scheEnddate}
+				</if>
+			</set>			
+			WHERE scheNo = #{scheNo} AND userNo = #{userNo};									
+	</update>
+	
+	<!--  데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem" parameterType= "study.spring.zigme.model.Scheduler">
+			DELETE FROM scheduler WHERE scheNo = #{scheNo} AND userNo = #{userNo};									
+	</delete>
 </mapper>

@@ -24,28 +24,27 @@
 	<select id ="selectItem" parameterType="study.spring.zigme.model.Post"
 	resultMap="postMap">
 	SELECT postNo, postSubtitle, postTitle, postContent, postUpcount, postViewcount,
-		DATE_FORMAT(postRegdate, '%Y-%m-%d'), postNoti, 
+		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%m:%s') AS postRegdate, postNoti, 
 		p.userNo, nickname, blockUserflag, outUserflag
 	FROM post p
 	INNER JOIN user u ON p.userNo = u.userNo
-	WHERE PostNo = #{postNo} 
+	WHERE PostNo = #{postNo};
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
 	resultMap="postMap">
 	SELECT postNo, postSubtitle, postTitle, postContent, postUpcount, postViewcount,
-		DATE_FORMAT(postRegdate, '%Y-%m-%d'), postNoti, 
+		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%m:%s') AS postRegdate, postNoti, 
 		p.userNo, nickname, blockUserflag, outUserflag
 	FROM post p
-	INNER JOIN user u ON p.userNo = u.userNo
-	
+	INNER JOIN user u ON p.userNo = u.userNo	
 	<where>
     	<if test="postSubtitle != null and postSubtitle != ''">
         	postSubtitle LIKE concat('%', #{postSubtitle}, '%')
         </if>
 		<if test="postTitle != null and postTitle != ''">
-           OR postTitle LIKE concat('%', #{postTitle}, '%')
+           AND postTitle LIKE concat('%', #{postTitle}, '%')
         </if>
 	</where>
 	
@@ -55,6 +54,25 @@
 	</if>
 	</select>
 	
+	<!-- 이전 글번호 조회를 위한 기능 정의 -->
+	<select id="selectPrevnum" parameterType="study.spring.zigme.model.Post"
+	resultType="int">
+	select postNo
+	from post 
+	where postNo =
+	(select max(postNo) from post where postNo <![CDATA[ < ]]> #{postNo});
+	</select>
+	
+	<!-- 다음 글번호 조회를 위한 기능 정의 -->
+	<select id="selectNextnum" parameterType="study.spring.zigme.model.Post"
+	resultType="int">
+	select postNo 
+	from post 
+	where postNo = (select min(postNo)
+					from post 
+					where postNo <![CDATA[ > ]]> #{postNo});
+	</select>
+	
 	<!-- 데이터 저장을 위한 기능 정의 -->
 	<insert id="insertItem"
 		parameterType = "study.spring.zigme.model.Post"
@@ -62,8 +80,8 @@
 		keyProperty="postNo">
 		INSERT INTO post (postSubtitle, postTitle, postContent, postUpcount, postViewcount, postRegdate,
 			postNoti, userNo) VALUES 
-			(#{postSubtitle}, #{postTitle}, #{postContent}, #{postUpcount}, #{postViewcount}, #{postRegdate},
-			#{postNoti}, #{userNo});
+			(#{postSubtitle}, #{postTitle}, #{postContent}, 0, 0, now(),
+			"1", 1);
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->
