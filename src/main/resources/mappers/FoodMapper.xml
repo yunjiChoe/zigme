@@ -29,7 +29,7 @@
 	resultMap="foodMap">
 	SELECT foodNo, foodName, foodWeather, foodCondition, delFoodflag
 	FROM food
-	WHERE foodCategory = #{foodCatgory} 
+	WHERE foodCategory = #{foodCategory} 
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->

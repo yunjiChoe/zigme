@@ -33,40 +33,40 @@ public class AdminCateCondiDataTest {
 	private SqlSession sqlSession;
 	
 	
-//	@Test
-//	/**다중행 조회 테스트 */
-//	public void testA() {
-//		AdminCateCondiData input = new AdminCateCondiData();
-//		input.setCateCondiNo(1);
-//		
-//		sqlSession.selectList("AdminCateCondiDataMapper.selectList", input);
-//	} 
-	/**
-//	@Test
-//	/** 단일행 조회 테스트 */
-//	public void testB() {
-//		AdminCateCondiData input = new AdminCateCondiData();
-//		input.setFoodNo(3);
-//		
-//		sqlSession.selectOne("AdminCateCondiDataMapper.selectItem", input);
-//	} 
-	
 	@Test
-	/**데이터 저장 테스트 */
-	public void testC() {
+	/**다중행 조회 테스트 */
+	public void testA() {
 		AdminCateCondiData input = new AdminCateCondiData();
-
-		input.setCateCondiName("숙취해소");
 		input.setCateCondiFlag("1");
 		
-		sqlSession.insert("AdminCateCondiDataMapper.insertItem", input);
-	}
+		sqlSession.selectList("AdminCateCondiDataMapper.selectList", input);
+	} 
+	
+	@Test
+	/** 단일행 조회 테스트 */
+	public void testB() {
+		AdminCateCondiData input = new AdminCateCondiData();
+		input.setCateCondiNo(5);
+		
+		sqlSession.selectOne("AdminCateCondiDataMapper.selectItem", input);
+	} 
+	
+//	@Test
+//	/**데이터 저장 테스트 */
+//	public void testC() {
+//		AdminCateCondiData input = new AdminCateCondiData();
+//
+//		input.setCateCondiName("다이어트");
+//		input.setCateCondiFlag("1");
+//		
+//		sqlSession.insert("AdminCateCondiDataMapper.insertItem", input);
+//	}
 	
 //	/** 데이터 삭제 테스트 */
 //	@Test
 //	public void testD() {
 //		AdminCateCondiData input = new AdminCateCondiData();
-//		input.setFoodNo(2);
+//		input.setCateCondiNo(3);
 //		
 //		sqlSession.delete("AdminCateCondiDataMapper.deleteItem", input);
 //	} 
@@ -75,14 +75,12 @@ public class AdminCateCondiDataTest {
 //	@Test
 //	public void testE() {
 //		AdminCateCondiData input = new AdminCateCondiData();
-//		input.setFoodNo(5);
-//		input.setFoodName("수정테스트_리조또");
-//		input.setFoodCategory("수정테스트_양식");
-//		input.setFoodWeather("수정테스트_맑음");
-//		input.setDelFoodflag("Y");
+//		input.setCateCondiNo(5);
+////		input.setCateCondiName("");
+//		input.setCateCondiFlag("1");
 //		
 //		
 //		sqlSession.update("AdminCateCondiDataMapper.updateItem", input); 
 //	} 
-	
+//	
 }

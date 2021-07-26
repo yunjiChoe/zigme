@@ -32,25 +32,24 @@ public class FoodTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/** testA, testB 오류 발생 -> 보완 예정 */
-	/**
-	@Test
-	/**다중행 조회 테스트 
+	
+	@Test 
+	/** 다중행 조회 테스트 */
 	public void testA() {
 		Food input = new Food();
 		input.setFoodNo(1);
 		
 		sqlSession.selectList("FoodMapper.selectList", input);
-	} */
-	/**
+	} 
+	
 	@Test
-	/** 단일행 조회 테스트 
+	/** 단일행 조회 테스트 */
 	public void testB() {
 		Food input = new Food();
-		input.setFoodNo(3);
+		input.setFoodCategory("한식");
 		
-		sqlSession.selectOne("FoodMapper.selectList", input);
-	} */
+		sqlSession.selectOne("FoodMapper.selectItem", input);
+	} 
 	
 //	@Test
 //	/**데이터 저장 테스트 */

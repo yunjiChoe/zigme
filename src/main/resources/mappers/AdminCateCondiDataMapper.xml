@@ -5,7 +5,7 @@
 	
 <mapper namespace = "AdminCateCondiDataMapper">
 	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
-	<resultMap id="foodMap" type= "study.spring.zigme.model.AdminCateCondiData">
+	<resultMap id="adminCateCondiDataMap" type= "study.spring.zigme.model.AdminCateCondiData">
 		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
 		<result property="cateCondiNo" column="cateCondiNo" />
 		<result property="cateCondiName" column="cateCondiName" />
@@ -13,20 +13,20 @@
 		
 	</resultMap>
 	
- 	<!-- 단일행 조회를 위한 기능 정의
+ 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id ="selectItem" parameterType="study.spring.zigme.model.AdminCateCondiData"
 	resultMap="adminCateCondiDataMap">
 	SELECT cateCondiNo, cateCondiName, cateCondiFlag
 	FROM adminCateCondiData
 	WHERE cateCondiNo = #{cateCondiNo} 
-	</select> -->
+	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.AdminCateCondiData"
-	resultMap="foodMap">
+	resultMap="adminCateCondiDataMap">
 	SELECT cateCondiNo, cateCondiName, cateCondiFlag
 	FROM adminCateCondiData
-	WHERE cateCondiName = #{cateCondiName} 
+	WHERE cateCondiFlag = #{cateCondiFlag} 
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->
@@ -49,10 +49,10 @@
 	parameterType="study.spring.zigme.model.AdminCateCondiData">
 	UPDATE adminCateCondiData
 	<set>
-		<if test="foodName != null and foodName != ''">
+		<if test="cateCondiName != null and cateCondiName != ''">
 			cateCondiName = #{cateCondiName}
 		</if>
-		<if test="foodCategory != null and foodCategory != ''">
+		<if test="cateCondiFlag != null and cateCondiFlag != ''">
 			, cateCondiFlag = #{cateCondiFlag}
 		</if>
 	</set>
