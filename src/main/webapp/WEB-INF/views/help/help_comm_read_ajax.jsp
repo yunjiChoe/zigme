@@ -91,23 +91,22 @@
      
 	  $(function() {     	
 			 $("#writings").click(function() {
-	          window.location.href = "${pageContext.request.contextPath}/help/help_comm";
+	          window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm.do";
 	        });
 		 
 			 $("#next_writing").click(function() {
-	    	  var count = comm_content_data.length;
-	    	  var int_param = parseInt(param);
+	    	  var count = ${output.postNo};
+	    	  console.log(count);
 	    	  
-	    	  if(count == int_param) { alert("마지막 페이지 입니다."); return; }
-	    	  window.location.href = "${pageContext.request.contextPath}/help/help_comm_read?no=" + (int_param+1) ;
+	    	  if(count == 1000000 ) { alert("마지막 페이지 입니다."); return; }
+	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${nextNum};
 			 });
 	      
 		   $("#prev_writing").click(function() {
-	    	  var count = comm_content_data.length;
-	    	  var int_param = parseInt(param);
+	    	  var count = ${output.postNo};
 	    	  
-	    	  if(int_param == 1) { alert("첫번째 페이지 입니다."); return; }
-	    	  window.location.href = "${pageContext.request.contextPath}/help/help_comm_read?no=" + (int_param-1);
+	    	  if(count == 1) { alert("첫번째 페이지 입니다."); return; }	
+	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${prevNum};
 		   });
 	      
 		   $("#page_delete").click(function() {

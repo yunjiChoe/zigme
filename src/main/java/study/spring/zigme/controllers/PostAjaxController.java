@@ -34,7 +34,6 @@ public class PostAjaxController {
     // --> import study.spring.springhelper.service.ProfessorService;
     @Autowired  PostService postService;
     
-    
     /** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
     // --> import org.springframework.beans.factory.annotation.Value;
     @Value("#{servletContext.contextPath}")
@@ -104,21 +103,35 @@ public class PostAjaxController {
 
         /** 2) 데이터 조회하기 */
         // 데이터 조회에 필요한 조건값을 Beans에 저장하기
-        Post input = new Post();
-        input.setPostNo(postNo);
+        Post input1 = new Post();
+        input1.setPostNo(postNo);
+        
+        //다음글/이전글 번호 데이터 조회에 필요한 조건값을 Beans에 저장하기
+        int prevNum = 0;
+        Post input2 = new Post();
+        input2.setPostNo(postNo);
+        int nextNum = 0;
+        Post input3 = new Post();
+        input3.setPostNo(postNo);
 
         // 조회결과를 저장할 객체 선언
         Post output = null;
 
         try {
             // 데이터 조회
-            output = postService.getPostItem(input);
+            output = postService.getPostItem(input1);
+            prevNum = postService.getPervnum(input2);
+            nextNum = postService.getNextnum(input3);
+            System.out.println(prevNum);
+            System.out.println(nextNum);
         } catch (Exception e) {
             return webHelper.redirect(null, e.getLocalizedMessage());
         }
         
         /** 3) View 처리 */
         model.addAttribute("output", output);
+        model.addAttribute("prevNum", prevNum);
+        model.addAttribute("nextNum", nextNum);
         return new ModelAndView("help/help_comm_read_ajax");
     }
     

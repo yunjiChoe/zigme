@@ -55,5 +55,21 @@ public interface PostService {
 	 * @throws Exception
 	 */
 	public int deletePost(Post input) throws Exception;
+	
+	/**
+	 * 이전 게시글 일련번호 조회하기
+	 * @param Post 이전 게시글 일련번호를 접근하기 위한 Post
+	 * @return int
+	 * @throws Exception
+	 */
+	public int getPervnum(Post input) throws Exception;
+	
+	/**
+	 * 다음 게시글 일련번호 조회하기
+	 * @param Post 이전 게시글 일련번호를 접근하기 위한 Post
+	 * @return int
+	 * @throws Exception
+	 */
+	public int getNextnum(Post input) throws Exception;
 }
 

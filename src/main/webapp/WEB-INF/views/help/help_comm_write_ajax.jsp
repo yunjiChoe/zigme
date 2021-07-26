@@ -44,13 +44,9 @@
                 <option value="넋두리">넋두리</option>
             	</select>
             </span>
-        </div>
-        
-        <hr />
-        
-        <div>
-        	<input type="text" id="postContent" name="postContent" placeholder="내용을 입력하세요." />
-        </div>
+        </div>       
+        <hr />       
+        <textarea type="text" name="postContent" class="ckeditor"></textarea>
         <hr />
     	<div class="input-group" id="write_buttons">
     		<button type="reset" id="write_cancel" class="btn btn-warning">취소</button>
@@ -87,6 +83,6 @@
         });
     });
     </script>
-
+	<script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
 </body>
 </html>

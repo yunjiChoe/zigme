@@ -35,11 +35,10 @@
 	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
 	resultMap="postMap">
 	SELECT postNo, postSubtitle, postTitle, postContent, postUpcount, postViewcount,
-		DATE_FORMAT(postRegdate, '%Y-%m-%d') AS postRegdate, postNoti, 
+		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%m:%s') AS postRegdate, postNoti, 
 		p.userNo, nickname, blockUserflag, outUserflag
 	FROM post p
-	INNER JOIN user u ON p.userNo = u.userNo
-	
+	INNER JOIN user u ON p.userNo = u.userNo	
 	<where>
     	<if test="postSubtitle != null and postSubtitle != ''">
         	postSubtitle LIKE concat('%', #{postSubtitle}, '%')
@@ -53,6 +52,25 @@
 	<if test="listCount > 0">
 	LIMIT #{offset}, #{listCount};
 	</if>
+	</select>
+	
+	<!-- 이전 글번호 조회를 위한 기능 정의 -->
+	<select id="selectPrevnum" parameterType="study.spring.zigme.model.Post"
+	resultType="int">
+	select postNo
+	from post 
+	where postNo =
+	(select max(postNo) from post where postNo <![CDATA[ < ]]> #{postNo});
+	</select>
+	
+	<!-- 다음 글번호 조회를 위한 기능 정의 -->
+	<select id="selectNextnum" parameterType="study.spring.zigme.model.Post"
+	resultType="int">
+	select postNo 
+	from post 
+	where postNo = (select min(postNo)
+					from post 
+					where postNo <![CDATA[ > ]]> #{postNo});
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->
