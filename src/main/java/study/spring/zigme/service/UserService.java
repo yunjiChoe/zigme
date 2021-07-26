@@ -53,4 +53,43 @@ public interface UserService {
 	 * @throws Exception
 	 */
 	public int deleteUser(User input) throws Exception;
+	
+	/**
+	 *  회원 탈퇴 진행
+	 *  @param User - 탈퇴 진행할 회원 정보(아이디)
+	 *  @return int - 수정된 데이터 수
+	 *  @throws Exception
+	 */
+	public User doOut(User input) throws Exception;
+	
+	/**
+	 * 로그인
+	 * @param User - 로그인 처리할 회원 정보(아이디)
+	 * @reuurn User - 아이디와 비밀번호가 동시에 일치하는 회원 정보를 리턴하여 리턴
+	 * @throws Exception
+	 */
+	public  User doLogin(User input) throws Exception;
+	
+	/**
+	 * 로그인 아이디 체크
+	 * @param User - 로그인 처리할 회원 정보(아이디)
+	 * @reuurn User - 아이디가 중복되는지 확인 후 리턴
+	 * @throws Exception
+	 */
+	public  int checkId(User input) throws Exception;
+	
+
+	/**
+	 *  닉네임 중복 체크
+	 * @param User - 회원가입할떄 닉네임 중복 확인
+	 * @reuurn User - 동일한 닉네임이 중복되는지 확인 후 리턴
+	 * @throws Exception
+	 */
+	public int nickName(User input) throws Exception;
+
+	
+		
+	
+	
+	
 }

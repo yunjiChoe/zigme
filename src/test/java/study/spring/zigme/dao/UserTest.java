@@ -13,6 +13,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.model.User;
+import study.spring.zigme.service.UserService;
+
 
 /**Lombok의 Log4j 객체 */
 @Slf4j
@@ -32,6 +34,11 @@ public class UserTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Autowired
+	private UserService userService;
+	
+	
+	
 	@Test
 	/**단일행 조회 테스트 */
 	public void testA() {
@@ -50,12 +57,12 @@ public class UserTest {
 	@Test
 	public void testC() {
 		User input = new User();
-		input.setId("테스트_id");
-		input.setPassword("테스트_pw");
-		input.setName("테스트이름");
-		input.setNickname("테스트nick");
+		input.setId("j");
+		input.setPassword("secret");
+		input.setName("정정");
+		input.setNickname("정닉네임");
 		input.setEmail("테스트email");
-		input.setGender("M");
+		input.setGender("F");
 		input.setPostcode("11111");
 		input.setAddr1("테스트1");
 		input.setAddr2("테스트2");
@@ -79,9 +86,28 @@ public class UserTest {
 	@Test
 	public void testE() {
 		User input = new User();
-		input.setIcon("0");
+		input.setNickname("조랭이");
+		input.setEmail("email@email.com");
+		input.setPassword("123");
+		input.setPostcode("12345");
+		input.setAddr1("주소1");
+		input.setAddr2("주소2");
+		input.setLoc_xy("29301293,80138");
+		input.setIcon("2");
 		input.setUserNo(7);
 		sqlSession.update("UserMapper.updateItem", input);
+		
+		User output = null;
+		
+		try {
+			output = userService.doLogin(input);
+			log.debug(output.toString());
+		}catch (Exception e){
+			log.error(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	/** 전체 데이터 수 조회 */
@@ -91,4 +117,37 @@ public class UserTest {
 		log.debug("전체 데이터 수: " +count);
 	}
 	
+	/** 로그인 테스트 */
+	@Test
+	public void testG() {
+		User input = new User();
+		input.setId("테스트_id");
+		input.setPassword("테스트_pw");
+		sqlSession.selectOne("UserMapper.selectItem",input);
+		
+		User output = null;
+		
+		try {
+			output = userService.doLogin(input);
+			log.debug(output.toString());
+		}catch (Exception e){
+			log.error(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	  
+		
+	}
+	
+	/** 아이디중복 테스트 */
+	@Test
+	public void testH() {
+		User input = new User();
+		input.setId("jhs");
+		sqlSession.selectOne("UserMapper.checkId", input);
+		
+		
+	}
+	
+	
+
 }

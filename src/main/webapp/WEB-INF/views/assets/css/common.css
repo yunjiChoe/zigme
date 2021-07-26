@@ -181,10 +181,7 @@ strong {
 	color: gray;
 }
 
-.form-group {
-	padding: 0px 100px;
-	margin-bottom: -10px;
-}
+
 
 .checkbox {
 	padding-top: 10px;
@@ -362,14 +359,7 @@ input#all_check {
 	margin: auto;
 }
 
-.form-agree {
-	width: auto;
-	min-height: 330px;
-	margin: 0 490px;
-	padding-top: 20px;
-	border-top: solid 1px #000;
-	border-bottom: solid 1px #000;
-}
+
 
 .agree {
 	padding-left: 18px;
