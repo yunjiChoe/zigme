@@ -14,6 +14,8 @@ public class Post {
 	private String postRegdate;
 	private String postNoti;
 	private int userNo;
+	private int prevpage;
+	private int nextpage;
 	
 	/** 2) JOIN절에 따른 추가 컬럼 */	
 	//해당 회원 nickname(user테이블과 join)

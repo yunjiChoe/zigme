@@ -33,53 +33,16 @@ public class PostTest {
 	/**MyBatis의 SQL세션 주입 설정 */
 	@Autowired
 	private SqlSession sqlSession;
-	
-	@Test
-	/**단일행 조회 테스트 */
-	public void testA() {
-		Post input = new Post();
-		input.setPostNo(1);
-		sqlSession.selectOne("PostMapper.selectItem", input);
-	}
-	
-	@Test
-	/**다중행 조회 테스트 */
-	public void testB() {
-		Post input = new Post();
-		sqlSession.selectList("PostMapper.selectList", input);
-	}
-	
-	@Test
-	/**데이터 저장 테스트 */
-	public void testC() {
-		Post input = new Post();
-		input.setPostSubtitle("도움");
-		input.setPostTitle("회사에서 인정받는 8가지 방법");
-		input.setPostContent("<h3>기록하고 끊임없이 학습하라</h3><p>테스트</p>");
-		input.setPostUpcount(15);
-		input.setPostViewcount(30);
-		input.setPostRegdate("2021-01-01 00:00:00");
-		input.setPostNoti("1");
-		input.setUserNo(1);
-		sqlSession.insert("PostMapper.insertItem", input);
-	}
-	
-	/** 데이터 삭제 테스트 */
-	@Test
-	public void testD() {
-		Post input = new Post();
-		input.setPostNo(3);
-		sqlSession.delete("PostMapper.deleteItem", input);
-	}
-	
+		
 	/** 데이터 수정 테스트 */
 	@Test
 	public void testE() {
+		int number;
 		Post input = new Post();
-		input.setPostUpcount(100);
-		input.setPostViewcount(100);
-		input.setPostNo(4);
-		sqlSession.update("PostMapper.updateItem", input);
+		input.setPostUpcount(10);
+		input.setPostNo(63);
+		number = sqlSession.update("PostMapper.updateItem", input);
+		log.debug("업데이트된 postNo: " +number);
 	}
 	
 	/** 전체 데이터 수 조회 */
@@ -93,7 +56,7 @@ public class PostTest {
 	@Test
 	public void testG() {
 		Post input = new Post();
-		input.setPostNo(30);
+		input.setPostNo(1);
 		sqlSession.selectOne("PostMapper.selectPrevnum", input);
 	}
 	
@@ -101,7 +64,7 @@ public class PostTest {
 	@Test
 	public void testH() {
 		Post input = new Post();
-		input.setPostNo(30);
+		input.setPostNo(68);
 		sqlSession.selectOne("PostMapper.selectNextnum", input);
 	}
 }

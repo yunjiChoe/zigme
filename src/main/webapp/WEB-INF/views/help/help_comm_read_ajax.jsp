@@ -52,8 +52,6 @@
 		<div id="read_button_group">
         <div  id="read_buttons1" class="input-group">
             <span class="btns_padding"><button type="button" id="writings" class="btn btn-warning">목록</button></span>
-            <span class="btns_padding"><button type="button" id="prev_writing" class="btn btn-info">이전글</button></span>
-            <span class="btns_padding"><button type="button" id="next_writing" class="btn btn-success">다음글</button></span>
         </div>
         <div id="read_buttons2" class="pull-right">
             <span class="links"><a href="${pageContext.request.contextPath}/help/help_comm_write" class="help_read_a">수정</a></span>&nbsp;
@@ -94,6 +92,7 @@
 	          window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm.do";
 	        });
 		 
+			 /** 이전글/다을 글 버튼은 나중에.....ㅠ
 			 $("#next_writing").click(function() {
 	    	  var count = ${output.postNo};
 	    	  console.log(count);
@@ -101,6 +100,7 @@
 	    	  if(count == 1000000 ) { alert("마지막 페이지 입니다."); return; }
 	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${nextNum};
 			 });
+			 
 	      
 		   $("#prev_writing").click(function() {
 	    	  var count = ${output.postNo};
@@ -108,6 +108,7 @@
 	    	  if(count == 1) { alert("첫번째 페이지 입니다."); return; }	
 	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${prevNum};
 		   });
+		   */
 	      
 		   $("#page_delete").click(function() {
 	    	  alert("해당 글은 삭제되었습니다.");

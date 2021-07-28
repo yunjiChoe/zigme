@@ -58,6 +58,8 @@
 	</div>
 	
     <c:import url="../inc/footer.jsp" />
+    
+    <script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
     <!--Google CDN 서버로부터 jQuery 참조 -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- jQuery Ajax Form plugin CDN -->
@@ -83,6 +85,5 @@
         });
     });
     </script>
-	<script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
 </body>
 </html>

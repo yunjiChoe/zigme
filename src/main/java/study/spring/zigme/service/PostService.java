@@ -71,5 +71,14 @@ public interface PostService {
 	 * @throws Exception
 	 */
 	public int getNextnum(Post input) throws Exception;
+	
+	/**
+	 * 조회수 수정하기
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	public int addpostViewcount(Post input) throws Exception;
+	
 }
 

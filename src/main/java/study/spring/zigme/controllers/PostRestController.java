@@ -81,6 +81,7 @@ public class PostRestController {
 		/** 1) 데이터 조회하기*/
 		//데이터 조회에 필요한 조건값을 Beans에 저장하기
 		Post input = new Post();
+		int updateCount = 0;
 		input.setPostNo(postNo);
 		
 		//조회결과를 저장할 객체 선언
@@ -98,6 +99,7 @@ public class PostRestController {
 		
 		return webHelper.getJsonData(data);
 	}
+	
 	/**작성 폼에 대한 action 페이지 */
 	@RequestMapping(value= "/help", method = RequestMethod.POST)
 	public Map<String, Object> post(

@@ -103,35 +103,25 @@ public class PostAjaxController {
 
         /** 2) 데이터 조회하기 */
         // 데이터 조회에 필요한 조건값을 Beans에 저장하기
-        Post input1 = new Post();
-        input1.setPostNo(postNo);
+        Post input = new Post();
+        input.setPostNo(postNo);
         
         //다음글/이전글 번호 데이터 조회에 필요한 조건값을 Beans에 저장하기
-        int prevNum = 0;
-        Post input2 = new Post();
-        input2.setPostNo(postNo);
-        int nextNum = 0;
-        Post input3 = new Post();
-        input3.setPostNo(postNo);
 
         // 조회결과를 저장할 객체 선언
         Post output = null;
 
         try {
+        	//조회수 +1 수정
+        	postService.addpostViewcount(input);
             // 데이터 조회
-            output = postService.getPostItem(input1);
-            prevNum = postService.getPervnum(input2);
-            nextNum = postService.getNextnum(input3);
-            System.out.println(prevNum);
-            System.out.println(nextNum);
+            output = postService.getPostItem(input);
         } catch (Exception e) {
             return webHelper.redirect(null, e.getLocalizedMessage());
         }
         
         /** 3) View 처리 */
         model.addAttribute("output", output);
-        model.addAttribute("prevNum", prevNum);
-        model.addAttribute("nextNum", nextNum);
         return new ModelAndView("help/help_comm_read_ajax");
     }
     
@@ -142,7 +132,7 @@ public class PostAjaxController {
     }
     
     /** 작성 폼에 대한 action 페이지 */
-    @RequestMapping(value = "/help_ajax/help_comm_write_ok.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/help_ajax/help_comm_write.do", method = RequestMethod.PUT)
     public ModelAndView add_ok(Model model,
     		@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
     		@RequestParam(value="postTitle", defaultValue="") String postTitle,
@@ -172,9 +162,10 @@ public class PostAjaxController {
 		        } catch (Exception e) {
 		            return webHelper.redirect(null, e.getLocalizedMessage());
 		        }
-		        return new ModelAndView("help/help_comm_write_ajax_ok.do");
+		        return new ModelAndView("help/help_comm_write_ajax.do");
     }
     
     /** 수정 폼 페이지 */
     //고민후 추후에 추가할지 안할지.....
+    
 }
