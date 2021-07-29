@@ -1,5 +1,7 @@
 package study.spring.zigme.service;
 
+import java.util.List;
+
 import study.spring.zigme.model.Scheduler;
 
 public interface ScheService {
@@ -17,8 +19,9 @@ public interface ScheService {
 	 * @return 조회된 데이터가 저장된 Beans
 	 * @throws Exception
 	 */
-	public Scheduler getscheItem(Scheduler input) throws Exception;
+	public Scheduler getScheItem(Scheduler input) throws Exception;
 	
+	public List<Scheduler> getScheList(Scheduler input) throws Exception;
 	
 
 }

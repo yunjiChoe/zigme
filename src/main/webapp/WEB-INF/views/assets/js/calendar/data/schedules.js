@@ -160,9 +160,24 @@ function generateZigmeSchedule(calendar, renderStart, renderEnd) {
     schedule.id = chance.guid();       // 시리얼 id 
     schedule.calendarId = "1"; // calendar.id; // 스케쥴 id         
     schedule.title = "글자테스트";
-         
-    generateTime(schedule, renderStart, renderEnd);
-    //generateZigmeTime(schedule, renderStart, renderEnd);  
+    
+    var startDate = moment('2021-07-27');
+    var endDate = moment('2021-07-28');
+    
+    schedule.category = 'time';
+    
+    startDate.format('YYYYMMDD');
+    startDate.hours(22)
+    startDate.minutes(30);
+    
+	schedule.start = startDate.toDate();
+	
+	endDate.format('YYYYMMDD');
+	endDate.hours(23)
+    endDate.minutes(30);    
+    
+    schedule.end = endDate.toDate();
+        
     
     schedule.location = "loc";            
     schedule.color = calendar.color;
@@ -174,14 +189,8 @@ function generateZigmeSchedule(calendar, renderStart, renderEnd) {
 }
 
 function generateSchedule(viewName, renderStart, renderEnd) {
-    ScheduleList = [];
-    CalendarList.forEach(function(calendar) {
-        var i = 0, length = 10;
-        if (viewName === 'month') {
-            length = 3;
-        } 
-        for (; i < 1; i += 1) {
-            generateZigmeSchedule(calendar, renderStart, renderEnd);
-        }
-    });
+    
+    ScheduleList = [];    
+    generateZigmeSchedule(calendar, renderStart, renderEnd);    
+    
 }

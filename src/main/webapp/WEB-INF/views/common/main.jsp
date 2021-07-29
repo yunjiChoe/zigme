@@ -125,10 +125,10 @@ strong {
     <script src="${pageContext.request.contextPath}/assets/js/calendar/data/calendars.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>     
     <script src="${pageContext.request.contextPath}/assets/js/calendar/app.js"></script>  
-    
+    <script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
     
     <c:import url="../inc/footer.jsp" />
-    
+	
     <script type="text/javascript">    
 		$(function() {	
 		// 메인 시계
@@ -239,7 +239,7 @@ strong {
     			method: 'post',
     			// 전달할 조건값은 JSON형식으로 구성
     			data: {
-    				   "scheCate": scheCate,
+    				   "userNo": scheCate,
     				   "scheContent": scheContent, 
     				   "scheLoc": scheLoc,
     				   "scheStartdate" : scheStartdate,
@@ -257,12 +257,34 @@ strong {
     		}); // end $.ajax
     		
 		});
+        var userNo = 1; // test_user
+        
+        $.ajax({
+			// 결과를 읽어올 URL
+			url: '${pageContext.request.contextPath}/main.do',
+			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+			method: 'get',
+			// 전달할 조건값은 JSON형식으로 구성
+			data: {
+				   "userNo": "1",
+				   "startdate_v": "2021-07-30", 
+				   "enddate_v": "2021-07-31"
+			},
+			// 읽어올 내용의 형식(생략할 경우 Json)
+			dataType: 'json',
+			// 읽어온 내용을 처리하기 위한 함수
+			success: function(req) {
+				console.log(req)
+			}
+		}); // end $.ajax
         
         
 		main_Time();
 		startTimer();
 		weather_getdossi();
 		main_getalram(4);
+		init();
+		
 	});
 	
 		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=37.56826&lon=126.977829&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
@@ -317,11 +339,11 @@ strong {
 			$('.ctemp').append(temp.toFixed(1) + "°C");			
 			$('.csky').append(sky);			
 		});
-	</script>
-	<script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>
 		
-	setSchedules();
+	</script>	
+	
+	
+	
 	
 </body>
 </html>

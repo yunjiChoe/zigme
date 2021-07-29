@@ -96,11 +96,12 @@ public class HomeController {
     * @param model
     * @param request
     * @return String
-    */
+   */
    @RequestMapping(value = "/main", method = RequestMethod.GET)
    public String mainZigme(Model model, HttpServletRequest request) {
       return "common/main";
-   }
+   }  
+   
    
    /**
     * 내 정보 수정으로 진입하기 위한 메서드

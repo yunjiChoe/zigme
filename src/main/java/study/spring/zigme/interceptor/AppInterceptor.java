@@ -58,14 +58,14 @@ public class AppInterceptor implements HandlerInterceptor {
         }
 
         // 획득한 정보를 로그로 표시한다.
-        log.debug(String.format("[%s] %s", methodName, url));
+        //log.debug(String.format("[%s] %s", methodName, url));
 
         /** 2) 클라이언트가 전달한 모든 파라미터 확인하기 */
         Map<String, String[]> params = request.getParameterMap();
 
         for (String key : params.keySet()) {
             String[] value = params.get(key);
-            log.debug(String.format("(p) <-- %s = %s", key, String.join(",", value)));
+            //log.debug(String.format("(p) <-- %s = %s", key, String.join(",", value)));
         }
 
         /** 3) 클라이언트가 머물렀던 이전 페이지와 이전 페이지에 머문 시간 확인하기 */
@@ -74,7 +74,7 @@ public class AppInterceptor implements HandlerInterceptor {
 
         // 이전 종료 시간이 0보다 크다면 새로운 시작시간과의 차이는 이전 페이지에 머문 시간을 의미한다.
         if (referer != null && endTime > 0) {
-            log.debug(String.format("- REFERER : time=%d, url=%s", startTime - endTime, referer));
+            //log.debug(String.format("- REFERER : time=%d, url=%s", startTime - endTime, referer));
         }
         
         /** 4) 접속한 클라이언트의 장치 정보를 로그로 기록 */
@@ -100,9 +100,9 @@ public class AppInterceptor implements HandlerInterceptor {
             device.get("family"), device.get("model"), device.get("brand"));
 
         // 로그 저장
-        log.debug(browserStr);
-        log.debug(osStr);
-        log.debug(deviceStr);
+        //log.debug(browserStr);
+        //log.debug(osStr);
+        //log.debug(deviceStr);
 
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
@@ -119,7 +119,7 @@ public class AppInterceptor implements HandlerInterceptor {
         // 컨트롤러 종료시의 시각을 가져온다.
         endTime = System.currentTimeMillis();
         // 시작시간과 종료시간 사이의 차이를 구하면 페이지의 실행시간을 구할 수 있다.
-        log.debug(String.format("running time: %d(ms)\n", endTime-startTime));
+        //log.debug(String.format("running time: %d(ms)\n", endTime-startTime));
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 

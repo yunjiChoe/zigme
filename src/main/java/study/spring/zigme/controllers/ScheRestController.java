@@ -1,5 +1,6 @@
 package study.spring.zigme.controllers;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class ScheRestController {
         
     @Autowired ScheService scheService;
     
-    /** 작성 폼에 대한 action 페이지 */
+    /** 스케줄러 data insert */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public Map<String, Object> post(
             @RequestParam(value="scheCate", defaultValue="") String scheCate,
@@ -67,16 +68,50 @@ public class ScheRestController {
         	scheService.addScheduler(input);
         	
             // 데이터 조회
-            output = scheService.getscheItem(input);
+            output = scheService.getScheItem(input);
         } catch (Exception e) {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
 
         log.debug(output.toString());
         
-        /** 3) 결과를 확인하기 위한 JSON 출력 */
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("item", output);
         return webHelper.getJsonData(map);
-    }	
+    }   
+    
+    /** scheduler data select */
+    @RequestMapping(value = "/main.do", method = RequestMethod.GET)
+    public Map<String, Object> get_list(
+    		@RequestParam(value="userNo", defaultValue="") String userNo_str,
+    		// 현재 달력 시작일
+    		@RequestParam(value="startdate_v", defaultValue="") String startdate_v,
+    		// 현재 달력 종료일    		
+    		@RequestParam(value="enddate_v", defaultValue="") String enddate_v)
+    {
+        
+        Scheduler input = new Scheduler();
+        int userNo = Integer.parseInt(userNo_str);
+        
+        input.setUserNo(userNo);
+        input.setScheStartdate(startdate_v);
+        input.setScheEnddate(enddate_v);
+
+        List<Scheduler> output = null;   // 조회결과가 저장될 객체        
+
+        try {            
+            output = scheService.getScheList(input);
+            log.debug("test >>>>>>>>>" + output.toString());
+            
+        } catch (Exception e) {
+            return webHelper.getJsonError(e.getLocalizedMessage());
+        }
+
+        /** 3) JSON 출력하기 */
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("item", output);
+        
+        return webHelper.getJsonData(data);
+    }
+
 }
