@@ -71,7 +71,19 @@ public class ScheServiceImpl implements ScheService{
         return result;
     }
     
-    
+    @Override
+    public int getScheCount(Scheduler input) throws Exception {
+        int result = 0;
+        
+        try {
+            result = sqlSession.selectOne("SchedulerMapper.selectCountAll", input);
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+        
+        return result;
+    }
 
 	@Override
 	public int addScheduler(Scheduler input) throws Exception {

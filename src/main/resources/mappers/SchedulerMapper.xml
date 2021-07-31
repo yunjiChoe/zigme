@@ -21,10 +21,17 @@
 		SELECT * FROM scheduler where scheNo=#{scheNo};
 	</select>
 	
+	<!-- 리스트 갯수를 count하기 위한 쿼리 -->
+	<select id="selectCountAll" parameterType= "study.spring.zigme.model.Scheduler" resultType="int">
+		SELECT COUNT(*) FROM scheduler where userNo=#{userNo} and DATE(scheStartdate) BETWEEN #{scheStartdate} AND #{scheEnddate}
+		 ORDER BY scheStartdate ASC;
+	</select>
+	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id="selectList" parameterType= "study.spring.zigme.model.Scheduler"
 		resultMap = "scheduleMap">
-		SELECT * FROM scheduler where userNo=#{userNo} ORDER BY scheStartdate DESC;
+		SELECT * FROM scheduler where userNo=#{userNo} and DATE(scheStartdate) BETWEEN #{scheStartdate} AND #{scheEnddate}
+		 ORDER BY scheStartdate ASC;
 	</select>	
 	
 	<!--  데이터 저장을 위한 기능 정의 -->

@@ -46,7 +46,7 @@ function hexToRGBA(hex) {
 // dasom _ 캘린더 팝업아이콘의 이름
 (function() {
     var calendar;
-    var id = 0;
+    var id = -1;
 
     calendar = new CalendarInfo();
     id += 1;

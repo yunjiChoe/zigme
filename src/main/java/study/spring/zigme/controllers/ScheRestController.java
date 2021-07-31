@@ -92,6 +92,7 @@ public class ScheRestController {
         
         Scheduler input = new Scheduler();
         int userNo = Integer.parseInt(userNo_str);
+        int list_count = 0; 
         
         input.setUserNo(userNo);
         input.setScheStartdate(startdate_v);
@@ -100,8 +101,8 @@ public class ScheRestController {
         List<Scheduler> output = null;   // 조회결과가 저장될 객체        
 
         try {            
-            output = scheService.getScheList(input);
-            log.debug("test >>>>>>>>>" + output.toString());
+            output = scheService.getScheList(input);            
+            list_count = scheService.getScheCount(input);
             
         } catch (Exception e) {
             return webHelper.getJsonError(e.getLocalizedMessage());
@@ -110,6 +111,7 @@ public class ScheRestController {
         /** 3) JSON 출력하기 */
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("item", output);
+        data.put("count", list_count);
         
         return webHelper.getJsonData(data);
     }

@@ -23,5 +23,7 @@ public interface ScheService {
 	
 	public List<Scheduler> getScheList(Scheduler input) throws Exception;
 	
+	public int getScheCount(Scheduler input) throws Exception;
+	
 
 }

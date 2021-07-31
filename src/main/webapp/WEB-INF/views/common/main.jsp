@@ -239,7 +239,7 @@ strong {
     			method: 'post',
     			// 전달할 조건값은 JSON형식으로 구성
     			data: {
-    				   "userNo": scheCate,
+    				   "scheCate": scheCate,
     				   "scheContent": scheContent, 
     				   "scheLoc": scheLoc,
     				   "scheStartdate" : scheStartdate,
@@ -256,34 +256,63 @@ strong {
     			}
     		}); // end $.ajax
     		
-		});
+		});        
+
+        
+        $(document).on('click', '#calendar-prev', function(e){        	
+        	  
+        	console.log("calendar-prev on click");
+        	cal.prev();
+        	setRenderRangeText();
+        });
+        
+        $(document).on('click', '#calendar-next', function(e){        	
+      	  
+        	console.log("calendar-next on click");
+      	    cal.next();
+      	  	setRenderRangeText();
+      	});
+        
         var userNo = 1; // test_user
+        var zigme_schedulList = new Object();
+        var zigme_schedule = new Object();
+        var zigme_schedulList_count;
+        
+        zigme_schedule.start = null;
+        zigme_schedule.end = null;
+        zigme_schedule.ajaxstart = "";        
+        zigme_schedule.ajaxend = "";
+        
+        init(zigme_schedule);		
         
         $.ajax({
+        	async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
 			// 결과를 읽어올 URL
 			url: '${pageContext.request.contextPath}/main.do',
 			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
 			method: 'get',
 			// 전달할 조건값은 JSON형식으로 구성
 			data: {
-				   "userNo": "1",
-				   "startdate_v": "2021-07-30", 
-				   "enddate_v": "2021-07-31"
+				   "userNo": userNo,
+				   "startdate_v" : zigme_schedule.ajaxstart, 
+				   "enddate_v" : zigme_schedule.ajaxend
 			},
 			// 읽어올 내용의 형식(생략할 경우 Json)
 			dataType: 'json',
 			// 읽어온 내용을 처리하기 위한 함수
 			success: function(req) {
-				console.log(req)
+				zigme_schedulList = req.item;
+				zigme_schedulList_count = req.count;
+				//console.log(zigme_schedulList_count);				
 			}
 		}); // end $.ajax
-        
+		
+		drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);
         
 		main_Time();
 		startTimer();
 		weather_getdossi();
 		main_getalram(4);
-		init();
 		
 	});
 	
