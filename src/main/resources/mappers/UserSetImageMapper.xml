@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserSetImageMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="userSetImageMap"
+		type="study.spring.zigme.model.UserSetImage">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="userImgNo" column="userImgNo" />
+		<result property="userImgName" column="userImgName" />
+		<result property="userImgSize" column="userImgSize" />
+		<result property="userImgPath" column="userImgPath" />
+	</resultMap>
+
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="selectItem"
+		parameterType="study.spring.zigme.model.UserSetImage"
+		resultMap="userSetImageMap">
+		SELECT userImgNo, userImgName, userImgSize, userImgPath
+		FROM usersetimage WHERE userImgNo = #{userImgNo};
+	</select>
+
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id="selectList"
+		parameterType="study.spring.zigme.model.UserSetImage"
+		resultMap="userSetImageMap">
+		SELECT userImgNo, userImgName, userImgSize, userImgPath
+		FROM usersetimage ORDER BY userImgNo DESC;
+	</select>
+
+	<!-- 데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem"
+		parameterType="study.spring.zigme.model.UserSetImage"
+		useGeneratedKeys="true" keyProperty="userImgNo">
+		INSERT INTO usersetimage (userImgName, userImgSize, userImgPath)
+		VALUES (#{userImgName}, #{userImgSize}, #{userImgPath});
+	</insert>
+
+	<!-- 데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem"
+		parameterType="study.spring.zigme.model.UserSetImage">
+		DELETE FROM usersetimage WHERE userImgNo = #{userImgNo};
+	</delete>
+
+	<!-- 데이터 갱신을 위한 기능 정의 -->
+	<update id="updateItem"
+		parameterType="study.spring.zigme.model.UserSetImage">
+		UPDATE usersetimage SET userImgName = #{userImgName},
+		userImgSize = #{userImgSize}, userImgPath = #{userImgPath} WHERE
+		userImgNo = #{userImgNo};
+	</update>
+
+</mapper>

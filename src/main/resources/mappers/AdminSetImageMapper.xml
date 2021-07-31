@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdminSetImageMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="adminSetImageMap"
+		type="study.spring.zigme.model.AdminSetImage">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="adminImgNo" column="adminImgNo" />
+		<result property="adminImgName" column="adminImgName" />
+		<result property="adminImgSize" column="adminImgSize" />
+		<result property="adminImgPath" column="adminImgPath" />
+		<result property="refTableName" column="refTableName" />
+		<result property="refTableId" column="refTableId" />
+	</resultMap>
+
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="selectItem"
+		parameterType="study.spring.zigme.model.AdminSetImage"
+		resultMap="adminSetImageMap">
+		SELECT adminImgNo, adminImgName, adminImgSize, adminImgPath,
+		refTableName, refTableId FROM adminsetimage WHERE adminImgNo =
+		#{adminImgNo};
+	</select>
+
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id="selectList"
+		parameterType="study.spring.zigme.model.AdminSetImage"
+		resultMap="adminSetImageMap">
+		SELECT adminImgNo, adminImgName, adminImgSize, adminImgPath,
+		refTableName, refTableId FROM adminsetimage WHERE refTableName =
+		#{refTableName};
+	</select>
+
+	<!-- 데이터 저장을 위한 기능 정의 -->
+	<insert id="insertItem"
+		parameterType="study.spring.zigme.model.AdminSetImage"
+		useGeneratedKeys="true" keyProperty="adminImgNo">
+		INSERT INTO adminsetimage
+		(adminImgName, adminImgSize, adminImgPath, refTableName, refTableId)
+		VALUES (#{adminImgName}, #{adminImgSize}, #{adminImgPath},
+		#{refTableName}, #{refTableId});
+	</insert>
+
+	<!-- 데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteItem"
+		parameterType="study.spring.zigme.model.AdminSetImage">
+		DELETE FROM adminsetimage WHERE adminImgNo =
+		#{adminImgNo};
+	</delete>
+
+	<!-- 데이터 갱신을 위한 기능 정의 -->
+	<update id="updateItem"
+		parameterType="study.spring.zigme.model.AdminSetImage">
+		UPDATE adminsetimage SET adminImgName = #{adminImgName}, adminImgSize =
+		#{adminImgSize}, adminImgPath = #{adminImgPath} WHERE adminImgNo =
+		#{adminImgNo};
+	</update>
+
+</mapper>
