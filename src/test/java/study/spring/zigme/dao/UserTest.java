@@ -57,19 +57,19 @@ public class UserTest {
 	@Test
 	public void testC() {
 		User input = new User();
-		input.setId("j");
+		input.setId("uirecp");
 		input.setPassword("secret");
 		input.setName("정정");
 		input.setNickname("정닉네임");
 		input.setEmail("테스트email");
-		input.setGender("F");
-		input.setPostcode("11111");
+		input.setGender(2);
+		input.setPostcode(11111);
 		input.setAddr1("테스트1");
 		input.setAddr2("테스트2");
 		input.setLoc_xy("29301293, 80138");
-		input.setIcon("2");
-		input.setBlockUserflag("0");
-		input.setOutUserflag("N");
+		input.setIcon(2);
+		input.setBlockUserflag(1);
+		input.setOutUserflag(1);
 		sqlSession.insert("UserMapper.insertItem", input);
 		
 	}
@@ -89,11 +89,11 @@ public class UserTest {
 		input.setNickname("조랭이");
 		input.setEmail("email@email.com");
 		input.setPassword("123");
-		input.setPostcode("12345");
+		input.setPostcode(12345);
 		input.setAddr1("주소1");
 		input.setAddr2("주소2");
 		input.setLoc_xy("29301293,80138");
-		input.setIcon("2");
+		input.setIcon(2);
 		input.setUserNo(7);
 		sqlSession.update("UserMapper.updateItem", input);
 		
@@ -143,7 +143,7 @@ public class UserTest {
 	public void testH() {
 		User input = new User();
 		input.setId("jhs");
-		sqlSession.selectOne("UserMapper.checkId", input);
+		sqlSession.selectList("UserMapper.checkId", input);
 		
 		
 	}

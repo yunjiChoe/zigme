@@ -109,6 +109,11 @@
 	 SELECT COUNT(*) FROM user WHERE nickname=#{nickname}
 	 </select>  
 	 
+	 <select id="selectUser" parameterType="study.spring.zigme.model.User" resultMap="userMap">
+	 	SELECT id, password, name, nickname, email, gender,
+		postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag FROM user
+		<where>id=#{id} AND password=#{password} AND outUserflag=#{outUserflag}</where> 
+	 </select>
 	 
 	 
 </mapper>

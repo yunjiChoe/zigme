@@ -70,12 +70,11 @@ public class UserServiceImpl implements UserService{
 		
 		try {
 			result =sqlSession.insert("UserMapper.insertItem", input);
-			output =sqlSession.selectOne("UserMapper.selectUser", input.getId());
+			
 			if(result ==0) {
 				throw new NullPointerException("result=0");
-			}else if(output ==null) {
-				throw new NullPointerException("output = null");
 			}
+			
 		}catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());
 			throw new Exception("회원가입 저장된 데이터가 없습니다.");
@@ -158,7 +157,7 @@ public class UserServiceImpl implements UserService{
 		User output = null;
 		
 		try {
-			if(input.getOutUserflag() =="Y") {
+			if(input.getOutUserflag() ==1) {
 				throw new Exception("이미 탈퇴처리된 회원입니다.");
 			}else {
 				result =sqlSession.update("UserMapper.outUpdate", input);
@@ -178,13 +177,23 @@ public class UserServiceImpl implements UserService{
 		}
 		return output;
 	}
-
+	
+	/**
+	 * 회원가입 아이디 중복체크
+	 */
 	@Override
-	public int checkId(User input) throws Exception {
-		int result = 0;
+	public List<User> checkId(User input) throws Exception {
+		List<User> result = null;
 		
 		try {
-			result =sqlSession.selectOne("UserService.selectCountAll",input);
+			result =sqlSession.selectList("UserService.checkId",input);
+			
+			if(result != null) {
+				throw new Exception("중복된 아이디입니다.");
+			}
+		}catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("중복아이디 데이터 없습니다.");	
 		} catch(Exception e) {
 			log.error(e.getLocalizedMessage());
 			throw new Exception("중복아이디 데이터 조회실패");
@@ -197,6 +206,7 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 		
 
 

@@ -10,13 +10,13 @@ public class User {
 	private String name;
 	private String nickname;
 	private String email;
-	private String gender;
-	private String postcode;
+	private int gender;
+	private int postcode;
 	private String addr1;
 	private String addr2;
 	private String loc_xy;
-	private String icon;
-	private String blockUserflag;
-	private String outUserflag;
+	private int icon;
+	private int blockUserflag;
+	private int outUserflag;
 	
 }

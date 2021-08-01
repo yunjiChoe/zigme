@@ -2,6 +2,9 @@ package study.spring.zigme.controllers;
 
 
 
+import java.util.List;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -48,18 +51,18 @@ public class UserController {
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "nickname", defaultValue = "") String nickname,
 			@RequestParam(value = "email", defaultValue = "") String email,
-			@RequestParam(value = "gender", defaultValue = "") String gender,
-			@RequestParam(value = "postcode", defaultValue = "") String postcode,
+			@RequestParam(value = "gender", defaultValue = "0") int gender,
+			@RequestParam(value = "postcode", defaultValue = "") int postcode,
 			@RequestParam(value = "addr1", defaultValue = "") String addr1,
 			@RequestParam(value = "addr2", defaultValue = "") String addr2,
 			@RequestParam(value = "loc_xy", defaultValue = "") String loc_xy,
-			@RequestParam(value = "icon", defaultValue = "") String icon,
-			@RequestParam(value = "blockUserflag", defaultValue = "") String blockUserflag,
-			@RequestParam(value = "outUserflag", defaultValue = "") String outUserflag,
+			@RequestParam(value = "icon", defaultValue = "0") int icon,
+			@RequestParam(value = "blockUserflag", defaultValue = "0") int blockUserflag,
+			@RequestParam(value = "outUserflag", defaultValue = "0") int outUserflag,
 			@RequestParam(value = "checkAll", defaultValue = "") String checkAll
 			) {
 
-		/** 1) 사용자가 입력한 파라미터 유효성 검사 */
+/** 1) 사용자가 입력한 파라미터 유효성 검사 */
 		
 		if (!regexHelper.isValue(id)) {
 			return webHelper.redirect(null, "아이디를 입력하세요");
@@ -70,12 +73,7 @@ public class UserController {
 		if (!regexHelper.isValue(password)) {
 			return webHelper.redirect(null, " 비밀번호를 입력하세요");
 		}
-		if(regexHelper.isValue(password) != regexHelper.isValue(passwordcheck)) {
-			return webHelper.redirect(null, "비밀번호를 동일하게 입력하세요.");
-		}
 
-		
-		
 		if (!regexHelper.isValue(name)) {
 			return webHelper.redirect(null, "이름을 입력하세요");
 		}
@@ -95,15 +93,7 @@ public class UserController {
 		if (!regexHelper.isEmail(email)) {
 			return webHelper.redirect(null, "이메일 형식으로 입력하세요");
 		}
-		
-		if (!regexHelper.isValue(gender)) {
-			return webHelper.redirect(null, "성별을 선택하세요");
-		}
-		
-		if (!regexHelper.isValue(postcode)) {
-			return webHelper.redirect(null, "우편번호을 입력하세요");
-		}
-		
+
 		if (!regexHelper.isValue(addr2)) {
 			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
@@ -111,10 +101,6 @@ public class UserController {
 		if (!regexHelper.isValue(checkAll)) {
 			return webHelper.redirect(null, "약관에 동의해주세요.");
 		}
-		
-		
-		
-		
 		
 
 		/**if (sal == 0) {
@@ -132,19 +118,19 @@ public class UserController {
 
 		/** 2) 데이터 저장하기 */
 		User input = new User();
-		input.setId("id");
-		input.setPassword("password");
-		input.setName("name");
-		input.setNickname("nickname");
-		input.setEmail("email");
-		input.setGender("gender");
-		input.setPostcode("postcode");
-		input.setAddr1("addr1");
-		input.setAddr2("addr2");
+		input.setId(id);
+		input.setPassword(password);
+		input.setName(name);
+		input.setNickname(nickname);
+		input.setEmail(email);
+		input.setGender(gender);
+		input.setPostcode(postcode);
+		input.setAddr1(addr1);
+		input.setAddr2(addr2);
 		input.setLoc_xy("x, y");
-		input.setIcon("icon");
-		input.setBlockUserflag("blockuserflag");
-		input.setOutUserflag("outuserflag");
+		input.setIcon(1);
+		input.setBlockUserflag(1);
+		input.setOutUserflag(2);
 
 		try {
 			userservice.addUser(input);
@@ -153,11 +139,32 @@ public class UserController {
 		}
 
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
-		String redirectUrl = contextPath + "/Zigme/";
-		return webHelper.redirect(redirectUrl, "저장되었습니다.");
+		String redirectUrl = contextPath + "/";
+		return webHelper.redirect(redirectUrl, "");
 	}
 	
+	//id 중복확인 처리 요청  보류 
+	@RequestMapping(value="/common/idCheck_ok.do", method= RequestMethod.POST)
+	public ModelAndView idCheck(Model model,
+			@RequestParam(value = "id", defaultValue = "") String id
+			){
+		
+		/** 2) 데이터 저장하기 */
+		User input = new User();
+		input.setId(id);
+		
+		List<User> output = null;
+		
+		try {
+			userservice.getUserList(input);
+		
+			output = userservice.getUserList(input);
+		} catch (Exception e) {
+			 return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+		
+	    return new ModelAndView("/common/idCheck_ok.do");
+	}
+		
 	
-	
-
 }

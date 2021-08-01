@@ -32,6 +32,12 @@
 <script
 	src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 
+<!-- ajax-helper -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.css" />
+<script
+	src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
+
 
 <!-- common.css -->
 <link rel="stylesheet" type="text/css"
@@ -276,9 +282,8 @@ input#all_check {
 				</div>
 				<!-- 하단 -->
 				<div class=" text-center">
-					<a href="${pageContext.request.contextPath}">
-						<button type="button" class="btn  btn-primary btn-lg btn-ttc5">확인
-						</button>
+					<button type="button" class="btn  btn-primary btn-lg btn-ttc5">확인
+					</button>
 					</a>
 				</div>
 				<br />
@@ -304,18 +309,18 @@ input#all_check {
 					<div class="form-group">
 						<div class="circle"></div>
 						<label for="user_id">아이디</label><br /> <input type="text"
-							name="id" id="user_id" class="form-control id_input"
+							name="id" id="user_id" class="form-control"
 							placeholder="영문,숫자 조합하여 4자~20자" />
-						<button type="button" id="id_uniq_check"
-							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5">중복확인</button>
+						<button type="button" id="id_check" name="id_check"
+							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5 id_input">중복확인</button>
 						<div class="form-group">
 							<div class="nickname1" style="display: none;">
 								<b id="idCheck"></b>
 							</div>
 						</div>
 					</div>
-					<span class="id_input_re_1">사용 가능한 아이디입니다.</span> 
-					<span class="id_input_re_2">아이디가 이미 존재합니다.</span> <br>
+					<span class="id_input_re_1">사용 가능한 아이디입니다.</span> <span
+						class="id_input_re_2">아이디가 이미 존재합니다.</span> <br>
 					<div class="form-group">
 						<div class="circle"></div>
 						<label for="user_pw">비밀번호</label><br /> <input type="password"
@@ -327,10 +332,8 @@ input#all_check {
 						<div class="circle"></div>
 						<label for="user_repw">비밀번호 확인</label><br /> <input
 							type="password" id="user_repw" name="passwordcheck"
-							class="form-control" placeholder="비밀번호를 한 번 더 입력해주세요." />
-						<div class="pw" style="display: none;"></div>
-						
-						<br />
+							class="form-control" placeholder="비밀번호를 한 번 더 입력해주세요." /> <font
+							id="chkNotice" size="2"></font> <br />
 						<div class="form-group">
 
 
@@ -365,8 +368,8 @@ input#all_check {
 								<div class="circle"></div>
 								<span for="gender"><b>성별</b></span><br /> <span>제공하신 정보는
 									성별 맞춤 정보 제공에 사용됩니다.</span> <br /> <input type="radio" id="gender_m"
-									name="gender" value="M" /> <label for="gender_m">남성</label> <input
-									type="radio" id="gender_f" name="gender" value="F" /> <label
+									name="gender" value="1" /> <label for="gender_m">남성</label> <input
+									type="radio" id="gender_f" name="gender" value="2" /> <label
 									for="gender_f">여성</label>
 							</div>
 						</div>
@@ -437,9 +440,7 @@ input#all_check {
 			</form>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"
-		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-		crossorigin="anonymous"></script>
+
 	<script
 		src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js">
 		
@@ -537,17 +538,70 @@ input#all_check {
 			});
 
 		});
-
-	
-
+		/** 회원가입 완료시 닉네임이 팝업으로 값이 따라가도록 funtion줌 */
 		function printName() {
 			const name = document.getElementById('user_subname').value;
 			document.getElementById("result").innerText = name;
 		}
 		
-	
-
+		/** 닉네임 중복 체크 */
 		
+		
+		/** 아이디 중복 체크 */
+		$(function() {
+			/** 버튼 클릭시 이벤트 */
+			$("#id_check")
+					.click(
+							function() {
+								// 입력값을 취득하고, 내용의 존재여부를 검사한다.
+								var user_id_val = $("#user_id").val();
+
+								if (!user_id_val) { // 입력되지 않았다면?
+									alert("아이디를 입력하세요."); // <-- 메시지 표시
+									$("#user_id").focus(); // <-- 커서를 강제로 넣기
+									return false; // <-- 실행 중단
+								}
+
+								// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
+								// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
+								$
+										.post(
+												"${pageContext.request.contextPath}/api/id_unique_check.do",
+												{
+													user_id : user_id_val
+												},
+												function(req) {
+													// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+													// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+													if (req.result == 'OK') {
+														alert("사용 가능한 아이디 입니다.");
+													} else {
+														alert("사용할 수 없는 아이디 입니다.");
+														$("#user_id").val("");
+														$("#user_id").focus();
+													}
+												}); // end $.get
+							}); // end click
+		});
+		/** 비밀번호 일치 여부 */
+		$(function() {
+			$('#user_pw').keyup(function() {
+				F
+				$('#chkNotice').html('');
+			});
+
+			$('#user_repw').keyup(function() {
+
+				if ($('#user_pw').val() != $('#user_repw').val()) {
+					$('#chkNotice').html('비밀번호가 일치하지 않습니다<br>');
+					$('#chkNotice').attr('color', '#f82a2aa3');
+				} else {
+					$('#chkNotice').html('비밀번호가 일치 합니다.<br>');
+					$('#chkNotice').attr('color', '#199894b3');
+				}
+
+			});
+		});
 	</script>
 </body>
 
