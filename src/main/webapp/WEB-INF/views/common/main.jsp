@@ -30,6 +30,8 @@
   
   <c:import url="../inc/header.jsp" />
   
+  <!--  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/ajax/ajax_hepler.css" />  -->
+  
   <style type="text/css">   
   @import url('https://fonts.googleapis.com/css2?family=Gugi&family=Roboto:wght@100&display=swap');  
  
@@ -129,9 +131,17 @@ strong {
     
     <c:import url="../inc/footer.jsp" />
 	
+	
+	<!--  AjaxHelper -->
+  	<script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
+  	
     <script type="text/javascript">    
 		$(function() {	
 		// 메인 시계
+		
+		var click_scheNo; // 현재 클릭된 일정데이터의 ScheNo 
+		
+		
 		function main_Time() {
             var mydate = new Date();            
             var hh = mydate.getHours();
@@ -227,7 +237,7 @@ strong {
         	var allTime_checked = $('#tui-full-calendar-schedule-allday').prop('checked');
         	if (allTime_checked) {
         		scheStartdate = scheStartdate.substring(0, 11) + "00:00:00";
-        		scheEnddate = scheEnddate.substring(0, 11) + "23:59:59";
+        		scheEnddate = scheEnddate.substring(0, 11) + "00:00:00";
         	}         	
         	
         	var userNo = 1; // test_user
@@ -256,8 +266,7 @@ strong {
     			}
     		}); // end $.ajax
     		
-		});        
-
+		});
         
         $(document).on('click', '#calendar-prev', function(e){        	
         	  
@@ -306,6 +315,25 @@ strong {
 				//console.log(zigme_schedulList_count);				
 			}
 		}); // end $.ajax
+		
+		$(document).on('click', '.tui-full-calendar-weekday-schedule-title', function(e){        	
+			//console.log("클릭됨 : " + $(this).data("scheid"));
+			click_scheNo = $(this).data("scheid");
+		});
+		
+		$(document).on('click', '.tui-full-calendar-popup-delete', function(e){        	
+			
+			$.delete("${pageContext.request.contextPath}/main", {
+				"userNo": userNo,
+				"scheNo": click_scheNo
+			}, function(json) {
+				if (json.rt == "OK") {
+					console.log("삭제 되었습니다. scheNo : " + click_scheNo);
+				}
+			});
+			
+		});
+		
 		
 		drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);
         

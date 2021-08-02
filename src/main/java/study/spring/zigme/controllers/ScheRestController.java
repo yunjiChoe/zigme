@@ -29,7 +29,7 @@ public class ScheRestController {
         
     @Autowired ScheService scheService;
     
-    /** 스케줄러 data insert */
+    /** scheduler data insert */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public Map<String, Object> post(
             @RequestParam(value="scheCate", defaultValue="") String scheCate,
@@ -115,5 +115,33 @@ public class ScheRestController {
         
         return webHelper.getJsonData(data);
     }
+    
+    /** scheduler data delete */
+    @RequestMapping(value = "/main", method = RequestMethod.DELETE)
+    public Map<String, Object> delete(
+            @RequestParam(value="userNo", defaultValue="") int userNo, 
+    		@RequestParam(value="scheNo", defaultValue="") int scheNo) {
+        
+    	/** 1) 파라미터 유효성 검사 */
+        // 이 값이 존재하지 않는다면 데이터 삭제가 불가능하므로 반드시 필수값으로 처리해야 한다.
+        if (scheNo == 0) {
+            return webHelper.getJsonWarning("scheNo 데이터 오류입니다.");
+        }
 
+        /** 2) 데이터 삭제하기 */
+        // 데이터 삭제에 필요한 조건값을 Beans에 저장하기
+        Scheduler input = new Scheduler();
+        input.setUserNo(userNo);
+        input.setScheNo(scheNo);
+
+        try {
+            scheService.deleteSche(input); // 데이터 삭제
+        } catch (Exception e) {
+            return webHelper.getJsonError(e.getLocalizedMessage());
+        }
+
+        /** 3) 결과를 확인하기 위한 JSON 출력 */
+        // 확인할 대상이 삭제된 결과값만 OK로 전달
+        return webHelper.getJsonData();
+    }
 }

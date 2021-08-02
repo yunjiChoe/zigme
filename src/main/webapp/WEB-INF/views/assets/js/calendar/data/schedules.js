@@ -135,19 +135,29 @@ function drawZigmeSchedule(renderStart, renderEnd, zigme_schedulList, zigme_sche
 	
     schedule.id = zigme_schedulList[i].scheNo; 
     schedule.title = zigme_schedulList[i].scheContent;    
-	schedule.location = zigme_schedulList[i].scheLoc; 
+	schedule.location = zigme_schedulList[i].scheLoc;
 	schedule.start = zigme_schedulList[i].scheStartdate;
-	schedule.end = zigme_schedulList[i].scheEnddate;	
+	schedule.end = zigme_schedulList[i].scheEnddate;
+	
+	if(zigme_schedulList[i].scheStartdate.substring(10, 19) == zigme_schedulList[i].scheEnddate.substring(10, 19))
+	{
+		schedule.category = 'allday';
+	}
+	else 
+	{			
+		schedule.category = 'time';
+	}	
+		
 	
 	var calendar = findCalendar(zigme_schedulList[i].scheCate);
-	console.log("calendar.id ==> " + calendar.id);
+	// console.log("calendar.id ==> " + calendar.id);
 	
 	schedule.calendarId = calendar.id;             
     schedule.color = calendar.color;
     schedule.bgColor = calendar.bgColor;
     schedule.dragBgColor = calendar.dragBgColor;
     schedule.borderColor = calendar.borderColor;
-    schedule.category = 'time';
+    
         
    	ScheduleList.push(schedule);
    	

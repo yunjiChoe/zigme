@@ -25,5 +25,6 @@ public interface ScheService {
 	
 	public int getScheCount(Scheduler input) throws Exception;
 	
+	public int deleteSche(Scheduler input) throws Exception;	
 
 }
