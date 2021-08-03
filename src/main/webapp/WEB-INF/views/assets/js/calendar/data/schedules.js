@@ -139,13 +139,18 @@ function drawZigmeSchedule(renderStart, renderEnd, zigme_schedulList, zigme_sche
 	schedule.start = zigme_schedulList[i].scheStartdate;
 	schedule.end = zigme_schedulList[i].scheEnddate;
 	
-	if(zigme_schedulList[i].scheStartdate.substring(10, 19) == zigme_schedulList[i].scheEnddate.substring(10, 19))
+	var start_time = "00:00:00";
+	var end_time = "23:59:59";
+	
+	if((zigme_schedulList[i].scheStartdate.indexOf(start_time) != -1) && (zigme_schedulList[i].scheEnddate.indexOf(end_time) != -1))
 	{
 		schedule.category = 'allday';
+		console.log("allday in");
 	}
 	else 
 	{			
 		schedule.category = 'time';
+		console.log("time in");
 	}	
 		
 	

@@ -125,9 +125,9 @@ strong {
     <script src="${pageContext.request.contextPath}/assets/js/calendar/tui-calendar.js"></script>
     
     <script src="${pageContext.request.contextPath}/assets/js/calendar/data/calendars.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>     
-    <script src="${pageContext.request.contextPath}/assets/js/calendar/app.js"></script>  
+    <script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/calendar/app.js"></script>
     
     <c:import url="../inc/footer.jsp" />
 	
@@ -237,84 +237,160 @@ strong {
         	var allTime_checked = $('#tui-full-calendar-schedule-allday').prop('checked');
         	if (allTime_checked) {
         		scheStartdate = scheStartdate.substring(0, 11) + "00:00:00";
-        		scheEnddate = scheEnddate.substring(0, 11) + "00:00:00";
+        		scheEnddate = scheEnddate.substring(0, 11) + "23:59:59";        		
         	}         	
         	
         	var userNo = 1; // test_user
+        	var flag = $('#dasom_save span').html();
+        	console.log("flag : " + flag);
         	
-        	$.ajax({
-    			// 결과를 읽어올 URL
-    			url: '${pageContext.request.contextPath}/main',
-    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
-    			method: 'post',
-    			// 전달할 조건값은 JSON형식으로 구성
-    			data: {
-    				   "scheCate": scheCate,
-    				   "scheContent": scheContent, 
-    				   "scheLoc": scheLoc,
-    				   "scheStartdate" : scheStartdate,
-    				   "scheEnddate" : scheEnddate,
-    				   "userNo" : userNo
-    			},
-    			// 읽어올 내용의 형식(생략할 경우 Json)
-    			dataType: 'json',
-    			// 읽어온 내용을 처리하기 위한 함수
-    			success: function(req) {
-    				
-    				// console.log("통신완료" + req);
-    				
-    			}
-    		}); // end $.ajax
+        	if(flag == '저장') {
+        		
+        		$.ajax({
+        			// 결과를 읽어올 URL
+        			url: '${pageContext.request.contextPath}/main',
+        			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+        			method: 'post',
+        			// 전달할 조건값은 JSON형식으로 구성
+        			data: {
+        				   "scheCate": scheCate,
+        				   "scheContent": scheContent, 
+        				   "scheLoc": scheLoc,
+        				   "scheStartdate" : scheStartdate,
+        				   "scheEnddate" : scheEnddate,
+        				   "userNo" : userNo
+        			},
+        			// 읽어올 내용의 형식(생략할 경우 Json)
+        			dataType: 'json',
+        			// 읽어온 내용을 처리하기 위한 함수
+        			success: function(req) {
+        				
+        				// console.log("통신완료" + req);
+        				
+        			}
+        		}); // end $.ajax        		
+        		
+        	}         	
+        	else if (flag == '수정') {        		
+        		
+        		// 일정을 종일로 체크한 경우 
+            	var allTime_checked = $('#tui-full-calendar-schedule-allday').prop('checked');
+            	if (allTime_checked) {
+            		scheStartdate = scheStartdate.substring(0, 10) + " 00:00:00";
+            		scheEnddate = scheEnddate.substring(0, 10) + " 23:59:59";        		
+            	} 
+        		
+        		$.put("${pageContext.request.contextPath}/main", {
+        		   "scheNo": click_scheNo,
+  				   "scheCate": scheCate,
+  				   "scheContent": scheContent, 
+  				   "scheLoc": scheLoc,
+  				   "scheStartdate" : scheStartdate,
+  				   "scheEnddate" : scheEnddate,
+  				   "userNo" : userNo
+  				   
+    			}, function(json) {
+    				if (json.rt == "OK") {
+    					console.log("수정 되었습니다. scheNo : " + click_scheNo);
+    				}
+    			});
+        		
+        	}        	
+        	else {
+        		
+        	}
+        	
+        	
     		
 		});
-        
-        $(document).on('click', '#calendar-prev', function(e){        	
-        	  
-        	console.log("calendar-prev on click");
-        	cal.prev();
-        	setRenderRangeText();
-        });
-        
-        $(document).on('click', '#calendar-next', function(e){        	
-      	  
-        	console.log("calendar-next on click");
-      	    cal.next();
-      	  	setRenderRangeText();
-      	});
         
         var userNo = 1; // test_user
         var zigme_schedulList = new Object();
         var zigme_schedule = new Object();
         var zigme_schedulList_count;
         
-        zigme_schedule.start = null;
-        zigme_schedule.end = null;
-        zigme_schedule.ajaxstart = "";        
-        zigme_schedule.ajaxend = "";
+        function load_Sche() {
+             
+             zigme_schedule.start = null;
+             zigme_schedule.end = null;
+             zigme_schedule.ajaxstart = "";        
+             zigme_schedule.ajaxend = "";
+             
+             init(zigme_schedule);		
+             
+             $.ajax({
+             	async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+     			// 결과를 읽어올 URL
+     			url: '${pageContext.request.contextPath}/main.do',
+     			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+     			method: 'get',
+     			// 전달할 조건값은 JSON형식으로 구성
+     			data: {
+     				   "userNo": userNo,
+     				   "startdate_v" : zigme_schedule.ajaxstart, 
+     				   "enddate_v" : zigme_schedule.ajaxend
+     			},
+     			// 읽어올 내용의 형식(생략할 경우 Json)
+     			dataType: 'json',
+     			// 읽어온 내용을 처리하기 위한 함수
+     			success: function(req) {
+     				zigme_schedulList = req.item;
+     				zigme_schedulList_count = req.count;
+     				//console.log(zigme_schedulList_count);				
+     			}
+     		}); // end $.ajax
+        	
+        }
         
-        init(zigme_schedule);		
+        $(document).on('click', '#calendar-prev', function(e){        	
+        	
+        	
+        	cal.prev();
+        	
+        	var month_var = parseInt($('#text_ads2 font').html())-1;
+        	
+        	if (month_var == 0) {
+        		
+        		var year_var = parseInt($('#text_ads1 font').html())-1;
+        		$('#text_ads1 font').html(year_var);
+        		var month_str = "12";
+        		
+        	} else {
+        		
+        		var month_str = month_var < 10 ? "0" + month_var : month_var;
+        		
+        	}
+        	
+        	
+        	$('#text_ads2 font').html(month_str);
+        	
+        	load_Sche();
+        	drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);        	
+        });
         
-        $.ajax({
-        	async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-			// 결과를 읽어올 URL
-			url: '${pageContext.request.contextPath}/main.do',
-			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
-			method: 'get',
-			// 전달할 조건값은 JSON형식으로 구성
-			data: {
-				   "userNo": userNo,
-				   "startdate_v" : zigme_schedule.ajaxstart, 
-				   "enddate_v" : zigme_schedule.ajaxend
-			},
-			// 읽어올 내용의 형식(생략할 경우 Json)
-			dataType: 'json',
-			// 읽어온 내용을 처리하기 위한 함수
-			success: function(req) {
-				zigme_schedulList = req.item;
-				zigme_schedulList_count = req.count;
-				//console.log(zigme_schedulList_count);				
-			}
-		}); // end $.ajax
+        $(document).on('click', '#calendar-next', function(e){        	
+      	  
+        	cal.next();
+        	
+			var month_var = parseInt($('#text_ads2 font').html())+1;
+        	
+        	if (month_var == 13) {
+        		
+        		var year_var = parseInt($('#text_ads1 font').html())+1;
+        		$('#text_ads1 font').html(year_var);
+        		var month_str = "01";
+        		
+        	} else {
+        		
+        		var month_str = month_var < 10 ? "0" + month_var : month_var;
+        		
+        	}
+        	
+        	$('#text_ads2 font').html(month_str);        	
+        	
+        	load_Sche();
+        	drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);      	    
+      	});       
 		
 		$(document).on('click', '.tui-full-calendar-weekday-schedule-title', function(e){        	
 			//console.log("클릭됨 : " + $(this).data("scheid"));
@@ -334,7 +410,7 @@ strong {
 			
 		});
 		
-		
+		load_Sche();		
 		drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);
         
 		main_Time();

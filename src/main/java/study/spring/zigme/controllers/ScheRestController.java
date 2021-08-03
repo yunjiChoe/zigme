@@ -116,6 +116,57 @@ public class ScheRestController {
         return webHelper.getJsonData(data);
     }
     
+    /** 수정 폼에 대한 action 페이지 */
+    @RequestMapping(value = "/main", method = RequestMethod.PUT)
+    public Map<String, Object> put(
+    		@RequestParam(value="scheNo", defaultValue="") int scheNo,
+    		@RequestParam(value="scheCate", defaultValue="") String scheCate,
+            @RequestParam(value="scheContent", defaultValue="") String scheContent,
+            @RequestParam(value="scheLoc", defaultValue="") String scheLoc,
+            @RequestParam(value="scheStartdate", defaultValue="0") String scheStartdate,
+            @RequestParam(value="scheEnddate", defaultValue="") String scheEnddate,
+            @RequestParam(value="userNo", defaultValue="") int userNo) {
+        
+    	/** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
+        // 일반 문자열 입력 컬럼 --> String으로 파라미터가 선언되어 있는 경우는 값이 입력되지 않으면 빈 문자열로 처리된다.
+        if (!regexHelper.isValue(scheCate))     	{ return webHelper.getJsonWarning("일정 분류를 선택하세요."); }
+        if (!regexHelper.isValue(scheContent))      { return webHelper.getJsonWarning("일정 내용을 입력하세요."); }
+        if (!regexHelper.isValue(scheStartdate))      { return webHelper.getJsonWarning("시작일을 입력하세요."); }
+        if (!regexHelper.isValue(scheEnddate))      { return webHelper.getJsonWarning("시작일을 입력하세요."); }
+        
+        // 숫자형으로 선언된 파라미터()
+        if (userNo == 0)                    { return webHelper.getJsonWarning("사용자 No는 필수입니다."); }
+
+        /** 2) 데이터 수정하기 */
+        // 저장할 값들을 Beans에 담는다.
+        Scheduler input = new Scheduler();
+        input.setScheNo(scheNo);
+        input.setScheCate(scheCate);
+        input.setScheContent(scheContent);
+        input.setScheLoc(scheLoc);
+        input.setScheStartdate(scheStartdate);
+        input.setScheEnddate(scheEnddate);
+        input.setUserNo(userNo);
+
+        // 저장된 결과를 조회하기 위한 객체
+        Scheduler output = null; 
+
+        try {
+            // 데이터 수정
+        	scheService.editSche(input);
+            // 수정 결과 조회
+            output = scheService.getScheItem(input);
+            
+        } catch (Exception e) {
+            return webHelper.getJsonError(e.getLocalizedMessage());
+        }
+
+        /** 3) 결과를 확인하기 위한 JSON 출력 */
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("item", output);
+        return webHelper.getJsonData(map);
+    }
+    
     /** scheduler data delete */
     @RequestMapping(value = "/main", method = RequestMethod.DELETE)
     public Map<String, Object> delete(
