@@ -142,6 +142,8 @@ textarea {
 
 	<c:import url="../inc/footer.jsp" />
 
+	<script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
+	
 	<!--  lightbox 플러그인 -->
 	<script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
 	<script type="text/javascript">
@@ -187,7 +189,7 @@ textarea {
 				data : {},
 				dataType: 'JSON',
 				success: function(req) {				
-					menu_list = req.doenjangjjigae;					
+					menu_list = req.ramen;					
 				},
 				error: function() {
 					alert("일시적인 오류가 발생하였습니다.");
@@ -202,7 +204,7 @@ textarea {
 				data : {},
 				dataType: 'JSON',
 				success: function(req) {				
-					review_list = req.doenjangjjigae;					
+					review_list = req.ramen;					
 				},
 				error: function() {
 					alert("일시적인 오류가 발생하였습니다.");
@@ -431,7 +433,7 @@ textarea {
 			$("#open_modal_btn").toggleClass("hidden_btn");
 			
 			// 리뷰 이전페이지 -> 음식점 리스트로 되돌아간다.
-			menu_listname("된장찌개", menu_list.length);
+			menu_listname("라면", menu_list.length);
 			list_side(menu_list.length);
 		});
 		
@@ -475,7 +477,7 @@ textarea {
 			/** 함수 호출부 */
 			data_load();					// 페이지 JSON데이터 load 		
 			menu_item(5);    				// 업종별 아이콘 load
-			menu_listname("된장찌개", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
+			menu_listname("라면", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
 			list_side(menu_list.length);					// 검색된 주변음식점 갯수
     	});
     </script>

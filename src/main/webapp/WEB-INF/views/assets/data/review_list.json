@@ -32,5 +32,11 @@
    		   {"no" :"7912852", "id" : "kakao_good", "review_jumsu" : "5.0", "content" : "월급날에 또 올게요~~", "date" : "2021.06.01", "img" : "" },
    	 	   {"no" :"1020669761", "id" : "reviewking", "review_jumsu" : "2.0", "content" : "양이 너무 적음", "date" : "2021.06.20", "img" : "" },
    	 	   {"no" : "1020669761", "id" : "workman", "review_jumsu" : "5.0", "content" : "맛있어요. 저녁에 가도 괜찮을 듯", "date" : "2021.06.04", "img" : "" }		   
+	],
+	
+	"ramen" : [ { "no": "926603562", "id" : "python90", "review_jumsu" : "4.0", "content" : "먹을만함", "date" : "2021.05.01", "img" : ""},
+				{ "no": "1863534623", "id" : "pandasity", "review_jumsu" : "4.0", "content" : "먹을만함~", "date" : "2021.05.02", "img" : ""},
+				{ "no": "10734858", "id" : "springjoah", "review_jumsu" : "4.0", "content" : "먹을만함!", "date" : "2021.05.03", "img" : ""},
+				{ "no": "18949141", "id" : "bigdatano", "review_jumsu" : "4.0", "content" : "먹을만함^^", "date" : "2021.05.04", "img" : ""}
 	]
 }

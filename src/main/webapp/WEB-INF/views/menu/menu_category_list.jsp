@@ -34,7 +34,7 @@
 	}
 		
 	</script>
-	
+		
 	<style type="text/css">
 	
 	b {
@@ -270,6 +270,8 @@
 
     <c:import url="../inc/footer.jsp" />
     
+    <script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
+    
     <!--  lightbox 플러그인 -->
     <script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
     <script type="text/javascript">
@@ -400,8 +402,8 @@
         	var result="";
         	
         	for(var i=0; i < count; i++) {
-        		result += "<li><div class='menu_iconarea' id='menu_group_" + i + "'><img class='menu_icon' src='${pageContext.request.contextPath}/img/menu/menu_" + i + ".png' width=" 
-        		+  icon_size[0] + " height=" + icon_size[1] + "/><span>" + menu_txt[i] +"</span></div></li>";        		
+        		result += "<li><div class='menu_iconarea' id='menu_group_" + i + "'><img class='menu_icon' src='${pageContext.request.contextPath}/img/menu/menu_0" + i + ".png' width=" 
+        		+  icon_size[0] + " height=" + icon_size[1] + "/><span>" + menu_txt[i] + "</span></div></li>";        		
         	}        	
         	$("#menuicon_list").html(result);
        		//document.getElementById("menuicon_list").innerHTML = result;        		
@@ -550,7 +552,7 @@
 			$("#open_modal_btn").toggleClass("hidden_btn");
 			
 			// 리뷰 이전페이지 -> 음식점 리스트로 되돌아간다.
-			menu_listname("자장면", menu_list.length);
+			menu_listname("짜장면", menu_list.length);
 			list_side(menu_list.length);
 		});
 		
@@ -597,7 +599,7 @@
 			/** 함수 호출부 */
 			data_load();					// 페이지 JSON데이터 load 		
     		menu_item(6);    				// 업종별 아이콘 load
-    		menu_listname("자장면", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
+    		menu_listname("짜장면", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
     		list_side(menu_list.length);					// 검색된 주변음식점 갯수
     	});
     </script>

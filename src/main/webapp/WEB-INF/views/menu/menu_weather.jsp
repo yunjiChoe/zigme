@@ -104,22 +104,7 @@
 
 					$("#re-re").html("<img src='${pageContext.request.contextPath}/img/menu/ham.jpg' height='130'>"+"<br>"+"<h1>부대찌개</h1>"+"<br>")
 	
-				});
-
-			$("#abc").hovers(function() {
-				var images =['${pageContext.request.contextPath}/img/common/weather-icons/001-cloudy day.png',
-					'${pageContext.request.contextPath}/img/common/weather-icons/002-sunny.png',
-					'${pageContext.request.contextPath}/img/common/weather-icons/015-rainy.png'];
-				
-				
-				var image = document.getElementById("weather_today");
-				image.src=images[i];
-				
-				
-				$("#condition-food").html("감기몸살").css("color", "#4041fe");
-
-			});
-			
+				});			
 			
 			});
 		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=37.56826&lon=126.977829&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'

@@ -161,10 +161,10 @@
 				dataType: 'JSON',
 				success: function(req) {
 				
-					icon_size[0] = req.common[0].icon_size_width;
-					icon_size[1] = req.common[0].icon_size_height;
+					//icon_size[0] = req.common[0].icon_size_width;
+					//icon_size[1] = req.common[0].icon_size_height;
 					label = req.common[0].label;
-					menu_txt = req.common[0].menu_txt;
+					//menu_txt = req.common[0].menu_txt;
 				},
 				error: function() {
 					alert("일시적인 오류가 발생하였습니다.");
@@ -465,7 +465,7 @@
 	   
 			/** 함수 호출부 */
 			data_load();					// 페이지 JSON데이터 load 		
-			weather_item("비 옴");    		// 날씨별 아이콘 load
+			weather_item("비");    		// 날씨별 아이콘 load
     		menu_listname("된장찌개", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
     		list_side(menu_list.length);    // 검색된 주변음식점 갯수
     	});
