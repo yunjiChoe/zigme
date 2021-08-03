@@ -1,7 +1,5 @@
 package study.spring.zigme.controllers;
 
-
-
 import java.util.List;
 
 import org.json.JSONObject;
@@ -15,12 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.servlet.ModelAndView;
 
-
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
 import study.spring.zigme.model.User;
 import study.spring.zigme.service.UserService;
-
 
 @Controller
 public class UserController {
@@ -40,12 +36,9 @@ public class UserController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 
-	
-
-	/** 작성 폼에 대한 action 페이지 */
+	/** 회원가입 작성 폼에 대한 action 페이지 */
 	@RequestMapping(value = "/common/join_ok.do", method = RequestMethod.POST)
-	public ModelAndView add_ok(Model model, 
-			@RequestParam(value = "id", defaultValue = "") String id,
+	public ModelAndView add_ok(Model model, @RequestParam(value = "id", defaultValue = "") String id,
 			@RequestParam(value = "password", defaultValue = "") String password,
 			@RequestParam(value = "passwordcheck", defaultValue = "") String passwordcheck,
 			@RequestParam(value = "name", defaultValue = "") String name,
@@ -59,11 +52,10 @@ public class UserController {
 			@RequestParam(value = "icon", defaultValue = "0") int icon,
 			@RequestParam(value = "blockUserflag", defaultValue = "0") int blockUserflag,
 			@RequestParam(value = "outUserflag", defaultValue = "0") int outUserflag,
-			@RequestParam(value = "checkAll", defaultValue = "") String checkAll
-			) {
+			@RequestParam(value = "checkAll", defaultValue = "") String checkAll) {
 
-/** 1) 사용자가 입력한 파라미터 유효성 검사 */
-		
+		/** 1) 사용자가 입력한 파라미터 유효성 검사 */
+
 		if (!regexHelper.isValue(id)) {
 			return webHelper.redirect(null, "아이디를 입력하세요");
 		}
@@ -86,7 +78,7 @@ public class UserController {
 		if (!regexHelper.isKorEng(nickname)) {
 			return webHelper.redirect(null, "닉네임은 한글, 영어 조합만 가능합니다.");
 		}
-		
+
 		if (!regexHelper.isValue(email)) {
 			return webHelper.redirect(null, "이메일을 입력하세요");
 		}
@@ -97,24 +89,10 @@ public class UserController {
 		if (!regexHelper.isValue(addr2)) {
 			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
-		
+
 		if (!regexHelper.isValue(checkAll)) {
 			return webHelper.redirect(null, "약관에 동의해주세요.");
 		}
-		
-
-		/**if (sal == 0) {
-			return webHelper.redirect(null, "급여를 입력하세요");
-		}
-		if (sal < 0) {
-			return webHelper.redirect(null, "급여는 0보다 작을 수 없습니다");
-		}
-		if (comm < 0) {
-			return webHelper.redirect(null, "보직수당은 0보다 작을 수 없습니다");
-		}
-		if (deptno == 0) {
-			return webHelper.redirect(null, "소속 학과 번호를 입력하세요");
-		}*/
 
 		/** 2) 데이터 저장하기 */
 		User input = new User();
@@ -140,31 +118,75 @@ public class UserController {
 
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
 		String redirectUrl = contextPath + "/";
-		return webHelper.redirect(redirectUrl, "");
+		return webHelper.redirect(redirectUrl, null);
+	}
+
+	/** 로그인 작성 폼에 대한 action 페이지 */
+	@RequestMapping(value = "/common/login_ok.do", method = RequestMethod.POST)
+	public ModelAndView login_ok(Model model, @RequestParam(value = "id", defaultValue = "") String id,
+			@RequestParam(value = "password", defaultValue = "") String password) {
+
+		if (!regexHelper.isValue(id)) {
+			return webHelper.redirect(null, "아이디를 입력하세요");
+		}
+
+		if (!regexHelper.isValue(password)) {
+			return webHelper.redirect(null, " 비밀번호를 입력하세요");
+		}
+
+		User input = new User();
+
+		input.setId(id);
+		input.setPassword(password);
+
+		User output = null;
+
+		try {
+			output = userservice.doLogin(input);
+
+		} catch (Exception e) {
+			return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+		/** 3) 결과를 확인하기 위한 페이지 이동 */
+		String redirectUrl = contextPath + "/main";
+		return webHelper.redirect(redirectUrl, "로그인 완료");
+
 	}
 	
-	//id 중복확인 처리 요청  보류 
-	@RequestMapping(value="/common/idCheck_ok.do", method= RequestMethod.POST)
-	public ModelAndView idCheck(Model model,
-			@RequestParam(value = "id", defaultValue = "") String id
-			){
+	
+	
+	/** 아이디 찾기 작성 폼에 대한 action 페이지 */
+	@RequestMapping(value = "/common/find_ok.do", method = RequestMethod.POST)
+	public ModelAndView find_ok(Model model,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "email", defaultValue = "") String email
+			) {
 		
-		/** 2) 데이터 저장하기 */
-		User input = new User();
-		input.setId(id);
-		
-		List<User> output = null;
-		
-		try {
-			userservice.getUserList(input);
-		
-			output = userservice.getUserList(input);
-		} catch (Exception e) {
-			 return webHelper.redirect(null, e.getLocalizedMessage());
+		if (!regexHelper.isValue(name)) {
+			return webHelper.redirect(null, "이름를 입력하세요");
 		}
 		
-	    return new ModelAndView("/common/idCheck_ok.do");
-	}
+		if (!regexHelper.isValue(email)) {
+			return webHelper.redirect(null, " 이메일를 입력하세요");
+		}
 		
-	
+		User input = new User();
+		
+		input.setName(name);
+		input.setEmail(email);
+		
+		
+		User output = null;
+		
+		try {
+			output = userservice.getUserId(input);
+			
+		}catch (Exception e){
+			return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+		/** 3) 결과를 확인하기 위한 페이지 이동 */
+		String redirectUrl = contextPath + "/";
+		return webHelper.redirect(redirectUrl, "아이디 찾기 완료");
+	}
+
 }

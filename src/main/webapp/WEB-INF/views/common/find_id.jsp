@@ -82,7 +82,7 @@
                     <p>
                         메이트님의 아이디는
                     </p>
-                    <h4 class="text-primary ">javajung</h4>
+                    <h4 class="text-primary" >___</h4>
                     <p>
                         입니다.
                     </p>
@@ -113,18 +113,18 @@
             </div>
             <br />
             <hr style="border: solid 1px #aaa;" width="100%">
-            <form role="form">
+            <form role="form" action="${pageContext.request.contextPath}/common/find_ok.do"  method="post">
                 <fieldset>
                     <div class="form-group">
-                        <input type="text" id="user_name" class="form-control" placeholder="이름" />
+                        <input type="text" id="user_name" class="form-control" name="name" placeholder="이름" />
                         <span class="text-info">이름을 입력해 주세요.</span>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="user_eamil" class="form-control" placeholder="email@example.com" />
+                        <input type="email" id="user_eamil" class="form-control"  name="email" placeholder="email@example.com" />
                         <span class="text-info">이메일 주소를 입력해주세요.</span>
                     </div>
                     <br />
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" href="#find-id-modal">
+                    <button type="submit" class="btn btn-primary btn-block" data-toggle="modal" href="#find-id-modal">
                         아이디 찾기
                     </button>
                 </fieldset>

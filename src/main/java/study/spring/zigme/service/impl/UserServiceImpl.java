@@ -153,20 +153,18 @@ public class UserServiceImpl implements UserService{
 	*/
 	@Override
 	public User doLogin(User input) throws Exception {
-		int result = 0;
-		User output = null;
+		User result = null;
+		
 		
 		try {
-			if(input.getOutUserflag() ==1) {
+			if(input.getOutUserflag() =='Y') {
 				throw new Exception("이미 탈퇴처리된 회원입니다.");
 			}else {
-				result =sqlSession.update("UserMapper.outUpdate", input);
-				output =sqlSession.selectOne("UserMapper.selectItem",input);
+			
+				result =sqlSession.selectOne("UserMapper.login",input);
 			}
-			if(result ==0) {
-				throw new NullPointerException("result= 0");
-			}else if (output ==null) {
-				throw new NullPointerException("output=null");
+			if(result ==null) {
+				throw new NullPointerException("result= null");
 			}
 		}catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());
@@ -175,7 +173,7 @@ public class UserServiceImpl implements UserService{
 			log.error(e.getLocalizedMessage());
 			throw new Exception("로그인 처리에 실패했습니다.");
 		}
-		return output;
+		return result;
 	}
 	
 	/**
@@ -205,6 +203,36 @@ public class UserServiceImpl implements UserService{
 	public int nickName(User input) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	/**
+	 * 이름, 이메일로 아이디 조회
+	 * @param User 조회할 학과의 인련번호를 담고 있는 Beans
+	 * @return 조회된 데이터가 저장된 Beans
+	 * @throws Exception
+	 */
+	@Override
+	public User getUserId(User input) throws Exception {
+		
+		User result = null;
+		
+			try {
+				result = sqlSession.selectOne("UserMapper.selectId", input);
+				
+				if (result == null) {
+	                throw new NullPointerException("result=null");
+	            }
+				
+			} catch (NullPointerException e) {
+				log.error(e.getLocalizedMessage());
+				throw new Exception("조회된 데이터가 없습니다.");
+			} catch (Exception e) {
+	            log.error(e.getLocalizedMessage());
+	            throw new Exception("데이터 조회에 실패했습니다.");
+	        }
+			
+		return result;
+
 	}
 
 		

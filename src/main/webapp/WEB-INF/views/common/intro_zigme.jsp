@@ -95,15 +95,15 @@ label {
 					</h1>
 				</div>
 				<!--내용 -->
-				<form action="/join" id="login-form" class="form-inline"
+				<form action="${pageContext.request.contextPath}/common/login_ok.do" id="login-form" class="form-inline"
 					method="post">
 					<div class="form-group">
-						<label for="user_id"></label> <input type="text" name="user_id"
+						<label for="user_id"></label> <input type="text" name="id" 
 							id="user_id" class="form-control" placeholder="아이디" />
 					</div>
 					<div class="form-group">
 						<label for="user_pw"></label> <input type="password"
-							name="user_pw" id="user_pw" class="form-control"
+							name="password" id="user_pw" class="form-control"
 							placeholder="패스워드" />
 					</div>
 					<div class="checkbox">
@@ -147,21 +147,10 @@ label {
 			</div>
 		</div>
 	</div>
-	<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
+	
 	<script type="text/javascript">
 	
-	 
-    /* 로그인 버튼 클릭 메서드 */
-    $(".login_button").click(function(){
-        
-    	/* 로그인 메서드 서버 요청 */
-        
-        $("#login-form").submit();
-        
-    });
+
  
 
 		

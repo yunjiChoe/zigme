@@ -38,26 +38,26 @@ public class UserTest {
 	private UserService userService;
 	
 	
-	
+	/**단일행 조회 테스트 
 	@Test
-	/**단일행 조회 테스트 */
+	
 	public void testA() {
 		User input = new User();
 		input.setUserNo(1);
 		sqlSession.selectOne("UserMapper.selectItem", input);
-	}
+	}*/
 	
-	/** 다중행 조회 테스트 */
+	/** 다중행 조회 테스트 
 	@Test
 	public void testB() {
 		User input = new User();
 		sqlSession.selectList("UserMapper.selectList", input);
-	}
-	/** 데이터 저장 테스트 */
+	}*/
+	/** 데이터 저장 테스트 
 	@Test
 	public void testC() {
 		User input = new User();
-		input.setId("uirecp");
+		input.setId("u");
 		input.setPassword("secret");
 		input.setName("정정");
 		input.setNickname("정닉네임");
@@ -72,17 +72,17 @@ public class UserTest {
 		input.setOutUserflag(1);
 		sqlSession.insert("UserMapper.insertItem", input);
 		
-	}
+	}*/
 	
-	/** 데이터 삭제 테스트 */
+	/** 데이터 삭제 테스트 
 	@Test
 	public void testD() {
 		User input = new User();
-		input.setUserNo(3);
+		input.setUserNo(35);
 		sqlSession.delete("UserMapper.deleteItem", input);
-	}
+	}*/
 	
-	/** 데이터 수정 테스트 */
+	/** 데이터 수정 테스트 
 	@Test
 	public void testE() {
 		User input = new User();
@@ -108,7 +108,7 @@ public class UserTest {
 		}
 		
 		
-	}
+	}*/
 	
 	/** 전체 데이터 수 조회 */
 	@Test
@@ -121,15 +121,16 @@ public class UserTest {
 	@Test
 	public void testG() {
 		User input = new User();
-		input.setId("테스트_id");
-		input.setPassword("테스트_pw");
-		sqlSession.selectOne("UserMapper.selectItem",input);
+		input.setId("uirecp");
+		input.setPassword("1234");
+		
 		
 		User output = null;
 		
 		try {
 			output = userService.doLogin(input);
 			log.debug(output.toString());
+			
 		}catch (Exception e){
 			log.error(e.getLocalizedMessage());
 			e.printStackTrace();

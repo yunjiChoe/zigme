@@ -257,6 +257,8 @@ input#all_check {
 </head>
 
 <body id="jbody">
+<form role="form" id="join_form" method="post"
+				action="${pageContext.request.contextPath}/common/join_ok.do">
 	<!-- .modal -->
 	<div id="find-id-modal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -282,9 +284,9 @@ input#all_check {
 				</div>
 				<!-- 하단 -->
 				<div class=" text-center">
-					<button type="button" class="btn  btn-primary btn-lg btn-ttc5">확인
+					<button type="submit" class="btn  btn-primary btn-lg btn-ttc5">확인
 					</button>
-					</a>
+					
 				</div>
 				<br />
 			</div>
@@ -303,13 +305,12 @@ input#all_check {
 				</div>
 			</div>
 			<br /> <br /> <br />
-			<form role="form" id="join_form" method="post"
-				action="${pageContext.request.contextPath}/common/join_ok.do">
+			
 				<fieldset id="jfieldset">
 					<div class="form-group">
 						<div class="circle"></div>
-						<label for="user_id">아이디</label><br /> <input type="text"
-							name="id" id="user_id" class="form-control"
+						<label for="user_id">아이디</label><br /> 
+						<input type="text"name="id" id="user_id" class="form-control"
 							placeholder="영문,숫자 조합하여 4자~20자" />
 						<button type="button" id="id_check" name="id_check"
 							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5 id_input">중복확인</button>
@@ -432,7 +433,7 @@ input#all_check {
 
 
 				<div class="btn1">
-					<button type="submit" id="join"
+					<button type="button" id="join"
 						class="btn btn-primary btn-block btn-ttc5 join_button"
 						data-toggle="modal" href="#find-id-modal">회원가입</button>
 					<br /> <br /> <br />
