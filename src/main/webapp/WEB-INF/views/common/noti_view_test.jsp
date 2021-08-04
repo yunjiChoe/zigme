@@ -8,7 +8,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -126,7 +128,7 @@
 		<!--  include :: container 바로 아래에 있어야합니다 -->
 		<c:import url="../inc/navbar.jsp" />
 		<div class="page-header">
-			<h1>알 림</h1>
+			<h1>${item1.postTitle}</h1>
 			<div class="table-header">
 				<!-- 이미지 삽입 테스트 필요 -->
 				<h2>
@@ -151,164 +153,59 @@
 							<th><button type="button" class="btn_delAll">전체삭제</button></th>
 						</tr>
 					</thead>
-					<tr class="noti_row on">
-						<td>1</td>
-						<td
-							onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'장마철..레인부츠 VS 슬리퍼, 당신의 선택은?' 덧글에 추천(<span class="noti_new">
-								3 </span>)이 달렸습니다.
-						</td>
-						<td>2021-06-18 18:00</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row on">
-						<td>2</td>
-						<td
-							onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'장마철..레인부츠 VS 슬리퍼, 당신의 선택은?' 덧글에 덧글(<span class="noti_new">
-								1 </span>)이 달렸습니다.
-						</td>
-						<td>2021-06-18 08:14</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row on">
-						<td>3</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'여름은 콩국수의 계절! 양재/역삼/강남 콩국수 맛집 공유해봐요' 덧글에 추천(<span
-							class="noti_new"> 19 </span>)이 달렸습니다.
-						</td>
-						<td>2021-06-03 15:07</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row on">
-						<td>4</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'여름은 콩국수의 계절! 양재/역삼/강남 콩국수 맛집 공유해봐요' 덧글에 덧글(<span
-							class="noti_new"> 9 </span>)이 달렸습니다.
-						</td>
-						<td>2021-06-02 11:24</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row on">
-						<td>5</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'6월달 빨간 날 없는거 실화인가요?' 덧글에 덧글(<span class="noti_new"> 2 </span>)이
-							달렸습니다.
-						</td>
-						<td>2021-05-30 18:34</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>6</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'6월달 빨간 날 없는거 실화인가요?' 게시글에 추천(<span> 3 </span>)이 달렸습니다.
-						</td>
-						<td>2021-05-30 15:46</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>7</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'6월달 빨간 날 없는거 실화인가요?' 게시글에 덧글(<span> 24 </span>)이 달렸습니다.
-						</td>
-						<td>2021-05-30 15:45</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>8</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'부장님의 무리한 지시에서 벗어나는 법' 게시글에 덧글(<span> 3 </span>)이 달렸습니다.
-						</td>
-						<td>2021-05-28 18:34</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>9</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'부장님의 무리한 지시에서 벗어나는 법' 게시글이 추천(<span> 5 </span>) 되었습니다.
-						</td>
-						<td>2021-05-28 18:28</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
+					<tbody>
+						<tbody id="noti_table">
+					<c:choose>
+						<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
+						<c:when test="${output1 == null || fn:length(output1) == 0}">
+							<tr>
+								<td colspan="9" align="center">조회결과가 없습니다.</td>
+							</tr>
+						</c:when>
+						<%-- 게시글에 대한 새로운 댓글 조회결과가 있는  경우 --%>
+						<c:otherwise>
+							<%-- 조회 결과에 따른 반복 처리 --%>
+							<c:forEach var="item" items="${output}" varStatus="status">
 
-					</tr>
-					<tr class="noti_row">
-						<td>10</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'오늘은 금요일! 신난다~~' 게시글이 추천(<span> 55 </span>) 되었습니다.
-						</td>
-						<td>2021-05-28 16:10</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>11</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'새내기 신입 조언 부탁드려요 ㅠㅠ.'의 댓글에 댓글(<span> 1 </span>)이 달렸습니다.
-						</td>
-						<td>2021-05-28 10:34</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>12</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">'회식
-							가기 싫어요...'의 댓글이 추천(<span> 61 </span>) 되었습니다.
-						</td>
-						<td>2021-05-26 13:45</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>13</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'대부도 근처 캠핑장 추천 부탁드려요' 게시글에 덧글(<span> 18 </span>)이 달렸습니다.
-						</td>
-						<td>2021-05-25 09:07</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>14</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'대부도 근처 캠핑장 추천 부탁드려요' 게시글이 추천(<span> 29 </span>) 되었습니다.
-						</td>
-						<td>2021-05-25 09:02</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>15</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">'이런
-							경우에 어떻게 하나요?'의 댓글이 추천(<span> 10 </span>) 되었습니다.
-						</td>
-						<td>2021-05-22 01:23</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
-					<tr class="noti_row">
-						<td>16</td>
-						<td onClick="location.href='${pageContext.request.contextPath}/help/help_comm_read'">
-							'출근룩으로 이거 어떤가요?' 게시글이 추천(<span> 3 </span>) 되었습니다.
-						</td>
-						<td>2021-05-21 16:10</td>
-						<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
-					</tr>
+								<%-- 해당글의 페이지로 이동하기 위한 URL --%>
+                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
+                            		<c:param name="postNo" value="${item1.postNo}" />
+                        		</c:url>
+								
+								<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
+									<td>'<span>[${item1.postTitle}]</span>' 게시글에 댓글이 <span>${item1.commCount}</span>개 달렸습니다.</td>
+									<td>'<span>[${item2.commContent}]</span>' 댓글에 댓글이 <span>${item2.commCount}</span>개 달렸습니다.</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
+	<script id="post-list-tmpl" type="text/x-handlebars-template">
+	{{#each item1}}
+	<tr>
+         <td>'<span>{{postTitle}}</span>' 게시글에 댓글이 <span>{{commCount}}</span>개 달렸습니다.</td>
+		 
+    </tr>			
+	{{/each}}
+
+	{{#each item2}}
+	<tr>
+          <td>'<span>{{commContent}}</span>' 댓글에 댓글이 <span>{{commCount}}</span>개 달렸습니다.</td>
+    </tr>			
+	{{/each}}
+	</script>
+	
 	<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
 	<script type="text/javascript">
+	
 		/** 알림 내용 클릭 시 해당 글 페이지로 이동*/
 		/** 차후 실제 글로 연결되도록 설정 필요 */
 		function writePage() {
@@ -347,7 +244,32 @@
 		/** 상위 5개를 미확인 알림이라고 가정하고 해당 tr 색깔 적용 */
 		$('span.noti_new').closest('tr').css('background-color', '#FCE6E6');
 	</script>
+	
+	<!-- Handlebar 템플릿 코드 -->
+	
+	<script>
+	$(function() {
+        // Restful API에 GET 방식 요청
+        $.get("${pageContext.request.contextPath}/noti", {
+        }, function(json) {
+            var source = $("post-list-tmpl").html();   	// 템플릿 코드 가져오기
+            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
+            var result = template(json);    			// 템플릿 컴파일 결과물에 json 전달
+            $("#noti_table").append(result);      		// 최종 결과물을 #list 요소에 추가한다.
+        });	
+	});
+	</script>
 
+	<!--Google CDN 서버로부터 jQuery 참조 -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- Handlebar CDN 참조 -->
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
+	<!-- jQuery Ajax Setup -->
+	<script
+		src="${pageContext.request.contextPath}/assets/plugins/ajax/ajax_helper.js"></script>
+		
 	<c:import url="../inc/footer.jsp" />
 </body>
 
