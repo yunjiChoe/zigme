@@ -54,8 +54,9 @@
             <span class="btns_padding"><button type="button" id="writings" class="btn btn-warning">목록</button></span>
         </div>
         <div id="read_buttons2" class="pull-right">
-            <span class="links"><a href="${pageContext.request.contextPath}/help/help_comm_write" class="help_read_a">수정</a></span>&nbsp;
-            <span class="links"><a id="page_delete"  href="${pageContext.request.contextPath}/help/help_comm" class="help_read_a">삭제</a></span>
+            <span class="links"><a href="${pageContext.request.contextPath}/help_ajax/help_comm_edit.do?postNo=${output.postNo}" class="help_read_a">수정</a></span>&nbsp;
+            <span class="links"><a href="#" id="deletePost" data-postNo="${output.postNo}" data-postTitle="${output.postTitle}"
+             data-postSubtitle="${output.postSubtitle}" class="help_read_a">삭제</a></span>
 		</div>
 		</div>
         
@@ -85,12 +86,42 @@
       <!--   <script src="../assets/js/jquery.min.js"></script> 충돌나는 것 같음 -->
       <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 
+		<!--  AjaxHelper -->
+  		<script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
+	
       <script type="text/javascript">
      
 	  $(function() {     	
 			 $("#writings").click(function() {
 	          window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm.do";
 	        });
+			 
+			 $("#deletePost").click(function(e) {
+				 e.preventDefault();	//링크 클릭에 대한 페이지 이동 방지
+				 
+				 let current = $(this);	//이벤트가 발생한 객체 자신 --> <a>태그
+				 console.log(current);
+				 let postNo = "${output.postNo}";
+				 let target = "(" +postNo+ ") 의 게시글";
+				 
+				 //삭제확인
+				 if(!confirm("정말 " +target+ "을 삭제하겠습니까?")) {
+					 return false;
+				 } 
+				 
+				console.log(target);
+				 
+				 //delete 메서드를 Ajax 요청 --> <form> 전송이 아니므로 직접 구현한다.
+				 $.delete("${pageContext.request.contextPath}/help",{
+					 "postNo":postNo
+				 }, function(json){
+					 if(json.rt == "OK") {
+						 alert("삭제되었습니다.");
+						 //삭제 완료후 목록 페이지로 이동
+						 window.location = "${pageContext.request.contextPath}/help_ajax/help_comm.do"
+					 }
+			 });
+			 });
 		 
 			 /** 이전글/다을 글 버튼은 나중에.....ㅠ
 			 $("#next_writing").click(function() {
@@ -108,11 +139,7 @@
 	    	  if(count == 1) { alert("첫번째 페이지 입니다."); return; }	
 	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${prevNum};
 		   });
-		   */
-	      
-		   $("#page_delete").click(function() {
-	    	  alert("해당 글은 삭제되었습니다.");
-		   }); 	
+		   */ 	
 			
           // sub navbar slide
           $(".menu-item").hover(function() {

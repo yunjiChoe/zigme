@@ -132,7 +132,7 @@ public class PostAjaxController {
     }
     
     /** 작성 폼에 대한 action 페이지 */
-    @RequestMapping(value = "/help_ajax/help_comm_write.do", method = RequestMethod.PUT)
+    @RequestMapping(value = "/help_ajax/help_comm_write.do", method = RequestMethod.POST)
     public ModelAndView add_ok(Model model,
     		@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
     		@RequestParam(value="postTitle", defaultValue="") String postTitle,
@@ -166,6 +166,75 @@ public class PostAjaxController {
     }
     
     /** 수정 폼 페이지 */
-    //고민후 추후에 추가할지 안할지.....
+	@RequestMapping(value= "/help_ajax/help_comm_edit.do", method = RequestMethod.GET)
+	public ModelAndView edit_ok(Model model,
+			@RequestParam(value="postNo", defaultValue="0") int postNo) {
+		
+		System.out.println("확인용");
+	
+		/** 1) 파라미터 유효성 검사 */
+        // 이 값이 존재하지 않는다면 데이터 조회가 불가능하므로 반드시 필수값으로 처리해야 한다.
+        if (postNo == 0) { 
+        	return webHelper.redirect(null, "게시글 일련번호가 없습니다."); 
+        	}
+        
+        
+		/** 2) 데이터 수정하기 */
+        //수정할 값들을 Beans에 담는다.
+        Post input = new Post();
+        input.setPostNo(postNo);
+		
+		//수정된 결과를 조회하기 위한 객체 생성
+		Post output = null;
+		
+		try {
+			// 게시글 기본 정보 조회
+			output = postService.getPostItem(input);
+		} catch (Exception e) {
+			return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+		
+		/** 3) View 처리 */
+        model.addAttribute("output", output);
+		return new ModelAndView("help/help_comm_edit_ajax");
+	}
+	
+	/** 수정 폼에 대한 action 페이지 */
+    @RequestMapping(value = "/help_ajax/help_comm_edit.do", method = RequestMethod.PUT)
+    public ModelAndView edit(Model model,
+    		@RequestParam(value="postNo", defaultValue="") int postNo,
+			@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
+			@RequestParam(value="postTitle", defaultValue="") String postTitle,
+			@RequestParam(value="postContent", defaultValue="") String postContent) {
+		
+		/** 1)사용자가 입력한 파라미터 유효성 찾기 */
+		if (!regexHelper.isValue(postSubtitle))     { return webHelper.redirect(null, "소제목을 입력하세요."); }
+        if (!regexHelper.isValue(postTitle))     { return webHelper.redirect(null, "제목을 입력하세요."); }
+        if (!regexHelper.isValue(postContent))     { return webHelper.redirect(null, "내용을 입력하세요."); }
+        // 숫자형으로 선언된 파라미터()
+        
+		/** 2) 데이터 수정하기 */
+        //수정할 값들을 Beans에 담는다.
+        Post input = new Post();
+        input.setPostNo(postNo);
+		input.setPostSubtitle(postSubtitle);
+		input.setPostTitle(postTitle);
+		input.setPostContent(postContent);
+		
+		//수정된 결과를 조회하기 위한 객체 생성
+		Post output = null;
+		
+		try {
+			//데이터 수정
+			postService.editPost(input);
+			//수정 결과 조회
+			output = postService.getPostItem(input);
+		} catch (Exception e) {
+			return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+		
+		model.addAttribute("output", output);
+    	return new ModelAndView("help/help_comm_edit_ajax.do");
+    }
     
 }

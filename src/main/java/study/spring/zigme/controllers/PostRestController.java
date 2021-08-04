@@ -140,29 +140,18 @@ public class PostRestController {
 	}
 	/**수정 폼에 대한 action 페이지 */
 	@RequestMapping(value= "/help", method = RequestMethod.PUT)
-	public Map<String, Object> put(
-			@RequestParam(value="postNo", defaultValue="") int postNo,
+	public Map<String, Object> post(
+			@RequestParam(value="postNo", defaultValue="0") int postNo,
 			@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
 			@RequestParam(value="postTitle", defaultValue="") String postTitle,
-			@RequestParam(value="postContent", defaultValue="") String postContent,
-			@RequestParam(value="postUpcount", defaultValue="") int postUpcount,
-			@RequestParam(value="postViewcount", defaultValue="") int postViewcount,
-			@RequestParam(value="postRegdate", defaultValue="") String postRegdate,
-			@RequestParam(value="postNoti", defaultValue="") String postNoti,
-			@RequestParam(value="userNo", defaultValue="") int userNo) {
+			@RequestParam(value="postContent", defaultValue="") String postContent) {
 		
 		/** 1)사용자가 입력한 파라미터 유효성 찾기 */
-		// 일반 문자열 입력 컬럼 --> String으로 파라미터가 선언되어 있는 경우는 값이 입력되지 않으면 빈 문자열로 처리된다.
-        if (!regexHelper.isValue(postSubtitle))     { return webHelper.getJsonWarning("소제목을 입력하세요."); }
+		if (!regexHelper.isValue(postSubtitle))     { return webHelper.getJsonWarning("소제목을 입력하세요."); }
         if (!regexHelper.isValue(postTitle))     { return webHelper.getJsonWarning("제목을 입력하세요."); }
         if (!regexHelper.isValue(postContent))     { return webHelper.getJsonWarning("내용을 입력하세요."); }
-        if (!regexHelper.isValue(postRegdate))     { return webHelper.getJsonWarning("게시날짜를 입력하세요."); }
-        if (!regexHelper.isValue(postNoti))     { return webHelper.getJsonWarning("알림여부를 입력하세요."); }
-        
         // 숫자형으로 선언된 파라미터()
-        if (postUpcount < 0)                        { return webHelper.getJsonWarning("추천수는 0보다 작을 수 없습니다."); }
-        if (postViewcount < 0)                        { return webHelper.getJsonWarning("조회수는 0보다 작을 수 없습니다."); }
-        if (userNo == 0)                    { return webHelper.getJsonWarning("회원 일련 번호를 입력하세요."); }
+        if (postNo == 0)                    { return webHelper.getJsonWarning("게시글 일련 번호를 입력하세요."); }
         
 		/** 2) 데이터 수정하기 */
         //수정할 값들을 Beans에 담는다.
@@ -171,11 +160,6 @@ public class PostRestController {
 		input.setPostSubtitle(postSubtitle);
 		input.setPostTitle(postTitle);
 		input.setPostContent(postContent);
-		input.setPostUpcount(postUpcount);
-		input.setPostViewcount(postViewcount);
-		input.setPostRegdate(postRegdate);
-		input.setPostNoti(postNoti);
-		input.setUserNo(userNo);
 		
 		//수정된 결과를 조회하기 위한 객체 생성
 		Post output = null;
@@ -200,6 +184,7 @@ public class PostRestController {
 	public Map<String, Object> delete(
 			@RequestParam(value="postNo", defaultValue = "0") int postNo) {
 		
+		System.out.println("restful로 넘어옴");
 		/** 1) 파라미터 유효성 검사*/
 		if(postNo == 0) {
 			return webHelper.getJsonWarning("게스글번호가 없습니다.");
