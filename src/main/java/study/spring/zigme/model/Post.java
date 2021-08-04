@@ -17,7 +17,9 @@ public class Post {
 	private int prevpage;
 	private int nextpage;
 	
-	/** 2) JOIN절에 따른 추가 컬럼 */	
+	/** 2) JOIN절에 따른 추가 컬럼 */
+	/** 게시글에 필요한 추가 컬럼 */
+	
 	//해당 회원 nickname(user테이블과 join)
 	private String nickname;
 	
@@ -26,6 +28,16 @@ public class Post {
 	
 	//해당 회원의 탈퇴회원 여부(user테이블과 join)
 	private String outUserflag;
+	
+	/** 알람(noti)에 필요한 추가 컬럼 */
+	//해당 회원이 작성한 게시글의 댓글들의 일련번호
+	private int commNo;
+	
+	private String commContent;
+	
+	private int parentNO;
+	
+	private String commNoti;
 	
 	/** 3) 페이지 구현을 위한 static 변수 */
     // LIMIT 절에서 사용할 조회 시작 위치 
