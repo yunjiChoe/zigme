@@ -277,9 +277,13 @@ textarea {
 		var label = [""];						 
 		var icon_size = [""];
 		var menu_list = [""];		
-		var menu_txt = [""];
-		
+		var menu_txt = [""];		
 		var sel_array = ["2"];
+		
+		// get으로 넘겨받은 URL 
+		var local_url = location.href;
+		
+		
     	
 		// ------------------------------------ JSON Data load --------------------------------------
 	   /*

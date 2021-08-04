@@ -247,6 +247,7 @@ strong {
         	if(flag == '저장') {
         		
         		$.ajax({
+        			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
         			// 결과를 읽어올 URL
         			url: '${pageContext.request.contextPath}/main',
         			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
@@ -265,7 +266,8 @@ strong {
         			// 읽어온 내용을 처리하기 위한 함수
         			success: function(req) {
         				
-        				// console.log("통신완료" + req);
+        				location.reload(); // sche-id가 캘린더 플러그인의 값으로 자동등록되기 때문에 
+        				//console.log("통신완료" + req.item.scheNo);
         				
         			}
         		}); // end $.ajax        		
