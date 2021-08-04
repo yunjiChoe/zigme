@@ -35,7 +35,7 @@ public class Post {
 	
 	private String commContent;
 	
-	private int parentNO;
+	private int parentNo;
 	
 	private String commNoti;
 	
