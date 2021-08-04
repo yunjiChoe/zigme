@@ -282,7 +282,7 @@
 		var menu_list = [""];		
 		var menu_txt = [""];
 		var req = [""];
-		var sel_array = ["0", "1", "4", "5"];
+		var sel_array = ["2", "4"]; 
     	
 		// ------------------------------------ JSON Data load --------------------------------------
 	   /*
@@ -292,7 +292,7 @@
 			
 			// 요소 설정 setting 값 read
 			$.ajax ({
-				async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+				async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다. https://dapi.kakao.com/v2/local/search/keyword.json?query=" + aa +"&category_group_code=FD6&x="+xx+"&y="+yy+"7&radius=1000
 				url :'${pageContext.request.contextPath}/assets/data/setting.json', 
 				method: 'get',
 				data : {},
