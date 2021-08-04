@@ -122,15 +122,15 @@
 					</div>
 					<div id="box6" class="menu-other"
 						style="width: 60px; height: 60px;">
-						<br> <br> <br> <span>그외</span>
+						<br> <br> <br> <span>그 외</span>
 					</div>
 				</div>
 			</div>
 			<div id="box7">
-				<span id="re-recommend"> <img alt="자장면"
+				<span id="re-recommend"> <img alt="짜장면"
 					src="${pageContext.request.contextPath}/img/menu/review/210622_001.jpg"
 					width="140"> <br>
-					<h1>자장면</h1></span>
+					<h1>짜장면</h1></span>
 					<span id="re-re"></span> <br> <br> <span class="menu_find_btn">
 					<a><button type="button" class="btn btn-ms btn-ttc1"
 							id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a> <a
@@ -156,12 +156,8 @@
 
 	<script type="text/javascript">
 		$(function() {
-			var i1 = 0;
-			var i2 = 0;
-			var i3 = 0;
-			var i4 = 0;
-			var i5 = 0;
-			var i6 = 0;
+			
+			var select_item = [0, 0, 0, 0, 0, 0];
 			var turn = new Array('skyblue', 'white');
 
 			// 요소 숨기기
@@ -176,12 +172,15 @@
 			// 토글로 요소를 보여주고 사라지게한다.
 			$("#btn-kor").click(function() {
 				$("#box1").fadeToggle();
-
-				var result = turn[i1]
+				
+				var imp = select_item[0];
+				var result = turn[imp];
+				
 				$('#btn-kor').css("background", result);
-				i1++;
-				if (i1 == 2) {
-					i1 = 0;
+				select_item[0]++;				
+				
+				if (select_item[0] == 2) {
+					select_item[0] = 0;
 				}
 
 			});
@@ -189,23 +188,28 @@
 			$("#btn-yangsik").click(function() {
 				$("#box2").fadeToggle();
 
-				var result = turn[i2]
+				var imp = select_item[1];
+				var result = turn[imp];
+				
 				$('#btn-yangsik').css("background", result);
-				i2++;
-				if (i2 == 2) {
-					i2 = 0;
+				select_item[1]++;
+				
+				if (select_item[1] == 2) {
+					select_item[1] = 0;
 				}
 
 			});
 
 			$("#btn-jan").click(function() {
 				$("#box3").fadeToggle();
-
-				var result = turn[i3]
+				
+				var imp = select_item[2];
+				var result = turn[imp];
+				
 				$('#btn-jan').css("background", result);
-				i3++;
-				if (i3 == 2) {
-					i3 = 0;
+				select_item[2]++;
+				if (select_item[2] == 2) {
+					select_item[2] = 0;
 				}
 
 			});
@@ -213,11 +217,13 @@
 			$("#btn-china").click(function() {
 				$("#box4").fadeToggle();
 
-				var result = turn[i4]
+				var imp = select_item[3];
+				var result = turn[imp];
+				
 				$('#btn-china').css("background", result);
-				i4++;
-				if (i4 == 2) {
-					i4 = 0;
+				select_item[3]++;
+				if (select_item[3] == 2) {
+					select_item[3] = 0;
 				}
 
 			});
@@ -225,11 +231,14 @@
 			$("#btn-boonsik").click(function() {
 				$("#box5").fadeToggle();
 
-				var result = turn[i5]
+				var imp = select_item[4];
+				var result = turn[imp];
+				
 				$('#btn-boonsik').css("background", result);
-				i5++;
-				if (i5 == 2) {
-					i5 = 0;
+				select_item[4]++;
+				
+				if (select_item[4] == 2) {
+					select_item[4] = 0;
 				}
 
 			});
@@ -237,11 +246,13 @@
 			$("#btn-other").click(function() {
 				$("#box6").fadeToggle();
 
-				var result = turn[i6]
+				var imp = select_item[5];
+				var result = turn[imp];
+				
 				$('#btn-other').css("background", result);
-				i6++;
-				if (i6 == 2) {
-					i6 = 0;
+				select_item[5]++;
+				if (select_item[5] == 2) {
+					select_item[5] = 0;
 				}
 
 			});
