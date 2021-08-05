@@ -207,7 +207,7 @@
 				
 				var menu = $('#re-recommend h1').html();				
 					
-				var url = "${pageContext.request.contextPath}/menu/menu_condition_list.do?sel=" + sel_str + "&menu=" + menu;				
+				var url = "${pageContext.request.contextPath}/menu/menu_condition_list?sel=" + sel_str + "&menu=" + menu;				
 				window.location = url;
 				
 			});

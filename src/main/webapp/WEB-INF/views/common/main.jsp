@@ -418,6 +418,7 @@ strong {
 			});			
 		});
 		
+		// 일정 수정시 '종일' 클릭안되게 수정 -> 종일을 누른 일정은 시간이 수정되지 않는 현상 때문에 
 		$(document).on('click', '.tui-full-calendar-popup-edit', function(e){
 			
 			$('.tui-full-calendar-section-allday').addClass('nonclick');
