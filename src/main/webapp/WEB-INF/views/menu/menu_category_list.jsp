@@ -292,7 +292,7 @@
 			
 			// 요소 설정 setting 값 read
 			$.ajax ({
-				async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다. https://dapi.kakao.com/v2/local/search/keyword.json?query=" + aa +"&category_group_code=FD6&x="+xx+"&y="+yy+"7&radius=1000
+				async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다. 
 				url :'${pageContext.request.contextPath}/assets/data/setting.json', 
 				method: 'get',
 				data : {},
@@ -309,7 +309,7 @@
 				}
 			});
 			
-			// 음식점 목록 read
+			// 음식점 목록 read -- https://dapi.kakao.com/v2/local/search/keyword.json?query=" + food + "&category_group_code=FD6&x=" + xx + "&y=" + yy + "&radius=500
 			$.ajax ({
 				async: false,
 				url :'${pageContext.request.contextPath}/assets/data/menu_list.json', 

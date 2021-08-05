@@ -216,9 +216,7 @@
 					function() {
 						$('#re-recommend,#btn-retry').remove();
 
-						$("#re-re").html(
-								"<img src='${pageContext.request.contextPath}/img/menu/Haejangguk.jpg' height='130'>"
-								+ "<br>" + "<h1>해장국</h1>" + "<br>")
+						$("#re-re").html("<img src='${pageContext.request.contextPath}/img/menu/Haejangguk.jpg' height='130'>" + "<br>" + "<h1>해장국</h1>" + "<br>")
 
 			});
 			

@@ -112,11 +112,39 @@
 			var $temp = data.list[0].main.temp;
 			var $sky = data.list[0].weather[0].main;			
 			var iconcode = data.list[0].weather[0].icon;
-			var iconurl = "${pageContext.request.contextPath}/img/common/weather-icons/" + iconcode + ".png";
+
+				//API에서 저녁에오는 XXn 의 값도 낮의 이미지로 출력해주기 위해 n(ight) -> d(ay)로 변경함 
+				//console.log("iconcode" + iconcode);
+				if (iconcode.substring(2,3) == 'n') {					
+					iconcode = iconcode.substring(0,2)	+ 'd';	
+				}
+			
+				switch (iconcode) {
+				case '50d':
+					iconname = "007-windy";
+					break;
+				case '13d':
+					iconname = "008-snowy";
+					break;
+				case '11d':
+				case '10d':
+				case '09d':
+					iconname = "009-rainy";
+					break;
+				case '04d':
+				case '03d':					
+				case '02d':
+					iconname = "005-cloudy";
+					break;
+				case '01d':
+					iconname = "002-sunny";
+					break;
+				}
+			
+			var iconurl = "${pageContext.request.contextPath}/img/common/weather-icons/" + iconname + ".png";
 			
 			if($sky == "Clouds")
-				$sky = "흐림";
-		   
+				$sky = "흐림";	   
 			else if($sky == "Rain")
 				$sky = "비";
 			else if($sky == "Snow")

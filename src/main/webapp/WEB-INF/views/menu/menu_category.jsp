@@ -102,14 +102,16 @@
 					<br>
 				</div>
 				<div class="imgbox">
-					<div id="box1" class="menu-kor " style="width: 60px; height: 60px;">
+					<div id="box1" class="menu-kor " 
+						style="width: 60px; height: 60px;">
 						<br> <br> <br> <span>한식</span>
 					</div>
 					<div id="box2" class="menu-yangsik "
 						style="width: 60px; height: 60px;">
 						<br> <br> <br> <span>양식</span>
 					</div>
-					<div id="box3" class="menu-jan " style="width: 60px; height: 60px;">
+					<div id="box3" class="menu-jan " 
+						style="width: 60px; height: 60px;">
 						<br> <br> <br> <span>일식</span>
 					</div>
 					<div id="box4" class="menu-china "
@@ -132,10 +134,8 @@
 					width="140"> <br>
 					<h1>짜장면</h1></span>
 					<span id="re-re"></span> <br> <br> <span class="menu_find_btn">
-					<a><button type="button" class="btn btn-ms btn-ttc1"
-							id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a> <a
-					href="${pageContext.request.contextPath}/menu/menu_category_list"><button
-							type="button" class="btn btn-primary btn-ttc2 ">주변음식점찾기</button></a>
+					<a><button type="button" class="btn btn-ms btn-ttc1" id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a>
+					<a href="#" id="submit_link" class="btn btn-primary btn-ttc2 ">주변음식점찾기</a>
 				</span>
 
 			</div>
@@ -156,8 +156,8 @@
 
 	<script type="text/javascript">
 		$(function() {
-			
-			var select_item = [0, 0, 0, 0, 0, 0];
+
+			var select_item = [0, 0, 0, 0, 0, 0];									
 			var turn = new Array('skyblue', 'white');
 
 			// 요소 숨기기
@@ -184,7 +184,8 @@
 				}
 
 			});
-
+			
+			
 			$("#btn-yangsik").click(function() {
 				$("#box2").fadeToggle();
 
@@ -197,9 +198,9 @@
 				if (select_item[1] == 2) {
 					select_item[1] = 0;
 				}
-
+				
 			});
-
+			
 			$("#btn-jan").click(function() {
 				$("#box3").fadeToggle();
 				
@@ -208,10 +209,11 @@
 				
 				$('#btn-jan').css("background", result);
 				select_item[2]++;
+				
 				if (select_item[2] == 2) {
 					select_item[2] = 0;
 				}
-
+				
 			});
 
 			$("#btn-china").click(function() {
@@ -222,6 +224,7 @@
 				
 				$('#btn-china').css("background", result);
 				select_item[3]++;
+				
 				if (select_item[3] == 2) {
 					select_item[3] = 0;
 				}
@@ -251,29 +254,41 @@
 				
 				$('#btn-other').css("background", result);
 				select_item[5]++;
+				
 				if (select_item[5] == 2) {
 					select_item[5] = 0;
 				}
 
 			});
 
-			$("#ran")
-					.click(
-							function() {
-								$("#box7").toggle();
-								$(
-										'#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran')
-										.remove();
-							});
+			$("#ran").click(function() {
+				$("#box7").toggle();
+				$('#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran').remove();
+		
+			});
 
-			$("#btn-retry").click(
-					function() {
-						$('#re-recommend,#btn-retry').remove();
-						$("#re-re").html(
-								"<img src='../img/menu/jjamppong.jpg' height='130'>" + "<h1>짬뽕</h1>")
+			$("#submit_link").click(function(e) {
+				e.preventDefault();  // 링크 클릭에 대한 페이지 이동 방지
+				
+				var sel_str = "";
+				
+				for(var i=0; i< select_item.length; i++){					
+					sel_str += String(select_item[i]);					
+				}
+				
+				var menu = $('#re-recommend h1').html();				
+					
+				var url = "${pageContext.request.contextPath}/menu/menu_category_list?sel=" + sel_str + "&menu=" + menu;				
+				window.location = url;
+				
+			});
+			
+			$("#btn-retry").click(function() {
+				$('#re-recommend,#btn-retry').remove();
+				$("#re-re").html("<img src='../img/menu/jjamppong.jpg' height='130'>" + "<h1>짬뽕</h1>")
 
-					});
-
+			});
+						
 		});
 	</script>
 
