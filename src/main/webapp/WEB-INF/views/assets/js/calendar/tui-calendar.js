@@ -21878,11 +21878,11 @@ var helpers = {
     },
 
     'popupStateFree-tmpl': function() {
-        return 'Free';
+        return ''; /* free     dasom modify 210805 */
     },
 
     'popupStateBusy-tmpl': function() {
-        return 'Busy';
+        return ''; /* Busy     dasom modify 210805 */
     },
 	/* dasom modify 210609 */
     'titlePlaceholder-tmpl': function() {

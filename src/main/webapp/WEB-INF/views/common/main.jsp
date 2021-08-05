@@ -47,7 +47,13 @@
 strong {
 	font-size: 12px;
 }
-   </style>	
+
+.nonclick { 
+	pointer-events: none; 
+}
+
+
+</style>	
     
 </head>
 
@@ -344,8 +350,9 @@ strong {
         	
         }
         
-        $(document).on('click', '#calendar-prev', function(e){        	
-        	
+        
+        // <! --- 이벤트 미리 등록 ------------------------------------------>
+        $(document).on('click', '#calendar-prev', function(e){        	        	
         	
         	cal.prev();
         	
@@ -408,9 +415,19 @@ strong {
 				if (json.rt == "OK") {
 					console.log("삭제 되었습니다. scheNo : " + click_scheNo);
 				}
-			});
-			
+			});			
 		});
+		
+		$(document).on('click', '.tui-full-calendar-popup-edit', function(e){
+			
+			$('.tui-full-calendar-section-allday').addClass('nonclick');
+		});
+		
+		$(document).on('click', '.tui-full-calendar-month-creation-guide', function(e){
+			
+			$('.tui-full-calendar-section-allday').removeClass('nonclick');
+		});
+		
 		
 		load_Sche();		
 		drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);
