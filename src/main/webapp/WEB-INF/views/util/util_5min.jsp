@@ -1,8 +1,8 @@
 <!--
-     Date : 2021/07/02
-     Writer : 2조
-     Content : Spring project 변환
-     version : V1.0.0
+     Date : 2021/08/05
+     Writer : 안다솜
+     Content : 작업 시작
+     version : V1.0.1
 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -51,9 +51,8 @@
 
 			<hr />
 		</div>
-
-
-
+		
+		
 		<div id="min5_body">
 			
 		</div>
@@ -72,12 +71,15 @@
 			var waist_data = [ "" ];
 			var wrist_data = [ "" ];
 
-			function data_load(count) {
+			function data_load(keyword, page) {
 				// 요소 설정 setting 값 read
 				$.ajax({
 					async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-					url : '${pageContext.request.contextPath}/assets/data/min5_list_all.json',
+					url : 'https://dapi.kakao.com/v2/search/vclip?query=' + keyword + '&size=30&page=' + page,
 					method : 'get',
+					beforeSend: function (xhr) {			            
+			            xhr.setRequestHeader("Authorization","KakaoAK 357888b843d98f32e260abf0e81dfd2a");
+			        },
 					data : {},
 					dataType : 'JSON',
 					success : function(req) {
@@ -88,155 +90,89 @@
 						alert("일시적인 오류가 발생하였습니다.");
 					}
 				});
-
+				
+			}
+			
+			function default_load(count, query) { // 다른 스트레칭들도 모두 하나의 함수 호출로 다른 결과를 보여준다. 
+				
 				var result = "";
 				var video_url = "";
-				for (var i = 0; i < count; i++) {					    				
+				var data_count = 0; 
+				var page_count = 1;
+				var i = 0;
+				
+				data_load(query, page_count);				
+				
+				
+				while ( 1 ) {
+					
+					if(i == all_data.length)						// 30개의 검색결과에서 원하는 count 만큼의 영상이 없을 경우
+																	// 다음 페이지 검색결과를 가져와 다시 조건을 판단한다. 
+					{
+						page_count++;
+						if(page_count==16) break;					// 카카오에서 주는 최대 페이지 수 초과시 break;					
+						
+						data_load(query, page_count);					
+						console.log("page_count : " + page_count);
+						
+						i = 0;
+					}
+					
+					if( parseInt(all_data[i].play_time) > 360 )  		{i++; continue;} // 영상이 6분이 넘을 경우 continue
+					if( all_data[i].url.indexOf("youtube") == -1 ) 		{i++; continue;} // 유투브 영상이 아닌경우 continue
+					
+					// 외부에서 실행안되게 막은 유투브 영상 제거 (1페이지에 계속 검색됐음 ^^;)
+					if( all_data[i].url.indexOf("z5qPsA0GhYg") != -1 ) 	{i++; continue;} 
+					if( all_data[i].url.indexOf("sabOgAcx180") != -1 ) 	{i++; continue;}
+					
 					video_url = all_data[i].url.split("?v=");
 					
 					result += "<div class='video_area'><iframe width='560' height='315' src='https://www.youtube.com/embed/" + video_url[1] + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
 					result += "<p class='video_title'>" + all_data[i].title
 							+ "</p></div>"
+					
+					data_count++;					
+					if(data_count == count) break;
+					
+					i++;					
+					
 				}
-				$("#min5_body").html(result);
-			}
-
-			function all_load(param) {
-
-				var result = "";
-				var video_url = "";
-				var impl_array = [ "" ];
-				var count = 5;
-
-				for (var i = 0; i < count; i++) {
-
-					if (param == "all") {
-						video_url = all_data[i].url.split("?v=");
-						impl_array = all_data;
-					} else if (param == "neck") {
-						video_url = neck_data[i].url.split("?v=");
-						impl_array = neck_data;
-					} else if (param == "shou") {
-						video_url = shou_data[i].url.split("?v=");
-						impl_array = shou_data;
-					} else if (param == "waist") {
-						video_url = waist_data[i].url.split("?v=");
-						impl_array = waist_data;
-					} else {
-						video_url = wrist_data[i].url.split("?v=");
-						impl_array = wrist_data;
-					}
-
-					result += "<div class='video_area'><iframe width='560' height='315' src='https://www.youtube.com/embed/" + video_url[1] + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
-					result += "<p class='video_title'>" + impl_array[i].title
-							+ "</p></div>"
-				}
-
+				
 				$("#min5_body").empty();
 				$("#min5_body").html(result);
-			}
+			}			
 
 			$("#min5_all").click(function() {
-				if (all_data == "") {
-					//console.log("최초한번 실행");
-					$.ajax({
-						async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-						url : '${pageContext.request.contextPath}/assets/data/min5_list_all.json',
-						method : 'get',
-						data : {},
-						dataType : 'JSON',
-						success : function(req) {
-							all_data = req.documents;
-						},
-						error : function() {
-							alert("일시적인 오류가 발생하였습니다.");
-						}
-					});
-				}
-				all_load("all");
+				
+				default_load(5, "5분 스트레칭");
+				
 			});
 
 			$("#min5_neck").click(function() {
-				if (neck_data == "") {
-					//console.log("최초한번 실행");
-					$.ajax({
-						async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-						url : '${pageContext.request.contextPath}/assets/data/min5_list_neck.json',
-						method : 'get',
-						data : {},
-						dataType : 'JSON',
-						success : function(req) {
-							neck_data = req.documents;
-						},
-						error : function() {
-							alert("일시적인 오류가 발생하였습니다.");
-						}
-					});
-				}
-				all_load("neck");
+				
+				default_load(5, "목 스트레칭");
+				
 			});
 
 			$("#min5_shou").click(function() {
-				if (shou_data == "") {
-					//console.log("최초한번 실행");
-					$.ajax({
-						async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-						url : '${pageContext.request.contextPath}/assets/data/min5_list_shou.json',
-						method : 'get',
-						data : {},
-						dataType : 'JSON',
-						success : function(req) {
-							shou_data = req.documents;
-						},
-						error : function() {
-							alert("일시적인 오류가 발생하였습니다.");
-						}
-					});
-				}
-				all_load("shou");
+				
+				default_load(5, "어깨 스트레칭");
+				
 			});
 
 			$("#min5_waist").click(function() {
-				if (waist_data == "") {
-					//console.log("최초한번 실행");
-					$.ajax({
-						async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-						url : '${pageContext.request.contextPath}/assets/data/min5_list_waist.json',
-						method : 'get',
-						data : {},
-						dataType : 'JSON',
-						success : function(req) {
-							waist_data = req.documents;
-						},
-						error : function() {
-							alert("일시적인 오류가 발생하였습니다.");
-						}
-					});
-				}
-				all_load("waist");
+				
+				default_load(5, "허리 스트레칭");
+				
 			});
 
 			$("#min5_wrist").click(function() {
-				if (wrist_data == "") {
-					//console.log("최초한번 실행");
-					$.ajax({
-						async : false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-						url : '${pageContext.request.contextPath}/assets/data/min5_list_wrist.json',
-						method : 'get',
-						data : {},
-						dataType : 'JSON',
-						success : function(req) {
-							wrist_data = req.documents;
-						},
-						error : function() {
-							alert("일시적인 오류가 발생하였습니다.");
-						}
-					});
-				}
-				all_load("wrist");
+				
+				default_load(5, "손목 스트레칭");
+				
 			});
 
-			data_load(5);
+			default_load(5, "5분 스트레칭"); // 초기 페이지 인입시 기본적으로 보여주는 영상
 
 		});
 	</script>
