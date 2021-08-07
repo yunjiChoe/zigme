@@ -51,7 +51,7 @@ public class NotiRestController {
         
         try {
         	// 데이터 조회하기
-        	output2 = notiService.getNotiList(input2);
+        	output2 = notiService.getNotiCommList(input2);
         	
         } catch (Exception e) {
         	return webHelper.getJsonError(e.getLocalizedMessage());

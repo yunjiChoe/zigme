@@ -48,6 +48,7 @@ public class NotiAjaxController {
             return webHelper.redirect(null, e.getLocalizedMessage());
         }
         
+        
         /** 2) 데이터 조회하기 */
         Post input2 = new Post();
         
@@ -55,7 +56,7 @@ public class NotiAjaxController {
         
         try {
         	// 데이터 조회하기
-        	output2 = notiService.getNotiList(input2);
+        	output2 = notiService.getNotiCommList(input2);
         	
         } catch (Exception e) {
         	return webHelper.redirect(null, e.getLocalizedMessage());

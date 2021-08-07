@@ -136,7 +136,7 @@
 		<!--  include :: container 바로 아래에 있어야합니다 -->
 		<c:import url="../inc/navbar.jsp" />
 		<div class="page-header">
-			<h1>${item1.postTitle}</h1>
+			<h1>알 림</h1>
 			<div class="table-header">
 				<!-- 이미지 삽입 테스트 필요 -->
 				<h2>
@@ -147,7 +147,7 @@
 			</div>
 			<div class="summary">
 				<p class="noti_txt">
-					읽지않은 알림이 <span class=boldchar>5</span>개 있습니다.
+					읽지않은 알림이 <span class=boldchar>${fn:length(output1) + fn:length(output2)}</span>개 있습니다.
 				</p>
 			</div>
 			<hr />
@@ -161,6 +161,11 @@
 						</tr>
 					</thead>
 					<tbody id="noti_table">
+						<tr>
+							<td>
+							${output1[0].postTitle}
+							</td>
+						</tr>
 						<c:choose>
 							<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
 							<c:when test="${output1 == null || fn:length(output1) == 0}">
@@ -179,7 +184,7 @@
 	                        		</c:url>
 									
 									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-										<td>'<span>${item1.postTitle}</span>' 게시글에 댓글이 <span>${item1.commCount}</span>개 달렸습니다.</td>
+										<td>'<span>${item1.postTitle}</span>' 게시글에 댓글이 <span>${fn:length(output2)}</span>개 달렸습니다.</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -202,7 +207,7 @@
 	                        		</c:url>
 									
 									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-										<td>'<span>${item2.commContent}</span>' 댓글에 댓글이 <span>${item2.commCount}</span>개 달렸습니다.</td>
+										<td>'<span>${item2.commContent}</span>' 댓글에 댓글이 <span>${fn:length(output2)}</span>개 달렸습니다.</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -268,6 +273,7 @@
 	
 	<!-- Handlebar 템플릿 코드 -->
 	<!--Google CDN 서버로부터 jQuery 참조 -->
+	<!--Google CDN 서버로부터 jQuery 참조 -->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<!-- Handlebar CDN 참조 -->
@@ -275,7 +281,8 @@
 		src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
 	<!-- jQuery Ajax Setup -->
 	<script
-		src="${pageContext.request.contextPath}/assets/plugins/ajax/ajax_helper.js"></script>
+		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
+	
 	<script>
 	
 	$(function() {

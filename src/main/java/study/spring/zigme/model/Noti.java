@@ -1,3 +1,10 @@
+/** 
+ * @author sollee
+ * noti beans 별도로 사용하지 않고 알림페이지는 post beans를 통해 구현하기로함 
+ * 본 파일은 추후 정리단계에서 삭제할 예정입니다.
+ * @date 2021-08-07
+ * */
+
 package study.spring.zigme.model;
 
 import lombok.Data;

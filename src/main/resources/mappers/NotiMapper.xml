@@ -4,23 +4,18 @@
 	
 <mapper namespace = "NotiMapper">
 	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
-	<resultMap id="notiMap" type= "study.spring.zigme.model.Noti">
+	<resultMap id="notiMap" type= "study.spring.zigme.model.Post">
 		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
-		<result property="postNo" column="postNo" />
 		<result property="postTitle" column="postTitle" />
-		<result property="postNoti" column="postTitle" />
-		<result property="userNo" column="userNo" />
-		<result property="commNo" column="commNo" />
 		<result property="commContent" column="commContent" />
-		<result property="parentNo" column="parentNo" />
-		<result property="commNoti" column="commNoti" />
+		<result property="countComm" column="countComm" />
 	</resultMap>
 	
 	<!-- '읽지않음'인 상태의 알림 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
 	resultMap="notiMap">
 	<!-- 게시글에 댓글이 달린 경우 다중행 조회 쿼리  -->
-	SELECT p.postNo, p.postTitle, count(commNo) FROM comment c, post p 
+	SELECT p.postNo, p.postTitle, count(commNo) as countComm FROM comment c, post p 
 		WHERE c.postNo = p.postNo
 		AND c.postNo IN (SELECT postNo FROM post WHERE postNoti = '1' AND userNo = 1)
 		GROUP BY c.postNo;
@@ -30,7 +25,7 @@
 	<select id ="selectCommList" parameterType="study.spring.zigme.model.Post"
 	resultMap="notiMap">
 	<!-- 댓글에 댓글이 달린 경우(=대댓글) 다중행 조회 쿼리 -->
-	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) FROM comment A, comment B WHERE A.commNo = B.parentNo 
+ 	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) FROM comment A, comment B WHERE A.commNo = B.parentNo 
 		AND B.commNoti = '1' 
 		AND B.userNo = 1
 		GROUP BY A.commNo
