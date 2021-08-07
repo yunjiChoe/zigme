@@ -14,7 +14,14 @@
 <!doctype html>
 <html>
 <head>
-
+<style>
+.commContent {
+	display: inline-block;
+	width: 950px;
+	font-size: 20px;
+	font-style: bold;
+}
+</style>
 <!-- bootstrap -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
@@ -93,23 +100,24 @@
 
 			<div>
 				<label for="content">comment</label>
-				<form name="commentInsertForm">
+				<form name="commentInsertForm" method="post">
 					<div class="input-group">
-						<input type="hidden" name="postNo" value="${output.postNo}" /> <input
-							type="text" class="form-control" id="commContent"
-							name="commContent" placeholder="내용을 입력하세요." /> <span
-							class="input-group-btn">
-							<button class="btn btn-default" type="button"
-								name="commentSubmit">등록</button>
-						</span>
+						<input type="hidden" name="postNo" value="${output.postNo}" />
+						<textarea id="commContent_writing" cols="160" rows="5"
+							name="commContent" placeholder="여러분의 소중한 댓글을 입력하세요."></textarea>
+						<button id="cmt_btn" class="btn btn-primary pull-right"
+							type="button" name="commentSubmit">댓글달기</button>
 					</div>
 				</form>
 			</div>
 
+			<br /> <br />
+
 			<div id="comment_list">
 				<c:choose>
 					<%-- 조회결과가 없는 경우 --%>
-					<c:when test="${output_comm == null || fn:length(output_comm) == 0}">						
+					<c:when
+						test="${output_comm == null || fn:length(output_comm) == 0}">						
 							조회결과가 없습니다.						
 					</c:when>
 					<%-- 조회결과가 있는  경우 --%>
@@ -124,17 +132,23 @@
 
 							<div style="cursor: pointer;"
 								onClick=" location.href='${viewUrl}'">
-								<div class = "pull-right" >
+								<div class="pull-left">
 									<span>${item.nickname}</span>
+								</div>
+								<div class="pull-right">
 									<span>${item.commRegdate}</span>
 								</div>
+								<br />
 								<div>
-									${item.commContent}
-								</div>
-								<div class = "pull-left">
-									${item.commUpCount }
+									<span class="commContent">${item.commContent}</span>
+									<div class="pull-right">
+										<span> <a href="#"
+											class="glyphicon glyphicon-thumbs-up"></a>
+										</span> <span>${item.commUpCount}</span>
+									</div>
 								</div>
 							</div>
+							<hr />
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
@@ -165,7 +179,6 @@
 							</div>		
 	{{/each}}
 	</script>
-	<!--   <script src="../assets/js/jquery.min.js"></script> 충돌나는 것 같음 -->
 	<script
 		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 
@@ -176,11 +189,10 @@
 	<script type="text/javascript">
      
 	  $(function() {
-		  var source = $("comm-list-tmpl").html();   // 템플릿 코드 가져오기
-          var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
-          var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
-          $("#comment_list").append(result);      // 최종 결과물을 #list 요소에 추가한다.
 		  
+		  	$("#cmt_btn").click(function(){
+		  		window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_commInsert.do";	
+		  	});
 		  
 			 $("#writings").click(function() {
 	          window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm.do";
@@ -188,9 +200,6 @@
 			 
 			 $("#deletePost").click(function(e) {
 				 e.preventDefault();	//링크 클릭에 대한 페이지 이동 방지
-				 
-				 let current = $(this);	//이벤트가 발생한 객체 자신 --> <a>태그
-				 console.log(current);
 				 let postNo = "${output.postNo}";
 				 let target = "(" +postNo+ ") 의 게시글";
 				 
@@ -230,68 +239,12 @@
 	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${prevNum};
 		   });
 		   */ 	
-			
-          // sub navbar slide
-          $(".menu-item").hover(function() {
-              $(this).find(".sub").slideToggle(300);
-          });
-
-         // main navbar menu hover img
-         $(".menu-item").mouseover(function() {
-            var img_name = $(this).data("imgname");
-
-            $(this).css("background-image", "url(${pageContext.request.contextPath}/img/common/"+ img_name + ")");
-            $(this).css("background-size", "100%");
-            $(this).children().css("color","#fff");
-         });
-
-          $(".menu-item").mouseout(function() {
-              $(".menu-item").css("background-image", "none");
-              $(this).children().css("color", "#4041fe");
-          });
-          
-          /**
-          //댓글과 수정과 관련된 script문들
-          var saveComment = function(data) {
-
-              // Convert pings to human readable format
-              $(Object.keys(data.pings)).each(function(index, userId) {
-                  var fullname = data.pings[userId];
-                  var pingText = '@' + fullname;
-                  data.content = data.content.replace(new RegExp('@' + userId, 'g'), pingText);
-              });
-
-              return data;
-          }
-          $('#comments-container').comments({
-              profilePictureURL: '${pageContext.request.contextPath}/img/common/reward_icon_influencer.png',
-              currentUserId: 1,
-              roundProfilePictures: false,
-              textareaRows: 1,
-              enableAttachments: false,
-              enableHashtags: false,
-              enablePinging: false,
-              scrollContainer: $(window),
-          
-              getComments: function(success, error) {
-                  setTimeout(function() {
-                      success(commentsArray);
-                  }, 500);
-              },
-              postComment: function(data, success, error) {
-                  setTimeout(function() {
-                      success(saveComment(data));
-                  }, 500);
-              },
-              putComment: function(data, success, error) {
-                  setTimeout(function() {
-                      success(saveComment(data));
-                  }, 500);
-              }
-          });
-        });
-	  
-	  */
-        </script>
+			      
+          var source = $("comm-list-tmpl").html();   // 템플릿 코드 가져오기
+          var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
+          var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
+          $("#comment_list").append(result);      // 최종 결과물을 #list 요소에 추가한다.
+	  });
+</script>
 </body>
 </html>

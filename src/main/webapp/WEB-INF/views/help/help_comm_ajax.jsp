@@ -191,12 +191,12 @@
 	<script id="post-list-tmpl" type="text/x-handlebars-template">
 	{{#each item}}
 	<tr>
-          <td align="left">{{postNo}}</td>
-          <td align="left"><span>[{{postSubtitle}}]</span>{{postTitle}}</td>
-          <td align="left">{{nickname}}</td>
-          <td align="left">{{postRegdate}}</td>
-          <td align="left">{{postUpcount}}</td>
-          <td align="left">{{postViewcount}}</td>
+          <td align="left">{{output.postNo}}</td>
+          <td align="left"><span>[{{output.postSubtitle}}]</span>{{output.postTitle}}</td>
+          <td align="left">{{output.nickname}}</td>
+          <td align="left">{{output.postRegdate}}</td>
+          <td align="left">{{output.postUpcount}}</td>
+          <td align="left">{{output.postViewcount}}</td>
     </tr>			
 	{{/each}}
 	</script>
@@ -208,7 +208,7 @@
 		src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
 	<!-- jQuery Ajax Setup -->
 	<script
-		src="${pageContext.request.contextPath}/assets/plugins/ajax/ajax_helper.js"></script>
+		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
 	<!-- User code -->
 	<script type="text/javascript">
 		
@@ -228,22 +228,20 @@
 				  postSubtitle_val = "${keyword2}";
 				  console.log(postSubtitle_val);
 				  $('select.keyword2 option[value=' + postSubtitle_val + ']').attr('selected', 'selected');
-				});			
+				
+	                 
+	                // Restful API에 GET 방식 요청
+	                $.get("${pageContext.request.contextPath}/help", {
+	                    "page": nowPage     // 페이지 번호는 GET 파라미터로 전송한다.
+	                }, function(json) {
+	                    var source = $("post-list-tmpl").html();   // 템플릿 코드 가져오기
+	                    var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
+	                    var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
+	                    $("#comm_table").append(result);      // 최종 결과물을 #list 요소에 추가한다.
+	                });
+			
+			});			
                  
-                // Restful API에 GET 방식 요청
-                $.get("${pageContext.request.contextPath}/help", {
-                    "page": nowPage     // 페이지 번호는 GET 파라미터로 전송한다.
-                }, function(json) {
-                    var source = $("post-list-tmpl").html();   // 템플릿 코드 가져오기
-                    var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
-                    var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
-                    $("#comm_table").append(result);      // 최종 결과물을 #list 요소에 추가한다.
-                    
-                    // 현재 페이지 번호가 전체 페이지 수에 도달했다면 더 보기 버튼을 숨긴다.
-                    if (json.meta.totalPage <= nowPage) {
-                        $("#btnMore").hide();
-                    }
-                });
         	});
 	</script>
 
