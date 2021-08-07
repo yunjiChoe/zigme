@@ -66,6 +66,14 @@
 	vertical-align: middle;
 }
 
+#noti_table td {
+	width: auto;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+}
+
 .showingnumber {
 	font-weight: 600;
 }
@@ -147,38 +155,58 @@
 				<table class="table noti-table">
 					<thead>
 						<tr class=info>
-							<th>NO.</th>
 							<th>알림 내역</th>
-							<th>알림 일시</th>
+							<!--  <th>알림 일시</th> -->
 							<th><button type="button" class="btn_delAll">전체삭제</button></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tbody id="noti_table">
-					<c:choose>
-						<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
-						<c:when test="${output1 == null || fn:length(output1) == 0}">
-							<tr>
-								<td colspan="9" align="center">조회결과가 없습니다.</td>
-							</tr>
-						</c:when>
-						<%-- 게시글에 대한 새로운 댓글 조회결과가 있는  경우 --%>
-						<c:otherwise>
-							<%-- 조회 결과에 따른 반복 처리 --%>
-							<c:forEach var="item" items="${output}" varStatus="status">
-
-								<%-- 해당글의 페이지로 이동하기 위한 URL --%>
-                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
-                            		<c:param name="postNo" value="${item1.postNo}" />
-                        		</c:url>
-								
-								<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-									<td>'<span>[${item1.postTitle}]</span>' 게시글에 댓글이 <span>${item1.commCount}</span>개 달렸습니다.</td>
-									<td>'<span>[${item2.commContent}]</span>' 댓글에 댓글이 <span>${item2.commCount}</span>개 달렸습니다.</td>
+					<tbody id="noti_table">
+						<c:choose>
+							<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
+							<c:when test="${output1 == null || fn:length(output1) == 0}">
+								<tr>
+									<td colspan="9" align="center">조회결과가 없습니다.</td>
 								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+							</c:when>
+							<%-- 게시글에 대한 새로운 댓글 조회결과가 있는  경우 --%>
+							<c:otherwise>
+								<%-- 조회 결과에 따른 반복 처리 --%>
+								<c:forEach var="item" items="${output1}" varStatus="status">
+	
+									<%-- 해당글의 페이지로 이동하기 위한 URL --%>
+	                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
+	                            		<c:param name="postNo" value="${item1.postNo}" />
+	                        		</c:url>
+									
+									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
+										<td>'<span>${item1.postTitle}</span>' 게시글에 댓글이 <span>${item1.commCount}</span>개 달렸습니다.</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
+							<c:when test="${output2 == null || fn:length(output2) == 0}">
+								<tr>
+									<td colspan="9" align="center">조회결과가 없습니다.</td>
+								</tr>
+							</c:when>
+							<%-- 게시글에 대한 새로운 댓글 조회결과가 있는  경우 --%>
+							<c:otherwise>
+								<%-- 조회 결과에 따른 반복 처리 --%>
+								<c:forEach var="item" items="${output2}" varStatus="status">
+	
+									<%-- 해당글의 페이지로 이동하기 위한 URL --%>
+	                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
+	                            		<c:param name="postNo" value="${item2.postNo}" />
+	                        		</c:url>
+									
+									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
+										<td>'<span>${item2.commContent}</span>' 댓글에 댓글이 <span>${item2.commCount}</span>개 달렸습니다.</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</div>
@@ -186,22 +214,19 @@
 	</div>
 	
 	
-	
-	
-	<script id="post-list-tmpl" type="text/x-handlebars-template">
-	{{#each item1}}
-	<tr>
-         <td>'<span>{{postTitle}}</span>' 게시글에 댓글이 <span>{{commCount}}</span>개 달렸습니다.</td>
-		 
-    </tr>			
-	{{/each}}
+	<script id="noti-list-tmpl" type="text/x-handlebars-template">
+   {{#each item1}}
+   <tr>
+            <td><span>{{postTitle}}</span><span>{{commCount}}</span></td>
+   </tr>         
+   {{/each}}
 
-	{{#each item2}}
-	<tr>
-          <td>'<span>{{commContent}}</span>' 댓글에 댓글이 <span>{{commCount}}</span>개 달렸습니다.</td>
-    </tr>			
-	{{/each}}
-	</script>
+   {{#each item2}}
+   <tr>
+             <td><span>{{commContent}}</span><span>{{commCount}}</span></td>
+       </tr>         
+   {{/each}}
+   </script>
 	
 	<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -215,10 +240,10 @@
 		/** 마우스 오버시 개별 tr의 색상변경 */
 		/** 추후 visited()로 변경 예정, 확인 시 배경 색상 변경 되는 부분 시각화를 위한 임시 코드 */
 		$(function() {
-			$(".noti_row").mouseover(function() {
+			$(".noti_table tr").mouseover(function() {
 				$(this).css("background-color", "#eee")
 			});
-			$(".noti_row").mouseout(function() {
+			$("noti_table tr").mouseout(function() {
 				$(this).css("background-color", "#fff")
 			});
 		});
@@ -238,28 +263,10 @@
 			});
 		});
 
-		/** DB 연동단계에서 확인/미확인 알림의 <span>요소와 그의 부모 <tr>요소에 대한 처리 필요 --> 미확인visited가상클래스? */
-		/** 새로운 알림일 경우 span에 .noti_new 부여 --> .noti_new는 css로 정의 */
-		/** noti_new에 해당하는 부모 tr 요소는 css제어가 안되어 js로 정의하였음 */
-		/** 상위 5개를 미확인 알림이라고 가정하고 해당 tr 색깔 적용 */
 		$('span.noti_new').closest('tr').css('background-color', '#FCE6E6');
 	</script>
 	
 	<!-- Handlebar 템플릿 코드 -->
-	
-	<script>
-	$(function() {
-        // Restful API에 GET 방식 요청
-        $.get("${pageContext.request.contextPath}/noti", {
-        }, function(json) {
-            var source = $("post-list-tmpl").html();   	// 템플릿 코드 가져오기
-            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
-            var result = template(json);    			// 템플릿 컴파일 결과물에 json 전달
-            $("#noti_table").append(result);      		// 최종 결과물을 #list 요소에 추가한다.
-        });	
-	});
-	</script>
-
 	<!--Google CDN 서버로부터 jQuery 참조 -->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -269,7 +276,21 @@
 	<!-- jQuery Ajax Setup -->
 	<script
 		src="${pageContext.request.contextPath}/assets/plugins/ajax/ajax_helper.js"></script>
-		
+	<script>
+	
+	$(function() {
+        // Restful API에 GET 방식 요청
+        $.get("${pageContext.request.contextPath}/noti", {
+        }, function(json) {
+            var source = $("noti-list-tmpl").html();   	// 템플릿 코드 가져오기
+            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
+            var result = template(json);    			// 템플릿 컴파일 결과물에 json 전달
+            $("#noti_table").append(result);      		// 최종 결과물을 #list 요소에 추가한다.
+        });	
+	});
+	
+	</script>
+
 	<c:import url="../inc/footer.jsp" />
 </body>
 

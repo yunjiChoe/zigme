@@ -21,17 +21,20 @@
 	resultMap="notiMap">
 	<!-- 게시글에 댓글이 달린 경우 다중행 조회 쿼리  -->
 	SELECT p.postNo, p.postTitle, count(commNo) FROM comment c, post p 
-		WHERE c.postNo = p.postNo and c.postNo IN (select postNo from post where postNoti = '1' and userNo = 1) group by c.postNo;
+		WHERE c.postNo = p.postNo
+		AND c.postNo IN (SELECT postNo FROM post WHERE postNoti = '1' AND userNo = 1)
+		GROUP BY c.postNo;
 	</select>
 	
  	<!-- $ '읽지않음'인 상태의 알림 다중행 조회를 위한 기능 정의  -->
 	<select id ="selectCommList" parameterType="study.spring.zigme.model.Post"
 	resultMap="notiMap">
 	<!-- 댓글에 댓글이 달린 경우(=대댓글) 다중행 조회 쿼리 -->
-	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) from comment A, comment B where A.commNo = B.parentNo 
-		and B.commNoti = '1' 
-		and B.userNo = 1
-		group by A.commNo
+	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) FROM comment A, comment B WHERE A.commNo = B.parentNo 
+		AND B.commNoti = '1' 
+		AND B.userNo = 1
+		GROUP BY A.commNo
+		ORDER BY A.commRegdate;
 	</select>
 	
 	

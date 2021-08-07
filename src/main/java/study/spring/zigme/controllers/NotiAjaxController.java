@@ -1,8 +1,6 @@
 package study.spring.zigme.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +49,6 @@ public class NotiAjaxController {
         }
         
         /** 2) 데이터 조회하기 */
-        // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input2 = new Post();
         
         List<Post> output2 = null;   // 조회결과가 저장될 객체
