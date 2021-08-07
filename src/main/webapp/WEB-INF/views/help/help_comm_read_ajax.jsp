@@ -153,8 +153,8 @@
 	{{#each item}}
           <div>
 								<div>
-									<span>{{nickname}}</span>
-									<span>{{commRegdate}}</span>
+									{{nickname}}
+									{{commRegdate}}
 								</div>
 								<div>
 									{{commContent}}
