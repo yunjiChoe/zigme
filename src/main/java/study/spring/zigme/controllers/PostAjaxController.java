@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import study.spring.zigme.helper.PageData;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
+import study.spring.zigme.model.Comment;
 import study.spring.zigme.model.Post;
+import study.spring.zigme.service.CommentService;
 import study.spring.zigme.service.PostService;
 
 @Controller
@@ -33,6 +35,8 @@ public class PostAjaxController {
     /** Service 패턴 구현체 주입 */
     // --> import study.spring.springhelper.service.ProfessorService;
     @Autowired  PostService postService;
+    
+    @Autowired  CommentService commentService;
     
     /** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
     // --> import org.springframework.beans.factory.annotation.Value;
@@ -102,26 +106,35 @@ public class PostAjaxController {
         }
 
         /** 2) 데이터 조회하기 */
-        // 데이터 조회에 필요한 조건값을 Beans에 저장하기
+        //게시글 데이터 조회에 필요한 조건값을 Beans에 저장하기
         Post input = new Post();
         input.setPostNo(postNo);
         
-        //다음글/이전글 번호 데이터 조회에 필요한 조건값을 Beans에 저장하기
+        //댓글 데이터 조회에 필요한 조건값을 Beans에 저장하기
+        Comment input_comm = new Comment();
+        
+        //다음글/이전글 번호 데이터 조회에 필요한 조건값을 Beans에 저장하기(추후에)
 
         // 조회결과를 저장할 객체 선언
         Post output = null;
+        List<Comment> output_comm = null;
 
         try {
         	//조회수 +1 수정
         	postService.addpostViewcount(input);
             // 데이터 조회
+        	//게시글 단일행 조회
             output = postService.getPostItem(input);
+            //해당 게시글에 해당하는 댓글 조회
+            output_comm = commentService.getCommentList(input_comm);
+            
         } catch (Exception e) {
             return webHelper.redirect(null, e.getLocalizedMessage());
         }
         
         /** 3) View 처리 */
         model.addAttribute("output", output);
+        model.addAttribute("output_comm", output_comm);
         return new ModelAndView("help/help_comm_read_ajax");
     }
     

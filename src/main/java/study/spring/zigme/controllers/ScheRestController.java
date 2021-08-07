@@ -119,13 +119,13 @@ public class ScheRestController {
     /** 수정 폼에 대한 action 페이지 */
     @RequestMapping(value = "/main", method = RequestMethod.PUT)
     public Map<String, Object> put(
-    		@RequestParam(value="scheNo", defaultValue="") int scheNo,
+    		@RequestParam(value="scheNo", defaultValue=0) int scheNo,
     		@RequestParam(value="scheCate", defaultValue="") String scheCate,
             @RequestParam(value="scheContent", defaultValue="") String scheContent,
             @RequestParam(value="scheLoc", defaultValue="") String scheLoc,
             @RequestParam(value="scheStartdate", defaultValue="0") String scheStartdate,
             @RequestParam(value="scheEnddate", defaultValue="") String scheEnddate,
-            @RequestParam(value="userNo", defaultValue="") int userNo) {
+            @RequestParam(value="userNo", defaultValue=0) int userNo) {
         
     	/** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
         // 일반 문자열 입력 컬럼 --> String으로 파라미터가 선언되어 있는 경우는 값이 입력되지 않으면 빈 문자열로 처리된다.

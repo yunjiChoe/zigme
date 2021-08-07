@@ -187,13 +187,12 @@ public class HomeController {
     * @param request
     * @return String
     */
-   
-   /** Ajax구현을 위해 주석처리
+  
    @RequestMapping(value = "/help/help_comm", method = RequestMethod.GET)
    public String helpComm(Model model, HttpServletRequest request) {
-      return "help/help_comm";
+      return "/help_ajax/help_comm.do";
    }
-   */
+  
    
    /**
     * 커뮤니티 메인으로 진입하기 위한 메서드
@@ -202,12 +201,11 @@ public class HomeController {
     * @return String
     */
    
-   /** Ajax구현을 위해 주석처리
    @RequestMapping(value = "/help/help_main", method = RequestMethod.GET)
    public String helpMain(Model model, HttpServletRequest request) {
       return "help/help_main";
    }
-   */
+   
    
    /**
     * 업종별-음식점 리스트로 진입하기 위한 메서드

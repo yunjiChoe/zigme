@@ -152,7 +152,7 @@ public class PostServiceImpl implements PostService{
 
         try {
             //게시글 삭제 전 자신을 참조하는 각각의 테이블들의 postNo컬럼을 null로 수정
-        	sqlSession.update("CommentMapper.unsetPost", input);
+        	sqlSession.update("CommentMapper.unsetPostNo", input);
         	
             result = sqlSession.delete("PostMapper.deleteItem", input);
 

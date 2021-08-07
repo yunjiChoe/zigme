@@ -419,26 +419,6 @@
             this.$el.find('[data-container="comments"]').prepend(commentList);
         },
 
-        createAttachments: function() {
-            var self = this;
-
-            // Create the list element before appending to DOM in order to reach better performance
-            this.$el.find('#attachment-list').remove();
-            var attachmentList = $('<ul/>', {
-                id: 'attachment-list',
-                'class': 'main'
-            });
-
-            var attachments = this.getAttachments();
-            this.sortComments(attachments, 'newest');
-            $(attachments).each(function(index, commentModel) {
-                self.addAttachment(commentModel, attachmentList);
-            });
-
-            // Appned list to DOM
-            this.$el.find('[data-container="attachments"]').prepend(attachmentList);
-        },
-
         addComment: function(commentModel, commentList, prependComment) {
             commentList = commentList || this.$el.find('#comment-list');
             var commentEl = this.createCommentElement(commentModel);
@@ -476,12 +456,6 @@
             }
         },
 
-        addAttachment: function(commentModel, commentList) {
-            commentList = commentList || this.$el.find('#attachment-list');
-            var commentEl = this.createCommentElement(commentModel);
-            commentList.prepend(commentEl);
-        },
-
         removeComment: function(commentId) {
             var self = this;
             var commentModel = this.commentsById[commentId];
@@ -510,81 +484,6 @@
 
             // Update the toggle all button
             this.updateToggleAllButton(parentEl);
-        },
-
-        preDeleteAttachment: function(ev) {
-            var commentingField = $(ev.currentTarget).parents('.commenting-field').first()
-            var attachmentEl = $(ev.currentTarget).parents('.attachment').first();
-            attachmentEl.remove();
-
-            // Check if save button needs to be enabled
-            this.toggleSaveButton(commentingField);
-        },
-
-        preSaveAttachments: function(files, commentingField) {
-            var self = this;
-
-            if(files.length) {
-
-                // Elements
-                if(!commentingField) commentingField = this.$el.find('.commenting-field.main');
-                var uploadButton = commentingField.find('.control-row .upload');
-                var isReply = !commentingField.hasClass('main');
-                var attachmentsContainer = commentingField.find('.control-row .attachments');
-
-                // Create attachment models
-                var attachments = $(files).map(function(index, file){
-                    return {
-                        mime_type: file.type,
-                        file: file
-                    }
-                });
-
-                // Filter out already added attachments
-                var existingAttachments = this.getAttachmentsFromCommentingField(commentingField);
-                attachments = attachments.filter(function(index, attachment) {
-                    var duplicate = false;
-
-                    // Check if the attacment name and size matches with already added attachment
-                    $(existingAttachments).each(function(index, existingAttachment) {
-                        if(attachment.file.name == existingAttachment.file.name && attachment.file.size == existingAttachment.file.size) {
-                            duplicate = true;
-                        }
-                    });
-
-                    return !duplicate;
-                });
-
-                // Ensure that the main commenting field is shown if attachments were added to that
-                if(commentingField.hasClass('main')) {
-                    commentingField.find('.textarea').trigger('click');
-                }
-
-                // Set button state to loading
-                this.setButtonState(uploadButton, false, true);
-
-                // Validate attachments
-                this.options.validateAttachments(attachments, function(validatedAttachments) {
-
-                    if(validatedAttachments.length) {
-
-                        // Create attachment tags
-                        $(validatedAttachments).each(function(index, attachment) {
-                            var attachmentTag = self.createAttachmentTagElement(attachment, true);
-                            attachmentsContainer.append(attachmentTag);
-                        });
-
-                        // Check if save button needs to be enabled
-                        self.toggleSaveButton(commentingField);
-                    }
-
-                    // Reset button state
-                    self.setButtonState(uploadButton, true, false);
-                });
-            }
-
-            // Clear the input field
-            uploadButton.find('input').val('');
         },
 
         updateToggleAllButton: function(parentEl) {
@@ -639,17 +538,6 @@
             } else {
                 toggleAllButton.remove();
             }
-        },
-
-        updateToggleAllButtons: function() {
-            var self = this;
-            var commentList = this.$el.find('#comment-list');
-
-            // Fold comments, find first level children and update toggle buttons
-            commentList.find('.comment').removeClass('visible');
-            commentList.children('.comment').each(function(index, el) {
-                self.updateToggleAllButton($(el));
-            });
         },
 
         sortComments: function (comments, sortKey) {

@@ -35,49 +35,10 @@ public class CommentTest {
 	private SqlSession sqlSession;
 	
 	@Test
-	/**단일행 조회 테스트 */
-	public void testA() {
+	public void TestF() {
 		Comment input = new Comment();
-		input.setCommNo(1);
-		sqlSession.selectOne("CommentMapper.selectItem", input);
-	}
-	
-	@Test
-	/**다중행 조회 테스트 */
-	public void testB() {
-		Comment input = new Comment();
-		sqlSession.selectList("CommentMapper.selectList", input);
-	}
-	
-	@Test
-	/**데이터 저장 테스트 */
-	public void testC() {
-		Comment input = new Comment();
-		input.setCommContent("테스트용 댓글");
-		input.setCommUpCount(5);
-		input.setCommRegdate("2021-01-01 00:00:00");
-		input.setCommNoti("1");
-		input.setPostNo(5);
-		input.setUserNo(4);
-		sqlSession.insert("CommentMapper.insertItem", input);
-	}
-	
-	/** 데이터 삭제 테스트 */
-	@Test
-	public void testD() {
-		Comment input = new Comment();
-		input.setCommNo(4);
-		sqlSession.delete("CommentMapper.deleteItem", input);
-	}
-	
-	/** 데이터 수정 테스트 */
-	@Test
-	public void testE() {
-		Comment input = new Comment();
-		input.setCommContent("수정된 테스트 댓글 텍스트");
-		input.setCommUpCount(30);
-		input.setCommNo(5);
-		sqlSession.update("CommentMapper.updateItem", input);
+		input.setPostNo(2);
+		sqlSession.update("CommentMapper.unsetPostNo", input);
 	}
 	
 	

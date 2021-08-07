@@ -25,6 +25,7 @@
 	 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
 	 <c:import url="../inc/header.jsp" />
 
+	<script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
 </head>
 <body>
     <div class="container">
@@ -46,7 +47,7 @@
             </span>
         </div>       
         <hr />       
-        <textarea type="text" name="postContent" class="ckeditor"></textarea>
+        <textarea id = "postContent" name="postContent" class="form-control ckeditor"></textarea>
         <hr />
     	<div class="input-group" id="write_buttons">
     		<button type="reset" id="write_cancel" class="btn btn-warning">취소</button>
@@ -58,8 +59,8 @@
 	</div>
 	
     <c:import url="../inc/footer.jsp" />
-    
-    <script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
+  
+   
     <!--Google CDN 서버로부터 jQuery 참조 -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- jQuery Ajax Form plugin CDN -->
