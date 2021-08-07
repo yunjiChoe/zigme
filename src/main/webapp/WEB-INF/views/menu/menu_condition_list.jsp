@@ -274,12 +274,31 @@ textarea {
 	<script type="text/javascript">
     $(function() {  	
     	
+    	// get으로 넘겨받은 URL
+		// http://localhost:8080/Zigme/menu/menu_condition_list?sel=00010&menu=라면
+		var local_url = decodeURIComponent(location.href);
+		
+		// 앞 페이지에서 URL로 넘긴 파라미터를 param_str배열에 나눠 담는다. sel = 앞에서 선택한 컨디션이 무엇인지 / menu = 추천된 음식
+		var param_str = local_url.substring(local_url.indexOf('?')+1).split('&');
+		
+		var sel_condi_list = param_str[0].substring(param_str[0].indexOf('=')+1).split(''); // sel 파라미터의 문자열을 split('')를 이용하여 하나씩 배열에 넣는다. 
+		var menu_param = param_str[1].substring(param_str[1].indexOf('=')+1);      // menu		
+		var sel_array = [];
+		
+		for (var i=0; i<sel_condi_list.length; i++){
+			if(sel_condi_list[i] == '1') sel_array.push(String(i));			
+		}
+		
+		/*
+		for (var i=0; i<sel_array.length; i++){
+			console.log(sel_array[i]);	
+		}
+		*/
+    	
 		var label = [""];						 
 		var icon_size = [""];
 		var menu_list = [""];		
 		var menu_txt = [""];
-		
-		var sel_array = ["2"];
     	
 		// ------------------------------------ JSON Data load --------------------------------------
 	   /*
@@ -602,7 +621,7 @@ textarea {
 			/** 함수 호출부 */
 			data_load();					// 페이지 JSON데이터 load 		
 			menu_item(5);    				// 업종별 아이콘 load
-			menu_listname("라면", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
+			menu_listname(menu_param, menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
 			list_side(menu_list.length);					// 검색된 주변음식점 갯수
     	});
     </script>

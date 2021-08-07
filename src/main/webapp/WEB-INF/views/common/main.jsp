@@ -47,7 +47,13 @@
 strong {
 	font-size: 12px;
 }
-   </style>	
+
+.nonclick { 
+	pointer-events: none; 
+}
+
+
+</style>	
     
 </head>
 
@@ -247,6 +253,7 @@ strong {
         	if(flag == '저장') {
         		
         		$.ajax({
+        			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
         			// 결과를 읽어올 URL
         			url: '${pageContext.request.contextPath}/main',
         			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
@@ -265,7 +272,8 @@ strong {
         			// 읽어온 내용을 처리하기 위한 함수
         			success: function(req) {
         				
-        				// console.log("통신완료" + req);
+        				location.reload(); // sche-id가 캘린더 플러그인의 값으로 자동등록되기 때문에 
+        				//console.log("통신완료" + req.item.scheNo);
         				
         			}
         		}); // end $.ajax        		
@@ -342,8 +350,9 @@ strong {
         	
         }
         
-        $(document).on('click', '#calendar-prev', function(e){        	
-        	
+        
+        // <! --- 이벤트 미리 등록 ------------------------------------------>
+        $(document).on('click', '#calendar-prev', function(e){        	        	
         	
         	cal.prev();
         	
@@ -406,9 +415,20 @@ strong {
 				if (json.rt == "OK") {
 					console.log("삭제 되었습니다. scheNo : " + click_scheNo);
 				}
-			});
-			
+			});			
 		});
+		
+		// 일정 수정시 '종일' 클릭안되게 수정 -> 종일을 누른 일정은 시간이 수정되지 않는 현상 때문에 
+		$(document).on('click', '.tui-full-calendar-popup-edit', function(e){
+			
+			$('.tui-full-calendar-section-allday').addClass('nonclick');
+		});
+		
+		$(document).on('click', '.tui-full-calendar-month-creation-guide', function(e){
+			
+			$('.tui-full-calendar-section-allday').removeClass('nonclick');
+		});
+		
 		
 		load_Sche();		
 		drawZigmeSchedules_func(zigme_schedule, zigme_schedulList, zigme_schedulList_count);
