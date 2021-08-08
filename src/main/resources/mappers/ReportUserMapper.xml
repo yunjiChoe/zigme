@@ -33,15 +33,15 @@
 	<insert id="insertItem" parameterType= "study.spring.zigme.model.ReportUser"
 		useGeneratedKeys="true" keyProperty="ReportNo">
 		<choose>
-		 <when test = 'ReportFlag != null and ReportFlag == "0"'>		
+		 <when test = 'ReportFlag != null and ReportFlag == "P"'>		
 			INSERT INTO reportuser (ReportFlag, ReportingUser, ReportingContent, ReportingDate, userNo, postNo)
 				VALUES (#{ReportFlag}, #{ReportingUser}, #{ReportingContent}, #{ReportingDate}, #{userNo}, #{postNo});
 		</when>
-		<when test = 'ReportFlag != null and ReportFlag == "1"'>		
+		<when test = 'ReportFlag != null and ReportFlag == "C"'>		
 			INSERT INTO reportuser (ReportFlag, ReportingUser, ReportingContent, ReportingDate, userNo, commNo)
 				VALUES (#{ReportFlag}, #{ReportingUser}, #{ReportingContent}, #{ReportingDate}, #{userNo}, #{commNo});
 		</when>
-		<when test = 'ReportFlag != null and ReportFlag == "2"'>		
+		<when test = 'ReportFlag != null and ReportFlag == "R"'>		
 			INSERT INTO reportuser (ReportFlag, ReportingUser, ReportingContent, ReportingDate, userNo, reviewNo)
 				VALUES (#{ReportFlag}, #{ReportingUser}, #{ReportingContent}, #{ReportingDate}, #{userNo}, #{reviewNo});
 		</when>
@@ -67,13 +67,13 @@
 				<if test="userNo != null">
 					userNo = #{userNo},
 				</if>
-				<if test='ReportFlag != null and ReportFlag == "0"'>
+				<if test='ReportFlag != null and ReportFlag == "P"'>
 					postNo = #{postNo}, commNo = null, reviewNo = null
 				</if>
-				<if test='ReportFlag != null and ReportFlag == "1"'>
+				<if test='ReportFlag != null and ReportFlag == "C"'>
 					commNo = #{commNo}, postNo = null, reviewNo = null
 				</if>
-				<if test= 'ReportFlag != null and ReportFlag == "2"'>
+				<if test= 'ReportFlag != null and ReportFlag == "R"'>
 					reviewNo = #{reviewNo}, postNo = null, commNo = null
 				</if>				
 			</set>			

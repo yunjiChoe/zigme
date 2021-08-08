@@ -18,14 +18,20 @@
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id="selectItem" parameterType= "study.spring.zigme.model.Review"
 		resultMap = "reviewMap">
-		SELECT * FROM review where reviewNo=#{reviewNo};
+		SELECT * FROM review where reviewPlaceId=#{reviewPlaceId};
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id="selectList" parameterType= "study.spring.zigme.model.Review"
 		resultMap = "reviewMap">
 		SELECT * FROM review where userNo=#{userNo} ORDER BY reviewPlaceId , reviewRegdate DESC;
-	</select>		
+	</select>	
+	
+	<!-- 리스트 갯수를 count하기 위한 쿼리 -->
+	<select id="selectCountAll" parameterType= "study.spring.zigme.model.Review" resultType="int">
+		SELECT COUNT(*) FROM review where reviewPlaceId=#{reviewPlaceId}
+		GROUP BY reviewPlaceId;
+	</select>	
 	
 	<!--  데이터 저장을 위한 기능 정의 -->
 	<insert id="insertItem" parameterType= "study.spring.zigme.model.Review"

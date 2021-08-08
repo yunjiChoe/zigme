@@ -1,14 +1,34 @@
  {
-	"common" : [
+	"common" : [	
 					{ "page" : "list", 
 					  "icon_size_width" : "40", 
 					  "icon_size_height" : "40",
-					  "label": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+					  "label": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
 					  "menu_txt" : ["한 식","양 식", "일 식", "중 식", "분 식", "그 외", "테스트", "테스트"],
 					  "condition_txt" : ["감기몸살", "소화불량", "숙취해소", "기력보충", "다이어트"]					  
-					 }],
+					 },
 					 
-   	"menu" : [{ }],
+					 {
+					  "loc_xy" : "127.024465815419,37.5021008334827"					  
+					}
+					
+					 ],
+					 
+   	"menu" : [
+   				{ "MARKER_WIDTH" : 33, 
+				  "MARKER_HEIGHT" : 43, 
+				  "OFFSET_X" : 12,
+				  "OVER_MARKER_WIDTH" : 40, 
+				  "OVER_MARKER_HEIGHT" : 47, 
+				  "OVER_OFFSET_X" : 13,
+				  "SPRITE_MARKER_URL" : "/img/menu/marker.png", 
+				  "SPRITE_WIDTH" : 167, 
+				  "SPRITE_HEIGHT" : 650, 
+				  "SPRITE_GAP" : 25,
+				  "Search_radius" : 300, 
+				  "Serach_size" : 9   					
+   				}
+   			],
    	"help" : [{ }],
    	"util" : [{ }]   					 
 }

@@ -63,7 +63,7 @@ public class ReportUserTest {
 		String date = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.DAY_OF_MONTH) + " " 
 				+ cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 		
-		input.setReportFlag("0");	// 0 : postNo, 1: CommNo, 2: ReviewNo 
+		input.setReportFlag("P");	// P : postNo, C: CommNo, R: ReviewNo 
 		input.setReportingUser("pass4522");
 		input.setReportingContent("도배 게시글입니다.");
 		input.setReportingDate(date);
@@ -88,7 +88,7 @@ public class ReportUserTest {
 
 		// ※ 테스트이므로 수정하도록 로직이 있긴하지만 데이터 일치를 위해 수정하려면 PostNo, CommNo, ReviewNo도 같이 수정할 것. 
 		// 쿼리문을 보면 조건으로 flag에 따라 한가지만 업데이트 하도록 되어있다. 
-		input.setReportFlag("2"); 
+		input.setReportFlag("R"); 
 		
 		input.setReportingUser("test_id");
 		input.setReportingContent("수정한 테스트 신고내역222");

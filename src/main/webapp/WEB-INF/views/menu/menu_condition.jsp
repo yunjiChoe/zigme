@@ -37,6 +37,16 @@
 .btn-primary:hover {
 	background-color: #4041fe;
 }
+
+#box7 {
+	padding-top: 50px;
+}
+
+#box7 h1{
+	display: block;
+	padding: 10px 0;
+}
+
 </style>
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
@@ -70,12 +80,11 @@
 				</div>
 			</div>
 			<div id="box7">
-				<br> <span id="re-recommend"> <img alt="라면"
-					src="${pageContext.request.contextPath}/img/menu/noodel.jpg" width="140">
+				<span id="re-recommend"> 
+				<img alt="라면"	src="${pageContext.request.contextPath}/img/menu/noodel.jpg" height="130">
 					<h1>라면</h1>
-				</span> <br> <br> <span id="re-re"></span> <span
-					class="menu_find_btn"> <a><button type="button"
-							class="btn btn-ms btn-ttc1" id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a>					
+				</span><span class="menu_find_btn"> 
+				<a><button type="button" class="btn btn-ms btn-ttc1" id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a>					
 					<a href="#" id="submit_link" class="btn btn-primary btn-ttc2 ">주변음식점찾기</a>
 				</span>
 
@@ -101,6 +110,7 @@
 			 
 			function data_load() {
 				
+				// 그냥 파일읽기로 가져와도 되는데 그러면 json 파일에 오류가 생기므로 ajax를 이용하여 가져오기로 했다. 
 				// 요소 설정 setting 값 read
 				$.ajax ({
 					async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
@@ -118,7 +128,6 @@
 			}	
 			
 			$('#box7').hide();
-			
 			
 			$(document).on('click', '#condi_btn_0', function(e){ // cold
 				
@@ -214,9 +223,15 @@
 
 			$("#btn-retry").click(
 					function() {
-						$('#re-recommend,#btn-retry').remove();
+						$('#btn-retry').remove();
 
+<<<<<<< HEAD
+						$("#re-recommend").html(
+								"<img src='${pageContext.request.contextPath}/img/menu/Haejangguk.jpg' height='130'>"
+								+ "<h1>해장국</h1>")
+=======
 						$("#re-re").html("<img src='${pageContext.request.contextPath}/img/menu/Haejangguk.jpg' height='130'>" + "<br>" + "<h1>해장국</h1>" + "<br>")
+>>>>>>> ea787a2d85c6ef2ce915b6ba66571bb3afafd73e
 
 			});
 			
