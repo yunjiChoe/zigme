@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
+
 
 @WebServlet("/api/id_unique_check.do")
 public class IdUniqueCheck extends HttpServlet {
@@ -33,8 +33,8 @@ public class IdUniqueCheck extends HttpServlet {
 			}
 		}
 
-		JSONObject json = new JSONObject();
-		json.put("result", result);
-		response.getWriter().print(json);
+		//JSONObject json = new JSONObject();
+		//json.put("result", result);
+		//response.getWriter().print(json);
 	}
 }

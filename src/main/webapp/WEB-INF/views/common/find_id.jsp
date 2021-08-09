@@ -6,7 +6,7 @@
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -63,6 +63,7 @@
 
 <body>
     <!-- .modal -->
+     <form role="form" action="${pageContext.request.contextPath}/common/find_ok.do"  method="post">
     <div id="find-id-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <!-- .modal-dialog -->
         <div class="modal-dialog">
@@ -82,14 +83,14 @@
                     <p>
                         메이트님의 아이디는
                     </p>
-                    <h4 class="text-primary" >___</h4>
+                    <h4 class="text-primary" >${output.getId()}</h4>
                     <p>
-                        입니다.
+                       입니다.
                     </p>
                 </div>
                 <!-- 하단 -->
                 <div class=" text-center">
-                    <a href="${pageContext.request.contextPath}"> <button type="button" class="btn  btn-primary btn-lg">
+                    <a href="${pageContext.request.contextPath}"> <button type="submit" class="btn  btn-primary btn-lg">
                             확인
                         </button></a>
                 </div>
@@ -113,7 +114,7 @@
             </div>
             <br />
             <hr style="border: solid 1px #aaa;" width="100%">
-            <form role="form" action="${pageContext.request.contextPath}/common/find_ok.do"  method="post">
+           
                 <fieldset>
                     <div class="form-group">
                         <input type="text" id="user_name" class="form-control" name="name" placeholder="이름" />
@@ -124,7 +125,7 @@
                         <span class="text-info">이메일 주소를 입력해주세요.</span>
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-primary btn-block" data-toggle="modal" href="#find-id-modal">
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" href="#find-id-modal">
                         아이디 찾기
                     </button>
                 </fieldset>

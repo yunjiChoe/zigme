@@ -257,60 +257,60 @@ input#all_check {
 </head>
 
 <body id="jbody">
-<form role="form" id="join_form" method="post"
-				action="${pageContext.request.contextPath}/common/join_ok.do">
-	<!-- .modal -->
-	<div id="find-id-modal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<!-- .modal-dialog -->
-		<div class="modal-dialog">
-			<!-- .modal-content -->
-			<div class="modal-content">
-				<!--제목 -->
-				<div class="modal-header">
-					<!-- 닫기버튼 -->
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<br>
-					<h4 class="modal-title  text-info text-center" id="myModalLabel">회원가입
-						완료</h4>
+	<form role="form" id="join_form" method="post"
+		action="${pageContext.request.contextPath}/common/join_ok.do">
+		<!-- .modal -->
+		<div id="find-id-modal" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<!-- .modal-dialog -->
+			<div class="modal-dialog">
+				<!-- .modal-content -->
+				<div class="modal-content">
+					<!--제목 -->
+					<div class="modal-header">
+						<!-- 닫기버튼 -->
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<br>
+						<h4 class="modal-title  text-info text-center" id="myModalLabel">회원가입
+							완료</h4>
+					</div>
+					<!-- 내용 -->
+					<div class="modal-body text-center">
+						<p>반갑습니다.
+						<div id='result'></div>
+						</p>
+						<p>메이트가 되신것을 환영합니다.</p>
+					</div>
+					<!-- 하단 -->
+					<div class=" text-center">
+						<button type="submit" class="btn  btn-primary btn-lg btn-ttc5" >확인
+						</button>
+
+					</div>
+					<br />
 				</div>
-				<!-- 내용 -->
-				<div class="modal-body text-center">
-					<p>반갑습니다.
-					<div id='result'></div>
-					</p>
-					<p>메이트가 되신것을 환영합니다.</p>
-				</div>
-				<!-- 하단 -->
-				<div class=" text-center">
-					<button type="submit" class="btn  btn-primary btn-lg btn-ttc5">확인
-					</button>
-					
-				</div>
-				<br />
+				<!-- /.modal-content -->
 			</div>
-			<!-- /.modal-content -->
+			<!-- /.modal-dialog -->
 		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<div class="container jcontainer">
-		<div class="content ">
-			<div class="find-id-header">
-				<a href="${pageContext.request.contextPath}"> <img
-					src="${pageContext.request.contextPath}/img/common/logo.png"></a>
-				<div class="id-blue">
-					<div class="square"></div>
-					회원가입
+		<div class="container jcontainer">
+			<div class="content ">
+				<div class="find-id-header">
+					<a href="${pageContext.request.contextPath}"> <img
+						src="${pageContext.request.contextPath}/img/common/logo.png"></a>
+					<div class="id-blue">
+						<div class="square"></div>
+						회원가입
+					</div>
 				</div>
-			</div>
-			<br /> <br /> <br />
-			
+				<br /> <br /> <br />
+
 				<fieldset id="jfieldset">
 					<div class="form-group">
 						<div class="circle"></div>
-						<label for="user_id">아이디</label><br /> 
-						<input type="text"name="id" id="user_id" class="form-control"
+						<label for="user_id">아이디</label><br /> <input type="text"
+							name="id" id="user_id" class="form-control"
 							placeholder="영문,숫자 조합하여 4자~20자" />
 						<button type="button" id="id_check" name="id_check"
 							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5 id_input">중복확인</button>
@@ -349,12 +349,10 @@ input#all_check {
 							<div class="circle"></div>
 							<label for="user_nickname">닉네임</label><br /> <input type="text"
 								id="user_subname" name="nickname" class="form-control"
-								onchange='printName()' placeholder="한글,영문,숫자 최대10자" />
+								placeholder="한글,영문,숫자 최대10자" />
 							<button type="button"
-								class="btn btn-primary btn-ms btn-ttc4 btn-ttc5">중복확인</button>
-							<div class="nickname" style="display: none;">
-								<b>&nbsp;사용 가능한 닉네임 입니다.</b>
-							</div>
+								class="btn btn-primary btn-ms btn-ttc4 btn-ttc5 " id="checkNick">중복확인</button>
+							<div class="nickname" style="display: none;"></div>
 						</div>
 						<br /> <br />
 						<div class="form-group">
@@ -438,14 +436,12 @@ input#all_check {
 						data-toggle="modal" href="#find-id-modal">회원가입</button>
 					<br /> <br /> <br />
 				</div>
-			</form>
+			</div>
 		</div>
-	</div>
+	</form>
 
-	<script
-		src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js">
-		
-	</script>
+
+
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
@@ -587,7 +583,7 @@ input#all_check {
 		/** 비밀번호 일치 여부 */
 		$(function() {
 			$('#user_pw').keyup(function() {
-				F
+				
 				$('#chkNotice').html('');
 			});
 
@@ -603,6 +599,39 @@ input#all_check {
 
 			});
 		});
+		
+		
+		/** 닉네임 중복 확인 */
+		$(function() {
+			
+			/** 버튼 클릭시 이벤트 */
+			$("#checkNick").click(function() {
+				// 입력값을 취득하고, 내용의 존재여부를 검사한다.
+				var user_subname_val = $("#user_subname").val();
+				
+				if (!user_subname_val) {	// 입력되지 않았다면?
+					alert("닉네임을 입력해주세요.");	// <-- 메시지 표시
+					$("#user_subname").focus();			// <-- 커서를 강제로 넣기
+					return false;					// <-- 실행 중단
+				}
+
+				// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
+				// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
+				$.get("${pageContext.request.contextPath}/common/checkNick.do", { user_subname: user_subname_val }, function(req) {
+					// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+					// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+					if (req.result == 'OK') {
+						alert("사용 가능한 닉네임 입니다.");
+					} else {
+						alert("사용할 수 없는 닉네임 입니다.");
+						$("#user_subname").val("");
+						$("#user_subname").focus();
+					}
+				}); // end $.get
+			}); // end click
+		});
+		
+		
 	</script>
 </body>
 

@@ -111,7 +111,7 @@
                 </div>
                 <!-- 내용 -->
                 <div class="modal-body text-center">
-                    <h4 class="text-primary ">javajung@zigme.com</h4>
+                    <h4 class="text-primary ">${output.email}</h4>
                     <p>
                         인증번호가 발송되었습니다.
                     </p>
@@ -178,19 +178,19 @@
             </div>
             <br />
             <hr class="hr_solid" style="border: solid 1px #aaa;" width="100%">
-            <form role="form">
+            <form role="form" method="post" action="${pageContext.request.contextPath}/common/find_pw_ok.do">
                 <fieldset>
                     <div class="form-group">
-                        <input type="text" id="user_name" class="form-control" placeholder="이름" />
-                        <span class="text-info">이름을 입력해 주세요.</span>
+                        <input type="text" id="user_name" class="form-control" placeholder="이름" name="name" />
+                        <span class="text-info"> 이름을 입력해 주세요.</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="user_id" class="form-control" placeholder="ID" />
-                        <span class="text-info">아이디를 입력해주세요.</span>
+                        <input type="text" id="user_id" class="form-control" placeholder="ID"  name="id"/>
+                        <span class="text-info"> 아이디를 입력해주세요.</span>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="user_eamil" class="form-control" placeholder="email@example.com" />
-                        <span class="text-info">이메일 주소를 입력해주세요.</span>
+                        <input type="email" id="user_eamil" class="form-control" placeholder="email@example.com"  name="email"/>
+                        <span class="text-info"> 이메일 주소를 입력해주세요.</span>
                     </div>
                     <br /> <button type="button" id="question" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal" onclick="printResult()">
                         인증번호 받기

@@ -9,6 +9,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -241,7 +243,7 @@ img.col-md-3 {
 	<div class="container mycontainer">
 		<div class="content ">
 			<div class="find-id-header">
-				<a href="${pageContext.request.contextPath}/"> <img src="${pageContext.request.contextPath}/img/common/logo.png"></a>
+				<a href="${pageContext.request.contextPath}/main"> <img src="${pageContext.request.contextPath}/img/common/logo.png"></a>
 				<div class="id-blue">
 					<div class="square"></div>
 					내 정보 수정
@@ -250,7 +252,7 @@ img.col-md-3 {
 			<br /> <br /> <br />
 			<div class="icon">
 				<img src="${pageContext.request.contextPath}/img/common/reward_icon_posting.png" width="50">
-				<h2>정자바 님</h2>
+				<h2>${output.getNickname()} 님</h2>
 			</div>
 			<form role="form">
 				<fieldset>
@@ -285,8 +287,8 @@ img.col-md-3 {
 						<br> <br>
 						<div class="form-group">
 							<div class="circle"></div>
-							<span>닉네임</span><br /> <input type="text" id="user_subname"
-								class="form-control" placeholder="한글,영문,숫자 최대10자" />
+							<span>닉네임</span><br /> <input type="text" id="user_subname" name="nickname"
+								class="form-control" placeholder="한글,영문,숫자 최대10자" value="${output.getNickname()}"/>
 							<button type="button" class="btn btn-primary btn-ms btn-ttc3 btn-ttc5">
 								중복확인</button>
 							<div class="nickname" style="display: none;"><b>&nbsp;사용 가능한 닉네임 입니다.</b></div>
@@ -295,25 +297,25 @@ img.col-md-3 {
 						<br>
 						<div class="form-group">
 							<div class="circle"></div>
-							<span>이메일 주소</span><br /> <input type="email" id="user_eamil"
-								class="form-control" placeholder="email@example.com" />
+							<span>이메일 주소</span><br /> <input type="email" id="user_eamil" name="email"
+								class="form-control" placeholder="email@example.com" value="${output.email}"/>
 						</div>
 						<br />
 						<div class="form-group">
 							<div class="circle"></div>
-							<span>기존 비밀번호 </span><br /> <input type="password" id="user_pw"
+							<span>기존 비밀번호 </span><br /> <input type="password" id="user_pw" name="x_password"
 								class="form-control" placeholder="영문,숫자 조합하여 최소4자,최대20자" />
 						</div>
 						<br />
 						<div class="form-group">
 							<div class="circle"></div>
-							<span>새 비밀번호 확인</span><br /> <input type="password" id="user_pw_new"
+							<span>새 비밀번호 확인</span><br /> <input type="password" id="user_pw_new" name="new_password"
 								class="form-control" placeholder="비밀번호를 한 번 더 입력해주세요." />
 						</div>
 						<br />
 						<div class="form-group">
 							<div class="circle"></div>
-							<span>비밀번호 확인</span><br /> <input type="password" id="user_pw_ok"
+							<span>비밀번호 확인</span><br /> <input type="password" id="user_pw_ok" name="new_password2"
 								class="form-control" placeholder="비밀번호를 한 번 더 입력해주세요." />
 						</div>
 						<br /> <br />
@@ -321,7 +323,7 @@ img.col-md-3 {
 							<div class="circle"></div>
 							<span>회사 주소</span><br /> <span>제공하신 정보는 위치 기반 정보 제공에
 								사용됩니다.</span><br /> <span>건물 번호(번지수)까지만 기입해주세요.</span> <br /> <input
-								type="text" id="user_adress" class="form-control"
+								type="text" id="user_adress" class="form-control" name="addr1"
 								placeholder="우편번호" />
 							<button type="button" class="btn btn-primary btn-ttc btn-ms btn-ttc5">
 								주소검색</button>
@@ -428,6 +430,34 @@ img.col-md-3 {
 				}
 			});
 		});
+		
+		$(function() {
+	        $("#out").click(function(e) {
+	            e.preventDefault();  // 링크 클릭에 대한 페이지 이동 방지
+	            
+	            let current = $(this);  // 이벤트가 발생한 객체 자신 ==> <a>태그
+	            let userno = current.data('userno');     // data-profno 값을 가져옴
+	            let name = current.data('name');         // data-name 값을 가져옴
+	           // let position = current.data('position'); // data-position 값을 가져옴
+	            let target = name + " " + position;      // "이름 + 공백 + 직급"형식의 문자열
+	            
+	            // 삭제 확인
+	            if (!confirm("정말 " + target + "님을(를) 삭제하시겠습니까?")) {
+	                return false;
+	            }
+	            
+	            // delete 메서드로 Ajax 요청 --> <form> 전송이 아니므로 직접 구현한다.
+	            $.delete("${pageContext.request.contextPath}/common", {
+	                "userno": userno
+	            }, function(json) {
+	                if (json.rt == "OK") {
+	                    alert("삭제되었습니다.");
+	                    // 삭제 완료 후 목록 페이지로 이동
+	                    window.location = "${pageContext.request.contextPath}/";
+	                }
+	            });
+	        });
+	    });
 	</script>
 </body>
 

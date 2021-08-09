@@ -62,10 +62,11 @@
       </ul>
 
         <!-- 유저 드롭박스 시작 -->
-        <form class="navbar-form navbar-right">          
+        <form class="navbar-form navbar-right" method="post" action="<%=request.getContextPath()%>/common/noti.jsp">          
           <div class="dropdown clearfix" id="user_infobtn">
-            <a id="dropdownMenu1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png" class="profile_icon" /> 정자바 님 
-            <b class="caret"></b>
+            <a id="dropdownMenu1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png" class="profile_icon" /> 
+            ${output.getNickname()} 님 
+            <b class="caret"></b> 
             </a>
             
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">

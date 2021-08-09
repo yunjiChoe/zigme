@@ -85,7 +85,7 @@ public interface UserService {
 	 * @reuurn User - 동일한 닉네임이 중복되는지 확인 후 리턴
 	 * @throws Exception
 	 */
-	public int nickName(User input) throws Exception;
+	public List<User> checkNick(User input) throws Exception;
 
 	/**
 	 * 이름, 이메일로 아이디 조회
@@ -94,6 +94,14 @@ public interface UserService {
 	 * @throws Exception
 	 */
 	public User getUserId(User input) throws Exception;
+	
+	/**
+	 * 비밀번호 재설정을 위한 조회
+	 * @param User 조회할 학과의 인련번호를 담고 있는 Beans
+	 * @return 조회된 데이터가 저장된 Beans
+	 * @throws Exception
+	 */
+	public User getUserPw(User input) throws Exception;
 
 
 

@@ -26,7 +26,9 @@
 	<select id="selectItem" parameterType= "study.spring.zigme.model.User"
 		resultMap = "userMap">
 		SELECT userNo, id, password, name, nickname, email, gender,
-		postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag FROM user WHERE userNo = #{userNo};
+		postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag 
+		FROM user 
+		<where>userNo = #{userNo}</where> 
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
@@ -62,15 +64,18 @@
 	<!-- 데이터 삭제를 위한 기능 정의 -->
 	<delete id="deleteItem"
 	parameterType="study.spring.zigme.model.User">
-	DELETE FROM user WHERE userNo = #{userNo};
+	DELETE FROM user <where>userNo = #{userNo}</where> 
 	</delete>
 	
 	<!-- 데이터 갱신을 위한 기능 정의 -->
 	<update id= "updateItem"
 	parameterType="study.spring.zigme.model.User">
-	UPDATE user SET  nickname=#{nickname}, email=#{email}, password=#{password}
-			postcode=#{postcode}, addr1=#{addr1}, addr2=#{addr2}, loc_xy=#loc_xy}, icon = #{icon}
-	WHERE userNo =#{userNo};
+	UPDATE user SET  nickname=#{nickname}, email=#{email}, password=md5(#{password}),
+			postcode=#{postcode}, addr1=#{addr1}, addr2=#{addr2}, loc_xy=#{loc_xy}, icon = #{icon},blockUserflag=#{blockUserflag}, outUserflag=#{outUserflag}
+	
+	<where>
+          userNo =#{userNo}
+        </where> 
 	</update>
 	
 	<!-- 전체 데이터 수 조회 -->
@@ -88,11 +93,14 @@
 	 </select>
 	 
 	 <!-- 로그인 -->
-	 <select id="login" parameterType="study.spring.zigme.model.User" resultMap="userMap" >
-	 SELECT userNo, id,password
+	 <select id="selectlogin" parameterType="study.spring.zigme.model.User" resultMap="userMap" >
+	 SELECT userNo, id, password, name, nickname, email, gender,
+			postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag
 			FROM user
-       <where> id = #{id} AND md5(#{password}) AND outUserflag='N'</where>
+       <where> id = #{id} AND password=md5(#{password}) AND outUserflag='N'</where>
 	 </select>
+	 
+	
 
 	 <!--  탈퇴 -->
 	 <update id="outUpdate" parameterType="study.spring.zigme.model.User">
@@ -106,7 +114,7 @@
 	 
 	 <!-- 닉네임 중복 체크 -->
 	 <select id="checkNick" parameterType="study.spring.zigme.model.User" resultType="int">
-	 SELECT COUNT(*) FROM user WHERE nickname=#{nickname}
+	 SELECT COUNT(*) FROM user  <where>nickname=#{nickname}</where>
 	 </select>  
 	 
 	 <!-- 아이디 찾기 -->
@@ -114,6 +122,13 @@
 	 	SELECT userNo,id 
 		FROM user
 		<where>name=#{name} AND email=#{email} AND outUserflag='N'</where> 
+	 </select>
+	 
+	 <!-- 비밀번호 찾기 -->
+	 <select id="selectPw" parameterType="study.spring.zigme.model.User" resultMap="userMap">
+	 	SELECT userNo, id ,email
+		FROM user
+		<where> name=#{name} AND id=#{id} AND email=#{email} AND outUserflag='N'</where> 
 	 </select>
 	 
 	 
