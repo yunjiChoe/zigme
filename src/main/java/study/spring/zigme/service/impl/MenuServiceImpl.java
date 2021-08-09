@@ -1,5 +1,7 @@
 package study.spring.zigme.service.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,16 @@ public class MenuServiceImpl implements MenuService {
 	SqlSession sqlSession;
 
 	@Override
-	public Review getReviewItem(Review input) throws Exception {
+	public List<Review> getReviewList(Review input) throws Exception {
 
-		Review result = null;
+		List<Review> result = null;
 
 		try {
-			result = sqlSession.selectOne("ReviewMapper.selectItem", input);
+			result = sqlSession.selectList("ReviewMapper.selectList", input);
 
-			if (result == null) {
+			/* if (result == null) {
 				throw new NullPointerException("result=null");
-			}
+			}*/
 		} catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());
 			throw new Exception("조회된 데이터가 없습니다.");
@@ -53,6 +55,28 @@ public class MenuServiceImpl implements MenuService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Review getReviewItem(Review input) throws Exception {
+		
+		Review result = null;
+
+        try {
+            result = sqlSession.selectOne("ReviewMapper.selectItem", input);
+
+            /*if (result == null) {
+                throw new NullPointerException("result=null");
+            }*/
+        } catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("조회된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+
+        return result;
 	}
 
 }

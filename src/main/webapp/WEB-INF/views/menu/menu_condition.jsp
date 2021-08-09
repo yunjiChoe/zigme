@@ -225,14 +225,9 @@
 					function() {
 						$('#btn-retry').remove();
 
-<<<<<<< HEAD
 						$("#re-recommend").html(
 								"<img src='${pageContext.request.contextPath}/img/menu/Haejangguk.jpg' height='130'>"
-								+ "<h1>해장국</h1>")
-=======
-						$("#re-re").html("<img src='${pageContext.request.contextPath}/img/menu/Haejangguk.jpg' height='130'>" + "<br>" + "<h1>해장국</h1>" + "<br>")
->>>>>>> ea787a2d85c6ef2ce915b6ba66571bb3afafd73e
-
+								+ "<h1>해장국</h1>");
 			});
 			
 			function condi_item(count) {  
