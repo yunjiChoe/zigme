@@ -82,7 +82,7 @@
 		INSERT INTO post (postSubtitle, postTitle, postContent, postUpcount, postViewcount, postRegdate,
 			postNoti, userNo) VALUES 
 			(#{postSubtitle}, #{postTitle}, #{postContent}, 0, 0, now(),
-			"1", 1);
+			"Y", 1);
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->

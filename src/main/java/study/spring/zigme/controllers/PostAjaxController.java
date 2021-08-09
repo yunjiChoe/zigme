@@ -250,5 +250,34 @@ public class PostAjaxController {
     	return new ModelAndView("help/help_comm_edit_ajax.do");
     }
     
+    
     /** 댓글 삽입 폼에 대한 action 페이지 */
+    @RequestMapping(value = "/help_ajax/help_comm_write.ajax", method = RequestMethod.POST)
+    public ModelAndView add_comment(Model model,
+    		@RequestParam(value="postNo", defaultValue="") int postNo,
+    		@RequestParam(value="commContent", defaultValue="") String commContent) {
+    	
+    	
+    	/** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
+        if (!regexHelper.isValue(commContent))     { return webHelper.redirect(null, "내용을 입력하세요."); }
+                
+        /** 2) 데이터 저장하기 */
+		Post input = new Post();
+    	
+		// 저장된 결과를 조회하기 위한 객체
+				List<Post> output = null;
+
+		        try {
+		            // 데이터 저장
+		            // --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
+		            postService.addPost(input);
+		            
+		            output = postService.getPostList(input);
+		        } catch (Exception e) {
+		            return webHelper.redirect(null, e.getLocalizedMessage());
+		        }
+		        
+		        model.addAttribute("output", output);
+		        return new ModelAndView("help/help_comm_write_ajax.do");
     }
+}

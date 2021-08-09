@@ -12,7 +12,7 @@ public class Post {
 	private int postUpcount;
 	private int postViewcount;
 	private String postRegdate;
-	private int postNoti;
+	private String postNoti;
 	private int userNo;
 	private int prevpage;
 	private int nextpage;
@@ -24,10 +24,10 @@ public class Post {
 	private String nickname;
 	
 	//해당 회원의 블록 유저 여부(user테이블과 join)
-	private int blockUserflag;
+	private String blockUserflag;
 	
 	//해당 회원의 탈퇴회원 여부(user테이블과 join)
-	private int outUserflag;
+	private String outUserflag;
 	
 	/** 알림(noti)에 필요한 추가 컬럼 */
 	//해당 회원이 작성한 게시글의 댓글들의 일련번호

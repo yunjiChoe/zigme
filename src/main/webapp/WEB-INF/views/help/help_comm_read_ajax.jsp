@@ -100,7 +100,7 @@
 
 			<div>
 				<label for="content">comment</label>
-				<form name="commentInsertForm" method="post">
+				<form name="commentInsertForm" method="post" action = "${pageContext.request.contextPath}/help_ajax/help_comm_write_comment.do">
 					<div class="input-group">
 						<input type="hidden" name="postNo" value="${output.postNo}" />
 						<textarea id="commContent_writing" cols="160" rows="5"
