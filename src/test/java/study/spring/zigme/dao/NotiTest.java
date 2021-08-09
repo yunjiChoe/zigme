@@ -33,24 +33,33 @@ public class NotiTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
+//	@Test
+//	/** 단일행 조회 테스트 */
+//	public void testA() {
+//		Noti input = new Noti();
+//		input.setPostNoti("1");
+//		
+//		sqlSession.selectOne("NotiMapper.selectItem", input);
+//	}
+//	
 	@Test
-	/** 단일행 조회 테스트 */
-	public void testA() {
-		Noti input = new Noti();
-		input.setPostNoti("1");
-		
-		sqlSession.selectOne("NotiMapper.selectItem", input);
-	}
-	
-	@Test
-	/**다중행 조회 테스트 */
+	/** 다중행 조회 테스트 */
 	public void testB() {
 		Post input = new Post();
-		input.setPostNoti("1"); // 글에 댓글이 달린 알람을 확인하지 않음
+		input.setPostNoti("2"); // '읽지않음' 상태
 	
 		sqlSession.selectList("NotiMapper.selectList", input);
 	}
 
+	@Test
+	/** 수정 테스트 */
+	public void testC() {
+		Post input = new Post();
+		input.setPostNo(1);
+		input.setPostNoti("17"); //'읽지않음 -> '읽음'으로 수정
+	
+		sqlSession.update("NotiMapper.updateItem", input);
+	}
 	
 
 }

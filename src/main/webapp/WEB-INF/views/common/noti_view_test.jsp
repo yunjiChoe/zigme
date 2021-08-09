@@ -88,6 +88,11 @@
 	width: 100%;
 }
 
+.newNotiPostTitle, .newNotiCommContent, .token {
+	font-family: 'S-CoreDream-5Medium';
+	color: #819dd6;
+}
+
 .table-header img {
 	width: 30px;
 }
@@ -161,11 +166,6 @@
 						</tr>
 					</thead>
 					<tbody id="noti_table">
-						<tr>
-							<td>
-							${output1[0].postTitle}
-							</td>
-						</tr>
 						<c:choose>
 							<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
 							<c:when test="${output1 == null || fn:length(output1) == 0}">
@@ -180,11 +180,11 @@
 	
 									<%-- 해당글의 페이지로 이동하기 위한 URL --%>
 	                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
-	                            		<c:param name="postNo" value="${item1.postNo}" />
+	                            		<c:param name="postNo" value="${item.postNo}" />
 	                        		</c:url>
 									
 									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-										<td>'<span>${item1.postTitle}</span>' 게시글에 댓글이 <span>${fn:length(output2)}</span>개 달렸습니다.</td>
+										<td><span class="token">'</span><span class="newNotiPostTitle">${item.postTitle}</span><span class="token">'</span> 게시글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -203,11 +203,13 @@
 	
 									<%-- 해당글의 페이지로 이동하기 위한 URL --%>
 	                        		<c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
-	                            		<c:param name="postNo" value="${item2.postNo}" />
+	                            		<c:param name="postNo" value="${item.postNo}" />
 	                        		</c:url>
 									
 									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-										<td>'<span>${item2.commContent}</span>' 댓글에 댓글이 <span>${fn:length(output2)}</span>개 달렸습니다.</td>
+										<td><span class="token">'</span><span class="newNotiCommContent">${item.commContent}</span><span class="token">'</span> 댓글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
+										<td class="delnoti"><button type="button"
+								class="close close-btn" aria-hidden="true">&times;</button></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -220,15 +222,10 @@
 	
 	
 	<script id="noti-list-tmpl" type="text/x-handlebars-template">
-   {{#each item1}}
+   {{#each item}}
    <tr>
-            <td><span>{{postTitle}}</span><span>{{commCount}}</span></td>
-   </tr>         
-   {{/each}}
-
-   {{#each item2}}
-   <tr>
-             <td><span>{{commContent}}</span><span>{{commCount}}</span></td>
+       <td><span>{{postTitle}}</span><span>{{commCount}}</span></td>
+       <td><span>{{commContent}}</span><span>{{commCount}}</span></td>
        </tr>         
    {{/each}}
    </script>
@@ -268,7 +265,7 @@
 			});
 		});
 
-		$('span.noti_new').closest('tr').css('background-color', '#FCE6E6');
+		$('.noti_table tr').css('background-color', '#FCE6E6');
 	</script>
 	
 	<!-- Handlebar 템플릿 코드 -->
@@ -287,12 +284,14 @@
 	
 	$(function() {
         // Restful API에 GET 방식 요청
+        $(document).ready(function(){
         $.get("${pageContext.request.contextPath}/noti", {
         }, function(json) {
             var source = $("noti-list-tmpl").html();   	// 템플릿 코드 가져오기
             var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
             var result = template(json);    			// 템플릿 컴파일 결과물에 json 전달
             $("#noti_table").append(result);      		// 최종 결과물을 #list 요소에 추가한다.
+        });	
         });	
 	});
 	

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import study.spring.zigme.helper.RegexHelper;
@@ -29,7 +30,7 @@ public class NotiRestController {
 	/**목록 페이지 */
 	@RequestMapping(value = "/noti", method = RequestMethod.GET)
 	public Map<String, Object> get_list(){
-        /** 2) 데이터 조회하기 */
+        /** 1) 데이터 조회하기 - 게시글의 댓글 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input1 = new Post();
 
@@ -43,7 +44,7 @@ public class NotiRestController {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
         
-        /** 2) 데이터 조회하기 */
+        /** 2) 데이터 조회하기 - 댓글의 댓글 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input2 = new Post();
         
@@ -62,10 +63,59 @@ public class NotiRestController {
         data.put("item1", output1);
         data.put("item2", output2);
         return webHelper.getJsonData(data);
-        
-        
-        
     } 
-	
+
+	/** 알림 리스트 동적 제거 (수정) */
+	@RequestMapping(value = "/noti", method = RequestMethod.PUT)
+	public Map<String, Object> updateItem(
+			@RequestParam(value="postNoti", defaultValue="0") int postNoti,
+			@RequestParam(value="postNo", defaultValue="0") int postNo){
+//			@RequestParam(value="commNoti", defaultValue="0") String commNoti,
+//			@RequestParam(value="commNo", defaultValue="0") int commNo){
+		
+        /** 데이터 수정 */
+        // 수정할 값들을 Beans에 담는다.
+        Post input1 = new Post();
+        input1.setPostNo(postNo);
+        input1.setPostNoti(postNoti);
+        
+        // 수정된 결과를 조회하기위한 객체
+        Post output1 = null;   
+
+        try {
+            // 데이터 수정
+            notiService.editNoti(input1);
+            
+            // 수정 결과 조회
+            output1 = notiService.getNotiItem(input1);
+        } catch (Exception e) {
+            return webHelper.getJsonError(e.getLocalizedMessage());
+        }
+        
+//        /** 데이터 수정 */
+//        // 수정할 값들을 Beans에 담는다.
+//        Post input2 = new Post();
+//        input2.setCommNo(commNo);
+//        input2.setCommNoti(commNoti);
+//        
+//        // 수정된 결과를 조회하기위한 객체
+//        Post output2 = null;   
+//        
+//        try {
+//        	// 데이터 수정
+//        	notiService.editNoti(input2);
+//        	
+//        	// 수정 결과 조회
+//        	output2 = notiService.getNotiItem(input2);
+//        } catch (Exception e) {
+//        	return webHelper.getJsonError(e.getLocalizedMessage());
+//        }
+        
+        /** 3) JSON 출력하기 */
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("item1", output1);
+//        data.put("item2", output2);
+        return webHelper.getJsonData(data);
+    } 
 
 }
