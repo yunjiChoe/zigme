@@ -7,6 +7,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -111,7 +113,7 @@
                 </div>
                 <!-- 내용 -->
                 <div class="modal-body text-center">
-                    <h4 class="text-primary ">${output.email}</h4>
+                    <h4 class="text-primary ">${output.getEmail()}</h4>
                     <p>
                         인증번호가 발송되었습니다.
                     </p>
@@ -192,7 +194,10 @@
                         <input type="email" id="user_eamil" class="form-control" placeholder="email@example.com"  name="email"/>
                         <span class="text-info"> 이메일 주소를 입력해주세요.</span>
                     </div>
-                    <br /> <button type="button" id="question" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal" onclick="printResult()">
+                    <br /> 
+                    <input type="hidden" name="subject" placeholder="ID" class="ckeditor"/>
+                    
+                    <button type="submit" id="question" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal" onclick="printResult()">
                         인증번호 받기
                     </button>
                     <br />
@@ -214,6 +219,7 @@
             </form>
         </div>
         <script src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"> </script>
+        <script src="//cdn.ckeditor.com/4.12.1/basic/ckeditor.js"></script>
         <script type="text/javascript">
         $(document).ready(function() {
 
@@ -249,6 +255,9 @@
             }
             num--;
         }
+        
+        
+        
         </script>
     </div>
 </body>

@@ -82,19 +82,21 @@ public class UserTest {
 		sqlSession.delete("UserMapper.deleteItem", input);
 	}*/
 	
-	/** 데이터 수정 테스트 
+	/** 데이터 수정 테스트 */
 	@Test
 	public void testE() {
 		User input = new User();
 		input.setNickname("조랭이");
-		input.setEmail("email@email.com");
-		input.setPassword("123");
+		input.setEmail("uirecp@naver.com");
+		input.setPassword("1234");
 		input.setPostcode(12345);
 		input.setAddr1("주소1");
 		input.setAddr2("주소2");
 		input.setLoc_xy("29301293,80138");
-		input.setIcon(2);
-		input.setUserNo(7);
+		input.setIcon("2");
+		input.setUserNo(6);
+		input.setBlockUserflag("2");
+		input.setOutUserflag("2");
 		sqlSession.update("UserMapper.updateItem", input);
 		
 		User output = null;
@@ -108,7 +110,7 @@ public class UserTest {
 		}
 		
 		
-	}*/
+	}
 	
 	/** 전체 데이터 수 조회 */
 	@Test

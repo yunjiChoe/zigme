@@ -3,6 +3,7 @@ package study.spring.zigme.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.zigme.helper.MailHelper;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
 import study.spring.zigme.model.Scheduler;
@@ -36,6 +38,9 @@ public class UserController {
 	/** RegexHelper 주입 */
 	@Autowired
 	RegexHelper regexHelper;
+	
+	@Autowired
+	MailHelper mailHelper;
 
 	/** UserService */
 	@Autowired
@@ -59,7 +64,7 @@ public class UserController {
         
         model.addAttribute("output", output);
         
-        return new ModelAndView("professor/add");
+        return new ModelAndView("common/join");
     }
 
 	/** 회원가입 작성 폼에 대한 action 페이지 */
@@ -120,7 +125,7 @@ public class UserController {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
-		String redirectUrl = contextPath + "/" +input.getUserNo();
+		String redirectUrl = contextPath + "/" ;
 		return webHelper.redirect(redirectUrl, null);
 	}
 	
@@ -432,6 +437,8 @@ public class UserController {
         if (mySession == null) {
             mySession = "";
         }
+       
+        
         
 		User input = new User();
 		input.setUserNo(userno);
@@ -476,26 +483,47 @@ public class UserController {
 			if (!regexHelper.isValue(email)) {
 				return webHelper.redirect(null, " 이메일를 입력하세요");
 			}
+			
+			
+			 /* 인증번호(난수) 생성 */
+	        Random random = new Random();
+	        int checkNum = random.nextInt(88888) + 11111;
+	        log.info("인증번호 " + checkNum);
+	        
+	        String subject = "비밀번호 재설정 인증 이메일 입니다.";
+	        String content = 
+	                
+	                "인증 번호는 " + checkNum + " 입니다." + 
+	                "<br>" + 
+	                "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+			
+			
+			
+			
 			/** 2) 데이터 조회하기 */
 			User input = new User();
 			input.setName(name);
 			input.setId(id);
 			input.setEmail(email);
+			
 
 			User output = null;
 
 			try {
 				output = userservice.getUserPw(input);
-
+				mailHelper.sendMail(email, subject, content);
 			} catch (Exception e) {
 				return webHelper.redirect(null, e.getLocalizedMessage());
 			}
 
 			session.setAttribute("output",output);
 			/** 3) 결과를 확인하기 위한 페이지 이동 */
-			//String redirectUrl = contextPath + "/";
-			return webHelper.redirect(null, null);
+			String redirectUrl = contextPath + "/find_pw";
+			return webHelper.redirect(redirectUrl, null);
 		}
+		
+
+	
 	
 	/** 로그아웃 */
 	
