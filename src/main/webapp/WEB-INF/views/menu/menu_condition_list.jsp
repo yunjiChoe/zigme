@@ -76,12 +76,13 @@ textarea {
 
 			<!-- 지도 div -->
 			<div id="menu_map">
-				<span id="listname"></span> <div id="map" style="width: 420px; height: 420px; margin: auto;"></div>
-
+				<span id="listname"></span> <div id="map" style="width: 420px; height: 420px; margin: auto;">
+					<img src="${pageContext.request.contextPath}/plugin/ajax/loading.gif" />
+				</div>					
 			</div>
 		</div>
 		<!-- //body 종료  -->
-
+		
 		<!-- 음식점 목록 -->
 		<div>
 			<div id="list_side" class="col-lg-5"></div>
@@ -163,19 +164,15 @@ textarea {
 		var sel_array = [];
 		
 		for (var i=0; i<sel_condi_list.length; i++){
-			if(sel_condi_list[i] == '1') sel_array.push(String(i));			
+			if(sel_condi_list[i] == '1') sel_array.push(String(i));				
 		}
 		
-		/*
-		for (var i=0; i<sel_array.length; i++){
-			console.log(sel_array[i]);	
-		}
-		*/
-    	
 		var label = [""];						 
 		var icon_size = [""];
 		var menu_list = [""];		
 		var menu_txt = [""];
+		var review_list = [""];
+		var review_count = [""];
 		
 		var MARKER_WIDTH, // 기본, 클릭 마커의 너비
 		MARKER_HEIGHT, // 기본, 클릭 마커의 높이
@@ -271,6 +268,36 @@ textarea {
 				}
 			});
 			
+			for(var i=0; i < menu_list.length; i++) {
+			
+			// 리뷰 목록 read
+			$.ajax ({
+				async: false,
+				url :'${pageContext.request.contextPath}/menu/menu_condition_list.review',
+				method: 'get',
+				data : {
+					"reviewPlaceId": menu_list[i].id
+				},
+				dataType: 'JSON',
+				success: function(req) {	
+					
+					review_list[menu_list[i].id] = req.list;
+					review_count[i] = req.count;
+					
+					// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
+										
+				},
+				error: function() {
+					// 리뷰데이터가 없는 경우 
+										
+					review_list[menu_list[i].id] = "NOREVIEW";
+					review_count[i] = 0;
+										
+				}
+			});
+			
+			}
+			//console.log(review_list[926603562][1].reviewContent);
 		}		
 		// ------------------------------------ Modal start ------------------------------------
 		$("#open_modal_btn").click(function(e){
@@ -369,42 +396,23 @@ textarea {
     	function list_side(count) {    		
     		var tag = "";
     		var jumsu_star = "";
-    		var review_list_impl = [];
-    		var review_count_impl = 0;
+    		var lstcode = "";    		
     		var jumsu_sum;
     		var jumsu_avr;
     		
     		for(var i=0; i < count; i++) {
     		jumsu_sum = 0.0;
     		jumsu_var = 0.0;
+    		lstcode = menu_list[i].id; // 음식점 ID 
     		
+    		//////////////////////////////////////// 리뷰 목록 read 
     		
-   			// 리뷰 목록 read
-			$.ajax ({
-				async: false,
-				url :'${pageContext.request.contextPath}/menu/menu_condition_list.review',
-				method: 'get',
-				data : {
-					"reviewPlaceId": menu_list[i].id
-				},
-				dataType: 'JSON',
-				success: function(req) {				
-					review_list_impl = req.list;
-					review_count_impl = req.count;						
-				},
-				error: function() {
-					//alert("일시적인 오류가 발생하였습니다.");
-					review_list_impl = [];
-					review_count_impl = 0;
-				}
-			});	
-   			
-   			if(review_count_impl != 0) {
-	  			for(var j=0; j<review_list_impl.length; j++){
-	  				jumsu_sum += review_list_impl[j].reviewScope;
+   			if(review_count[i] != 0) {
+	  			for(var j=0; j< review_count[i]; j++){
+	  				jumsu_sum += review_list[lstcode][j].reviewScope; // 각 리뷰들의 별점 합산 
 	  			}
 	  			
-	  			jumsu_avr = jumsu_sum / review_list_impl.length; // 별점 평균값
+	  			jumsu_avr = jumsu_sum / review_count[i]; // 별점 평균값
 	  			
    			}
    			else { // 리뷰가 없는 경우
@@ -428,7 +436,7 @@ textarea {
     			
     		tag +=  "<div class='menu_listarea' data-index='" + menu_list[i].id + "'><h3><span class='menu_label'>" + label[i] + " </span>" + menu_list[i].place_name + 
     		"</h3><span class='jumsu_starcss'>" + jumsu_avr + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
-    		+ review_count_impl +"</a><br><span>"+ menu_list[i].road_address_name +"</span></div>";    		
+    		+ review_count[i] +"</a><br><span>"+ menu_list[i].road_address_name +"</span></div>";    		
     		}
     		
     		$("#list_side").empty();    		
@@ -445,32 +453,18 @@ textarea {
 	    		var jumsu_star = "";
 	    		var review_count = 0;
 	    		var review_imgname = "";
-	    		//console.log("review_list.length " + review_list.length);
-	    		//console.log("menu_list.length " + menu_list.length);
+	    		var lstcode = bistro_no;
 	    		
-		    	// 리뷰 목록 read
-				$.ajax ({
-					async: false,
-					url :'${pageContext.request.contextPath}/menu/menu_condition_list.review',
-					method: 'get',
-					data : {
-						"reviewPlaceId": bistro_no
-					},
-					dataType: 'JSON',
-					success: function(req) {				
-						review_list = req.list;
-						review_count = req.count;						
-					},
-					error: function() {
-						//alert("일시적인 오류가 발생하였습니다.");
-					}
-				});	    		
+	    		
+	    		/////////////////////////////////////// 리뷰 목록 read			    		
 	    		
 	    		for(var i=0; i < menu_list.length; i++) {
 	    			
-		    		if(menu_list[i].id == bistro_no) {
+	    			if(menu_list[i].id == bistro_no) {
+	    				
 		    			var name = menu_list[i].place_name;
-			    		var count = review_count;
+		    			var count = 0;
+		    			if(review_list[lstcode] != "NOREVIEW") count = review_list[lstcode].length;
 			    		
 			    		var result = "\"" + name +  "\" 리뷰 (" + count + ")";
 			    		
@@ -483,14 +477,17 @@ textarea {
 			  				$("#list_side").html(review_tag);  
 			  				return;
 			  			}
-			    		
 			    		break;
-		    		}
+			    		
+	    			}
+			    		
 	    		}
 	    		
-	    		for(var i=0; i < review_list.length; i++) {
+	    		for(var i=0; i < review_list[lstcode].length; i++) {
 	    			
-	    		if(review_list[i].userImgNo != null && review_list[i].userImgNo != "")
+	    		review_imgname = "";
+	    		
+	    		if(review_list[lstcode][i].userImgNo != null && review_list[lstcode][i].userImgNo != "")
 	    		{
 	    			// 리뷰 이미지 name load
 					$.ajax ({
@@ -498,7 +495,7 @@ textarea {
 						url :'${pageContext.request.contextPath}/menu/menu_condition_list.img',
 						method: 'get',
 						data : {
-							"reviewNo": review_list[i].reviewNo
+							"reviewNo": review_list[lstcode][i].reviewNo
 						},
 						dataType: 'JSON',
 						success: function(req) {				
@@ -517,31 +514,31 @@ textarea {
 
 	    			
 	   			// 별점 특수기호로 나타냄. 별점은 반올림한다. 
-	       		if(review_list[i].reviewScope == 5.0 || review_list[i].reviewScope == 4.5) {    			
+	       		if(review_list[lstcode][i].reviewScope == 5.0 || review_list[lstcode][i].reviewScope == 4.5) {    			
 	       			jumsu_star = "★★★★★";    		
-	       		} else if (review_list[i].reviewScope == 4.0 || review_list[i].reviewScope == 3.5) { 
+	       		} else if (review_list[lstcode][i].reviewScope == 4.0 || review_list[lstcode][i].reviewScope == 3.5) { 
 	       			jumsu_star = "★★★★☆";
-	       		} else if (review_list[i].reviewScope == 3.0 || review_list[i].reviewScope == 2.5) {
+	       		} else if (review_list[lstcode][i].reviewScope == 3.0 || review_list[lstcode][i].reviewScope == 2.5) {
 	       			jumsu_star = "★★★☆☆";
-	       		} else if (review_list[i].reviewScope == 2.0 || review_list[i].reviewScope == 1.5) {
+	       		} else if (review_list[lstcode][i].reviewScope == 2.0 || review_list[lstcode][i].reviewScope == 1.5) {
 	       			jumsu_star = "★★☆☆☆";
-	       		} else if (review_list[i].reviewScope == 1.0 || review_list[i].reviewScope == 0.5) {
+	       		} else if (review_list[lstcode][i].reviewScope == 1.0 || review_list[lstcode][i].reviewScope == 0.5) {
 	       			jumsu_star = "★☆☆☆☆";
 	       		} else {
 	       			jumsu_star = "☆☆☆☆☆";  
 	       		}	
 	   			
    			// 리뷰에 이미지가 있고 없는 경우에 대한 처리
-  			if (review_list[i].userImgNo != "") {	   			
-	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[i].userId + " </span> "
-	      		+ "<span class='jumsu_starcss'>" + review_list[i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[i].reviewContent +"</span></div><div class='pull-right'><a href='${pageContext.request.contextPath}/img/menu/review/" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
+  			if ( review_imgname != "") {	   			
+	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
+	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='${pageContext.request.contextPath}/img/menu/review/" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
 				+ "'><img class='review_img' src='${pageContext.request.contextPath}/img/menu/review/" + review_imgname 
-	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +" );'>신고</a></div></div>";
+	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +" );'>신고</a></div></div>";
   			} else {
-  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[i].userId + " </span> "
-	      		+ "<span class='jumsu_starcss'>" + review_list[i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +");'>신고</a></div></div>";	  			
+  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
+	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +");'>신고</a></div></div>";	  			
 	      		}
 	    		
         	}        	

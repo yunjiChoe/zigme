@@ -145,6 +145,12 @@ ul, ol {
 .menu-item .top:hover {
 	color: #fff;
 }
+
+.navbar-collapse
+{
+	width : 1200px;
+}
+
 /* ----------------------------------- navbar end */
 /* ----------------------------------- user info dropbox */
 #dropdownMenu1 {
