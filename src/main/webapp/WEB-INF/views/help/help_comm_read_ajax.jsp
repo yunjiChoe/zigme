@@ -100,13 +100,13 @@
 
 			<div>
 				<label for="content">comment</label>
-				<form name="commentInsertForm" method="post" action = "${pageContext.request.contextPath}/help_ajax/help_comm_write_comment.do">
+				<form name="commentInsertForm" method="post" action = "${pageContext.request.contextPath}/help_ajax/help_comm_comment.do">
 					<div class="input-group">
 						<input type="hidden" name="postNo" value="${output.postNo}" />
 						<textarea id="commContent_writing" cols="160" rows="5"
 							name="commContent" placeholder="여러분의 소중한 댓글을 입력하세요."></textarea>
 						<button id="cmt_btn" class="btn btn-primary pull-right"
-							type="button" name="commentSubmit">댓글달기</button>
+							type="submit" name="commentSubmit">댓글달기</button>
 					</div>
 				</form>
 			</div>
@@ -142,8 +142,10 @@
 								<div>
 									<span class="commContent">${item.commContent}</span>
 									<div class="pull-right">
-										<span> <a href="#"
-											class="glyphicon glyphicon-thumbs-up"></a>
+										<span> <a href="${pageContext.request.contextPath}/help_ajax/help_commentUpCount.do?
+										postNo= ${item.postNo}&userNo= ${item.userNo}&commUpCount=${item.commUpCount}
+										&commNo=${item.commNo}"
+											class="glyphicon glyphicon-thumbs-up commentUpcount"></a>
 										</span> <span>${item.commUpCount}</span>
 									</div>
 								</div>
@@ -189,6 +191,10 @@
 	<script type="text/javascript">
      
 	  $(function() {
+		  
+		  	/* $(".commentUpcount").click(function(){
+		  		window.location.href = "${pageContext.request.contextPath}/help_ajax/help_commentUpCount.do";
+		  	}); */
 		  
 		  	$("#cmt_btn").click(function(){
 		  		window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_commInsert.do";	

@@ -37,8 +37,11 @@ public class CommentTest {
 	@Test
 	public void TestF() {
 		Comment input = new Comment();
-		input.setPostNo(2);
-		sqlSession.update("CommentMapper.unsetPostNo", input);
+		input.setPostNo(1);
+		input.setCommNo(1);
+		input.setUserNo(1);
+		input.setCommUpCount(4);
+		sqlSession.update("CommentMapper.updateItem", input);
 	}
 	
 	

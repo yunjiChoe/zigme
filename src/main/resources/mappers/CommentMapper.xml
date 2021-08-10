@@ -46,7 +46,7 @@
 	useGeneratedKeys="true"
 	keyProperty="commNo">
 	INSERT INTO comment (commContent, commUpCount, parentNo, commRegdate, commNoti, postNo, userNo) VALUES 
-		(#{commContent}, #{commUpCount}, #{parentNo}, #{commRegdate}, #{commNoti}, #{postNo}, #{userNo});
+		(#{commContent}, 0, NULL, NOW(), 'Y', #{postNo}, 1);
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->
@@ -67,7 +67,7 @@
 			, commUpCount = #{commUpCount}
 		</if>
 	</set>
-	WHERE commNo =#{commNo};
+	WHERE commNo = #{commNo} AND postNo = #{postNo} AND userNo = #{userNo}
 	</update>
 	
 	<!-- 특정게시글을 참조하는 댓글 데이터를 모두 참조 해제 한다. -->

@@ -178,6 +178,8 @@ public class PostAjaxController {
 		        return new ModelAndView("help/help_comm_write_ajax.do");
     }
     
+    
+    
     /** 수정 폼 페이지 */
 	@RequestMapping(value= "/help_ajax/help_comm_edit.do", method = RequestMethod.GET)
 	public ModelAndView edit_ok(Model model,
@@ -250,10 +252,56 @@ public class PostAjaxController {
     	return new ModelAndView("help/help_comm_edit_ajax.do");
     }
     
-    
+    //댓글 조회수 상승
+    @RequestMapping(value = "/help_ajax/help_commentUpCount.do", method = RequestMethod.GET)
+    public ModelAndView commentUp(Model model, 
+    		@RequestParam(value="postNo", defaultValue="") int postNo,
+    		@RequestParam(value="userNo", defaultValue="") int userNo,
+    		@RequestParam(value="commUpCount", defaultValue="") int commUpCount,
+    		@RequestParam(value="commNo", defaultValue="") int commNo) {
+    	System.out.println("게시글번호: " +postNo+ "댓글 일련번호: " +commNo+ "회원번호: " +userNo+ "댓글좋아요수:" +commUpCount);
+    	
+    	
+    	int commUpCount_plus = commUpCount +1;
+    	
+    	
+    	/**1) 데이터 저장하기 */
+    	Comment input = new Comment();
+    	input.setPostNo(postNo);
+    	input.setUserNo(userNo);
+    	input.setCommUpCount(commUpCount_plus);
+    	input.setCommNo(commNo);
+    	
+    	//post 단일행 조회
+    	Post inputp = new Post();
+    	
+    	inputp.setPostNo(postNo);
+    	
+    	//댓글 데이터 조회에 필요한 조건값을 Beans에 저장하기
+        Comment input_comm = new Comment();
+    	
+    	//조회할 결과를 저장할 변수 선언
+    	Post output = null;
+    	List<Comment> output_comm = null;
+    	
+    	/**2) 세팅된 댓글의 좋아요 수 수정 */
+    	try {
+    		commentService.editComment(input);
+    		output = postService.getPostItem(inputp);
+	        output_comm = commentService.getCommentList(input_comm);
+	        
+		} catch (Exception e) {
+			return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+    	
+    	model.addAttribute("output_comm", output_comm);
+        model.addAttribute("output", output);
+        return new ModelAndView("help/help_comm_read_ajax");
+    }
+       
     /** 댓글 삽입 폼에 대한 action 페이지 */
-    @RequestMapping(value = "/help_ajax/help_comm_write.ajax", method = RequestMethod.POST)
-    public ModelAndView add_comment(Model model,
+    @RequestMapping(value = "/help_ajax/help_comm_comment.do", method = RequestMethod.POST)
+    public ModelAndView comment_ok(Model model,
     		@RequestParam(value="postNo", defaultValue="") int postNo,
     		@RequestParam(value="commContent", defaultValue="") String commContent) {
     	
@@ -262,22 +310,36 @@ public class PostAjaxController {
         if (!regexHelper.isValue(commContent))     { return webHelper.redirect(null, "내용을 입력하세요."); }
                 
         /** 2) 데이터 저장하기 */
-		Post input = new Post();
+        //comment 데이터 삽입
+		Comment input = new Comment();
+    	input.setPostNo(postNo);
+    	input.setCommContent(commContent);
     	
-		// 저장된 결과를 조회하기 위한 객체
-				List<Post> output = null;
-
+    	//post 단일행 조회
+    	Post inputp = new Post();
+    	
+    	inputp.setPostNo(postNo);
+    	
+    	//댓글 데이터 조회에 필요한 조건값을 Beans에 저장하기
+        Comment input_comm = new Comment();
+    	
+    	//조회할 결과를 저장할 변수 선언
+    	Post output = null;
+    	List<Comment> output_comm = null;
+    	
 		        try {
 		            // 데이터 저장
-		            // --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
-		            postService.addPost(input);
-		            
-		            output = postService.getPostList(input);
+		            // --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.	            
+		           commentService.addComment(input);
+		           output = postService.getPostItem(inputp);
+		           output_comm = commentService.getCommentList(input_comm);
+		           
 		        } catch (Exception e) {
 		            return webHelper.redirect(null, e.getLocalizedMessage());
 		        }
-		        
+		     	
+		        model.addAttribute("output_comm", output_comm);
 		        model.addAttribute("output", output);
-		        return new ModelAndView("help/help_comm_write_ajax.do");
+		        return new ModelAndView("help/help_comm_read_ajax");
     }
 }
