@@ -66,6 +66,9 @@
       </body> 바로 위에 위치해야합니다. 
     -->
     <c:import url="../inc/footer.jsp" />
+    
+    <script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
+    
     <script type="text/javascript">
     $(function() {
         function printTime() {
@@ -83,11 +86,7 @@
             ss = zero_padding(ss);// 완성된 현재 시각
             
             var result = yy + "년 " + mm + "월 " + dd + "일 "  + is_ampm(hh) + " " + convert_12(hh) + ":" + mi;
-            
-            function startTimer() {
-                setInterval(printTime, 1000); // printTime 함수를 1초에 한번씩 반복해서 자동 호출한다.
-            }
-            
+                        
             // 한자리 숫자일때 숫자앞에 0더해서 출력한다.
             function zero_padding(time) {           
                 if (time < 10) time = "0" + time;
@@ -110,14 +109,12 @@
             	return zero_padding(time);
             }
             
-            
             // 구한 현재시각을 출력한다.
             $("#timer").html(result);
         }
 
-      
         printTime();     // 초기에 한번 실행시켜서 timer 실행전에도 화면에 보이도록함.  
-        $(startTimer);        
+        setInterval(printTime, 1000); // printTime 함수를 1초에 한번씩 반복해서 자동 호출한다.        
         
     });
     </script>
