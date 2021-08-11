@@ -160,13 +160,12 @@ public class HomeController {
     * @return String
     */
    
-   /** Ajax구현을 위해 주석처리
-   @RequestMapping(value = "/help/help_comm_read", method = RequestMethod.GET)
-   public String helpCommRead(Model model, HttpServletRequest request) {
-      return "help/help_comm_read";
-   }
-   */
    
+   @RequestMapping(value = "/help/help_comm", method = RequestMethod.GET)
+   public String helpCommRead(Model model, HttpServletRequest request) {
+      return "help/help_comm";
+   }
+
    /**
     * 커뮤니티 글쓰기로 진입하기 위한 메서드
     * @param model
@@ -187,12 +186,6 @@ public class HomeController {
     * @param request
     * @return String
     */
-  
-   @RequestMapping(value = "/help/help_comm", method = RequestMethod.GET)
-   public String helpComm(Model model, HttpServletRequest request) {
-      return "/help_ajax/help_comm.do";
-   }
-  
    
    /**
     * 커뮤니티 메인으로 진입하기 위한 메서드

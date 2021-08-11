@@ -65,7 +65,7 @@ public class PostAjaxController {
         input.setPostTitle(keyword1);
         input.setPostSubtitle(keyword2);
 
-        List<Post> output = null;   // 조회결과가 저장될 객체
+        List<Post> output_post = null;   // 조회결과가 저장될 객체
         PageData pageData = null;        // 페이지 번호를 계산한 결과가 저장될 객체
 
         try {
@@ -79,7 +79,7 @@ public class PostAjaxController {
             Post.setListCount(pageData.getListCount());
             
             // 데이터 조회하기
-            output = postService.getPostList(input);
+            output_post = postService.getPostList(input);
         } catch (Exception e) {
             return webHelper.redirect(null, e.getLocalizedMessage());
         }
@@ -87,10 +87,10 @@ public class PostAjaxController {
         /** 3) View 처리 */
         model.addAttribute("keyword1", keyword1);
         model.addAttribute("keyword2", keyword2);
-        model.addAttribute("output", output);
+        model.addAttribute("output_post", output_post);
         model.addAttribute("pageData", pageData);
 
-        return new ModelAndView("help/help_comm_ajax");
+        return new ModelAndView("help/help_comm");
         
     }
     
