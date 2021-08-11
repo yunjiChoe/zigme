@@ -419,7 +419,7 @@
         	var result="";
         	
         	for(var i=0; i < count; i++) {
-        		result += "<li><div class='menu_iconarea' id='menu_group_" + i + "'><img class='menu_icon' src='${pageContext.request.contextPath}/img/menu/menu_0" + i + ".png' width=" 
+        		result += "<li><div class='menu_iconarea' id='menu_group_" + i + "'><img class='menu_icon' src='${pageContext.request.contextPath}/img/menu/menu_" + i + ".png' width=" 
         		+  icon_size[0] + " height=" + icon_size[1] + "/><span>" + menu_txt[i] + "</span></div></li>";        		
         	}        	
         	$("#menuicon_list").html(result);
