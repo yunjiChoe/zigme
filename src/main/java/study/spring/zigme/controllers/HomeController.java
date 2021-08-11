@@ -144,14 +144,12 @@ public class HomeController {
     * @param model
     * @param request
     * @return String
-    */
-   
-   /** Ajax구현을 위해 주석처리 
+    */ 
    @RequestMapping(value = "/help/help_chart", method = RequestMethod.GET)
    public String helpChart(Model model, HttpServletRequest request) {
       return "help/help_chart";
    }
-   */
+   
    
    /**
     * 커뮤니티 글보기로 진입하기 위한 메서드

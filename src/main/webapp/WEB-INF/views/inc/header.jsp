@@ -145,6 +145,12 @@ ul, ol {
 .menu-item .top:hover {
 	color: #fff;
 }
+
+.navbar-collapse
+{
+	width : 1200px;
+}
+
 /* ----------------------------------- navbar end */
 /* ----------------------------------- user info dropbox */
 #dropdownMenu1 {
@@ -265,6 +271,7 @@ ul, ol {
 /* ------ 제목영역 스타일 지정 ------ */
 .content {
 	padding-top: 20px;
+	height: 231px;
 }
 
 .top_title {

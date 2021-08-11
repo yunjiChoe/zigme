@@ -5,27 +5,32 @@
      version : V1.0.0
 -->
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 
-  <!-- bootstrap -->
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/plugin/lightbox/css/lightbox.min.css" />
-  
-  <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
-  <c:import url="../inc/header.jsp" />
-  
-  <!-- 메뉴 style -->
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  
+<!-- bootstrap -->
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/plugin/lightbox/css/lightbox.min.css" />
 
-   <script type="text/javascript">
+<!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
+<c:import url="../inc/header.jsp" />
+
+<!-- 메뉴 style -->
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/menu.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+
+<script type="text/javascript">
 	
 	function report(index, i) {
 		
@@ -37,106 +42,114 @@
 	}
 
 	</script>
-	
-	<style type="text/css">
-	
-	b {
-			font-family: 'S-CoreDream-6Bold';
-	}
-	
-	.modal-body div {
-			font-size: 24px;
-			color: #fff;
-			vertical-align: middle;
-    }
-    
-    textarea {
-			margin: 20px auto 5px auto;
-			padding: 8px;
-	}
-	
-	</style>
+
+<style type="text/css">
+b {
+	font-family: 'S-CoreDream-6Bold';
+}
+
+.modal-body div {
+	font-size: 24px;
+	color: #fff;
+	vertical-align: middle;
+}
+
+textarea {
+	margin: 20px auto 5px auto;
+	padding: 8px;
+}
+</style>
 </head>
 <body>
 	<div class="container">
-	<!--  include :: container 바로 아래에 있어야합니다 -->
-	<c:import url="../inc/navbar.jsp" />	
-	
-	<!-- body 시작  -->
-	<div class="body col-lg-7"> 
-	 <span class="sub_title">메뉴 추천 > 날씨별</span>
-	 
-	 <!-- 아이콘 목록 -->
-	 <div class="sel_item"> 
-	    <ul id="menuicon_list"></ul>		    	    
-	 </div> <!-- //sel_item 종료 -->
-		 
-	 <!-- 지도 div -->
-	 <div id="menu_map"> 
-	 	<span id="listname"></span>
-	 	<img src="${pageContext.request.contextPath}/img/menu/menu_listmap.png" />
-	 </div>		 
-	 
-	 
-	</div> <!-- //body 종료  -->
-		
-	<!-- 음식점 목록 -->
-	<div>
-		<div id="list_side" class="col-lg-5">		 	
-		</div><!-- //list_side 종료  -->
-		
-		<div>&nbsp;</div>
-		<div id="review_btnarea">		
-		<a id="open_modal_btn" class="btn btn-success pull-right hidden_btn"><span class="glyphicon glyphicon-plus"></span></a>			
-		&nbsp; <a id="review_prev" class="btn btn-default pull-right hidden_btn"><span class="glyphicon glyphicon-arrow-left"></span></a>
-		</div>
-	</div>
-	
-	<!-- Modal -->
-	<div class="modal fade" id="myModal">
-	<div class="modal-dialog modal-custom">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 class="modal-title">리뷰 쓰기</h4>
+		<!--  include :: container 바로 아래에 있어야합니다 -->
+		<c:import url="../inc/navbar.jsp" />
+
+		<!-- body 시작  -->
+		<div class="body col-lg-7">
+			<span class="sub_title">메뉴 추천 > 날씨별</span>
+
+			<!-- 아이콘 목록 -->
+			<div class="sel_item">
+				<ul id="menuicon_list"></ul>
 			</div>
-			<div class="modal-body">
-				<form action="upload" id="uploadForm" method="post" enctype="multipart/form-data">
-						<!--  display: none으로 변경하여 버튼 커스텀  -->
-					<input type="file" id="fileInput" name="file" style="display: none"/>
-						<!-- 커스텀 버튼 추가 코드 -->
-						<div class="addfile" onclick="onclick=document.all.file.click()">
-							<div class="add_receipt_btn">영수증 첨부</div>
-						</div>
-				</form>
-					
-					<!-- 파일 이름 표기 -->
-					<div class="file_name">
-					<div class="fileis"></div>
-						<span>
-							<input type="text" name="uploaded" id="uploaded" value="" readonly>
-						</span>
+			<!-- //sel_item 종료 -->
+
+			<!-- 지도 div -->
+			<div id="menu_map">
+				<span id="listname"></span> <img
+					src="${pageContext.request.contextPath}/img/menu/menu_listmap.png" />
+			</div>
+
+
+		</div>
+		<!-- //body 종료  -->
+
+		<!-- 음식점 목록 -->
+		<div>
+			<div id="list_side" class="col-lg-5"></div>
+			<!-- //list_side 종료  -->
+
+			<div>&nbsp;</div>
+			<div id="review_btnarea">
+				<a id="open_modal_btn" class="btn btn-success pull-right hidden_btn"><span
+					class="glyphicon glyphicon-plus"></span></a> &nbsp; <a id="review_prev"
+					class="btn btn-default pull-right hidden_btn"><span
+					class="glyphicon glyphicon-arrow-left"></span></a>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal">
+			<div class="modal-dialog modal-custom">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">리뷰 쓰기</h4>
 					</div>
+					<div class="modal-body">
+						<form action="upload" id="uploadForm" method="post"
+							enctype="multipart/form-data">
+							<!--  display: none으로 변경하여 버튼 커스텀  -->
+							<input type="file" id="fileInput" name="file"
+								style="display: none" />
+							<!-- 커스텀 버튼 추가 코드 -->
+							<div class="addfile" onclick="onclick=document.all.file.click()">
+								<div class="add_receipt_btn">영수증 첨부</div>
+							</div>
+						</form>
+
+						<!-- 파일 이름 표기 -->
+						<div class="file_name">
+							<div class="fileis"></div>
+							<span> <input type="text" name="uploaded" id="uploaded"
+								value="" readonly>
+							</span>
+						</div>
 						<!-- // 파일 이름 표기 -->
-					<div class="filemsg">
-						<p>당일 방문하신 식당의 영수증을 첨부해주세요!</p>
-						<p>신뢰성 높은 리뷰를 위해 방문 확인 후 리뷰 쓰기가 가능합니다.</p>
-						<p>리뷰 남겨주시는 그대, 진정한 메이트!</p>
+						<div class="filemsg">
+							<p>당일 방문하신 식당의 영수증을 첨부해주세요!</p>
+							<p>신뢰성 높은 리뷰를 위해 방문 확인 후 리뷰 쓰기가 가능합니다.</p>
+							<p>리뷰 남겨주시는 그대, 진정한 메이트!</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div> <!-- //Modal -->
-	
-	</div> <!-- //container 종료 -->	
-	
-    <c:import url="../inc/footer.jsp" />
-    
-    <!--  lightbox 플러그인 -->
-    <script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
-    <script type="text/javascript">
+		<!-- //Modal -->
+
+	</div>
+	<!-- //container 종료 -->
+
+	<c:import url="../inc/footer.jsp" />
+
+	<!--  lightbox 플러그인 -->
+	<script
+		src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
+	<script type="text/javascript">
     $(function() {  	
     	
 		var label = [""];						 
@@ -462,14 +475,32 @@
 			   $('.rating .user_rating').html(starValue);
 			   return false;
 		});
-	   
+		
+		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=37.56826&lon=126.977829&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
+				, function(data) {
+
+			var $sky = data.list[0].weather[0].main;			
+			
+			if($sky == "Clouds")
+				$sky = "흐림";	   
+			else if($sky == "Rain")
+				$sky = "비";
+			else if($sky == "Snow")
+				$sky = "눈";
+			else if($sky == "Haze")
+				$sky = "대기 오염";
+			else
+				$sky = "맑음";
+			
+			weather_item($sky);
+		});
+		
 			/** 함수 호출부 */
-			data_load();					// 페이지 JSON데이터 load 		
-			weather_item("비");    		// 날씨별 아이콘 load
+			data_load();
     		menu_listname("된장찌개", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
     		list_side(menu_list.length);    // 검색된 주변음식점 갯수
     	});
     </script>
-    
+
 </body>
 </html>

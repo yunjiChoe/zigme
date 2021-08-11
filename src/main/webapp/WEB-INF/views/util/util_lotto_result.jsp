@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,8 @@
 <c:import url="../inc/header.jsp" />
 
 <!-- 스타일 지정 -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/util.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/util.css" />
 
 <style type="text/css">
 .button {
@@ -37,20 +38,25 @@
 		<c:import url="../inc/navbar.jsp" />
 		<div class="content">
 			<p class="sub_title">돌려돌려 공돌려</p>
-			<div class="lotto_img"><img src="${pageContext.request.contextPath}/img/util/lotto_result_win.png" width="70"
-				class=" pull-right win"></div>
+			<div class="lotto_img">
+				<img
+					src="${pageContext.request.contextPath}/img/util/lotto_result_win.png"
+					width="70" class=" pull-right win">
+			</div>
 			<p class="caption">&nbsp;&nbsp;오늘 우리 팀 간식을 책임질 사람은 누구~?</p>
 
 			<br>
 
 			<div class="result">
-				<img src="${pageContext.request.contextPath}/img/util/lotto_result.png" width="600"> <br>
+				<img
+					src="${pageContext.request.contextPath}/img/util/lotto_result.png"
+					width="600"> <br> <br> <br> <br> <br>
 				<br> <br> <br> <br> <br> <br> <br>
 				<br> <br> <br> <br> <br> <br> <br>
-				<br> <br> <br> <br> <br> <br> <br>
-				<br> <br>
+				<br> <br> <br> <br> <br>
 				<div class="choice">
-					오늘은 <span class="who"> 정자바</span><!--  --><span class="yet" id="one">, 솔솔이 </span> 님이 쏘는 날!
+					오늘은 <span class="who" id="one"> </span> <span class="who" id="two">
+					</span> 님이 쏘는 날!
 				</div>
 			</div>
 
@@ -70,13 +76,72 @@
 
 	<c:import url="../inc/footer.jsp" />
 
+	<script
+		src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
+
 	<script type="text/javascript">
-		$(function() {
+	$(function() {	
+		var list = [];
+
+		var player0 = "${player0}";
+		if (player0 != "") {
+			list.push(player0);
+		}
+		var player1 = "${player1}";
+		if (player1 != "") {
+			list.push(player1);
+		}
+		var player2 = "${player2}";
+		if (player2 != "") {
+			list.push(player2);
+		}
+		var player3 = "${player3}";
+		if (player3 != "") {
+			list.push(player3);
+		}
+		var player4 = "${player4}";
+		if (player4 != "") {
+			list.push(player4);
+		}
+		var player5 = "${player5}";
+		if (player5 != "") {
+			list.push(player5);
+		}
+		var player6 = "${player6}";
+		if (player6 != "") {
+			list.push(player6);
+		}
+		var player7 = "${player7}";
+		if (player7 != "") {
+			list.push(player7);
+		}
+		var player8 = "${player8}";
+		if (player8 != "") {
+			list.push(player8);
+		}
+		var player9 = "${player9}";
+		if (player9 != "") {
+			list.push(player9);
+		}
+
+		function fisherYatesShuffle(arr){
+		    for(var i = arr.length - 1; i > 0; i--){
+		        var j = Math.floor( Math.random() * (i + 1) ); //random index
+		        [arr[i], arr[j]] = [arr[j], arr[i]]; // swap
+		    }
+		    
+		    console.log(arr)
+		    
+		    $("#one").html(arr[0]);
+
 			$(".more").click(function() {
-				$("#one").removeClass("yet");
-				$("#one").addClass("who");
+				$("#two").html(", " + arr[1]);
 			});
-		});
+		}
+
+		fisherYatesShuffle(list);
+
+	});
 	</script>
 </body>
 </html>
