@@ -76,7 +76,7 @@ public interface UserService {
 	 * @reuurn User - 아이디가 중복되는지 확인 후 리턴
 	 * @throws Exception
 	 */
-	public  List<User> checkId(User input) throws Exception;
+	public  int checkId(User input) throws Exception;
 	
 
 	/**
@@ -85,7 +85,7 @@ public interface UserService {
 	 * @reuurn User - 동일한 닉네임이 중복되는지 확인 후 리턴
 	 * @throws Exception
 	 */
-	public List<User> checkNick(User input) throws Exception;
+	public int checkNick(User input) throws Exception;
 
 	/**
 	 * 이름, 이메일로 아이디 조회

@@ -80,7 +80,14 @@
 	.text-info, .text-primary {
 	margin-top: 10px;
 	}
-   
+
+ 
+	.correct{
+    color : #4041fe;
+	}
+	.incorrect{
+    color : red;
+	}
     </style>
     <script type="text/javascript">
     
@@ -112,8 +119,8 @@
                     <h4 class="modal-title  text-primary text-center" id="myModalLabel">인증번호 발송</h4>
                 </div>
                 <!-- 내용 -->
-                <div class="modal-body text-center">
-                    <h4 class="text-primary ">${output.getEmail()}</h4>
+                <div class="modal-body text-center" id="input_email">
+                    <h4 class="text-primary " ></h4>
                     <p>
                         인증번호가 발송되었습니다.
                     </p>
@@ -144,20 +151,21 @@
                         &times;
                     </button>
                     <br>
-                    <h4 class="modal-title  text-primary text-center" id="myModalLabel">인증 완료</h4>
+                    <h4 class="modal-title  text-primary text-center" id="myModalLabel">인증 확인</h4>
                 </div>
                 <!-- 내용 -->
                 <div class="modal-body text-center">
-                    <h4 class="text-primary "></h4>
+                    <h4 class="text-primary  "id="mail_check_input_box_warn"></h4>
                     <p>
-                        비밀번호 찾기를 위한 인증이 완료되었습니다.
+                        
                     </p>
                 </div>
                 <!-- 하단 -->
                 <div class=" text-center">
-                    <a href="${pageContext.request.contextPath}/find_pw_reset"><button type="button" class="btn  btn-primary btn-lg  ">
+                
+                   <button type="button" class="btn  btn-primary btn-lg  ">
                             확인
-                        </button></a>
+                        </button>
                 </div><br />
             </div>
             <!-- /.modal-content -->
@@ -180,7 +188,7 @@
             </div>
             <br />
             <hr class="hr_solid" style="border: solid 1px #aaa;" width="100%">
-            <form role="form" method="post" action="${pageContext.request.contextPath}/common/find_pw_ok.do">
+            <form role="form" method="post" action="${pageContext.request.contextPath}/common/find_pw_ok.do"  id="myform">
                 <fieldset>
                     <div class="form-group">
                         <input type="text" id="user_name" class="form-control" placeholder="이름" name="name" />
@@ -191,13 +199,13 @@
                         <span class="text-info"> 아이디를 입력해주세요.</span>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="user_eamil" class="form-control" placeholder="email@example.com"  name="email"/>
+                        <input type="email" id="user_eamil" class="form-control mail_input" placeholder="email@example.com"  name="email"/>
                         <span class="text-info"> 이메일 주소를 입력해주세요.</span>
                     </div>
                     <br /> 
                     <input type="hidden" name="subject" placeholder="ID" class="ckeditor"/>
                     
-                    <button type="submit" id="question" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal" onclick="printResult()">
+                    <button type="submit" id="question" class=" btn btn-primary btn-lg mail_check_button" data-toggle="modal" href="#find-id-modal" onclick="printResult()">
                         인증번호 받기
                     </button>
                     <br />
@@ -205,11 +213,13 @@
                     <br />
                     <div class="show2">
                         <p>
-                            <input type="text" class="form-control" placeholder="인증번호 입력">
-                            <br />
-                            <button type="button" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal2"> 인증 받기</button>
+                            <input type="text" class="form-control mail_check_input" placeholder="인증번호 입력">
+                            <div class="" ></div>
+                           
+                            <button type="button" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal2"> 인증번호 확인</button>
                             <span class=".btn_recive_num"> 인증 제한 시간 </span>
                             <input type="text" class="timer" style="color:blue">
+                            
                         </p>
                         <br />
                         <br />
@@ -256,8 +266,76 @@
             num--;
         }
         
+        var code = "";
+        /* 인증번호 이메일 전송 */
+        $(".mail_check_button").click(function(){
+            
+            var email = $(".mail_input").val();        // 입력한 이메일
+            var cehckBox = $(".mail_check_input");        // 인증번호 입력란
+            var boxWrap = $(".mail_check_input_box");    // 인증번호 입력란 박스
+            
+            $.ajax({
+                
+                type:"GET",
+                url:"mailCheck?email=" + email,
+                success:function(data){
+                	console.log("data : " + data);
+                	
+                	code = data;
+                }     
+            });
+            
+        });
+        /* 인증번호 비교 */
+        $(".mail_check_input").blur(function(){
+            
+            var inputCode = $(".mail_check_input").val();        // 입력코드    
+            var checkResult = $("#mail_check_input_box_warn");    // 비교 결과     
+            
+            if(inputCode == code){                            // 일치할 경우
+                checkResult.html("인증번호가 일치합니다.");
+                checkResult.attr("class", "correct");        
+            } else {                                            // 일치하지 않을 경우
+                checkResult.html("인증번호를 다시 확인해주세요.");
+                checkResult.attr("class", "incorrect");
+            }    
+            
+        });
         
-        
+        $(function() {
+            /** 폼에서의 데이터 전송 이벤트 */
+    $("#myform").submit(function(e) {  
+       e.preventDefault(); // 데이터 전송 강제 중단
+
+                var username = $("#user_name").val(); // 입력값 가져오기
+                if (!username) { // 입력값이 없다면?
+                    alert("이름을 입력하세요."); // 메시지 표시
+                    $("user_name").focus(); // 포커스 강제 지정
+                    return false; // 함수 처리 중단
+                }
+
+                var userid = $("#user_id").val(); // 입력값 가져오기
+                if (!userid) { // 입력값이 없다면?
+                    alert("아이디를 입력하세요."); // 메시지 표시
+                    $("#user_id").focus(); // 포커스 강제 지정
+                    return false; // 함수 처리 중단
+                }
+                
+                var useremail = $("#user_eamil").val(); // 입력값 가져오기
+                if (!useremail) { // 입력값이 없다면?
+                    alert("이메일를 입력하세요."); // 메시지 표시
+                    $("#user_eamil").focus(); // 포커스 강제 지정
+                    return false; // 함수 처리 중단
+                }
+
+                // 입력값을 화면에 표시하기
+                $("#input_email").append("<h4> " + useremail + "</h4>");
+                
+
+                // 백엔드 페이지에게 데이터를 전송해야 할 경우 사용해야 한다.
+                // $(this).submit();
+            });
+        });
         </script>
     </div>
 </body>

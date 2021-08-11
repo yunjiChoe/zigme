@@ -11,7 +11,7 @@ public class User {
 	private String nickname;
 	private String email;
 	private String gender;
-	private int postcode;
+	private String postcode;
 	private String addr1;
 	private String addr2;
 	private String loc_xy;

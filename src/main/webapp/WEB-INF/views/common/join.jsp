@@ -277,14 +277,14 @@ input#all_check {
 					</div>
 					<!-- 내용 -->
 					<div class="modal-body text-center">
-						<p>반갑습니다.
+						<p>반갑습니다.</p>
 						<div id='result'></div>
-						</p>
+
 						<p>메이트가 되신것을 환영합니다.</p>
 					</div>
 					<!-- 하단 -->
 					<div class=" text-center">
-						<button type="submit" class="btn  btn-primary btn-lg btn-ttc5" >확인
+						<button type="submit" class="btn  btn-primary btn-lg btn-ttc5">확인
 						</button>
 
 					</div>
@@ -309,11 +309,14 @@ input#all_check {
 				<fieldset id="jfieldset">
 					<div class="form-group">
 						<div class="circle"></div>
-						<label for="user_id">아이디</label><br /> <input type="text"
+						<label for="user_id">아이디</label><br /> 
+						
+						<input type="text"
 							name="id" id="user_id" class="form-control"
 							placeholder="영문,숫자 조합하여 4자~20자" />
 						<button type="button" id="id_check" name="id_check"
 							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5 id_input">중복확인</button>
+							
 						<div class="form-group">
 							<div class="nickname1" style="display: none;">
 								<b id="idCheck"></b>
@@ -431,9 +434,9 @@ input#all_check {
 
 
 				<div class="btn1">
-					<button type="button" id="join"
+					<button type="submit" id="join"
 						class="btn btn-primary btn-block btn-ttc5 join_button"
-						data-toggle="modal" href="#find-id-modal">회원가입</button>
+						data-toggle="modal">회원가입</button>
 					<br /> <br /> <br />
 				</div>
 			</div>
@@ -535,51 +538,86 @@ input#all_check {
 			});
 
 		});
-		/** 회원가입 완료시 닉네임이 팝업으로 값이 따라가도록 funtion줌 */
+		/** 회원가입 완료시 닉네임이 팝업으로 값이 따라가도록 funtion줌 
 		function printName() {
 			const name = document.getElementById('user_subname').value;
 			document.getElementById("result").innerText = name;
-		}
+		}*/
 		
-		/** 닉네임 중복 체크 */
-		
-		
-		/** 아이디 중복 체크 */
+	    
+		var local_url = decodeURIComponent(location.href);
+		var idck = 0;
 		$(function() {
-			/** 버튼 클릭시 이벤트 */
-			$("#id_check")
-					.click(
-							function() {
-								// 입력값을 취득하고, 내용의 존재여부를 검사한다.
-								var user_id_val = $("#user_id").val();
-
-								if (!user_id_val) { // 입력되지 않았다면?
-									alert("아이디를 입력하세요."); // <-- 메시지 표시
-									$("#user_id").focus(); // <-- 커서를 강제로 넣기
-									return false; // <-- 실행 중단
-								}
-
-								// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
-								// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
-								$
-										.post(
-												"${pageContext.request.contextPath}/api/id_unique_check.do",
-												{
-													user_id : user_id_val
-												},
-												function(req) {
-													// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
-													// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
-													if (req.result == 'OK') {
-														alert("사용 가능한 아이디 입니다.");
-													} else {
-														alert("사용할 수 없는 아이디 입니다.");
-														$("#user_id").val("");
-														$("#user_id").focus();
-													}
-												}); // end $.get
-							}); // end click
+		    //idck 버튼을 클릭했을 때 
+		    $("#id_check").click(function() {
+		        
+		    	
+			        var id = $('#user_id').val(); //id값이 "id"인 입력란의 값을 저장
+			        if (!id) {	// 입력되지 않았다면?
+						alert("닉네임을 입력해주세요.");	// <-- 메시지 표시
+						$("#user_id").focus();			// <-- 커서를 강제로 넣기
+						return false;					// <-- 실행 중단
+					}
+			        $.ajax({
+			            url:'${pageContext.request.contextPath}/common', //Controller에서 인식할 주소
+			            type:'POST', //POST 방식으로 전달
+			            data:{id : id},
+			            
+			           success: function(req) {
+							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+							if (req.result == "0") {
+								alert("사용 가능한 아이디 입니다.");
+							} else {
+								alert("사용할 수 없는 아이디 입니다.");
+								$("#user_id").val("");
+								$("#user_id").focus();
+							}
+			            }
+			        });
+		    });
 		});
+			       
+		/** 닉네임 중복 확인 */
+		$(function() {
+			
+			/** 버튼 클릭시 이벤트 */
+			$("#checkNick").click(function() {
+				// 입력값을 취득하고, 내용의 존재여부를 검사한다.
+				var nickname = $("#user_subname").val();
+				
+				if (!nickname) {	// 입력되지 않았다면?
+					alert("닉네임을 입력해주세요.");	// <-- 메시지 표시
+					$("#user_subname").focus();			// <-- 커서를 강제로 넣기
+					return false;					// <-- 실행 중단
+				}
+
+				// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
+				// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
+				$.ajax({
+			            url:'${pageContext.request.contextPath}/common/ni', //Controller에서 인식할 주소
+			            type:'POST', //POST 방식으로 전달
+			            data:{nickname : nickname},
+			            
+			           success: function(req) {
+							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+							if (req.result == "0") {
+								alert("사용 가능한 닉네임 입니다.");
+							} else {
+								alert("사용할 수 없는 닉네임 입니다.");
+								$("#user_id").val("");
+								$("#user_id").focus();
+							}
+			            }
+			     
+				}); // end $.get
+			}); // end click
+		});
+		
+		
+		
+		
 		/** 비밀번호 일치 여부 */
 		$(function() {
 			$('#user_pw').keyup(function() {
@@ -601,35 +639,9 @@ input#all_check {
 		});
 		
 		
-		/** 닉네임 중복 확인 */
-		$(function() {
-			
-			/** 버튼 클릭시 이벤트 */
-			$("#checkNick").click(function() {
-				// 입력값을 취득하고, 내용의 존재여부를 검사한다.
-				var user_subname_val = $("#user_subname").val();
-				
-				if (!user_subname_val) {	// 입력되지 않았다면?
-					alert("닉네임을 입력해주세요.");	// <-- 메시지 표시
-					$("#user_subname").focus();			// <-- 커서를 강제로 넣기
-					return false;					// <-- 실행 중단
-				}
-
-				// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
-				// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
-				$.get("${pageContext.request.contextPath}/common/checkNick.do", { user_subname: user_subname_val }, function(req) {
-					// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
-					// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
-					if (req.result == 'OK') {
-						alert("사용 가능한 닉네임 입니다.");
-					} else {
-						alert("사용할 수 없는 닉네임 입니다.");
-						$("#user_subname").val("");
-						$("#user_subname").focus();
-					}
-				}); // end $.get
-			}); // end click
-		});
+		
+		
+		
 		
 		
 	</script>

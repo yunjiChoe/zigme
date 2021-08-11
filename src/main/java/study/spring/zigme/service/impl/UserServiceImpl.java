@@ -188,15 +188,15 @@ public class UserServiceImpl implements UserService{
 	 * 회원가입 아이디 중복체크
 	 */
 	@Override
-	public List<User> checkId(User input) throws Exception {
-		List<User> result = null;
+	public int checkId(User input) throws Exception {
+		
+		User output =null;
+		int result =0;
 		
 		try {
-			result =sqlSession.selectList("UserService.checkId",input);
+			result =sqlSession.selectOne("UserMapper.checkId",input);
 			
-			if(result != null) {
-				throw new Exception("중복된 아이디입니다.");
-			}
+			
 		}catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());
 			throw new Exception("중복아이디 데이터 없습니다.");	
@@ -212,15 +212,14 @@ public class UserServiceImpl implements UserService{
 	 * 회원가입  중복체크
 	 */
 	@Override
-	public List<User> checkNick(User input) throws Exception {
-		List<User> result = null;
+	public int checkNick(User input) throws Exception {
+		User output =null;
+		int result =0;
 		
 		try {
-			result =sqlSession.selectOne("UserService.checkNick",input);
+			result =sqlSession.selectOne("UserMapper.checkNick",input);
 			
-			if( result != null ) {
-				throw new Exception("중복된 닉네임 입니다.");
-			}
+			
 		}catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());
 			throw new Exception("닉네임 데이터 없습니다.");	

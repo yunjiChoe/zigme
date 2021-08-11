@@ -89,7 +89,7 @@ public class UserTest {
 		input.setNickname("조랭이");
 		input.setEmail("uirecp@naver.com");
 		input.setPassword("1234");
-		input.setPostcode(12345);
+		input.setPostcode("12345");
 		input.setAddr1("주소1");
 		input.setAddr2("주소2");
 		input.setLoc_xy("29301293,80138");
