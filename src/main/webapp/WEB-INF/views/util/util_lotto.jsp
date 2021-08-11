@@ -58,7 +58,8 @@ input {
 					width="70" class=" pull-right win">
 			</div>
 			<p class="caption">&nbsp;&nbsp;오늘 우리 팀 간식을 책임질 사람은 누구~?</p>
-			<br> <br> <br>
+		</div>
+			
 			<div class="part clearfix">
 				<a class="delete"><img
 					src="${pageContext.request.contextPath}/img/util/lotto_minus.png"
@@ -149,7 +150,7 @@ input {
 				</button>
 			</div>
 			</form>
-		</div>
+		
 	</div>
 	<!-- //container 종료 -->
 

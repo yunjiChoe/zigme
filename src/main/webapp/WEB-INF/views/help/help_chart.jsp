@@ -139,6 +139,7 @@ option {
 		<c:import url="../inc/navbar.jsp" />
 		<div class="content">
 			<p class="sub_title">메이트들의 고민은?</p>
+		</div>
 			<form class="form-inline pull-right">
 				<div class="form-group">
 					<select id="parent" class="form-control formcon_chart">
@@ -208,7 +209,7 @@ option {
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		
 	</div>
 	<!-- //container 종료 -->
 
