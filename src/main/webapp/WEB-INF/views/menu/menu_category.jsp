@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,8 +19,7 @@
 	href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
 
 <!-- 메뉴 style -->
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/assets/css/menu.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
 <c:import url="../inc/header.jsp" />
@@ -51,41 +50,9 @@
 			<p class="sub_title text-center">메뉴 추천 > 업종별</p>
 			<br>
 			<ul class="menuicon">
-				<li class="col-md-2 col-sm-3"></li>
-				<li class="col-md-1 col-sm-1 col-xs-4 "><button id="btn-kor">
-						<img
-							src="${pageContext.request.contextPath}/img/menu/koreanfood.png"
-							width="70" />한식
-					</button></li>
-				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-yangsik">
-						<img
-							src="${pageContext.request.contextPath}/img/menu/westernfood.png"
-							width="70" />양식
-					</button></li>
-				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-jan">
-						<img
-							src="${pageContext.request.contextPath}/img/menu/japanesefood.png"
-							width="70" />일식
-					</button></li>
-				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-china">
-						<img
-							src="${pageContext.request.contextPath}/img/menu/chinesefood.png"
-							width="70" />중식
-					</button></li>
-				<li class="col-md-1 col-sm-1 col-xs-4"><button id="btn-boonsik">
-						<img src="${pageContext.request.contextPath}/img/menu/boonsik.png"
-							width="70" />분식
-					</button></li>
-				<li class="col-md-1 col-sm-1 col-xs-4">
-					<button id="btn-other">
-						<img src="${pageContext.request.contextPath}/img/menu/etc.png"
-							width="70" />그외
-					</button>
-				</li>
-				<li class="col-md-2 col-sm-3"></li>
+							
 			</ul>
-			<br> <br> <br>
-
+			
 		</div>
 		<div class="box1 text-center">
 			<br> <br>
@@ -129,13 +96,11 @@
 				</div>
 			</div>
 			<div id="box7">
-				<span id="re-recommend"> <img alt="짜장면"
-					src="${pageContext.request.contextPath}/img/menu/review/210622_001.jpg"
-					width="140"> <br>
-					<h1>짜장면</h1></span>
-					<span id="re-re"></span> <br> <br> <span class="menu_find_btn">
+				<span id="re-recommend"> <img alt="짜장면" src="${pageContext.request.contextPath}/img/menu/review/210622_001.jpg" height="130">
+					<h1>짜장면</h1>
+				</span><span class="menu_find_btn">
 					<a><button type="button" class="btn btn-ms btn-ttc1" id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a>
-					<a href="#" id="submit_link" class="btn btn-primary btn-ttc2 ">주변음식점찾기</a>
+						<a href="#" id="submit_link" class="btn btn-primary btn-ttc2 ">주변음식점찾기</a>
 				</span>
 
 			</div>
@@ -168,15 +133,34 @@
 			$('#box5').hide();
 			$('#box6').hide();
 			$('#box7').hide();
+			
+			function data_load() {
+				
+				// 그냥 파일읽기로 가져와도 되는데 그러면 json 파일에 오류가 생기므로 ajax를 이용하여 가져오기로 했다. 
+				// 요소 설정 setting 값 read
+				$.ajax ({
+					async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+					url :'${pageContext.request.contextPath}/assets/data/setting.json', 
+					method: 'get',
+					data : {},
+					dataType: 'JSON',
+					success: function(req) {											
+						menu_txt = req.common[0].menu_txt;					
+					},
+					error: function() {
+						alert("일시적인 오류가 발생하였습니다.");
+					}
+				});				
+			}
 
 			// 토글로 요소를 보여주고 사라지게한다.
-			$("#btn-kor").click(function() {
-				$("#box1").fadeToggle();
+			$(document).on('click', '#menu_btn_0', function(e){ // 한식		
+				$("#box1").fadeToggle(); 
 				
 				var imp = select_item[0];
 				var result = turn[imp];
 				
-				$('#btn-kor').css("background", result);
+				$('#menu_btn_0').css("background", result);
 				select_item[0]++;				
 				
 				if (select_item[0] == 2) {
@@ -186,13 +170,13 @@
 			});
 			
 			
-			$("#btn-yangsik").click(function() {
+			$(document).on('click', '#menu_btn_1', function(e){ // 양식
 				$("#box2").fadeToggle();
 
 				var imp = select_item[1];
 				var result = turn[imp];
 				
-				$('#btn-yangsik').css("background", result);
+				$('#menu_btn_1').css("background", result);
 				select_item[1]++;
 				
 				if (select_item[1] == 2) {
@@ -201,13 +185,13 @@
 				
 			});
 			
-			$("#btn-jan").click(function() {
+			$(document).on('click', '#menu_btn_2', function(e){ // 일식			
 				$("#box3").fadeToggle();
 				
 				var imp = select_item[2];
 				var result = turn[imp];
 				
-				$('#btn-jan').css("background", result);
+				$('#menu_btn_2').css("background", result);
 				select_item[2]++;
 				
 				if (select_item[2] == 2) {
@@ -216,13 +200,13 @@
 				
 			});
 
-			$("#btn-china").click(function() {
+			$(document).on('click', '#menu_btn_3', function(e){ // 중식
 				$("#box4").fadeToggle();
 
 				var imp = select_item[3];
 				var result = turn[imp];
 				
-				$('#btn-china').css("background", result);
+				$('#menu_btn_3').css("background", result);
 				select_item[3]++;
 				
 				if (select_item[3] == 2) {
@@ -231,13 +215,13 @@
 
 			});
 
-			$("#btn-boonsik").click(function() {
+			$(document).on('click', '#menu_btn_4', function(e){ // 분식
 				$("#box5").fadeToggle();
 
 				var imp = select_item[4];
 				var result = turn[imp];
 				
-				$('#btn-boonsik').css("background", result);
+				$('#menu_btn_4').css("background", result);
 				select_item[4]++;
 				
 				if (select_item[4] == 2) {
@@ -246,13 +230,13 @@
 
 			});
 
-			$("#btn-other").click(function() {
+			$(document).on('click', '#menu_btn_5', function(e){ // 그외
 				$("#box6").fadeToggle();
 
 				var imp = select_item[5];
 				var result = turn[imp];
 				
-				$('#btn-other').css("background", result);
+				$('#menu_btn_5').css("background", result);
 				select_item[5]++;
 				
 				if (select_item[5] == 2) {
@@ -263,7 +247,7 @@
 
 			$("#ran").click(function() {
 				$("#box7").toggle();
-				$('#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran').remove();
+				$('.box,#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran').remove();
 		
 			});
 
@@ -284,10 +268,29 @@
 			});
 			
 			$("#btn-retry").click(function() {
-				$('#re-recommend,#btn-retry').remove();
-				$("#re-re").html("<img src='../img/menu/jjamppong.jpg' height='130'>" + "<h1>짬뽕</h1>")
+						$('#btn-retry').remove();
 
+						$("#re-recommend").html(
+								"<img src='${pageContext.request.contextPath}/img/menu/jjamppong.jpg' height='130'>"
+								+ "<h1>짬뽕</h1>");
 			});
+						
+			function cate_item(count) {  
+				
+	        	var result="<li class='col-md-2 col-sm-3 text-center'></li>";
+	        	
+	        	for(var i=0; i < count; i++) {
+	        		result += "<li class='col-md-1 col-sm-1 col-xs-4' id='menu_"+ i +"'><button id='menu_btn_" + i +"' class='menu-img'>"
+	        		+ "<img src='${pageContext.request.contextPath}/img/menu/menu_" + i + ".png' width='70' />"
+					+ "</button> <b class='menu_padding'>" + menu_txt[i] +"</b></li>";        		
+	        	}
+	        	
+	        	result += "<li class='col-md-2 col-sm-3'></li>";	        	
+	        	$(".menuicon").html(result);	       		        		
+	        }
+			
+			data_load();
+			cate_item(6);
 						
 		});
 	</script>

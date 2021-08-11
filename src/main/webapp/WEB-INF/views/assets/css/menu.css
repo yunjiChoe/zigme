@@ -120,6 +120,15 @@ button {
 	margin: 10px;
 }
 
+.menu_padding {
+	position: relative;
+	left: 25px;
+}
+
+#box7 h1{
+	display: block;
+	padding: 10px 0;
+}
 /** ------------------------- menu_weather.jsp */
 .sub_text {
 	font-size: 30px;
@@ -146,11 +155,6 @@ p.condition {
 .condi_padding {
 	position: relative;
 	left: 15px;
-}
-
-.select {
-   background: linear-gradient(to left, #87ceeb 80%, #ffffff 20%);
-   border-radius: 30px 12px 12px 30px / 45px 4px 4px 45px;
 }
 
 /** ------------------------- menu_category_list.jsp */
@@ -200,9 +204,10 @@ p.condition {
 	padding: 30px;
 }
 
-#menu_map img {
-	width: 32px;
-	height: 32px;		
+#loading_img {
+	width: 400px;
+	height: 400px;
+	padding: 100px;		
 }
 
 #listname {

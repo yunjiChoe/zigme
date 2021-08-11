@@ -271,6 +271,7 @@ ul, ol {
 /* ------ 제목영역 스타일 지정 ------ */
 .content {
 	padding-top: 20px;
+	height: 231px;
 }
 
 .top_title {

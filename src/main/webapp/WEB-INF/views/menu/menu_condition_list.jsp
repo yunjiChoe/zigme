@@ -77,7 +77,7 @@ textarea {
 			<!-- 지도 div -->
 			<div id="menu_map">
 				<span id="listname"></span> <div id="map" style="width: 420px; height: 420px; margin: auto;">
-					<img src="${pageContext.request.contextPath}/plugin/ajax/loading.gif" />
+					<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
 				</div>					
 			</div>
 		</div>
@@ -628,6 +628,7 @@ textarea {
 					level : 4	// 지도의 확대 레벨
 			};
 			
+			$("#map").empty();
 			map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 			
 			for (var i = 0; i < menu_list.length; i++){

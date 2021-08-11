@@ -42,11 +42,6 @@
 	padding-top: 50px;
 }
 
-#box7 h1{
-	display: block;
-	padding: 10px 0;
-}
-
 </style>
 
 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
@@ -101,7 +96,7 @@
 	<script type="text/javascript">
 		$(function() {
 			
-			var select_item = [0, 0, 0, 0, 0];
+			var select_item = [0, 0, 0, 0, 0];			
 			
 			// ------------------------------------ JSON Data load --------------------------------------
 			/*
@@ -134,11 +129,11 @@
 				select_item.fill(0); // 0으로 배열 초기화. WHY? 컨디션은 toggle하지 않고 다른 버튼을 누르는 형식이니까! 
 				select_item[0]++;
 				
-				$("#condi_0").addClass("select");
-				$("#condi_1").removeClass("select");
-				$("#condi_2").removeClass("select");
-				$("#condi_3").removeClass("select");
-				$("#condi_4").removeClass("select");
+				$("#condi_btn_0").css("background", 'skyblue');
+				$("#condi_btn_1").css("background", 'transparent');
+				$("#condi_btn_2").css("background", 'transparent');
+				$("#condi_btn_3").css("background", 'transparent');
+				$("#condi_btn_4").css("background", 'transparent');
 				$("#condition-food").html(menu_txt[0]).css("color", "#4041fe");
 				
 			});
@@ -148,11 +143,11 @@
 				select_item.fill(0); // 0으로 배열 초기화. WHY? 컨디션은 toggle하지 않고 다른 버튼을 누르는 형식이니까! 
 				select_item[1]++;
 								
-				$("#condi_0").removeClass("select");
-				$("#condi_1").addClass("select");
-				$("#condi_2").removeClass("select");
-				$("#condi_3").removeClass("select");
-				$("#condi_4").removeClass("select");
+				$("#condi_btn_0").css("background", 'transparent');
+				$("#condi_btn_1").css("background", 'skyblue');
+				$("#condi_btn_2").css("background", 'transparent');
+				$("#condi_btn_3").css("background", 'transparent');
+				$("#condi_btn_4").css("background", 'transparent');
 				$("#condition-food").html(menu_txt[1]).css("color", "#4041fe");
 
 			});
@@ -162,11 +157,11 @@
 				select_item.fill(0); // 0으로 배열 초기화. WHY? 컨디션은 toggle하지 않고 다른 버튼을 누르는 형식이니까! 
 				select_item[2]++;				
 				
-				$("#condi_0").removeClass("select");
-				$("#condi_1").removeClass("select");
-				$("#condi_2").addClass("select");
-				$("#condi_3").removeClass("select");
-				$("#condi_4").removeClass("select");
+				$("#condi_btn_0").css("background", 'transparent');
+				$("#condi_btn_1").css("background", 'transparent');
+				$("#condi_btn_2").css("background", 'skyblue');
+				$("#condi_btn_3").css("background", 'transparent');
+				$("#condi_btn_4").css("background", 'transparent');
 				$("#condition-food").html(menu_txt[2]).css("color", "#4041fe");
 
 			});
@@ -176,11 +171,11 @@
 				select_item.fill(0); // 0으로 배열 초기화. WHY? 컨디션은 toggle하지 않고 다른 버튼을 누르는 형식이니까! 
 				select_item[3]++;
 								
-				$("#condi_0").removeClass("select");
-				$("#condi_1").removeClass("select");
-				$("#condi_2").removeClass("select");
-				$("#condi_3").addClass("select");
-				$("#condi_4").removeClass("select");
+				$("#condi_btn_0").css("background", 'transparent');
+				$("#condi_btn_1").css("background", 'transparent');
+				$("#condi_btn_2").css("background", 'transparent');
+				$("#condi_btn_3").css("background", 'skyblue');
+				$("#condi_btn_4").css("background", 'transparent');
 				$("#condition-food").html(menu_txt[3]).css("color", "#4041fe");
 
 			});
@@ -190,11 +185,11 @@
 				select_item.fill(0); // 0으로 배열 초기화. WHY? 컨디션은 toggle하지 않고 다른 버튼을 누르는 형식이니까! 
 				select_item[4]++;
 				
-				$("#condi_0").removeClass("select");
-				$("#condi_1").removeClass("select");
-				$("#condi_2").removeClass("select");
-				$("#condi_3").removeClass("select");
-				$("#condi_4").addClass("select");
+				$("#condi_btn_0").css("background", 'transparent');
+				$("#condi_btn_1").css("background", 'transparent');
+				$("#condi_btn_2").css("background", 'transparent');
+				$("#condi_btn_3").css("background", 'transparent');
+				$("#condi_btn_4").css("background", 'skyblue');
 				$("#condition-food").html(menu_txt[4]).css("color", "#4041fe");
 
 			});
