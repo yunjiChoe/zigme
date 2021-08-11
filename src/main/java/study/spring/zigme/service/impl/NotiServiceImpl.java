@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.zigme.model.Noti;
 import study.spring.zigme.model.Post;
 import study.spring.zigme.service.NotiService;
 
@@ -94,7 +93,7 @@ public class NotiServiceImpl implements NotiService{
 	}
 
 	/**
-     * 게시글 데이터 수정하기
+     * postNoti 수정하기
      * @param Post 수정할 정보를 담고 있는 Beans
      * @throws Exception
      */
@@ -118,11 +117,30 @@ public class NotiServiceImpl implements NotiService{
 
         return result;
 	}
+	/**
+	 * commNoti 수정하기
+	 * @param Post 수정할 정보를 담고 있는 Beans
+	 * @throws Exception
+	 */
+	@Override
+	public int editCommNoti(Post input) throws Exception {
+		int result = 0;
+		
+		try {
+			result = sqlSession.update("NotiMapper.updateCommItem", input);
+			
+			if (result == 0) {
+				throw new NullPointerException("result = 0");
+			}
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("수정된 데이터가 없습니다.");
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("데이터 수정에 실패했습니다.");
+		}
+		
+		return result;
+	}
 
-
-
-
-	
-
-	
 }

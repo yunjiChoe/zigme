@@ -29,7 +29,7 @@
 	<!-- 게시글에 댓글이 달린 경우 다중행 조회 쿼리  -->
 	SELECT p.postNo, p.postTitle, count(commNo) as countComm FROM comment c, post p 
 		WHERE c.postNo = p.postNo
-		AND c.postNo IN (SELECT postNo FROM post WHERE postNoti = '1' AND userNo = 1)
+		AND c.postNo IN (SELECT postNo FROM post WHERE postNoti = 2 AND userNo = 1)
 		GROUP BY c.postNo;
 	</select>
 	
@@ -38,7 +38,7 @@
 	resultMap="notiMap">
 	<!-- 댓글에 댓글이 달린 경우(=대댓글) 다중행 조회 쿼리 -->
  	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) FROM comment A, comment B WHERE A.commNo = B.parentNo 
-		AND B.commNoti = '1' 
+		AND B.commNoti = 2 
 		AND B.userNo = 1
 		GROUP BY A.commNo
 		ORDER BY A.commRegdate;
@@ -56,7 +56,7 @@
 	WHERE postNo = #{postNo}
 	</update> 
 	
-<!-- 	<update id= "updateCommItem"
+ 	<update id= "updateCommItem"
 	parameterType="study.spring.zigme.model.Post">
 	UPDATE post
 	<set>
@@ -65,7 +65,6 @@
 		</if>
 	</set>
 	WHERE commNo = #{commNo}
-	</update> 
-	 -->
+	</update>
 	
 </mapper>

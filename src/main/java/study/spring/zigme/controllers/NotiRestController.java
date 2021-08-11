@@ -69,11 +69,11 @@ public class NotiRestController {
 	@RequestMapping(value = "/noti", method = RequestMethod.PUT)
 	public Map<String, Object> updateItem(
 			@RequestParam(value="postNoti", defaultValue="0") int postNoti,
-			@RequestParam(value="postNo", defaultValue="0") int postNo){
-//			@RequestParam(value="commNoti", defaultValue="0") String commNoti,
-//			@RequestParam(value="commNo", defaultValue="0") int commNo){
+			@RequestParam(value="postNo", defaultValue="0") int postNo,
+			@RequestParam(value="commNoti", defaultValue="0") int commNoti,
+			@RequestParam(value="commNo", defaultValue="0") int commNo){
 		
-        /** 데이터 수정 */
+        /** 게시글의 댓글 데이터 수정 : 읽지않음(2) -> 읽음(1) */
         // 수정할 값들을 Beans에 담는다.
         Post input1 = new Post();
         input1.setPostNo(postNo);
@@ -92,29 +92,29 @@ public class NotiRestController {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
         
-//        /** 데이터 수정 */
-//        // 수정할 값들을 Beans에 담는다.
-//        Post input2 = new Post();
-//        input2.setCommNo(commNo);
-//        input2.setCommNoti(commNoti);
-//        
-//        // 수정된 결과를 조회하기위한 객체
-//        Post output2 = null;   
-//        
-//        try {
-//        	// 데이터 수정
-//        	notiService.editNoti(input2);
-//        	
-//        	// 수정 결과 조회
-//        	output2 = notiService.getNotiItem(input2);
-//        } catch (Exception e) {
-//        	return webHelper.getJsonError(e.getLocalizedMessage());
-//        }
+        /** 대댓글 데이터 수정 : 읽지않음(2) -> 읽음(1)*/
+        // 수정할 값들을 Beans에 담는다.
+        Post input2 = new Post();
+        input2.setCommNo(commNo);
+        input2.setCommNoti(commNoti);
+        
+        // 수정된 결과를 조회하기위한 객체
+        Post output2 = null;   
+        
+        try {
+        	// 데이터 수정
+        	notiService.editNoti(input2);
+        	
+        	// 수정 결과 조회
+        	output2 = notiService.getNotiItem(input2);
+        } catch (Exception e) {
+        	return webHelper.getJsonError(e.getLocalizedMessage());
+        }
         
         /** 3) JSON 출력하기 */
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("item1", output1);
-//        data.put("item2", output2);
+        data.put("item2", output2);
         return webHelper.getJsonData(data);
     } 
 

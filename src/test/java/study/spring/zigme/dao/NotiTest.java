@@ -9,13 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import lombok.extern.slf4j.Slf4j;
-import study.spring.zigme.model.Noti;
 import study.spring.zigme.model.Post;
 
-/**Lombok의 Log4j 객체 */
-@Slf4j
 /** JUnit에 의한 테스트 클래스로 정의 */
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -36,30 +31,30 @@ public class NotiTest {
 //	@Test
 //	/** 단일행 조회 테스트 */
 //	public void testA() {
-//		Noti input = new Noti();
-//		input.setPostNoti("1");
+//		Post input = new Post();
+//		input.setPostNoti(2); // '읽지않음' 상태
 //		
 //		sqlSession.selectOne("NotiMapper.selectItem", input);
 //	}
-//	
+	
 	@Test
 	/** 다중행 조회 테스트 */
 	public void testB() {
 		Post input = new Post();
-		input.setPostNoti("2"); // '읽지않음' 상태
+		input.setPostNoti(2); // '읽지않음' 상태
 	
 		sqlSession.selectList("NotiMapper.selectList", input);
 	}
 
-	@Test
-	/** 수정 테스트 */
-	public void testC() {
-		Post input = new Post();
-		input.setPostNo(1);
-		input.setPostNoti("17"); //'읽지않음 -> '읽음'으로 수정
-	
-		sqlSession.update("NotiMapper.updateItem", input);
-	}
+//	@Test
+//	/** 수정 테스트 */
+//	public void testC() {
+//		Post input = new Post();
+//		input.setPostNo(1);
+//		input.setPostNoti(1); //'읽지않음 -> '읽음'으로 수정
+//	
+//		sqlSession.update("NotiMapper.updateItem", input);
+//	}
 	
 
 }
