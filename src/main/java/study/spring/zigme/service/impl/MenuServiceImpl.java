@@ -82,9 +82,41 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public ArrayList<Food> getFoodList(Food input) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Food> getFoodList(Food input) throws Exception {
+
+		List<Food> result = null;		
+
+		try {
+			result = sqlSession.selectList("FoodMapper.selectList", input);
+			
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("조회된 데이터가 없습니다.");
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("데이터 조회에 실패했습니다.");
+		}
+
+		return result;
+	}
+	
+	@Override
+	public Food getFoodImgName(Food input) throws Exception {
+		
+		Food result = null;
+
+        try {
+            result = sqlSession.selectOne("FoodMapper.selectItem", input);
+            
+        } catch (NullPointerException e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("조회된 데이터가 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+
+        return result;
 	}
 
 }

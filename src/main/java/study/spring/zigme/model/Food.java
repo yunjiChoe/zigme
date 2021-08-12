@@ -10,5 +10,7 @@ public class Food {
 	private String foodWeather;				// 이 음식이 종속되어있는 날씨상태
 	private String foodCondition;			// 이 음식이 종속되어있는 컨디션
 	private String delFoodflag;				// 음식의 삭제 여부
+	
+	private String adminImgName;			// 음식이미지 파일명
 
 }

@@ -13,23 +13,19 @@
 		<result property="foodWeather" column="foodWeather" />
 		<result property="foodCondition" column="foodCondition" />
 		<result property="delFoodflag" column="delFoodflag" />
-		
+		<result property="adminImgName" column="adminImgName" />		
 	</resultMap>
 	
-	<!-- 단일행 조회를 위한 기능 정의 -->
+	<!-- 추첨된 음식 이미지명 -->
 	<select id ="selectItem" parameterType="study.spring.zigme.model.Food"
 	resultMap="foodMap">
-	SELECT foodName, foodCategory, foodWeather, foodCondition, delFoodflag
-	FROM food
-	WHERE foodNo = #{foodNo} 
+	  SELECT f.foodName, a.adminImgName FROM adminsetimage a INNER JOIN food f on a.refTableId = f.foodNo WHERE foodName = #{foodName};
 	</select>
 	
-	<!-- 다중행 조회를 위한 기능 정의 -->
+	<!-- 업종별에서 선택한 음식 리스트 return -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Food"
 	resultMap="foodMap">
-	SELECT foodNo, foodName, foodWeather, foodCondition, delFoodflag
-	FROM food
-	WHERE foodCategory = #{foodCategory} 
+	SELECT foodName	FROM food WHERE foodCategory = #{foodCategory} AND delFoodflag = 'N' ORDER BY foodNo;
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->

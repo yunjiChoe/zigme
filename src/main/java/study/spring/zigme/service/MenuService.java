@@ -1,6 +1,5 @@
 package study.spring.zigme.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import study.spring.zigme.model.Food;
@@ -14,6 +13,8 @@ public interface MenuService {
 		
 	public int getReviewCount(Review input) throws Exception;	
 	
-	public ArrayList<Food> getFoodList(Food input) throws Exception;
+	public List<Food> getFoodList(Food input) throws Exception;
+	
+	public Food getFoodImgName(Food input) throws Exception;
 	
 }

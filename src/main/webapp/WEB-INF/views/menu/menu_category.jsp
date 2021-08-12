@@ -101,7 +101,7 @@
 				
 				<span class="menu_find_btn">
 					<a><button type="button" class="btn btn-ms btn-ttc1" id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a>
-						<a href="#" id="submit_link" class="btn btn-primary btn-ttc2 ">주변음식점찾기</a>
+						<a href="#" id="submit_link" class="btn btn-primary btn-ttc2" >주변음식점찾기</a>
 				</span>
 
 			</div>
@@ -123,8 +123,11 @@
 	<script type="text/javascript">
 		$(function() {
 
-			var select_item = [0, 0, 0, 0, 0, 0];									
+			var select_item = [0, 0, 0, 0, 0, 0];	
+			var food_list = [];
 			var turn = new Array('skyblue', 'white');
+			var food_Name = "";
+			var food_imgName = "";
 
 			// 요소 숨기기
 			$('#box1').hide();
@@ -134,6 +137,13 @@
 			$('#box5').hide();
 			$('#box6').hide();
 			$('#box7').hide();
+			
+		    $(document).ready(function() {
+		        // a href='#' 클릭 무시 스크립트
+		        $('a[href="#"]').click(function(ignore) {
+		            ignore.preventDefault();
+		        });
+		    }); // 출처: https://rgy0409.tistory.com/3607 [친절한효자손 취미생활]
 			
 			function data_load() {
 				
@@ -152,6 +162,43 @@
 						alert("일시적인 오류가 발생하였습니다.");
 					}
 				});				
+			}
+			
+			function fisherYatesShuffle(arr){
+			    for(var i = arr.length - 1; i > 0; i--){
+			        var j = Math.floor( Math.random() * (i + 1) ); //random index
+			        [arr[i], arr[j]] = [arr[j], arr[i]]; // swap
+			    }
+			}
+			
+			function img_load(count){
+				
+				// 음식이미지명 DB 조회 
+				$.ajax ({
+					async: false,
+					url :'${pageContext.request.contextPath}/menu/menu_food.img',
+					method: 'get',
+					data : {
+						"food_name": food_list[count]						
+					},
+					dataType: 'JSON',
+					success: function(req) {							    
+						food_Name = req.food_name;
+						food_imgName = req.img_name;						
+						//console.log("food_imgName : " + food_imgName);						
+					},
+					error: function() {		
+						
+					}
+				});	
+				
+				var img_src = "<img alt='"+ food_Name + "' src='${pageContext.request.contextPath}/img/menu/food/" + food_imgName 
+				+ ".jpg' height='130' /><h1>" + food_Name + "</h1>";
+				
+				$("#re-recommend").html(img_src);
+				
+				console.log("축 당첨! :" + food_list[count]);
+				
 			}
 
 			// 토글로 요소를 보여주고 사라지게한다.
@@ -261,24 +308,30 @@
 					},
 					dataType: 'JSON',
 					success: function(req) {	
+						    
+						food_list_impl = req;
 						
-						review_list[menu_list[i].id] = req.list;
-						review_count[i] = req.count;
+						//console.log(food_list);
+						//console.log(Object.keys(food_list).length-2); // ajax_helper를 통해 pubDate와 rt를 붙여오므로 검색원소의 갯수를 알려면 -2를 해야한다.
+						//console.log(food_list[0]);
 						
-						// console.log(review_list);
-						// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
-											
+						// 선택해서 가져온 배열에서 음식명만 추출한다. 
+						for(var i=0; i < (Object.keys(food_list_impl).length-2); i++) {
+							for(var j=0; j < food_list_impl[i].length; j++){
+								food_list.push(food_list_impl[i][j].foodName);	
+							}
+						}						
+						//console.log("before :" + food_list);
+						fisherYatesShuffle(food_list);			// 음식 리스트 랜덤셔플
+						
 					},
 					error: function() {
-						// 리뷰데이터가 없는 경우 
-											
-						review_list[menu_list[i].id] = "NOREVIEW";
-						review_count[i] = 0;
 											
 					}
-				});
+				});		
 				
-		
+				img_load(0);
+				
 			});
 
 			$("#submit_link").click(function(e) {
@@ -300,9 +353,7 @@
 			$("#btn-retry").click(function() {
 						$('#btn-retry').remove();
 
-						$("#re-recommend").html(
-								"<img src='${pageContext.request.contextPath}/img/menu/jjamppong.jpg' height='130'>"
-								+ "<h1>짬뽕</h1>");
+						img_load(1);
 			});
 						
 			function cate_item(count) {  
