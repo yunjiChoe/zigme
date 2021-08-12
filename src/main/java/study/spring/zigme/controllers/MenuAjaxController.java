@@ -1,5 +1,6 @@
 package study.spring.zigme.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
+import study.spring.zigme.model.Food;
 import study.spring.zigme.model.Review;
 import study.spring.zigme.service.MenuService;
 
-
+@Slf4j
 @RestController
 public class MenuAjaxController {
 	
@@ -30,7 +32,7 @@ public class MenuAjaxController {
     @Autowired MenuService menuService;
     
     /** review data select */
-    @RequestMapping(value = "/menu/menu_condition_list.review", method = RequestMethod.GET)
+    @RequestMapping(value = "/menu/menu_list.review", method = RequestMethod.GET)
     public Map<String, Object> get_list(
    		// 음식점 ID 
    		@RequestParam(value="reviewPlaceId", defaultValue="") String reviewPlaceId)
@@ -60,7 +62,7 @@ public class MenuAjaxController {
     }
     
     /** review img name select */
-    @RequestMapping(value = "/menu/menu_condition_list.img", method = RequestMethod.GET)
+    @RequestMapping(value = "/menu/menu_list.img", method = RequestMethod.GET)
     public Map<String, Object> get_name(
    		// 리뷰 NO 
    		@RequestParam(value="reviewNo", defaultValue="0") int reviewNo)
@@ -78,6 +80,47 @@ public class MenuAjaxController {
         } catch (Exception e) {
         	 return webHelper.getJsonError(e.getLocalizedMessage());
         }
+        
+        /** 3) JSON 출력하기 */
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("img_name", output);        
+                
+        return webHelper.getJsonData(data);
+    }
+    
+    /** food list select */
+    @RequestMapping(value = "/menu/menu_list.select", method = RequestMethod.GET)
+    public Map<String, Object> get_food_list(
+   		// 
+   		@RequestParam(value="select_item[]", defaultValue="") ArrayList<Integer> select_item,
+   		@RequestParam(value="menu_txt[]", defaultValue="") ArrayList<String> menu_txt
+   		)
+    {
+        
+        Food input = new Food();
+        String query = new String();
+        ArrayList<Food> output = new ArrayList<Food>();   
+        
+        for(int i=0; i<select_item.size(); i++) {
+        	if(select_item.get(i) == 1) {        		
+        		
+        		query = menu_txt.get(i);
+        		log.debug("query >>>>>> " + query);
+        		
+        		input.setFoodCategory(query);              
+                        
+
+                try {
+                	output = menuService.getFoodList(input);                	            
+                } catch (Exception e) {
+                	 return webHelper.getJsonError(e.getLocalizedMessage());
+                }        		
+        		
+        	}
+        	
+        }
+                
+        
         
         /** 3) JSON 출력하기 */
         Map<String, Object> data = new HashMap<String, Object>();

@@ -96,9 +96,10 @@
 				</div>
 			</div>
 			<div id="box7">
-				<span id="re-recommend"> <img alt="짜장면" src="${pageContext.request.contextPath}/img/menu/review/210622_001.jpg" height="130">
-					<h1>짜장면</h1>
-				</span><span class="menu_find_btn">
+				<!-- 음식DB에서 추천될 음식이 표출될 공간 -->
+				<span id="re-recommend"> </span>
+				
+				<span class="menu_find_btn">
 					<a><button type="button" class="btn btn-ms btn-ttc1" id="btn-retry">&nbsp;&nbsp;재추천&nbsp;&nbsp;</button></a>
 						<a href="#" id="submit_link" class="btn btn-primary btn-ttc2 ">주변음식점찾기</a>
 				</span>
@@ -245,9 +246,38 @@
 
 			});
 
-			$("#ran").click(function() {
+			$("#ran").click(function() { // 돌리기 버튼
 				$("#box7").toggle();
 				$('.box,#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran').remove();
+				
+				// 음식 DB 조회 
+				$.ajax ({
+					async: false,
+					url :'${pageContext.request.contextPath}/menu/menu_list.select',
+					method: 'get',
+					data : {
+						"select_item": select_item,
+						"menu_txt": menu_txt
+					},
+					dataType: 'JSON',
+					success: function(req) {	
+						
+						review_list[menu_list[i].id] = req.list;
+						review_count[i] = req.count;
+						
+						// console.log(review_list);
+						// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
+											
+					},
+					error: function() {
+						// 리뷰데이터가 없는 경우 
+											
+						review_list[menu_list[i].id] = "NOREVIEW";
+						review_count[i] = 0;
+											
+					}
+				});
+				
 		
 			});
 

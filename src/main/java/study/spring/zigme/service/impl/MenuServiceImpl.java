@@ -1,5 +1,6 @@
 package study.spring.zigme.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.zigme.model.Food;
 import study.spring.zigme.model.Review;
 import study.spring.zigme.service.MenuService;
 
@@ -77,6 +79,12 @@ public class MenuServiceImpl implements MenuService {
         }
 
         return result;
+	}
+
+	@Override
+	public ArrayList<Food> getFoodList(Food input) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

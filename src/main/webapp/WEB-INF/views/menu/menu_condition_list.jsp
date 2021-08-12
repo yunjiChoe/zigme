@@ -5,8 +5,7 @@
      version : V1.0.0
 -->
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -253,7 +252,7 @@ textarea {
 			$.ajax ({
 				async: false,
 				url : "https://dapi.kakao.com/v2/local/search/keyword.json?y=" + userCompY + "&x=" + userCompX + "&radius=" + Search_radius
-						+ "&query=" + menu_param + "&size=" + Search_size, 
+						+ "&query=" + menu_param + "&size=" + Search_size + "&category_group_code=FD6",
 				method: 'get',
 				beforeSend: function (xhr) {			            
 		            xhr.setRequestHeader("Authorization","KakaoAK 357888b843d98f32e260abf0e81dfd2a");
@@ -269,11 +268,19 @@ textarea {
 			});
 			
 			for(var i=0; i < menu_list.length; i++) {
+				
+				// 음식점이 아닌 검색결과는 빼버림
+				if(menu_list[i].category_group_code != "FD6")
+	    		{
+	    			menu_list.pop(menu_list[i]);
+	    			i -= 1;
+	    			continue;
+	    		}
 			
 			// 리뷰 목록 read
 			$.ajax ({
 				async: false,
-				url :'${pageContext.request.contextPath}/menu/menu_condition_list.review',
+				url :'${pageContext.request.contextPath}/menu/menu_list.review',
 				method: 'get',
 				data : {
 					"reviewPlaceId": menu_list[i].id
@@ -492,7 +499,7 @@ textarea {
 	    			// 리뷰 이미지 name load
 					$.ajax ({
 						async: false,
-						url :'${pageContext.request.contextPath}/menu/menu_condition_list.img',
+						url :'${pageContext.request.contextPath}/menu/menu_list.img',
 						method: 'get',
 						data : {
 							"reviewNo": review_list[lstcode][i].reviewNo
@@ -587,6 +594,7 @@ textarea {
 					$(item_name).addClass("menu_select");
 				}
 			});
+	   
 		$(document).on('click', '#modal_review', function(e){			
 			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
 			$(".modal-header").html(modal_tag);

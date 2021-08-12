@@ -150,7 +150,7 @@
 			else if($sky == "Snow")
 				$sky = "눈";
 			else if($sky == "Haze")
-				$sky = "대기 오염";
+				$sky = "대기오염";
 			else
 				$sky = "맑음";
 			
