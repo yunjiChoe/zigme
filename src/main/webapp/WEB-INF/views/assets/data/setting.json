@@ -21,9 +21,9 @@
 				  "OVER_MARKER_WIDTH" : 40, 
 				  "OVER_MARKER_HEIGHT" : 47, 
 				  "OVER_OFFSET_X" : 13,
-				  "SPRITE_MARKER_URL" : "/img/menu/marker.png", 
-				  "SPRITE_WIDTH" : 167, 
-				  "SPRITE_HEIGHT" : 650, 
+				  "SPRITE_MARKER_URL" : "/img/menu/markers.png", 
+				  "SPRITE_WIDTH" : 170, 
+				  "SPRITE_HEIGHT" : 651, 
 				  "SPRITE_GAP" : 25,
 				  "Search_radius" : 300, 
 				  "Serach_size" : 9   					
