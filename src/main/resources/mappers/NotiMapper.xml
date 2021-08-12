@@ -18,9 +18,9 @@
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id ="selectItem" parameterType="study.spring.zigme.model.Post"
 	resultMap="notiMap">
-	SELECT postNo, postNoti, commNo, commNoti
-	FROM POST
-	WHERE PostNo = #{postNo};
+	SELECT p.postNo, postNoti, c.commNo, commNoti
+	FROM POST p, comment c
+	WHERE p.PostNo = #{postNo};
 	</select>
 	
 	<!-- '읽지않음'인 상태의 알림 다중행 조회를 위한 기능 정의 -->

@@ -185,6 +185,8 @@
 									
 									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
 										<td><span class="token">'</span><span class="newNotiPostTitle">${item.postTitle}</span><span class="token">'</span> 게시글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
+										<td class="delnoti"><button type="button"
+								class="close close-btn" aria-hidden="true">&times;</button></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -260,7 +262,20 @@
 		/** 전체삭제 버튼 클릭시 알람 전체 삭제 */
 		$(function() {
 			$('button.btn_delAll').click(function() {
-				$('tr.noti_row').remove();
+				$('.noti-table').html("새로운 알람이 없습니다.");
+				
+				$.put("${pageContext.request.contextPath}/noti", 
+						"item1" [{
+	  				   "postNoti" : 1
+	    			}], 
+	    				"item2" [{
+		  				"commNoti" : 1
+		    		}],
+	    			function(json) {
+	    				if (json.rt == "OK") {
+	    					console.log("수정 되었습니다. scheNo : " + click_scheNo);
+	    				}
+	    			});
 
 			});
 		});

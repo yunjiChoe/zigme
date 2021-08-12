@@ -28,14 +28,13 @@ public class NotiTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
-//	@Test
-//	/** 단일행 조회 테스트 */
-//	public void testA() {
-//		Post input = new Post();
-//		input.setPostNoti(2); // '읽지않음' 상태
-//		
-//		sqlSession.selectOne("NotiMapper.selectItem", input);
-//	}
+	@Test
+	/** 단일행 조회 테스트 */
+	public void testA() {
+		Post input = new Post();
+		input.setPostNoti(2); // '읽지않음' 상태
+		sqlSession.selectOne("NotiMapper.selectItem", input);
+	}
 	
 	@Test
 	/** 다중행 조회 테스트 */
@@ -46,15 +45,15 @@ public class NotiTest {
 		sqlSession.selectList("NotiMapper.selectList", input);
 	}
 
-//	@Test
-//	/** 수정 테스트 */
-//	public void testC() {
-//		Post input = new Post();
-//		input.setPostNo(1);
-//		input.setPostNoti(1); //'읽지않음 -> '읽음'으로 수정
-//	
-//		sqlSession.update("NotiMapper.updateItem", input);
-//	}
+	@Test
+	/** 수정 테스트 */
+	public void testC() {
+		Post input = new Post();
+		input.setPostNo(50);
+		input.setPostNoti(1); //'읽지않음 -> '읽음'으로 수정
+	
+		sqlSession.update("NotiMapper.updateItem", input);
+	}
 	
 
 }
