@@ -187,7 +187,7 @@ public class PostRestController {
 		System.out.println("restful로 넘어옴");
 		/** 1) 파라미터 유효성 검사*/
 		if(postNo == 0) {
-			return webHelper.getJsonWarning("게스글번호가 없습니다.");
+			return webHelper.getJsonWarning("게시글번호가 없습니다.");
 		}
 		/** 2) 데이터 삭제하기 */
 		//데이터 삭제에 필요한 조건값을 Beans에 저장하기

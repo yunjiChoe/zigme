@@ -54,6 +54,7 @@ public class PostAjaxController {
             // 페이지 구현에서 사용할 현재 페이지 번호
             @RequestParam(value="page", defaultValue="1") int nowPage) {
         
+    	System.out.println("controller 진입완료");
         /** 1) 페이지 구현에 필요한 변수값 생성 */
         int totalCount = 0;              // 전체 게시글 수
         int listCount  = 10;             // 한 페이지당 표시할 목록 수

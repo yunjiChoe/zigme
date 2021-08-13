@@ -12,7 +12,7 @@ public class Post {
 	private int postUpcount;
 	private int postViewcount;
 	private String postRegdate;
-	private int postNoti;
+	private String postNoti;
 	private int userNo;
 	private int prevpage;
 	private int nextpage;
@@ -37,7 +37,7 @@ public class Post {
 	
 	private int parentNo;
 	
-	private int commNoti;
+	private String commNoti;
 	
 	private int countComm;
 	
