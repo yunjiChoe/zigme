@@ -136,6 +136,7 @@
 
 			$(".more").click(function() {
 				$("#two").html(", " + arr[1]);
+				$(".more").addClass("end");
 			});
 		}
 

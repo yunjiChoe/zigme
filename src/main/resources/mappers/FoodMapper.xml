@@ -28,6 +28,21 @@
 	SELECT foodName	FROM food WHERE foodCategory = #{foodCategory} AND delFoodflag = 'N' ORDER BY foodNo;
 	</select>
 	
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="selectFood"
+		parameterType="study.spring.zigme.model.Food"
+		resultMap="foodMap">
+		SELECT foodNo, foodName, foodCategory, foodWeather, foodCondition FROM food WHERE foodNo =
+		#{foodNo};
+	</select>
+
+	<!-- 다중행 조회를 위한 기능 정의 -->
+	<select id="selectFoodList"
+		parameterType="study.spring.zigme.model.Food"
+		resultMap="foodMap">
+		SELECT f.foodNo, f.foodName, f.foodCategory, f.foodWeather, f.foodCondition, a.adminImgName FROM food f INNER JOIN adminsetimage a on a.refTableId = f.foodNo ORDER BY foodNo DESC;
+	</select>
+	
 	<!-- 데이터 저장을 위한 기능 정의 -->
 	<insert id="insertItem"
 	parameterType = "study.spring.zigme.model.Food"

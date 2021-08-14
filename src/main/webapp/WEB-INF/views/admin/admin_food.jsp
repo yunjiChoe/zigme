@@ -48,7 +48,7 @@
             <tbody>
                <tr class="food_category">
                   <td class=food_rowNumber>입력</td>
-                  <td class="food_name"><input type='text' id="foodNameBox"class='input' name="food"></td>
+                  <td class="food_name"><input type='text' id="foodNameBox" class='input' name="food"></td>
                   <td class="food_categoryName"><select class="foods" name="by_category">
                         <option value="category_none">--선택--</option>
                         <option value="koreanfood">한식</option>
@@ -58,7 +58,7 @@
                         <option value="chinesefood">중식</option>
                         <option value="etc">그 외</option>
                   </select></td>
-                  <td><select class= 'weathers' name="by_weather">
+                  <td><select class='weathers' name="by_weather">
                         <option value="weather_none">--선택--</option>
                         <option value="sunny">맑음</option>
                         <option value="cloudy">흐림</option>
@@ -92,7 +92,7 @@
                         </span>
                      </div> <!-- // 파일 이름 표기 -->
                   </td>
-                  <td><button type='button' class='add btn btn-primary btn-sm'>추가</button></td>
+                  <td><button type='submit' class='add btn btn-primary btn-sm'>추가</button></td>
 
                </tr>
             </tbody>
@@ -133,8 +133,6 @@
       var foodName = '';   
       //추가버튼을 누르면 추가될 각각의 행들을 result라는 변수에 저장
       var result = '';
-      //
-      
       
       $(function() {
          var filename = '';
@@ -177,7 +175,7 @@
             +"<td><select class= 'conditions' name='by_condition'><option value='condition_none'>--선택--</option><option value='cold'>감기몸살</option>"
             +"<option value='indigestion'>소화불량</option><option value='hangover'>숙취해소</option><option value='goodforhealth'>기력보충</option>"
             +"<option value='diet'>다이어트</option></select></td>"
-            +"<td><form action='upload' id='uploadForm' method='pos' enctype='multipart/form-data'>"
+            +"<td><form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'>"
             +"<input type='file' id='fileInput' name='file' style='display: none'/><div class='addfile' onclick='onclick=document.all.file.click()'>"
             +"<div class='addBtn'>첨부</div></div></form><div class='file_name'><span><input type='text' name='uploaded' id='uploaded' value='' readonly>"
             +"</span></div></td>"
@@ -211,8 +209,6 @@
             $("#foodNameBox").val('');
             
                });
-         
-
 
          /** 수정버튼 클릭시 */
          $(document).on("click",".edit", function() {
