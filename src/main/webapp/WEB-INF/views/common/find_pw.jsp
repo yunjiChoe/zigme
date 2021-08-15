@@ -163,9 +163,10 @@
                 <!-- 하단 -->
                 <div class=" text-center">
                 
-                   <button type="button" class="btn  btn-primary btn-lg  ">
+                  <a href="${pageContext.request.contextPath}/find_pw_reset" id="pw_reset_ok"><button type="button" class="btn  btn-primary btn-lg  ">
                             확인
-                        </button>
+                        </button></a>
+                        
                 </div><br />
             </div>
             <!-- /.modal-content -->
@@ -268,6 +269,7 @@
         
         var code = "";
         /* 인증번호 이메일 전송 */
+        
         $(".mail_check_button").click(function(){
             
             var email = $(".mail_input").val();        // 입력한 이메일
@@ -291,13 +293,20 @@
             
             var inputCode = $(".mail_check_input").val();        // 입력코드    
             var checkResult = $("#mail_check_input_box_warn");    // 비교 결과     
+            $('#pw_reset_ok').hide();
+            $('#pw_reset_x').hide();
+            
             
             if(inputCode == code){                            // 일치할 경우
                 checkResult.html("인증번호가 일치합니다.");
-                checkResult.attr("class", "correct");        
+                checkResult.attr("class", "correct"); 
+                $("#pw_reset_ok").show();
+                
             } else {                                            // 일치하지 않을 경우
                 checkResult.html("인증번호를 다시 확인해주세요.");
                 checkResult.attr("class", "incorrect");
+                $("#pw_reset_x").show();
+                
             }    
             
         });
@@ -330,6 +339,7 @@
 
                 // 입력값을 화면에 표시하기
                 $("#input_email").append("<h4> " + useremail + "</h4>");
+                
                 
 
                 // 백엔드 페이지에게 데이터를 전송해야 할 경우 사용해야 한다.

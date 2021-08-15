@@ -116,11 +116,22 @@ public class UserController {
 		}
 		if (!regexHelper.isEmail(email)) {
 			return webHelper.redirect(null, "이메일 형식으로 입력하세요");
+			
+		}
+		if (!regexHelper.isValue(postcode)) {
+			return webHelper.redirect(null, "이메일 형식으로 입력하세요");
+		}
+		if (!regexHelper.isValue(addr1)) {
+			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
 
 		if (!regexHelper.isValue(addr2)) {
 			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
+		if (!regexHelper.isValue(loc_xy)) {
+			return webHelper.redirect(null, "좌표을 입력하세요");
+		}
+		
 
 		if (!regexHelper.isValue(checkAll)) {
 			return webHelper.redirect(null, "약관에 동의해주세요.");
@@ -239,7 +250,13 @@ public class UserController {
 		if (!regexHelper.isEmail(email)) {
 			return webHelper.redirect(null, "이메일 형식으로 입력하세요");
 		}
-
+		if (!regexHelper.isValue(postcode)) {
+			return webHelper.redirect(null, "이메일 형식으로 입력하세요");
+		}
+		if (!regexHelper.isValue(addr1)) {
+			return webHelper.redirect(null, "상세주소을 입력하세요");
+		}
+		
 		if (!regexHelper.isValue(addr2)) {
 			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
@@ -258,11 +275,16 @@ public class UserController {
 		input.setIcon(icon);
 		input.setBlockUserflag(blockUserflag);
 		input.setOutUserflag(outUserflag);
+		
+		
 
 		User output = null;
 
 		try {
 			userservice.editUser(input);
+			
+
+			
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}

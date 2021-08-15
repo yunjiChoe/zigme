@@ -309,14 +309,12 @@ input#all_check {
 				<fieldset id="jfieldset">
 					<div class="form-group">
 						<div class="circle"></div>
-						<label for="user_id">아이디</label><br /> 
-						
-						<input type="text"
+						<label for="user_id">아이디</label><br /> <input type="text"
 							name="id" id="user_id" class="form-control"
 							placeholder="영문,숫자 조합하여 4자~20자" />
 						<button type="button" id="id_check" name="id_check"
 							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5 id_input">중복확인</button>
-							
+
 						<div class="form-group">
 							<div class="nickname1" style="display: none;">
 								<b id="idCheck"></b>
@@ -392,6 +390,7 @@ input#all_check {
 								id="user_detailAddress" class="form-control" name="addr2"
 								placeholder="상세주소"> <input type="text"
 								id="user_extraAddress" class="form-control" placeholder="참고항목">
+							<input type="hidden"  class="form-control" id="loc_xy" name="loc_xy" />
 
 						</div>
 						<div id="wrap"
@@ -405,10 +404,11 @@ input#all_check {
 				<br /> <br /> <br />
 
 
+
 				<div class="form-agree">
 					<div class="form-group agree ch-form">
 						<input id="all_check" class="terms" type="checkbox"
-							name="checkAll"><label for="all_check"
+							name="checkAll" ><label for="all_check"
 							class="col-md-4  control-label">전체동의</label> <br>
 						<div class="form-group ch-form">
 							<div class="circle"></div>
@@ -445,21 +445,29 @@ input#all_check {
 
 
 
+
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 	<script type="text/javascript">
 		// 우편번호 찾기 찾기 화면을 넣을 element
+		
+		var addr = ''; // 주소 변수
+		var extraAddr = ''; // 참고항목 변수
+		var x='';
+		var y='';
+		
 		function execDaumPostcode() {
 			new daum.Postcode(
 					{
-						oncomplete : function(data) {
+						oncomplete : function(data) {			
 							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
 							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-							var addr = ''; // 주소 변수
-							var extraAddr = ''; // 참고항목 변수
+							
 
+							
 							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
 							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
 								addr = data.roadAddress;
@@ -496,13 +504,58 @@ input#all_check {
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
 							document.getElementById('user_postcode').value = data.zonecode;
 							document.getElementById("user_address").value = addr;
+							
 							// 커서를 상세주소 필드로 이동한다.
 							document.getElementById("user_detailAddress")
 									.focus();
+							
+							/** 주소 x,y 좌표로 변환 하는 API */
+							var q =  document.getElementById("user_address").value; //검색 내용
+							 console.log(q);
+							    //ajax 시작
+								$.ajax({
+									url : 'https://dapi.kakao.com/v2/local/search/address.json',
+									headers : { 'Authorization' : 'KakaoAK 1ddad6942cf2073a924b3e0c0a3b66bf'	},
+									type: 'GET',
+									data : { 'query' : q },
+									success : function(data){
+										//호출 성공하면 작성할 내용
+							            if(data != 0 ){ // 값이 있으면
+										 x = data.documents[0].x;
+							           	 y = data.documents[0].y;
+							             console.log(x);
+							             console.log(y);
+							             
+							             $("#checkbox2, #all_check").change(function(){
+							            	 document.getElementById("loc_xy").value = x +", "+ y;
+							             })
+							           
+							             
+							             }		
+							            
+									}, 
+									error:function(request,status,error){
+									    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+									}
+								}).done(function(data){
+									console.log(data);
+
+								 });
+								
+								
+							
 						}
 					}).open();
 		}
+		
 
+			 
+		  
+			 
+				
+	
+
+		//----------------------------------------------------------------------
 		/* 체크박스 중에 하나라도 체크해제하면 전체 동의 해제 */
 		function allCheckFunc(obj) {
 			$("[name=checkOne]").prop("checked", $(obj).prop("checked"));
@@ -545,8 +598,10 @@ input#all_check {
 		}*/
 		
 	    
-		var local_url = decodeURIComponent(location.href);
-		var idck = 0;
+		
+		
+		//------------------------------------------------------------------------
+		/** 아이디 중복 확인 */
 		$(function() {
 		    //idck 버튼을 클릭했을 때 
 		    $("#id_check").click(function() {
@@ -554,7 +609,7 @@ input#all_check {
 		    	
 			        var id = $('#user_id').val(); //id값이 "id"인 입력란의 값을 저장
 			        if (!id) {	// 입력되지 않았다면?
-						alert("닉네임을 입력해주세요.");	// <-- 메시지 표시
+						alert("아이디을 입력해주세요.");	// <-- 메시지 표시
 						$("#user_id").focus();			// <-- 커서를 강제로 넣기
 						return false;					// <-- 실행 중단
 					}
@@ -577,7 +632,8 @@ input#all_check {
 			        });
 		    });
 		});
-			       
+			      
+		
 		/** 닉네임 중복 확인 */
 		$(function() {
 			
@@ -606,8 +662,8 @@ input#all_check {
 								alert("사용 가능한 닉네임 입니다.");
 							} else {
 								alert("사용할 수 없는 닉네임 입니다.");
-								$("#user_id").val("");
-								$("#user_id").focus();
+								$("#user_subname").val("");
+								$("#user_subname").focus();
 							}
 			            }
 			     
@@ -617,7 +673,12 @@ input#all_check {
 		
 		
 		
+//------------------------------------------------------------------
+
+
 		
+		
+		//-------------------------------------------------------------------------
 		/** 비밀번호 일치 여부 */
 		$(function() {
 			$('#user_pw').keyup(function() {
@@ -637,9 +698,7 @@ input#all_check {
 
 			});
 		});
-		
-		
-		
+	
 		
 		
 		
