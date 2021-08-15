@@ -525,10 +525,8 @@ input#all_check {
 							           	 y = data.documents[0].y;
 							             console.log(x);
 							             console.log(y);
-							             
-							             $("#checkbox2, #all_check").change(function(){
-							            	 document.getElementById("loc_xy").value = x +", "+ y;
-							             })
+										 document.getElementById("loc_xy").value = x +", "+ y;
+							            
 							           
 							             
 							             }		
