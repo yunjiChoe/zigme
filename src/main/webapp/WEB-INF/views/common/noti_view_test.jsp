@@ -162,7 +162,7 @@
 						<tr class=info>
 							<th>알림 내역</th>
 							<!--  <th>알림 일시</th> -->
-							<th><button type="button" class="btn_delAll">전체삭제</button></th>
+							<th><a href="#" class="btn_delAll">전체삭제</a></th>
 						</tr>
 					</thead>
 					<tbody id="noti_table">
@@ -183,8 +183,8 @@
 	                            		<c:param name="postNo" value="${item.postNo}" />
 	                        		</c:url>
 									
-									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-										<td><span class="token">'</span><span class="newNotiPostTitle">${item.postTitle}</span><span class="token">'</span> 게시글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
+									<tr>
+										<td><span class="token">'</span><span class="newNotiPostTitle" style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">${item.postTitle}</span><span class="token">'</span> 게시글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
 										<td class="delnoti"><button type="button"
 								class="close close-btn" aria-hidden="true">&times;</button></td>
 									</tr>
@@ -208,8 +208,8 @@
 	                            		<c:param name="postNo" value="${item.postNo}" />
 	                        		</c:url>
 									
-									<tr style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">
-										<td><span class="token">'</span><span class="newNotiCommContent">${item.commContent}</span><span class="token">'</span> 댓글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
+									<tr>
+										<td style = "cursor:pointer;"><span class="token">'</span><span class="newNotiCommContent" onClick = "location.href='${viewUrl}'">${item.commContent} </span><span class="token">'</span> 댓글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
 										<td class="delnoti"><button type="button"
 								class="close close-btn" aria-hidden="true">&times;</button></td>
 									</tr>
@@ -231,59 +231,7 @@
        </tr>         
    {{/each}}
    </script>
-	
-	<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script type="text/javascript">
-	
-		/** 알림 내용 클릭 시 해당 글 페이지로 이동*/
-		/** 차후 실제 글로 연결되도록 설정 필요 */
-		function writePage() {
-			window.location.href = "${pageContext.request.contextPath}/help/help_comm_write";
-		}
-
-		/** 마우스 오버시 개별 tr의 색상변경 */
-		/** 추후 visited()로 변경 예정, 확인 시 배경 색상 변경 되는 부분 시각화를 위한 임시 코드 */
-		$(function() {
-			$(".noti_table tr").mouseover(function() {
-				$(this).css("background-color", "#eee")
-			});
-			$("noti_table tr").mouseout(function() {
-				$(this).css("background-color", "#fff")
-			});
-		});
-
-		/** X 버튼 클릭시 개별 알람 목록 삭제 */
-		$(function() {
-			$('button.close').click(function() {
-				$(this.closest("tr")).remove();
-			});
-		});
-
-		/** 전체삭제 버튼 클릭시 알람 전체 삭제 */
-		$(function() {
-			$('button.btn_delAll').click(function() {
-				$('.noti-table').html("새로운 알람이 없습니다.");
-				
-				$.put("${pageContext.request.contextPath}/noti", 
-						"item1" [{
-	  				   "postNoti" : 1
-	    			}], 
-	    				"item2" [{
-		  				"commNoti" : 1
-		    		}],
-	    			function(json) {
-	    				if (json.rt == "OK") {
-	    					console.log("수정 되었습니다. scheNo : " + click_scheNo);
-	    				}
-	    			});
-
-			});
-		});
-
-		$('.noti_table tr').css('background-color', '#FCE6E6');
-	</script>
-	
-	<!-- Handlebar 템플릿 코드 -->
+		<!-- Handlebar 템플릿 코드 -->
 	<!--Google CDN 서버로부터 jQuery 참조 -->
 	<!--Google CDN 서버로부터 jQuery 참조 -->
 	<script
@@ -292,12 +240,66 @@
 	<script
 		src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
 	<!-- jQuery Ajax Setup -->
-	<script
-		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
 	
-	<script>
 	
+	<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
+	
+	<c:import url="../inc/footer.jsp" />
+	<script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
+	<script type="text/javascript">
 	$(function() {
+
+		/** X 버튼 클릭시 개별 알람 목록 삭제 */
+			$(document).on('click', 'button.close-btn', function(e){
+				// 화면상의 해당알림 행 삭제
+				$(this.closest("tr")).remove();
+				
+				//console.log("클릭됨 : " + $(this).data("scheid"));
+				if ($.this == '.newNotiPostTitle') {
+					click_postNo = $(this.closest("tr.newNotiPostTitle")).data("postNo");
+					
+					$.put("${pageContext.request.contextPath}/noti", {
+						"postNo" : click_postNo,
+						"postNoti" : 1
+					}, function(json) {
+						if (json.rt == "OK") {
+							console.log("postNoti가 개별수정 되었습니다. 수정된 postNoti : " + click_postNo);
+						}
+					});
+				}
+				
+				else if ($.this == '.newNotiCommContent') {
+					click_commNo = $(this.closest("tr.newNotiCommContent")).data("commNo");
+					
+					$.put("${pageContext.request.contextPath}/noti", {
+						"commNo" : click_commNo,
+						"commNoti" : 1
+					}, function(json) {
+						if (json.rt == "OK") {
+							console.log("commNoti가 개별수정 되었습니다. 수정된 commNoti : " + click_commNo);
+						}
+					});
+				}
+ 				
+ 				
+			});
+
+
+		/** 전체삭제 버튼 클릭시 알람 전체 삭제 */
+		  $(document).on('click', '.btn_delAll', function(e) {
+				$('.noti-table').html("새로운 알람이 없습니다.");
+				
+				$.put("${pageContext.request.contextPath}/noti", {
+	  				   "postNoti" : 1,
+	  				   "commNoti" : 1
+		    		},
+	    			function(json) {
+	    				if (json.rt == "OK") {
+	    				}
+	    			});
+
+			});
+	
         // Restful API에 GET 방식 요청
         $(document).ready(function(){
         $.get("${pageContext.request.contextPath}/noti", {
@@ -308,11 +310,11 @@
             $("#noti_table").append(result);      		// 최종 결과물을 #list 요소에 추가한다.
         });	
         });	
-	});
-	
+	 });
+        
 	</script>
 
-	<c:import url="../inc/footer.jsp" />
+	
 </body>
 
 </html>

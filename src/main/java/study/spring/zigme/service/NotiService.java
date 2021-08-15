@@ -11,7 +11,7 @@ public interface NotiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Post getNotiItem(Post input) throws Exception;
+//	public Post getNotiItem(Post input) throws Exception;
 	
 	/**
 	 * [댓글]확인되지 않은 알람(PostNoti==1)의 목록을 조회하는 기능

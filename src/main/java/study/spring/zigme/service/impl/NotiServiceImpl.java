@@ -25,25 +25,25 @@ public class NotiServiceImpl implements NotiService{
      * @return 조회 결과에 대한 컬렉션
      * @throws Exception
      */
-    @Override
-	public Post getNotiItem(Post input) throws Exception {
-    	
-    	Post result = null;
-    	
-    	try {
-			result = sqlSession.selectOne("NotiMapper.selectItem", input);
-			if(result == null) {
-				throw new NullPointerException("result=null");
-			}
-		} catch (NullPointerException e) {
-            log.error(e.getLocalizedMessage());
-            throw new Exception("조회된 데이터가 없습니다.");
-        } catch (Exception e) {
-            log.error(e.getLocalizedMessage());
-            throw new Exception("데이터 조회에 실패했습니다.");
-        }
-    	return result;
-	}
+//    @Override
+//	public Post getNotiItem(Post input) throws Exception {
+//    	
+//    	Post result = null;
+//    	
+//    	try {
+//			result = sqlSession.selectOne("NotiMapper.selectItem", input);
+//			if(result == null) {
+//				throw new NullPointerException("result=null");
+//			}
+//		} catch (NullPointerException e) {
+//            log.error(e.getLocalizedMessage());
+//            throw new Exception("조회된 데이터가 없습니다.");
+//        } catch (Exception e) {
+//            log.error(e.getLocalizedMessage());
+//            throw new Exception("데이터 조회에 실패했습니다.");
+//        }
+//    	return result;
+//	}
     
     
 	/**
@@ -62,7 +62,7 @@ public class NotiServiceImpl implements NotiService{
 			}
 		} catch (NullPointerException e) {
             log.error(e.getLocalizedMessage());
-            throw new Exception("조회된 데이터가 없습니다.");
+            throw new Exception("새로운 알람이 없습니다.");
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
             throw new Exception("데이터 조회에 실패했습니다.");
@@ -103,7 +103,7 @@ public class NotiServiceImpl implements NotiService{
 
         try {
             result = sqlSession.update("NotiMapper.updateItem", input);
-
+            log.debug("LOG확인 >>> " + result);
             if (result == 0) {
                 throw new NullPointerException("result = 0");
             }

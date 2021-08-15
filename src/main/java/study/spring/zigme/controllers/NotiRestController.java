@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
 import study.spring.zigme.model.Post;
 import study.spring.zigme.service.NotiService;
 
+@Slf4j
 @RestController
 public class NotiRestController {
 	/** WebHelper 주입 */
@@ -68,9 +70,9 @@ public class NotiRestController {
 	/** 알림 리스트 동적 제거 (수정) */
 	@RequestMapping(value = "/noti", method = RequestMethod.PUT)
 	public Map<String, Object> updateItem(
-			@RequestParam(value="postNoti", defaultValue="0") int postNoti,
+			@RequestParam(value="postNoti", defaultValue="0") String postNoti,
 			@RequestParam(value="postNo", defaultValue="0") int postNo,
-			@RequestParam(value="commNoti", defaultValue="0") int commNoti,
+			@RequestParam(value="commNoti", defaultValue="0") String commNoti,
 			@RequestParam(value="commNo", defaultValue="0") int commNo){
 		
         /** 게시글의 댓글 데이터 수정 : 읽지않음(2) -> 읽음(1) */
@@ -78,6 +80,7 @@ public class NotiRestController {
         Post input1 = new Post();
         input1.setPostNo(postNo);
         input1.setPostNoti(postNoti);
+        log.debug("LOG >>> : " + input1.getPostNoti());
         
         // 수정된 결과를 조회하기위한 객체
         Post output1 = null;   
@@ -87,7 +90,7 @@ public class NotiRestController {
             notiService.editNoti(input1);
             
             // 수정 결과 조회
-            output1 = notiService.getNotiItem(input1);
+//            output1 = notiService.getNotiItem(input1);
         } catch (Exception e) {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
@@ -103,10 +106,8 @@ public class NotiRestController {
         
         try {
         	// 데이터 수정
-        	notiService.editNoti(input2);
+        	notiService.editCommNoti(input2);
         	
-        	// 수정 결과 조회
-        	output2 = notiService.getNotiItem(input2);
         } catch (Exception e) {
         	return webHelper.getJsonError(e.getLocalizedMessage());
         }

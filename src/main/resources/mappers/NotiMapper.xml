@@ -16,12 +16,12 @@
 	</resultMap>
 	
 	<!-- 단일행 조회를 위한 기능 정의 -->
-	<select id ="selectItem" parameterType="study.spring.zigme.model.Post"
+<!-- 	<select id ="selectItem" parameterType="study.spring.zigme.model.Post"
 	resultMap="notiMap">
 	SELECT p.postNo, postNoti, c.commNo, commNoti
 	FROM POST p, comment c
-	WHERE p.PostNo = #{postNo};
-	</select>
+	WHERE p.PostNo = #{postNo} AND p.PostNoti = #{postNoti};
+	</select> -->
 	
 	<!-- '읽지않음'인 상태의 알림 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
@@ -53,18 +53,28 @@
 			postNoti = #{postNoti}
 		</if>
 	</set>
-	WHERE postNo = #{postNo}
+	<where>
+		<if test = "postNo != 0 and postNo !=''">
+			postNo = #{postNo}
+		</if>
+	</where>
+	
 	</update> 
 	
  	<update id= "updateCommItem"
 	parameterType="study.spring.zigme.model.Post">
-	UPDATE post
+	UPDATE comment
 	<set>
 		<if test="commNoti != null and commNoti != ''">
 			commNoti = #{commNoti}
 		</if>
 	</set>
-	WHERE commNo = #{commNo}
+	<where>
+		<if test = "commNo != 0 and commNo !=''">
+			commNo = #{commNo}
+		</if>
+	</where>
+	
 	</update>
 	
 </mapper>
