@@ -8,8 +8,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -97,10 +97,10 @@ label {
 					</h1>
 				</div>
 				<!--내용 -->
-				<form action="${pageContext.request.contextPath}/common/login_ok.do" id="login-form" class="form-inline"
-					method="post">
+				<form action="${pageContext.request.contextPath}/common/login_ok.do"
+					id="login-form" class="form-inline" method="post">
 					<div class="form-group">
-						<label for="user_id"></label> <input type="text" name="id" 
+						<label for="user_id"></label> <input type="text" name="id"
 							id="user_id" class="form-control" placeholder="아이디" />
 					</div>
 					<div class="form-group">
@@ -109,17 +109,17 @@ label {
 							placeholder="패스워드" />
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox">아이디 저장</label>
+						<label><input type="checkbox" id="idSaveCheck">아이디
+							저장</label>
 					</div>
 					<div class="modal-button">
-						<button
-								type="submit" class="btn btn-primary btn-block login_button">로그인</button>
-								 <a
-							href="${pageContext.request.contextPath}/join"><button
+						<button type="submit"
+							class="btn btn-primary btn-block login_button">로그인</button>
+						<a href="${pageContext.request.contextPath}/join"><button
 								type="button" class="btn btn-primary btn-block btn-ttc1">
 								회원가입</button></a>
 					</div>
-					 <div id="result"></div>
+					<div id="result"></div>
 				</form>
 				<div id="result"></div>
 				<!-- 하단-->
@@ -149,13 +149,9 @@ label {
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript">
-	
 
- 
-
-		
 	</script>
 
 </body>

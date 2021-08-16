@@ -69,6 +69,7 @@ strong {
     	<div id="main_weather">
     		<img id="wicon" src="" alt="Weather icon" width="100">
     		<span id="main_whaterdossi" class="ctemp" ></span>
+    		<input type="hidden"   id="loc_xy" name="loc_xy"  value="${output.getLoc_xy()}"/>
     	</div>    	
     	<!-- 알람 -->
     	<div id="main_alram"></div>
@@ -439,8 +440,16 @@ strong {
 		main_getalram(4);
 		
 	});
+		
+		var  x = document.getElementById("loc_xy").value;
+		console.log(x);
+		
+		var loc_xy = x.split(", ");
+		console.log(loc_xy[0]);
+		console.log(loc_xy[1]);
+		
 	
-		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=37.56826&lon=126.977829&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
+		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat='+ loc_xy[1] +"&lon="+ loc_xy[0] +'&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
 				,function(data){
 			var temp = data.list[0].main.temp;
 			var sky = data.list[0].weather[0].main;			

@@ -322,6 +322,7 @@ public class UserController {
 		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
 		// --> Servlet과 동일함.
 		HttpSession session = request.getSession();
+		session.setMaxInactiveInterval(120);
 		String mySession = (String) session.getAttribute("output");
 		if (mySession == null) {
 			mySession = "";
@@ -516,11 +517,13 @@ public class UserController {
 
 	/** 로그아웃 */
 	@RequestMapping(value = "/common/logout.do", method = RequestMethod.POST)
-	public String logout(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		request.getSession(true).invalidate();
+	public ModelAndView logout(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();  // 세션 삭제
 		
-		return "common/";
+		/** 3) 결과를 확인하기 위한 페이지 이동 */
+		String redirectUrl = contextPath + "/";
+		return webHelper.redirect(redirectUrl, null);
 	}
 
 	

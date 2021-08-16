@@ -262,9 +262,9 @@ img.col-md-3 {
 						
 							<span>닉네임</span><br /> <input type="text" id="user_subname" name="nickname"
 								class="form-control" placeholder="한글,영문,숫자 최대10자" value="${output.getNickname()}"/>
-							<button type="button" class="btn btn-primary btn-ms btn-ttc3 btn-ttc5">
+							<button type="button" class="btn btn-primary btn-ms btn-ttc3 btn-ttc5" id="checkNick">
 								중복확인</button>
-							<div class="nickname" style="display: none;"><b>&nbsp;사용 가능한 닉네임 입니다.</b></div>
+							
 							<input type="hidden" name="userno" value="${output.getUserNo()}" id="userNO">
 						</div>
 						
@@ -346,60 +346,11 @@ img.col-md-3 {
 		
 	</div>
 	
-	<script src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js">
+	<script src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
-		
-	</script>
 	<script type="text/javascript">
-		$(function() {
-			$("#writer").click(function() {
-				$("#writer").addClass("on");
-				$("#one").addClass("yes");
-				$("#comment").removeClass("on");
-				$("#two").removeClass("yes");
-				$("#influ").removeClass("on");
-				$("#three").removeClass("yes");
-				$("#review").removeClass("on");
-				$("#four").removeClass("yes");
-			});
-			
-			$("#comment").click(function() {
-				$("#writer").removeClass("on");
-				$("#one").removeClass("yes");
-				$("#comment").addClass("on");
-				$("#two").addClass("yes");
-				$("#influ").removeClass("on");
-				$("#three").removeClass("yes");
-				$("#review").removeClass("on");
-				$("#four").removeClass("yes");
-			});
-			
-			$("#influ").click(function() {
-				$("#writer").removeClass("on");
-				$("#one").removeClass("yes");
-				$("#comment").removeClass("on");
-				$("#two").removeClass("yes");
-				$("#influ").addClass("on");
-				$("#three").addClass("yes");
-				$("#review").removeClass("on");
-				$("#four").removeClass("yes");
-			});
-			
-			$("#review").click(function() {
-				$("#writer").removeClass("on");
-				$("#one").removeClass("yes");
-				$("#comment").removeClass("on");
-				$("#two").removeClass("yes");
-				$("#influ").removeClass("on");
-				$("#three").removeClass("yes");
-				$("#review").addClass("on");
-				$("#four").addClass("yes");
-			});
-			
-			$(".btn-ttc3").click(function() {
-				$(".nickname").attr('style', 'display: inline-block;')
-			});
-			
+	
+		
 			$("#edit").click(function() {
 				alert("회원 정보가 수정되었습니다.")
 			});
@@ -545,6 +496,43 @@ img.col-md-3 {
 						}
 					}).open();
 		}
+		/** 닉네임 중복 확인 */
+		$(function() {
+			
+			/** 버튼 클릭시 이벤트 */
+			$("#checkNick").click(function() {
+				// 입력값을 취득하고, 내용의 존재여부를 검사한다.
+				var nickname = $("#user_subname").val();
+				
+				if (!nickname) {	// 입력되지 않았다면?
+					alert("닉네임을 입력해주세요.");	// <-- 메시지 표시
+					$("#user_subname").focus();			// <-- 커서를 강제로 넣기
+					return false;					// <-- 실행 중단
+				}
+
+				// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
+				// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
+				$.ajax({
+			            url:'${pageContext.request.contextPath}/common/ni', //Controller에서 인식할 주소
+			            type:'POST', //POST 방식으로 전달
+			            data:{nickname : nickname},
+			            
+			           success: function(req) {
+							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+							if (req.result == "0") {
+								alert("사용 가능한 닉네임 입니다.");
+							} else {
+								alert("사용할 수 없는 닉네임 입니다.");
+								$("#user_subname").val("");
+								$("#user_subname").focus();
+							}
+			            }
+			     
+				}); // end $.get
+			}); // end click
+		});
+		
 	</script>
 </body>
 
