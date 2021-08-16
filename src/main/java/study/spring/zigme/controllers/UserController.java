@@ -40,9 +40,6 @@ public class UserController {
 	@Autowired
 	RegexHelper regexHelper;
 
-	@Autowired
-	MailHelper mailHelper;
-
 	/** UserService */
 	@Autowired
 	UserService userservice;
@@ -470,39 +467,6 @@ public class UserController {
 		return webHelper.redirect(redirectUrl, "아이디 찾기 완료");
 	}
 
-	/** 비밀번호 찾기 폼 */
-	@RequestMapping(value = "/common/find_pw.do", method = RequestMethod.GET)
-	public ModelAndView find_pw(Model model, HttpServletRequest request,
-
-			@RequestParam(value = "userno", defaultValue = "") int userno) {
-
-		/** 컨트롤러에서 세션을 식별하기 위한 처리 */
-		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
-		// --> Servlet과 동일함.
-		HttpSession session = request.getSession();
-		String mySession = (String) session.getAttribute("output");
-		if (mySession == null) {
-			mySession = "";
-		}
-
-		User input = new User();
-		input.setUserNo(userno);
-
-		User output = null;
-
-		List<User> userList = null;
-
-		try {
-			output = userservice.getUserItem(input);
-			userList = userservice.getUserList(null);
-		} catch (Exception e) {
-			return webHelper.redirect(null, e.getLocalizedMessage());
-		}
-
-		/** 3) View 처리 */
-		model.addAttribute("my_session", session);
-		return new ModelAndView("/find_pw");
-	}
 
 	/** 비밀번호 찾기 action 페이지 */
 	@RequestMapping(value = "/common/find_pw_ok.do", method = RequestMethod.POST)
@@ -513,6 +477,7 @@ public class UserController {
 
 	) {
 
+		log.info("컨트롤러 확인");
 		/** 컨트롤러에서 세션을 식별하기 위한 처리 */
 		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
 		// --> Servlet과 동일함.
@@ -529,16 +494,7 @@ public class UserController {
 			return webHelper.redirect(null, " 이메일를 입력하세요");
 		}
 
-		/* 인증번호(난수) 생성 */
-		Random random = new Random();
-		int checkNum = random.nextInt(88888) + 11111;
-		log.info("인증번호 " + checkNum);
-
-		String subject = "비밀번호 재설정 인증 이메일 입니다.";
-		String content =
-
-				"인증 번호는 " + checkNum + " 입니다." + "<br>" + "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-
+		
 		/** 2) 데이터 조회하기 */
 		User input = new User();
 		input.setName(name);
@@ -549,7 +505,6 @@ public class UserController {
 
 		try {
 			output = userservice.getUserPw(input);
-			mailHelper.sendMail(email, subject, content);
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}
@@ -559,6 +514,9 @@ public class UserController {
 		String redirectUrl = contextPath + "/find_pw";
 		return webHelper.redirect(redirectUrl, null);
 	}
+	
+	
+	
 
 	/** 로그아웃 */
 
@@ -566,34 +524,5 @@ public class UserController {
 
 
 
-	/**
-	 * 닉네임 중복 체크 페이지
-	 */
-	@RequestMapping(value = "/common/checkNick.do", method = RequestMethod.POST)
-	public ModelAndView checkNick(Model model, @RequestParam(value = "user_subname", defaultValue = "") String nickname) {
-		log.debug("checkNick 실행");
-		/** 1) 데이터 저장하기 */
-
-		// 저장할 값들을 Beans에 담는다.
-		User input = new User();
-		input.setNickname(nickname);
-
-		// 저장된 결과를 조회하기 위한 객체
-		List<User> output = null;
-
-		try { // 데이터 조회 output=
-			userservice.checkNick(input);
-		} catch (Exception e) {
-			return webHelper.redirect(null, e.getLocalizedMessage());
-		}
-
-		/** View 처리 */
-		model.addAttribute("output", output);
-		model.addAttribute("nickname", nickname); //
-		Map<String, Object> data = new HashMap<String, Object>(); //
-		data.put("item", output);
-		return new ModelAndView("common/main");
-
-	}
 
 }

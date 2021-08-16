@@ -89,17 +89,7 @@
     color : red;
 	}
     </style>
-    <script type="text/javascript">
     
-    function printResult() {
-    	
-        var result = "인증번호 재전송";
-        var mytag = document.getElementById("question");
-        mytag.innerHTML = result;
-
-    }
-    
-    </script>
 </head>
 
 <body>
@@ -127,7 +117,7 @@
                 </div>
                 <!-- 하단 -->
                 <div class=" text-center">
-                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">
+                    <button type="button" class="btn btn-primary btn-lg ghkrdls" data-dismiss="modal" >
                         확인
                     </button>
                 </div>
@@ -163,7 +153,7 @@
                 <!-- 하단 -->
                 <div class=" text-center">
                 
-                  <a href="${pageContext.request.contextPath}/find_pw_reset" id="pw_reset_ok"><button type="button" class="btn  btn-primary btn-lg  ">
+                  <a href="${pageContext.request.contextPath}/find_pw_reset" id="pw_reset_ok"><button type="button" class="btn  btn-primary btn-lg "id="pw_rest">
                             확인
                         </button></a>
                         
@@ -214,10 +204,10 @@
                     <br />
                     <div class="show2">
                         <p>
-                            <input type="text" class="form-control mail_check_input" placeholder="인증번호 입력">
+                            <input type="text" class="form-control mail_check_input" id="certification"  placeholder="인증번호 입력">
                             <div class="" ></div>
                            
-                            <button type="button" class=" btn btn-primary btn-lg " data-toggle="modal" href="#find-id-modal2"> 인증번호 확인</button>
+                            <button type="button" class=" btn btn-primary btn-lg " id="pw_ch" data-toggle="modal" href="#find-id-modal2" disabled="disabled"> 인증번호 확인</button>
                             <span class=".btn_recive_num"> 인증 제한 시간 </span>
                             <input type="text" class="timer" style="color:blue">
                             
@@ -232,6 +222,14 @@
         <script src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"> </script>
         <script src="//cdn.ckeditor.com/4.12.1/basic/ckeditor.js"></script>
         <script type="text/javascript">
+        
+        function printResult() {
+        	
+            var result = "인증번호 재전송";
+            var mytag = document.getElementById("question");
+            mytag.innerHTML = result;
+
+        }
         $(document).ready(function() {
 
             $('.show2').hide();
@@ -242,31 +240,11 @@
             });
         });
 
+       
         // 카운트 다운
         var num = 60 * 3; // 몇분을 설정할지의 대한 변수 선언
         var myVar;
 
-        function time() {
-            myVar = setInterval(alertFunc, 1000);
-        }
-        time();
-
-        function alertFunc() {
-            var min = num / 60;
-            min = Math.floor(min);
-
-            var sec = num - (60 * min);
-            console.log(min)
-            console.log(sec)
-
-            var $input = $('.timer').val(min + ':' + sec);
-
-            if (num == 0) {
-                clearInterval(myVar) // num 이 0초가 되었을대 clearInterval로 타이머 종료
-            }
-            num--;
-        }
-        
         var code = "";
         /* 인증번호 이메일 전송 */
         
@@ -290,12 +268,13 @@
         });
         /* 인증번호 비교 */
         $(".mail_check_input").blur(function(){
-            
+        	
+        	
             var inputCode = $(".mail_check_input").val();        // 입력코드    
             var checkResult = $("#mail_check_input_box_warn");    // 비교 결과     
             $('#pw_reset_ok').hide();
             $('#pw_reset_x').hide();
-            
+           
             
             if(inputCode == code){                            // 일치할 경우
                 checkResult.html("인증번호가 일치합니다.");
@@ -310,6 +289,11 @@
             }    
             
         });
+        
+        $(".mail_check_input").click(function(){
+  	      $('#pw_ch').removeAttr("disabled");
+  	 })
+      
         
         $(function() {
             /** 폼에서의 데이터 전송 이벤트 */
@@ -336,16 +320,71 @@
                     $("#user_eamil").focus(); // 포커스 강제 지정
                     return false; // 함수 처리 중단
                 }
+                
+             // 입력값을 화면에 표시하기
+                $("#input_email").text( useremail );
+             
+             
+               $(".ghkrdls").click(function(){
+                function time() {
+                    myVar = setInterval(alertFunc, 1000);
+                 }
+                 time();
 
-                // 입력값을 화면에 표시하기
-                $("#input_email").append("<h4> " + useremail + "</h4>");
                 
-                
+                function alertFunc() {
+                    var min = num / 60;
+                    min = Math.floor(min);
+
+                    var sec = num - (60 * min);
+                    //console.log(min)
+                    //console.log(sec)
+
+                    var $input = $('.timer').val(min + ':' + sec);
+
+                    if (num == 0) {
+                    	
+                        clearInterval(myVar) // num 이 0초가 되었을대 clearInterval로 타이머 종료
+                        $('#certification').attr("disabled","disabled");
+                        
+                    }
+                    num--;
+                    
+                    
+                }
+               });
 
                 // 백엔드 페이지에게 데이터를 전송해야 할 경우 사용해야 한다.
                 // $(this).submit();
             });
         });
+        
+        
+        $(function() {
+		    //idck 버튼을 클릭했을 때 
+		    $("#question").click(function() {
+		        
+		    	
+			        var id = $('#user_id').val(); //id값이 "id"인 입력란의 값을 저장
+			        var name =$('#user_name').val();
+			        var email =$('.mail_input').val();
+			        $.ajax({
+			            url:'${pageContext.request.contextPath}/common/find_pw_ok.do', //Controller에서 인식할 주소
+			            type:'POST', //POST 방식으로 전달
+			            data:{id : id ,name :name, email : email} ,
+			            
+			           success: function(req) {
+			        	   console.log(req);
+							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+							if (req.result != "0") {
+							
+								console.log(req.result);
+							}
+			            }
+			        });
+		    });
+		});
         </script>
     </div>
 </body>

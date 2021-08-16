@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.helper.MailHelper;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
+import study.spring.zigme.model.User;
+import study.spring.zigme.service.UserService;
 
 @Slf4j
 @Controller
@@ -28,6 +30,10 @@ public class MailController {
 	
 	@Autowired
 	MailHelper mailHelper;
+	
+	/** UserService */
+	@Autowired
+	UserService userservice;
 	
 	/** 발송 폼 구성 페이지 */
 	@RequestMapping(value="/mailCheck" ,method = RequestMethod.GET)
@@ -65,18 +71,21 @@ public class MailController {
 	/** action 페이지 */
 	@RequestMapping(value="/mail/send.do", method=RequestMethod.POST)
 	public ModelAndView send(Model model,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "id", defaultValue = "") String id,
+			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(defaultValue = "") String to,
 			@RequestParam(defaultValue = "") String subject,
 			@RequestParam(defaultValue = "") String content) {
 		
 		/** 입력 여부 검사 후, 입력되지 않은 경우 이전 페이지로 보내기 */
 		 // 받는 메일 주소 입력 여부 확인
-        if (!regexHelper.isValue(to)) {
+        if (!regexHelper.isValue(email)) {
             return webHelper.redirect(null, "받는 사람의 이메일 주소를 입력하세요.");
         }
 
         // 받는 메일 주소 형식 검사
-        if (!regexHelper.isEmail(to)) {
+        if (!regexHelper.isEmail(email)) {
             return webHelper.redirect(null, "받는 사람의 이메일 주소가 잘못되었습니다.");
         }
 
@@ -89,9 +98,19 @@ public class MailController {
         if (!regexHelper.isValue(content)) {
             return webHelper.redirect(null, "메일의 내용을 입력하세요.");
         }
+        
+        /** 2) 데이터 조회하기 */
+		User input = new User();
+		input.setName(name);
+		input.setId(id);
+		input.setEmail(email);
+
+		User output = null;
+        
 		
 		/** 메일 발송 처리 */
         try {
+        	output = userservice.getUserPw(input);
         	// sendMail() 메서드 선언시  throws를 정의했기 때문에 예외처리가 요구된다.
         	mailHelper.sendMail(to, subject, content);
         } catch (Exception e) {

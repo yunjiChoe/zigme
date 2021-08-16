@@ -66,6 +66,7 @@
           <div class="dropdown clearfix" id="user_infobtn">
             <a id="dropdownMenu1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png" class="profile_icon" /> 
             ${output.getNickname()} 님 
+            <input type="hidden" name="userno" value="${output.getUserNo()}" id="userNO">
             <b class="caret"></b> 
             </a>
             
@@ -79,4 +80,17 @@
         </form>
         <!-- // 유저 드롭박스 종료 -->
       </div> 
-    </div> <!-- // navbar 종료 -->       
+    </div> <!-- // navbar 종료 --> 
+<script type="text/javascript">
+window.onload = function () {
+	var userno = $("#userNO").val();
+	if (userno == 0) {	// 입력되지 않았다면?
+		alert("로그인을 해주세요.");	// <-- 메시지 표시
+					// <-- 커서를 강제로 넣기
+		
+	}
+	console.log('사용자가 웹페이지에 돌아왔습니다.')
+}
+
+
+</script>     

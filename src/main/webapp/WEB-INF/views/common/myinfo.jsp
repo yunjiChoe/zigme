@@ -258,35 +258,8 @@ img.col-md-3 {
 				<fieldset>
 					<div class="form-group">
 						<div class="circle"></div>
-						<span>리워드 아이콘 선택</span><br /> <br />
-						<ul class="img-list btn-group">
-							<li	class="pull-left off" id="writer"><img src="${pageContext.request.contextPath}/img/common/reward_icon_posting.png" height="50"
-								class="col-md-3 col-sm-3 col-xs-3 "></li>
-							<li	class="pull-left off" id="comment"><img src="${pageContext.request.contextPath}/img/common/reward_icon_comment.png" height="50"
-								class="col-md-3 col-sm-3 col-xs-3 "></li>
-							<li	class="pull-left off" id="influ"><img src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png" height="50"
-								class="col-md-3 col-sm-3 col-xs-3 "></li>
-							<li	class="pull-left off" id="review"><img src="${pageContext.request.contextPath}/img/common/reward_icon_review.png" height="50"
-								class="col-md-3 col-sm-3 col-xs-3 "></li>
-						</ul>
-						<ul class="img-list text-center">
-
-							<li class="col-md-3 col-sm-3 col-xs-3 no" id="one">
-								<p>포스팅지기</p>
-							</li>
-							<li class="col-md-3 col-sm-3 col-xs-3 no" id="two">
-								<p>베댓러</p>
-							</li>
-							<li class="col-md-3 col-sm-3 col-xs-3 no" id="three">
-								<p>인플루언서</p>
-							</li>
-							<li class="col-md-3 col-sm-3 col-xs-3 no" id="four">
-								<p>리뷰왕</p>
-							</li>
-						</ul>
-						<br> <br>
-						<div class="form-group">
-							<div class="circle"></div>
+						
+						
 							<span>닉네임</span><br /> <input type="text" id="user_subname" name="nickname"
 								class="form-control" placeholder="한글,영문,숫자 최대10자" value="${output.getNickname()}"/>
 							<button type="button" class="btn btn-primary btn-ms btn-ttc3 btn-ttc5">
@@ -321,12 +294,29 @@ img.col-md-3 {
 						<br /> <br />
 						<div class="form-group">
 							<div class="circle"></div>
-							<span>회사 주소</span><br /> <span>제공하신 정보는 위치 기반 정보 제공에
-								사용됩니다.</span><br /> <span>건물 번호(번지수)까지만 기입해주세요.</span> <br /> <input
-								type="text" id="user_adress" class="form-control" name="addr1"
-								placeholder="우편번호" />
-							<button type="button" class="btn btn-primary btn-ttc btn-ms btn-ttc5">
-								주소검색</button>
+							<label for="user_adress">회사 주소</label><br /> <span>제공하신
+								정보는 위치 기반 정보 제공에 사용됩니다.</span><br /> <span>건물 번호(번지수)까지만
+								기입해주세요.</span> <br /> <input type="text" id="user_postcode"
+								class="form-control" name="postcode" placeholder="${output.getPostcode()}" />
+							<button type="button"
+								class="btn btn-primary btn-ttc btn-ms btn-ttc5"
+								onclick="execDaumPostcode()">주소검색</button>
+
+
+							<input type="text" class="form-control" id="user_address"
+								name="addr1" placeholder="${output.getAddr1()}"> <input type="text"
+								id="user_detailAddress" class="form-control" name="addr2"
+								placeholder="${output.getAddr2()}"> <input type="text"
+								id="user_extraAddress" class="form-control" placeholder="참고항목">
+							<input type="hidden"  class="form-control" id="loc_xy" name="loc_xy" />
+
+						</div>
+						<div id="wrap"
+							style="display: none; border: 1px solid; width: 500px; height: 500px; margin: 5px 0; position: relative">
+							<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+								id="btnFoldWrap"
+								style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
+								onclick="foldDaumPostcode()" alt="접기 버튼">
 						</div>
 						<br /> <br />
 						<a href="#" onClick="history.back()"><button type="button" class="btn btn-primary btn-block btn-ttc5" id="edit"
@@ -343,7 +333,7 @@ img.col-md-3 {
 				<p>회원 탈퇴시 데이터 사용 및 복구가</p>
 				<p>불가하오니 신중하게 선택하시기 바랍니다.</p>
 				<p>그래도 탈퇴하시겠습니까?</p>
-				<input id="check" type="checkbox" value=""> <label
+				<input id="check" type="checkbox" name="outUserflag" value="${output.getOutUserflag()}"> <label
 					class=" control-label">위 내용을 확인하였으며, 이에 동의합니다.</label><br /> <br />
 				<button type="button" class="btn btn-danger btn-ms btn-ttc5" id="out"
 					data-toggle="modal"  >회원 탈퇴하기</button>
@@ -458,6 +448,101 @@ img.col-md-3 {
 	            });
 	        });
 	    });
+		
+		// 우편번호 찾기 찾기 화면을 넣을 element
+		var addr = ''; // 주소 변수
+		var extraAddr = ''; // 참고항목 변수
+		var x='';
+		var y='';
+		
+		function execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {			
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							
+
+							
+							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+								addr = data.roadAddress;
+							} else { // 사용자가 지번 주소를 선택했을 경우(J)
+								addr = data.jibunAddress;
+							}
+
+							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+							if (data.userSelectedType === 'R') {
+								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+								// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+								if (data.bname !== ''
+										&& /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								// 건물명이 있고, 공동주택일 경우 추가한다.
+								if (data.buildingName !== ''
+										&& data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', '
+											+ data.buildingName
+											: data.buildingName);
+								}
+								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+								// 조합된 참고항목을 해당 필드에 넣는다.
+								document.getElementById("user_extraAddress").value = extraAddr;
+
+							} else {
+								document.getElementById("user_extraAddress").value = '';
+							}
+
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('user_postcode').value = data.zonecode;
+							document.getElementById("user_address").value = addr;
+							
+							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("user_detailAddress")
+									.focus();
+							//------------------------------------------------------------------------
+							/** 주소 x,y 좌표로 변환 하는 API */
+							var q =  document.getElementById("user_address").value; //검색 내용
+							 console.log(q);
+							    //ajax 시작
+								$.ajax({
+									url : 'https://dapi.kakao.com/v2/local/search/address.json',
+									headers : { 'Authorization' : 'KakaoAK 1ddad6942cf2073a924b3e0c0a3b66bf'	},
+									type: 'GET',
+									data : { 'query' : q },
+									success : function(data){
+										//호출 성공하면 작성할 내용
+							            if(data != 0 ){ // 값이 있으면
+										 x = data.documents[0].x;
+							           	 y = data.documents[0].y;
+							             console.log(x);
+							             console.log(y);
+										 document.getElementById("loc_xy").value = x +", "+ y;
+							            
+							           
+							             
+							             }		
+							            
+									}, 
+									error:function(request,status,error){
+									    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+									}
+								}).done(function(data){
+									console.log(data);
+
+								 }); // 좌표 변환 end
+								
+								
+							
+						}
+					}).open();
+		}
 	</script>
 </body>
 

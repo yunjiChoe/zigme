@@ -97,7 +97,7 @@ body {
 				</div>
 				<!-- 하단 -->
 				<div class=" text-center">
-					<a href="${pageContext.request.contextPath}">
+					<a href="${pageContext.request.contextPath}/">
 						<button type="button" class="btn  btn-primary btn-lg">확인
 						</button>
 					</a>
@@ -123,26 +123,76 @@ body {
 			</div>
 			<br />
 			<hr style="border: solid 1px #aaa;" width="100%">
-			<form role="form">
+			<form role="form"  >
 				<fieldset>
 					<div class="form-group">
 						<div class="circle"></div>
-						<span>새 비밀번호</span> <input type="text" id="user_name"
+						<span>새 비밀번호</span> <input type="password" id="user_pw" name="password"
 							class="form-control" placeholder="영문,숫자 조합하여 최소4자,최대20자" />
+							<input type="hidden" id="userno" name="userno" value="${output.getUserNo()}">
+							
 					</div>
 					<div class="form-group">
 						<div class="circle"></div>
-						<span>새 비밀번호 확인</span> <input type="email" id="user_eamil"
+						<span>새 비밀번호 확인</span> <input type="password" id="user_repw" 
 							class="form-control" placeholder="비밀번호를 한 번 더 입력해주세요." />
+							<font
+							id="chkNotice" size="2"></font> <br />
 					</div>
 					<br />
 					<button type="button" class="btn btn-primary btn-lg"
-						data-toggle="modal" href="#find-id-modal">비밀번호 재설정</button>
+						data-toggle="modal" href="#find-id-modal"  id="question">비밀번호 재설정</button>
 				</fieldset>
 			</form>
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<script type="text/javascript">
+	$(function() {
+		$('#user_pw').keyup(function() {
+			
+			$('#chkNotice').html('');
+		});
+
+		$('#user_repw').keyup(function() {
+
+			if ($('#user_pw').val() != $('#user_repw').val()) {
+				$('#chkNotice').html('비밀번호가 일치하지 않습니다<br>');
+				$('#chkNotice').attr('color', '#f82a2aa3');
+			} else {
+				$('#chkNotice').html('비밀번호가 일치 합니다.<br>');
+				$('#chkNotice').attr('color', '#199894b3');
+			}
+
+		});
+	});
+	
+	 $(function() {
+		    //idck 버튼을 클릭했을 때 
+		    $("#question").click(function() {
+		        
+		    	
+			        var password = $('#user_pw').val(); //id값이 "id"인 입력란의 값을 저장
+			        var userno =$('#userno').val();
+			        
+			        $.ajax({
+			            url:'${pageContext.request.contextPath}/common', //Controller에서 인식할 주소
+			            type:'PUT', //PUT 방식으로 전달
+			            data:{ "password": password ,"userno" :userno} ,
+			            
+			           success: function(json) {
+			        	   console.log(json);
+							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+							if (json.rt =="OK" ) {
+							
+								console.log(json.item.userno);
+							}
+			            }
+			        });
+		    });
+		});
+	</script>
 </body>
 
 </html>

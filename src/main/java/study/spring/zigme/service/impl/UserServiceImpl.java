@@ -209,7 +209,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	/**
-	 * 회원가입  중복체크
+	 * 회원가입 닉네임 중복체크
 	 */
 	@Override
 	public int checkNick(User input) throws Exception {
@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	/**
-	 * 이름, 이메일로 아이디 찾기
+	 * 가입한 회원 이름, 이메일를 조회해서 아이디 찾기
 	 * @param User 조회할 학과의 인련번호를 담고 있는 Beans
 	 * @return 조회된 데이터가 저장된 Beans
 	 * @throws Exception
@@ -260,6 +260,12 @@ public class UserServiceImpl implements UserService{
 
 	}
 
+	/**
+	 * 가입한 회원 이름, 이메일를 조회해서 비밀번호 재설정 하기
+	 * @param User 조회할 학과의 인련번호를 담고 있는 Beans
+	 * @return 조회된 데이터가 저장된 Beans
+	 * @throws Exception
+	 */
 	@Override
 	public User getUserPw(User input) throws Exception {
 		User result = null;
@@ -273,7 +279,35 @@ public class UserServiceImpl implements UserService{
 			
 		} catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
+			throw new Exception("회원정보가 일치하지 않습니다.");
+		} catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            throw new Exception("데이터 조회에 실패했습니다.");
+        }
+		
+	return result;
+}
+	
+	/**
+	 *  비밀번호 업데이트
+	 * @param User 조회할 학과의 인련번호를 담고 있는 Beans
+	 * @return 조회된 데이터가 저장된 Beans
+	 * @throws Exception
+	 */
+	@Override
+	public User getUserPwRe(User input) throws Exception {
+		User result = null;
+		
+		try {
+			sqlSession.update("UserMapper.updatePw", input);
+			result = sqlSession.selectOne("UserMapper.selectItem", input);
+			if (result == null) {
+                throw new NullPointerException("result=null");
+            }
+			
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("회원정보가 일치하지 않습니다.");
 		} catch (Exception e) {
             log.error(e.getLocalizedMessage());
             throw new Exception("데이터 조회에 실패했습니다.");

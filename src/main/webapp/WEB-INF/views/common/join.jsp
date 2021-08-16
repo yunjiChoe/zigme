@@ -451,7 +451,6 @@ input#all_check {
 
 	<script type="text/javascript">
 		// 우편번호 찾기 찾기 화면을 넣을 element
-		
 		var addr = ''; // 주소 변수
 		var extraAddr = ''; // 참고항목 변수
 		var x='';
@@ -508,7 +507,7 @@ input#all_check {
 							// 커서를 상세주소 필드로 이동한다.
 							document.getElementById("user_detailAddress")
 									.focus();
-							
+							//------------------------------------------------------------------------
 							/** 주소 x,y 좌표로 변환 하는 API */
 							var q =  document.getElementById("user_address").value; //검색 내용
 							 console.log(q);
@@ -538,7 +537,7 @@ input#all_check {
 								}).done(function(data){
 									console.log(data);
 
-								 });
+								 }); // 좌표 변환 end
 								
 								
 							

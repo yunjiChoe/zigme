@@ -17,7 +17,6 @@
 		<result property="addr1" column="addr1" />
 		<result property="addr2" column="addr2" />
 		<result property="loc_xy" column="loc_xy" />
-		<result property="icon" column="icon" />
 		<result property="blockUserflag" column="blockUserflag" />
 		<result property="outUserflag" column="outUserflag" />	
 	</resultMap>
@@ -35,7 +34,7 @@
 	<select id="selectList" parameterType= "study.spring.zigme.model.User"
 		resultMap = "userMap">
 		SELECT userNo, id, password, name, nickname, email, gender,
-		postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag FROM user
+		postcode, addr1, addr2, loc_xy,  blockUserflag, outUserflag FROM user
 		ORDER BY userNo DESC;	
 	</select>
 	
@@ -45,9 +44,9 @@
 		useGeneratedKeys="true"
 		keyProperty="userNo">
 		INSERT INTO user (id, password, name, nickname, email, gender,
-			postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag) VALUES 
+			postcode, addr1, addr2, loc_xy, blockUserflag, outUserflag) VALUES 
 			(#{id}, md5(#{password}), #{name}, #{nickname}, #{email}, #{gender},
-			#{postcode}, #{addr1}, #{addr2}, #{loc_xy}, #{icon}, #{blockUserflag}, #{outUserflag});
+			#{postcode}, #{addr1}, #{addr2}, #{loc_xy},  #{blockUserflag}, #{outUserflag});
 	</insert>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->
@@ -71,7 +70,17 @@
 	<update id= "updateItem"
 	parameterType="study.spring.zigme.model.User">
 	UPDATE user SET  nickname=#{nickname}, email=#{email}, password=md5(#{password}),
-			postcode=#{postcode}, addr1=#{addr1}, addr2=#{addr2}, loc_xy=#{loc_xy}, icon = #{icon},blockUserflag=#{blockUserflag}, outUserflag=#{outUserflag}
+			postcode=#{postcode}, addr1=#{addr1}, addr2=#{addr2}, loc_xy=#{loc_xy}, blockUserflag=#{blockUserflag}, outUserflag=#{outUserflag}
+	
+	<where>
+          userNo =#{userNo}
+        </where> 
+	</update>
+
+	<!-- 비밀번호 재설정(갱신)을 위한 기능 정의 -->
+	<update id= "updatePw"
+	parameterType="study.spring.zigme.model.User">
+	UPDATE user SET  password= md5(#{password})
 	
 	<where>
           userNo =#{userNo}
@@ -95,7 +104,7 @@
 	 <!-- 로그인 -->
 	 <select id="selectlogin" parameterType="study.spring.zigme.model.User" resultMap="userMap" >
 	 SELECT userNo, id, password, name, nickname, email, gender,
-			postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag
+			postcode, addr1, addr2, loc_xy, blockUserflag, outUserflag
 			FROM user
        <where> id = #{id} AND password=md5(#{password}) AND outUserflag='N'</where>
 	 </select>
