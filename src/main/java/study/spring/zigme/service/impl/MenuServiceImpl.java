@@ -82,12 +82,19 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<Food> getFoodList(Food input) throws Exception {
+	public List<Food> getFoodList(Food input, String flag) throws Exception {
 
 		List<Food> result = null;		
-
+		
 		try {
-			result = sqlSession.selectList("FoodMapper.selectList", input);
+			
+			if(flag.indexOf("cate") == 0) 
+				result = sqlSession.selectList("FoodMapper.selectList", input);
+			else if(flag.indexOf("condi") == 0) 
+				result = sqlSession.selectList("FoodMapper.selectListCodi", input);
+			else 
+				result = sqlSession.selectList("FoodMapper.selectListWeather", input);
+				
 			
 		} catch (NullPointerException e) {
 			log.error(e.getLocalizedMessage());

@@ -111,10 +111,7 @@
 						id="ran">돌리기</button>
 				</a>
 			</div>
-
 		</div>
-
-
 	</div>
 	<!-- //container 종료 -->
 
@@ -128,6 +125,7 @@
 			var turn = new Array('skyblue', 'white');
 			var food_Name = "";
 			var food_imgName = "";
+			var non_click_yn = 0;
 
 			// 요소 숨기기
 			$('#box1').hide();
@@ -138,8 +136,8 @@
 			$('#box6').hide();
 			$('#box7').hide();
 			
-		    $(document).ready(function() {
-		        // a href='#' 클릭 무시 스크립트
+			// a href='#' 클릭 무시 스크립트
+		    $(document).ready(function() {		        
 		        $('a[href="#"]').click(function(ignore) {
 		            ignore.preventDefault();
 		        });
@@ -294,8 +292,23 @@
 			});
 
 			$("#ran").click(function() { // 돌리기 버튼
+				
+				// 업종별 하나도 선택하지 않았을 경우 선택 alert를 표출함
+				var non_click_yn = 0;
+			
+				for(var i=0; i<select_item.length; i++) {
+					if(select_item[i] == 1) non_click_yn = 1; // 업종별 하나라도 선택한게 있다면 1로 update
+				}
+				
+				if (non_click_yn == 0){
+					alert("업종 분류를 선택해주세요.");
+					return;
+				}
+				
+				
 				$("#box7").toggle();
 				$('.box,#box1,#box2,#box3,#box4,#box5,#box6,#today_menu,#ran').remove();
+				$('.menuicon button').prop("disabled", true); // 돌리기 버튼 누른다음엔 업종변경 클릭할 수 없게 버튼 이벤트 막음
 				
 				// 음식 DB 조회 
 				$.ajax ({
@@ -304,7 +317,9 @@
 					method: 'get',
 					data : {
 						"select_item": select_item,
-						"menu_txt": menu_txt
+						"weather_item": "",
+						"menu_txt": menu_txt,
+						"flag": "cate" // 호출한 메뉴추천 카테고리 (건강상태와 업종별을 구분하기 위함)
 					},
 					dataType: 'JSON',
 					success: function(req) {	

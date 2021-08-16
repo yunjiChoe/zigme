@@ -93,7 +93,9 @@ public class MenuAjaxController {
     public Map<String, Object> get_food_list(
    		// 
    		@RequestParam(value="select_item[]", defaultValue="") ArrayList<Integer> select_item,
-   		@RequestParam(value="menu_txt[]", defaultValue="") ArrayList<String> menu_txt
+   		@RequestParam(value="weather_item", defaultValue="") String weather_item,
+   		@RequestParam(value="menu_txt[]", defaultValue="") ArrayList<String> menu_txt,
+   		@RequestParam(value="flag", defaultValue="") String flag
    		)
     {        
         Food input = new Food();
@@ -102,25 +104,42 @@ public class MenuAjaxController {
         Map<String, Object> output_list = new HashMap<String, Object>();   
         int j = 0;
         
-        for(int i=0; i<select_item.size(); i++) {
-        	if(select_item.get(i) == 1) {        		
-        		query = menu_txt.get(i);
-        		
-        		//log.debug("query >>>>>> " + query.replace(" ", ""));
-        		
-        		input.setFoodCategory(query.replace(" ", "")); 
-
-                try {
-                	output = menuService.getFoodList(input);                	            
-                } catch (Exception e) {
-                	 return webHelper.getJsonError(e.getLocalizedMessage());
-                }
-                
-                output_list.put(String.valueOf(j), output);
-                j++;
-        	}
+        if(flag.indexOf("weather") != 0) {
+	        
+        	for(int i=0; i<select_item.size(); i++) {
+	        	if(select_item.get(i) == 1) {        		
+	        		query = menu_txt.get(i);
+	        		
+	        		if(flag.indexOf("cate") == 0)
+	        			input.setFoodCategory(query.replace(" ", ""));
+	        		else
+	        			input.setFoodCondition(query.replace(" ", ""));
+	
+	                try {
+	                	output = menuService.getFoodList(input, flag);                	            
+	                } catch (Exception e) {
+	                	 return webHelper.getJsonError(e.getLocalizedMessage());
+	                }
+	                
+	                output_list.put(String.valueOf(j), output);
+	                j++;
+	        	}
+	        	
+	        }    
+        }
+        else {
+        		query = weather_item;
+    			input.setFoodWeather(query.replace(" ", ""));
+    			
+            try {            	
+            	output = menuService.getFoodList(input, flag);            	
+            } catch (Exception e) {
+            	 return webHelper.getJsonError(e.getLocalizedMessage());
+            }        
+            
+            output_list.put(String.valueOf(0), output);
         	
-        }              
+        }
                 
         return webHelper.getJsonData(output_list);
     }

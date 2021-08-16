@@ -407,6 +407,12 @@ textarea {
     		var jumsu_sum;
     		var jumsu_avr;
     		
+    		if(count == 0){
+  				review_tag = "<div class='center_css'><img id='noplace_img' src='${pageContext.request.contextPath}/img/menu/noplace.png' /><span id='noreview_txt'>주변에 해당되는 음식점이 없습니다. X( </span></div>";
+  				$("#list_side").html(review_tag);  
+  				return;
+  			}
+    		
     		for(var i=0; i < count; i++) {
     		jumsu_sum = 0.0;
     		jumsu_var = 0.0;
@@ -635,6 +641,8 @@ textarea {
 					center : new kakao.maps.LatLng(userCompY, userCompX), // 지도의 중심좌표 (사용자의 회사 위치 : 회원 테이블에서 가져오기)
 					level : 4	// 지도의 확대 레벨
 			};
+			
+			positions.splice(0,positions.length);
 			
 			$("#map").empty();
 			map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다

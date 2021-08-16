@@ -26,21 +26,18 @@
 	<select id ="selectList" parameterType="study.spring.zigme.model.Food"
 	resultMap="foodMap">
 	SELECT foodName	FROM food WHERE foodCategory = #{foodCategory} AND delFoodflag = 'N' ORDER BY foodNo;
+	</select> 
+	
+	<!-- 건강상태별에서 선택한 음식 리스트 return -->
+	<select id ="selectListCodi" parameterType="study.spring.zigme.model.Food"
+	resultMap="foodMap">
+	SELECT foodName	FROM food WHERE foodCondition = #{foodCondition} AND delFoodflag = 'N' ORDER BY foodNo;
 	</select>
 	
-	<!-- 단일행 조회를 위한 기능 정의 -->
-	<select id="selectFood"
-		parameterType="study.spring.zigme.model.Food"
-		resultMap="foodMap">
-		SELECT foodNo, foodName, foodCategory, foodWeather, foodCondition FROM food WHERE foodNo =
-		#{foodNo};
-	</select>
-
-	<!-- 다중행 조회를 위한 기능 정의 -->
-	<select id="selectFoodList"
-		parameterType="study.spring.zigme.model.Food"
-		resultMap="foodMap">
-		SELECT f.foodNo, f.foodName, f.foodCategory, f.foodWeather, f.foodCondition, a.adminImgName FROM food f INNER JOIN adminsetimage a on a.refTableId = f.foodNo ORDER BY foodNo DESC;
+	<!-- 현재 날씨 음식 리스트 return -->
+	<select id ="selectListWeather" parameterType="study.spring.zigme.model.Food"
+	resultMap="foodMap">
+	SELECT foodName	FROM food WHERE foodWeather = #{foodWeather} AND delFoodflag = 'N' ORDER BY foodNo;
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->

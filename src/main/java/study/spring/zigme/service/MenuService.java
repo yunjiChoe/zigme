@@ -13,7 +13,7 @@ public interface MenuService {
 		
 	public int getReviewCount(Review input) throws Exception;	
 	
-	public List<Food> getFoodList(Food input) throws Exception;
+	public List<Food> getFoodList(Food input, String flag) throws Exception;
 	
 	public Food getFoodImgName(Food input) throws Exception;
 	

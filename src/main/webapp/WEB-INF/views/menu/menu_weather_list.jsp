@@ -76,12 +76,11 @@ textarea {
 			<!-- //sel_item 종료 -->
 
 			<!-- 지도 div -->
-			<div id="menu_map">
-				<span id="listname"></span> <img
-					src="${pageContext.request.contextPath}/img/menu/menu_listmap.png" />
-			</div>
-
-
+			 <div id="menu_map"> 
+			 	<span id="listname"></span><div id="map" style="width: 420px; height: 420px; margin: auto;">
+			 		<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
+			 	</div>
+			 </div>		
 		</div>
 		<!-- //body 종료  -->
 
@@ -145,19 +144,54 @@ textarea {
 	<!-- //container 종료 -->
 
 	<c:import url="../inc/footer.jsp" />
+	
+	<script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
 
 	<!--  lightbox 플러그인 -->
-	<script
-		src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
+	<script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ca67f5e7cd2510c89ae719dacc5c926"></script>
+	
 	<script type="text/javascript">
     $(function() {  	
     	
+    	// get으로 넘겨받은 URL
+    	// http://localhost:8080/Zigme/menu/menu_category_list?sel=001010&menu=라면
+		var local_url = decodeURIComponent(location.href);
+		
+		// 앞 페이지에서 URL로 넘긴 파라미터를 param_str배열에 나눠 담는다. sel = 앞에서 선택한 컨디션이 무엇인지 / menu = 추천된 음식
+		var param_str = local_url.substring(local_url.indexOf('?')+1);
+		 
+		var menu_param = param_str.substring(param_str.indexOf('=')+1); // menu		
+				
 		var label = [""];						 
 		var icon_size = [""];
-		var menu_list = [""];		
-		var menu_txt = [""];
+		var menu_list = [""];
+		var review_list = [""];
+		var review_count = [""];
 		
-		var sel_array = ["0", "1", "4", "5"];
+		var MARKER_WIDTH, // 기본, 클릭 마커의 너비
+		MARKER_HEIGHT, // 기본, 클릭 마커의 높이
+		OFFSET_X, // 기본, 클릭 마커의 기준 X좌표
+		// OFFSET_Y = MARKER_HEIGHT,  // 기본, 클릭 마커의 기준 Y좌표
+		OVER_MARKER_WIDTH, // 오버 마커의 너비
+		OVER_MARKER_HEIGHT, // 오버 마커의 높이
+		OVER_OFFSET_X, // 오버 마커의 기준 X좌표
+		// OVER_OFFSET_Y = OVER_MARKER_HEIGHT, // 오버 마커의 기준 Y좌표
+		SPRITE_MARKER_URL, // 스프라이트 마커 이미지 URL
+		SPRITE_WIDTH, // 스프라이트 이미지 너비
+		SPRITE_HEIGHT, // 스프라이트 이미지 높이
+		SPRITE_GAP; // 스프라이트 이미지에서 마커간 간격
+		
+		var markerSize, // 기본, 클릭 마커의 크기
+		markerOffset, // 기본, 클릭 마커의 기준좌표
+		overMarkerSize, // 오버 마커의 크기
+		overMarkerOffset, // 오버 마커의 기준 좌표
+		spriteImageSize; // 스프라이트 이미지의 크기
+		
+		var positions = []; // 마커의 위치 (키워드로 장소검색 API에서 y, x 받아오기)			
+		var selectedMarker = null; // 클릭한 마커를 담을 변수
+		var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+		var map;
     	
 		// ------------------------------------ JSON Data load --------------------------------------
 	   /*
@@ -167,17 +201,41 @@ textarea {
 			
 			// 요소 설정 setting 값 read
 			$.ajax ({
-				async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+				async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다. 
 				url :'${pageContext.request.contextPath}/assets/data/setting.json', 
 				method: 'get',
 				data : {},
 				dataType: 'JSON',
 				success: function(req) {
 				
-					//icon_size[0] = req.common[0].icon_size_width;
-					//icon_size[1] = req.common[0].icon_size_height;
-					label = req.common[0].label;
-					//menu_txt = req.common[0].menu_txt;
+					icon_size[0] = req.common[0].icon_size_width;
+					icon_size[1] = req.common[0].icon_size_height;
+					label = req.common[0].label;					
+					
+					// map api variable
+					
+					MARKER_WIDTH = req.menu[0].MARKER_WIDTH;
+					MARKER_HEIGHT = req.menu[0].MARKER_HEIGHT;
+					OFFSET_X = req.menu[0].OFFSET_X;
+					OFFSET_Y = MARKER_HEIGHT;
+					OVER_MARKER_WIDTH = req.menu[0].OVER_MARKER_WIDTH;
+					OVER_MARKER_HEIGHT = req.menu[0].OVER_MARKER_HEIGHT;
+					OVER_OFFSET_X = req.menu[0].OVER_OFFSET_X;
+					OVER_OFFSET_Y = OVER_MARKER_HEIGHT;
+					SPRITE_MARKER_URL = '${pageContext.request.contextPath}' + req.menu[0].SPRITE_MARKER_URL;
+					SPRITE_WIDTH = req.menu[0].SPRITE_WIDTH;
+					SPRITE_HEIGHT = req.menu[0].SPRITE_HEIGHT;
+					SPRITE_GAP = req.menu[0].SPRITE_GAP;	
+					
+					userComp_arr = req.common[1].loc_xy.split(",");
+					userCompX = userComp_arr[0];
+					userCompY = userComp_arr[1];
+					
+					Search_radius = req.menu[0].Search_radius;
+					Search_size =  req.menu[0].Serach_size;
+					
+					console.log(userCompX + "," + userCompY);
+					
 				},
 				error: function() {
 					alert("일시적인 오류가 발생하였습니다.");
@@ -187,33 +245,53 @@ textarea {
 			// 음식점 목록 read
 			$.ajax ({
 				async: false,
-				url :'${pageContext.request.contextPath}/assets/data/menu_list.json', 
+				url : "https://dapi.kakao.com/v2/local/search/keyword.json?y=" + userCompY + "&x=" + userCompX + "&radius=" + Search_radius
+						+ "&query=" + menu_param + "&size=" + Search_size + "&category_group_code=FD6", 
 				method: 'get',
+				beforeSend: function (xhr) {			            
+		            xhr.setRequestHeader("Authorization","KakaoAK 357888b843d98f32e260abf0e81dfd2a");
+		        },
 				data : {},
 				dataType: 'JSON',
 				success: function(req) {				
-					menu_list = req.doenjangjjigae;					
+					menu_list = req.documents;					
 				},
 				error: function() {
 					alert("일시적인 오류가 발생하였습니다.");
 				}
 			});
 			
-			// 리뷰 목록 read
-			$.ajax ({
-				async: false,
-				url :'${pageContext.request.contextPath}/assets/data/review_list.json', 
-				method: 'get',
-				data : {},
-				dataType: 'JSON',
-				success: function(req) {				
-					review_list = req.doenjangjjigae;					
-				},
-				error: function() {
-					alert("일시적인 오류가 발생하였습니다.");
-				}
-			});
-			
+			for(var i=0; i < menu_list.length; i++) {	
+				
+				// 리뷰 목록 read
+				$.ajax ({
+					async: false,
+					url :'${pageContext.request.contextPath}/menu/menu_list.review',
+					method: 'get',
+					data : {
+						"reviewPlaceId": menu_list[i].id
+					},
+					dataType: 'JSON',
+					success: function(req) {	
+						
+						review_list[menu_list[i].id] = req.list;
+						review_count[i] = req.count;
+						
+						// console.log(review_list);
+						// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
+											
+					},
+					error: function() {
+						// 리뷰데이터가 없는 경우 
+											
+						review_list[menu_list[i].id] = "NOREVIEW";
+						review_count[i] = 0;
+											
+					}
+				});
+				
+			}
+				//console.log(review_list[926603562][1].reviewContent);
 		}		
 		// ------------------------------------ Modal start ------------------------------------
 		$("#open_modal_btn").click(function(e){
@@ -308,27 +386,54 @@ textarea {
     	function list_side(count) {    		
     		var tag = "";
     		var jumsu_star = "";
+    		var lstcode = "";    		
+    		var jumsu_sum;
+    		var jumsu_avr;
+    		
+    		if(count == 0){
+  				review_tag = "<div class='center_css'><img id='noplace_img' src='${pageContext.request.contextPath}/img/menu/noplace.png' /><span id='noreview_txt'>주변에 해당되는 음식점이 없습니다. X( </span></div>";
+  				$("#list_side").html(review_tag);  
+  				return;
+  			}
     		
     		for(var i=0; i < count; i++) {
+    		jumsu_sum = 0.0;
+    		jumsu_var = 0.0;
+    		lstcode = menu_list[i].id; // 음식점 ID 		
+    		
+    		
+    		//////////////////////////////////////// 리뷰 목록 read 
+    		
+   			if(review_count[i] != 0) {
+	  			for(var j=0; j< review_count[i]; j++){
+	  				jumsu_sum += review_list[lstcode][j].reviewScope; // 각 리뷰들의 별점 합산 
+	  			}
+	  			
+	  			jumsu_avr = jumsu_sum / review_count[i]; // 별점 평균값
+	  			
+   			}
+   			else { // 리뷰가 없는 경우
+   				jumsu_avr = 0;
+   			}
     		
     		// 별점 특수기호로 나타냄. 별점은 반올림한다. 
-    		if(menu_list[i].jumsu >= 4.5) {    			
+    		if(jumsu_avr >= 4.5) {    			
     			jumsu_star = "★★★★★";    		
-    		} else if (menu_list[i].jumsu <= 4.4 && menu_list[i].jumsu >= 3.5) { // 4.4 ~ 3.5
+    		} else if (jumsu_avr <= 4.4 && jumsu_avr >= 3.5) { // 4.4 ~ 3.5
     			jumsu_star = "★★★★☆";
-    		} else if (menu_list[i].jumsu <= 3.4 && menu_list[i].jumsu >= 2.5) { // 3.4 ~ 2.5
+    		} else if (jumsu_avr <= 3.4 && jumsu_avr >= 2.5) { // 3.4 ~ 2.5
     			jumsu_star = "★★★☆☆";
-    		} else if (menu_list[i].jumsu <= 2.4 && menu_list[i].jumsu >= 1.5) { // 2.4 ~ 1.5
+    		} else if (jumsu_avr <= 2.4 && jumsu_avr >= 1.5) { // 2.4 ~ 1.5
     			jumsu_star = "★★☆☆☆";
-    		} else if (menu_list[i].jumsu <= 1.4 && menu_list[i].jumsu >= 0.5) { // 1.4 ~ 0.5
+    		} else if (jumsu_avr <= 1.4 && jumsu_avr >= 0.5) { // 1.4 ~ 0.5
     			jumsu_star = "★☆☆☆☆";
     		} else {
     			jumsu_star = "☆☆☆☆☆"; // 0.4 이하 
     		}     		
     			
-    		tag +=  "<div class='menu_listarea' data-index='" + menu_list[i].no + "'><h3><span class='menu_label'>" + label[i] + " </span>" + menu_list[i].name + 
-    		"</h3><span class='jumsu_starcss'>" + menu_list[i].jumsu + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
-    		+ menu_list[i].review +"</a><br><span>"+ menu_list[i].address +"</span></div>";    		
+    		tag +=  "<div class='menu_listarea' data-index='" + menu_list[i].id + "'><h3><span class='menu_label'>" + label[i] + " </span>" + menu_list[i].place_name + 
+    		"</h3><span class='jumsu_starcss'>" + jumsu_avr + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
+    		+ review_count[i] +"</a><br><span>"+ menu_list[i].road_address_name +"</span></div>";    		
     		}
     		
     		$("#list_side").empty();    		
@@ -343,14 +448,20 @@ textarea {
 	    			    		
 	    		var review_tag = "";
 	    		var jumsu_star = "";
-	    		//console.log("review_list.length " + review_list.length);
-	    		//console.log("menu_list.length " + menu_list.length);
+	    		var review_count = 0;
+	    		var review_imgname = "";
+	    		var lstcode = bistro_no;
+	    		
+	    		
+	    		/////////////////////////////////////// 리뷰 목록 read			    		
 	    		
 	    		for(var i=0; i < menu_list.length; i++) {
 	    			
-		    		if(menu_list[i].no == bistro_no) {
-		    			var name = menu_list[i].name;
-			    		var count = menu_list[i].review;
+	    			if(menu_list[i].id == bistro_no) {
+	    				
+		    			var name = menu_list[i].place_name;
+		    			var count = 0;
+		    			if(review_list[lstcode] != "NOREVIEW") count = review_list[lstcode].length;
 			    		
 			    		var result = "\"" + name +  "\" 리뷰 (" + count + ")";
 			    		
@@ -363,48 +474,70 @@ textarea {
 			  				$("#list_side").html(review_tag);  
 			  				return;
 			  			}
-			    		
 			    		break;
-		    		}
+			    		
+	    			}
+			    		
 	    		}
 	    		
-	    		for(var i=0; i < review_list.length; i++) {
+	    		for(var i=0; i < review_list[lstcode].length; i++) {
 	    			
-	    		if(i==0) {
+	    		review_imgname = "";
+	    		
+	    		if(review_list[lstcode][i].userImgNo != null && review_list[lstcode][i].userImgNo != "")
+	    		{
+	    			// 리뷰 이미지 name load
+					$.ajax ({
+						async: false,
+						url :'${pageContext.request.contextPath}/menu/menu_list.img',
+						method: 'get',
+						data : {
+							"reviewNo": review_list[lstcode][i].reviewNo
+						},
+						dataType: 'JSON',
+						success: function(req) {				
+							review_imgname = req.img_name.userImgName;												
+						},
+						error: function() {
+							//alert("일시적인 오류가 발생하였습니다.");
+						}
+					});
+	    			
+	    		}
+	    			
+	    		if(i==0) { // 신고하려는 리뷰 정보를 신고 팝업창으로 넘기기 위한 input 요소 
 	       			review_tag = "<input type='hidden' id='report_id' /><input type='hidden' id='report_content' /><input type='hidden' id='report_date' />";
-	       		}
-	    		
-	    		// 서로 같은 음식점 id 인경우에만 리뷰를 출력한다. 
-	    		if(review_list[i].no == bistro_no) {
+	       		}		
+
 	    			
-		   			// 별점 특수기호로 나타냄. 별점은 반올림한다. 
-		       		if(review_list[i].review_jumsu == 5.0 || review_list[i].review_jumsu == 4.5) {    			
-		       			jumsu_star = "★★★★★";    		
-		       		} else if (review_list[i].review_jumsu == 4.0 || review_list[i].review_jumsu == 3.5) { 
-		       			jumsu_star = "★★★★☆";
-		       		} else if (review_list[i].review_jumsu == 3.0 || review_list[i].review_jumsu == 2.5) {
-		       			jumsu_star = "★★★☆☆";
-		       		} else if (review_list[i].review_jumsu == 2.0 || review_list[i].review_jumsu == 1.5) {
-		       			jumsu_star = "★★☆☆☆";
-		       		} else if (review_list[i].review_jumsu == 1.0 || review_list[i].review_jumsu == 0.5) {
-		       			jumsu_star = "★☆☆☆☆";
-		       		} else {
-		       			jumsu_star = "☆☆☆☆☆";  
-		       		}	
-		   			
-	   			// 리뷰에 이미지가 있고 없는 경우에 대한 처리
-	  			if (review_list[i].img != "") {	   			
-		   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[i].id + " </span> "
-		      		+ "<span class='jumsu_starcss'>" + review_list[i].review_jumsu + " " + jumsu_star + "</span><br><span class='review_content'>" 
-		      		+ review_list[i].content +"</span></div><div class='pull-right'><a href='${pageContext.request.contextPath}/img/menu/review/" + review_list[i].img + "' data-lightbox='review_img" + bistro_no + "_" + i 
-					+ "'><img class='review_img' src='${pageContext.request.contextPath}/img/menu/review/" + review_list[i].img 
-		      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[i].date +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +" );'>신고</a></div></div>";
-	  			} else {
-	  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[i].id + " </span> "
-		      		+ "<span class='jumsu_starcss'>" + review_list[i].review_jumsu + " " + jumsu_star + "</span><br><span class='review_content'>" 
-		      		+ review_list[i].content +"</span><br><div class='review_bottom'>"+ review_list[i].date +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +");'>신고</a></div></div>";	  			
-		      		}
-	    		}
+	   			// 별점 특수기호로 나타냄. 별점은 반올림한다. 
+	       		if(review_list[lstcode][i].reviewScope == 5.0 || review_list[lstcode][i].reviewScope == 4.5) {    			
+	       			jumsu_star = "★★★★★";    		
+	       		} else if (review_list[lstcode][i].reviewScope == 4.0 || review_list[lstcode][i].reviewScope == 3.5) { 
+	       			jumsu_star = "★★★★☆";
+	       		} else if (review_list[lstcode][i].reviewScope == 3.0 || review_list[lstcode][i].reviewScope == 2.5) {
+	       			jumsu_star = "★★★☆☆";
+	       		} else if (review_list[lstcode][i].reviewScope == 2.0 || review_list[lstcode][i].reviewScope == 1.5) {
+	       			jumsu_star = "★★☆☆☆";
+	       		} else if (review_list[lstcode][i].reviewScope == 1.0 || review_list[lstcode][i].reviewScope == 0.5) {
+	       			jumsu_star = "★☆☆☆☆";
+	       		} else {
+	       			jumsu_star = "☆☆☆☆☆";  
+	       		}	
+	   			
+   			// 리뷰에 이미지가 있고 없는 경우에 대한 처리
+  			if ( review_imgname != "") {	   			
+	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
+	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='${pageContext.request.contextPath}/img/menu/review/" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
+				+ "'><img class='review_img' src='${pageContext.request.contextPath}/img/menu/review/" + review_imgname 
+	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +" );'>신고</a></div></div>";
+  			} else {
+  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
+	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +");'>신고</a></div></div>";	  			
+	      		}
+	    		
         	}        	
     		
 	    	$("#list_side").html(review_tag);    		    		
@@ -432,23 +565,14 @@ textarea {
 			$("#open_modal_btn").toggleClass("hidden_btn");
 			
 			// 리뷰 이전페이지 -> 음식점 리스트로 되돌아간다.
-			menu_listname("된장찌개", menu_list.length);
+			menu_listname(menu_param, menu_list.length);
 			list_side(menu_list.length);
+			
+			// 마커를 선택하여 리뷰리스트에 들어왔다면, 마커 이미지를 초기화 해야한다. 
+			map_load();
 		});
 		
-	   /*
-		* 사용자가 선택한 업종아이콘에 select style   
-		*/
-		// 모든 동적인 요소가 생성이 된 다음 실행된다. 
-		$(document).ready(function(){			
-			var item_name = "";
-				
-			for(var i=0; i<sel_array.length; i++){
-					item_name = "#menu_group_" + sel_array[i];					
-					$(item_name).addClass("menu_select");
-				}
-			});
-	   
+		
 		$(document).on('click', '#modal_review', function(e){			
 			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
 			$(".modal-header").empty();
@@ -476,6 +600,125 @@ textarea {
 			   return false;
 		});
 		
+		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 지도 API <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		
+		
+		function map_load() {
+		
+			markerSize = new kakao.maps.Size(MARKER_WIDTH, MARKER_HEIGHT), // 기본, 클릭 마커의 크기
+			markerOffset = new kakao.maps.Point(OFFSET_X, OFFSET_Y), // 기본, 클릭 마커의 기준좌표
+			overMarkerSize = new kakao.maps.Size(OVER_MARKER_WIDTH, OVER_MARKER_HEIGHT), // 오버 마커의 크기
+			overMarkerOffset = new kakao.maps.Point(OVER_OFFSET_X, OVER_OFFSET_Y), // 오버 마커의 기준 좌표
+			spriteImageSize = new kakao.maps.Size(SPRITE_WIDTH, SPRITE_HEIGHT); // 스프라이트 이미지의 크기
+			
+			mapOption = {
+					center : new kakao.maps.LatLng(userCompY, userCompX), // 지도의 중심좌표 (사용자의 회사 위치 : 회원 테이블에서 가져오기)
+					level : 4	// 지도의 확대 레벨
+			};
+			
+			positions.splice(0,positions.length);
+			
+			$("#map").empty();
+			map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			
+			for (var i = 0; i < menu_list.length; i++){
+				positions.push(new kakao.maps.LatLng(menu_list[i].y, menu_list[i].x));
+			}
+			
+			// 지도 위에 마커를 표시합니다
+			for (var i = 0, len = positions.length; i < len; i++) {
+				var gapX = (MARKER_WIDTH + SPRITE_GAP), // 스프라이트 이미지에서 마커로 사용할 이미지 X좌표 간격 값
+				originY = (MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 기본, 클릭 마커로 사용할 Y좌표 값
+				overOriginY = (OVER_MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 오버 마커로 사용할 Y좌표 값
+				normalOrigin = new kakao.maps.Point(0, originY), // 스프라이트 이미지에서 기본 마커로 사용할 영역의 좌상단 좌표
+				clickOrigin = new kakao.maps.Point(gapX, originY), // 스프라이트 이미지에서 마우스오버 마커로 사용할 영역의 좌상단 좌표
+				overOrigin = new kakao.maps.Point(gapX * 2, overOriginY); // 스프라이트 이미지에서 클릭 마커로 사용할 영역의 좌상단 좌표
+
+				// 마커를 생성하고 지도위에 표시합니다
+				addMarker(positions[i], normalOrigin, overOrigin, clickOrigin, i);
+			}		
+		
+		}
+		
+
+		// 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
+		function addMarker(position, normalOrigin, overOrigin, clickOrigin, index) {
+
+			// 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
+			var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
+			overImage = createMarkerImage(overMarkerSize, overMarkerOffset, overOrigin),
+			clickImage = createMarkerImage(markerSize, markerOffset, clickOrigin);
+
+			// 마커를 생성하고 이미지는 기본 마커 이미지를 사용합니다
+			var marker = new kakao.maps.Marker({
+				map : map,
+				position : position,
+				image : normalImage
+			});
+
+			// 마커 객체에 마커아이디와 마커의 기본 이미지를 추가합니다
+			marker.normalImage = normalImage;
+
+			// 마커에 mouseover 이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, 'mouseover', function() {
+
+				// 클릭된 마커가 없고, mouseover된 마커가 클릭된 마커가 아니면
+				// 마커의 이미지를 오버 이미지로 변경합니다
+				if (!selectedMarker || selectedMarker !== marker) {
+					marker.setImage(overImage);
+				}
+			});
+
+			// 마커에 mouseout 이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, 'mouseout', function() {
+
+				// 클릭된 마커가 없고, mouseout된 마커가 클릭된 마커가 아니면
+				// 마커의 이미지를 기본 이미지로 변경합니다
+				if (!selectedMarker || selectedMarker !== marker) {
+					marker.setImage(normalImage);
+				}
+			});
+
+			// 마커에 click 이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				
+				review_listname(menu_list[index].id);				
+				$("#review_prev").removeClass("hidden_btn");
+				$("#open_modal_btn").removeClass("hidden_btn");
+
+				// 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+				// 마커의 이미지를 클릭 이미지로 변경합니다
+				if (!selectedMarker || selectedMarker !== marker) {
+
+					// 클릭된 마커 객체가 null이 아니면
+					// 클릭된 마커의 이미지를 기본 이미지로 변경하고
+					!!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
+
+					// 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+					marker.setImage(clickImage);
+				}
+
+				// 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+				selectedMarker = marker;
+			});
+		}
+
+		// MakrerImage 객체를 생성하여 반환하는 함수입니다
+		function createMarkerImage(markerSize, offset, spriteOrigin) {
+			var markerImage = new kakao.maps.MarkerImage(SPRITE_MARKER_URL, // 스프라이트 마커 이미지 URL
+			markerSize, // 마커의 크기
+			{
+				offset : offset, // 마커 이미지에서의 기준 좌표
+				spriteOrigin : spriteOrigin, // 스트라이프 이미지 중 사용할 영역의 좌상단 좌표
+				spriteSize : spriteImageSize
+			// 스프라이트 이미지의 크기
+			});
+
+			return markerImage;
+		}
+		
+		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 지도 API END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		
 		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=37.56826&lon=126.977829&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
 				, function(data) {
 
@@ -496,10 +739,11 @@ textarea {
 		});
 		
 			/** 함수 호출부 */
-			data_load();
-    		menu_listname("된장찌개", menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
-    		list_side(menu_list.length);    // 검색된 주변음식점 갯수
-    	});
+			data_load();					// 페이지 JSON데이터 load 			
+			map_load();						// 지도 draw			
+			menu_listname(menu_param, menu_list.length);	// 지도 윗쪽의 label에 표출되는 text
+			list_side(menu_list.length);	// 검색된 주변음식점 갯수
+    });
     </script>
 
 </body>

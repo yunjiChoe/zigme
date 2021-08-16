@@ -22,6 +22,8 @@
   <!-- 메뉴 style -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/star-rating-svg.css" />
+  
 	<script type="text/javascript">
 	
 	function report(bistro_no, i) {
@@ -85,7 +87,7 @@
 	 	<span id="listname"></span><div id="map" style="width: 420px; height: 420px; margin: auto;">
 	 		<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
 	 	</div>
-	 </div>		 
+	 </div>
 	</div> <!-- //body 종료  -->
 		
 		
@@ -150,6 +152,8 @@
     <!--  lightbox 플러그인 -->
     <script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ca67f5e7cd2510c89ae719dacc5c926"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.star-rating-svg.js"></script>
+    
     <script type="text/javascript">
     $(function() {  	
     	// get으로 넘겨받은 URL
@@ -178,7 +182,7 @@
 		var menu_list = [""];		
 		var menu_txt = [""];
 		var review_list = [""];
-		var review_count = [""];
+		var review_count = [""];		
 		
 		var MARKER_WIDTH, // 기본, 클릭 마커의 너비
 		MARKER_HEIGHT, // 기본, 클릭 마커의 높이
@@ -352,7 +356,10 @@
 			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
 			$(".modal-header").html(modal_tag);
 			
-			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div><span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'></span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
+			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div>"
+			+ "<span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'>"
+			+ "</span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
+			
 			$(".modal-body").html(modal_tag);
 		
 		});
@@ -397,6 +404,12 @@
     		var lstcode = "";    		
     		var jumsu_sum;
     		var jumsu_avr;
+    		
+    		if(count == 0){
+  				review_tag = "<div class='center_css'><img id='noplace_img' src='${pageContext.request.contextPath}/img/menu/noplace.png' /><span id='noreview_txt'>주변에 해당되는 음식점이 없습니다. X( </span></div>";
+  				$("#list_side").html(review_tag);  
+  				return;
+  			}
     		
     		for(var i=0; i < count; i++) {
     		jumsu_sum = 0.0;
@@ -584,33 +597,48 @@
 			for(var i=0; i<sel_array.length; i++){
 					item_name = "#menu_group_" + sel_array[i];					
 					$(item_name).addClass("menu_select");										
-				}
+			}
+			
+			$(".star").on('click',function(){
+				   var idx = $(this).index();
+				   $(".star").removeClass("on");
+				     for(var i=0; i<=idx; i++){
+				        $(".star").eq(i).addClass("on");
+				   }
+				   
+				   var starValue = $(this).attr("value");
+				   $('.rating .user_rating').html(starValue);
+				   return false;
+			});
+			
+			
 		});	
 	   
 		$(document).on('click', '#modal_review', function(e){			
 			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
 			$(".modal-header").html(modal_tag);
 			
-			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea><form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div class='addfile' onclick='onclick=document.all.file.click()'><img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
-			//modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea><form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div class='addfile' onclick='onclick=document.all.file.click()'><img class='addfile_btn' src='../img/menu/addfile_btn.png'></div><div class='rating'><span class='star star_left on' value='0.5'></span><span class='star star_right on' value='1.0'></span><span class='star star_left on' value='1.5'></span><span class='star star_right on' value='2.0'></span><span class='star star_left on' value='2.5'></span><span class='star star_right' value='3.0'></span><span class='star star_left' value='3.5'></span><span class='star star_right' value='4.0'></span><span class='star star_left' value='4.5'></span><span class='star star_right' value='5.0'></span><p class= user_rating>2.5</p><p>/5.0</p></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
+			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea>"
+			+ "<form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div id='modal_bottom_area'><div class='addfile' onclick='onclick=document.all.file.click()'>"
+			+ "<img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div><p id='star_point'>test</p><div class='my-rating'></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
+			
 			$(".modal-body").html(modal_tag);
+			
+			$(".my-rating").starRating({
+				  initialRating: 4,
+				  strokeColor: '#894A00',
+				  strokeWidth: 10,
+				  starSize: 25
+			});
+			
+			console.log("rating_star_zigme!!! " + get_star());
 		});
 		
 		$(document).on('click', '.write_review_wrapper2', function(e){
 			$("#myModal").modal('hide');
 		});
 		
-		$(".star").on('click',function(){
-			   var idx = $(this).index();
-			   $(".star").removeClass("on");
-			     for(var i=0; i<=idx; i++){
-			        $(".star").eq(i).addClass("on");
-			   }
-			   
-			   var starValue = $(this).attr("value");
-			   $('.rating .user_rating').html(starValue);
-			   return false;
-		});
+		
 		
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 지도 API <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		
@@ -627,6 +655,8 @@
 					center : new kakao.maps.LatLng(userCompY, userCompX), // 지도의 중심좌표 (사용자의 회사 위치 : 회원 테이블에서 가져오기)
 					level : 4	// 지도의 확대 레벨
 			};
+			
+			positions.splice(0,positions.length);
 			
 			$("#map").empty();
 			map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -728,6 +758,7 @@
 		}
 		
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 지도 API END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		
 		
 			/** 함수 호출부 */
 			data_load();					// 페이지 JSON데이터 load 			
