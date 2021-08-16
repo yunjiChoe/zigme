@@ -62,8 +62,9 @@
 </head>
 
 <body>
+
     <!-- .modal -->
-     <form role="form" action="${pageContext.request.contextPath}/common/find_ok.do"  method="post">
+     <form role="form" >
     <div id="find-id-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <!-- .modal-dialog -->
         <div class="modal-dialog">
@@ -83,14 +84,15 @@
                     <p>
                         메이트님의 아이디는
                     </p>
-                    <h4 class="text-primary" >${output.getId()}</h4>
+                    <h4 class="text-primary" id="id" ></h4>
+                    <h4 class="text-primary  "id="mail_check_input_box_warn"></h4>
                     <p>
                        입니다.
                     </p>
                 </div>
                 <!-- 하단 -->
                 <div class=" text-center">
-                    <a href="${pageContext.request.contextPath}"> <button type="submit" class="btn  btn-primary btn-lg">
+                    <a href="${pageContext.request.contextPath}"> <button type="button" class="btn  btn-primary btn-lg">
                             확인
                         </button></a>
                 </div>
@@ -109,7 +111,7 @@
                     <div class="square"></div>아이디 찾기
                     <div class="sub_desc">
                         <p>아이디 찾기를 위하여 가입하실 때 입력하신 이름과 이메일 주소를 입력해주세요.
-                       일시적으로  두 번 시도해주세요.</p>
+                       .</p>
                     </div>
                 </div>
             </div>
@@ -126,14 +128,45 @@
                         <span class="text-info">이메일 주소를 입력해주세요.</span>
                     </div>
                     <br />
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" href="#find-id-modal">
+                    <button type="button" class="btn btn-primary btn-block"  id="question" data-toggle="modal" href="#find-id-modal">
                         아이디 찾기
                     </button>
                 </fieldset>
             </form>
         </div>
     </div>
-    
+    <script type="text/javascript">
+    $(function() {
+	    //idck 버튼을 클릭했을 때 
+	    $("#question").hover(function() {
+	        
+	    	
+		        var name = $('#user_name').val(); //id값이 "id"인 입력란의 값을 저장
+		        var email =$('#user_eamil').val();
+		        var checkResult = $("#mail_check_input_box_warn");
+		        
+		        $.ajax({
+		            url:'${pageContext.request.contextPath}/common', //Controller에서 인식할 주소
+		            type:'GET', //PUT 방식으로 전달
+		            data:{ "name": name  ,"email" :email} ,
+		            
+		           success: function(json) {
+		        	   console.log(json);
+						// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+						// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+						if (json.rt =="OK" ) {
+						
+							console.log(json.item.id);
+							 $('#id').attr('value',json.item.id);
+							 checkResult.html(json.item.id);
+						}
+						
+		            }
+		        });
+	    });
+	});
+   
+    </script>
 </body>
 
 </html>

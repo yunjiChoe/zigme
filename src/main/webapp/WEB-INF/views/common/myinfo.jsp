@@ -261,11 +261,11 @@ img.col-md-3 {
 						
 						
 							<span>닉네임</span><br /> <input type="text" id="user_subname" name="nickname"
-								class="form-control" placeholder="한글,영문,숫자 최대10자" value="${output.getNickname()}"/>
+								class="form-control" placeholder="한글,영문,숫자 최대10자" value="${output.nickname}"/>
 							<button type="button" class="btn btn-primary btn-ms btn-ttc3 btn-ttc5" id="checkNick">
 								중복확인</button>
 							
-							<input type="hidden" name="userno" value="${output.getUserNo()}" id="userNO">
+							<input type="hidden" name="userno" value="${output.userNo}" id="userNO">
 						</div>
 						
 						<br>
@@ -298,7 +298,7 @@ img.col-md-3 {
 							<label for="user_adress">회사 주소</label><br /> <span>제공하신
 								정보는 위치 기반 정보 제공에 사용됩니다.</span><br /> <span>건물 번호(번지수)까지만
 								기입해주세요.</span> <br /> <input type="text" id="user_postcode"
-								class="form-control" name="postcode" placeholder="${output.getPostcode()}" />
+								class="form-control" name="postcode" placeholder="${output.postcode}" />
 							<button type="button"
 								class="btn btn-primary btn-ttc btn-ms btn-ttc5"
 								onclick="execDaumPostcode()">주소검색</button>

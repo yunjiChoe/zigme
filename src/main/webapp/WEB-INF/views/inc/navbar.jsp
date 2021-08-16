@@ -85,12 +85,6 @@
     </div> <!-- // navbar 종료 --> 
 <script type="text/javascript">
 
-$(document).ready(function(){
-	document.getElementById("logout").onclick=function(){
-		document.user_logout.submit();
-	}
-});
-
 
 
 

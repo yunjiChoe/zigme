@@ -114,7 +114,7 @@ label {
 					</div>
 					<div class="modal-button">
 						<button type="submit"
-							class="btn btn-primary btn-block login_button">로그인</button>
+							class="btn btn-primary btn-block login_button"  onclick="loginProcess();">로그인</button>
 						<a href="${pageContext.request.contextPath}/join"><button
 								type="button" class="btn btn-primary btn-block btn-ttc1">
 								회원가입</button></a>
@@ -151,6 +151,71 @@ label {
 	</div>
 
 	<script type="text/javascript">
+	
+	
+	
+	
+	function loginProcess(){
+		var id = $("#user_id").val(); 
+		var pwd = $("#password").val(); 
+		var idChk = $("#idSaveCheck").is(":checked"); // 체크박스가 체크되었는지를 담아준다.( true/false 로 담긴다.) 
+		if(idChk){ 
+				// 아이디, 비밀번호 저장 체크박스가 체크 된 경우 (true) 
+				setCookie("Cookie_mail", id, 7); 
+				// 쿠키에 저장하는 이벤트를 호출한다. Cookie_mail 이름으로 id가 7일동안 저장 
+				setCookie("Cookie_pwd", pwd, 7); }else{ // 체크가 해제 된 경우 (false) 
+				deleteCookie("Cookie_mail"); // 쿠키 정보를 지우는 이벤트를 호출한다. 
+				deleteCookie("Cookie_pwd"); 
+				} 
+		//$("#loginForm").submit(); 
+				};
+				
+				
+				
+				$(function(){ 
+					// 쿠키값 읽어오기 
+					var mail = getCookie("Cookie_mail"); 
+					var pwd = getCookie("Cookie_pwd"); 
+					if(mail){ $("#mail").val(mail); 
+					$("#password").val(pwd); 
+					$("#saveBtn").attr("checked", true); 
+					} 
+					});
+				
+				function setCookie(cookieName, value, exdays){ 
+					var exdate = new Date(); 
+					exdate.setDate(exdate.getDate() + exdays); // 쿠키 저장 기간 
+					var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString()); 
+					document.cookie = cookieName + "=" + cookieValue; 
+					}
+				
+				
+				function getCookie(cookieName) { 
+					cookieName = cookieName + '=';
+					var cookieData = document.cookie; 
+					var start = cookieData.indexOf(cookieName); 
+					var cookieValue = ''; 
+					if(start != -1){ start += cookieName.length; 
+					var end = cookieData.indexOf(';', start); 
+					if(end == -1)end = cookieData.length; 
+					cookieValue = cookieData.substring(start, end); 
+					} 
+					return unescape(cookieValue); 
+					}
+				
+				function deleteCookie(cookieName){ 
+					var expireDate = new Date();
+					expireDate.setDate(expireDate.getDate() - 1); 
+					document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString(); 
+					}
+
+
+			
+
+			
+
+					
+
 
 	</script>
 
