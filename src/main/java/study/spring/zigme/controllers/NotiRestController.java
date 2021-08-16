@@ -6,6 +6,7 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +36,6 @@ public class NotiRestController {
         /** 1) 데이터 조회하기 - 게시글의 댓글 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input1 = new Post();
-
         List<Post> output1 = null;   // 조회결과가 저장될 객체
 
         try {
@@ -49,7 +49,6 @@ public class NotiRestController {
         /** 2) 데이터 조회하기 - 댓글의 댓글 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input2 = new Post();
-        
         List<Post> output2 = null;   // 조회결과가 저장될 객체
         
         try {
@@ -75,8 +74,11 @@ public class NotiRestController {
 			@RequestParam(value="commNoti", defaultValue="0") String commNoti,
 			@RequestParam(value="commNo", defaultValue="0") int commNo){
 		
+		Map<String, Object> data = new HashMap<String, Object>();
+		 
         /** 게시글의 댓글 데이터 수정 : 읽지않음(2) -> 읽음(1) */
         // 수정할 값들을 Beans에 담는다.
+		if (postNo != 0) {
         Post input1 = new Post();
         input1.setPostNo(postNo);
         input1.setPostNoti(postNoti);
@@ -95,8 +97,13 @@ public class NotiRestController {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
         
+        data.put("item", output1);
+		}
+        
+		
         /** 대댓글 데이터 수정 : 읽지않음(2) -> 읽음(1)*/
         // 수정할 값들을 Beans에 담는다.
+		if (commNo != 0) {
         Post input2 = new Post();
         input2.setCommNo(commNo);
         input2.setCommNoti(commNoti);
@@ -112,10 +119,10 @@ public class NotiRestController {
         	return webHelper.getJsonError(e.getLocalizedMessage());
         }
         
-        /** 3) JSON 출력하기 */
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put("item1", output1);
-        data.put("item2", output2);
+  
+        data.put("item", output2);
+		}
+        
         return webHelper.getJsonData(data);
     } 
 

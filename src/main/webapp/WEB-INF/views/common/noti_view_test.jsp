@@ -147,8 +147,9 @@
 				<h2>
 					<img
 						src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png">
-					정자바 님
+					${output.getNickname()} 님
 				</h2>
+				<input type="hidden" id="user_id" name="userno" value="${output.getUserNo()}">
 			</div>
 			<div class="summary">
 				<p class="noti_txt">
@@ -184,9 +185,16 @@
 	                        		</c:url>
 									
 									<tr>
-										<td><span class="token">'</span><span class="newNotiPostTitle" style = "cursor:pointer;" onClick = " location.href='${viewUrl}'">${item.postTitle}</span><span class="token">'</span> 게시글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
-										<td class="delnoti"><button type="button"
-								class="close close-btn" aria-hidden="true">&times;</button></td>
+										<td>
+											
+											<span class="token">'</span>
+											<span class="newNotiPostTitle" style = "cursor:pointer;" onClick="location.href='${viewUrl}'" data-postNo="${item.postNo}">${item.postTitle}</span>
+											<span class="token">'</span> 게시글에 댓글이
+											<span class="token">${fn:length(output2)}</span>개 달렸습니다.
+										</td>
+										<td class="delnoti">
+											<button type="button" class="close close-btn" aria-hidden="true">&times;</button>
+										</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -209,7 +217,9 @@
 	                        		</c:url>
 									
 									<tr>
-										<td style = "cursor:pointer;"><span class="token">'</span><span class="newNotiCommContent" onClick = "location.href='${viewUrl}'">${item.commContent} </span><span class="token">'</span> 댓글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
+										<td style = "cursor:pointer;"><span class="token">'</span><span class="newNotiCommContent" 
+										onClick="location.href='${viewUrl}'" data-commNo="${item.commNo}">${item.postTitle}${item.commContent}
+										</span><span class="token">'</span> 댓글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
 										<td class="delnoti"><button type="button"
 								class="close close-btn" aria-hidden="true">&times;</button></td>
 									</tr>
@@ -250,17 +260,20 @@
 	$(function() {
 
 		/** X 버튼 클릭시 개별 알람 목록 삭제 */
-			$(document).on('click', 'button.close-btn', function(e){
-				// 화면상의 해당알림 행 삭제
-				$(this.closest("tr")).remove();
+			$(document).on('click', 'button.close', function(e){
 				
-				//console.log("클릭됨 : " + $(this).data("scheid"));
-				if ($.this == '.newNotiPostTitle') {
-					click_postNo = $(this.closest("tr.newNotiPostTitle")).data("postNo");
+				// 화면상의 해당알림 행 삭제
+ 				$(this).closest("tr").remove();
+				
+				// 콘솔 찍어서 들어오는 값 확인
+				console.log(">>> postno = " + $(this).closest("tr").find('.newNotiPostTitle').data("postno"));
+				click_postNo = $(this).closest("tr").find('.newNotiPostTitle').data("postno");
+				
+				if (click_postNo !== "" ) {
 					
 					$.put("${pageContext.request.contextPath}/noti", {
 						"postNo" : click_postNo,
-						"postNoti" : 1
+						"postNoti" : "Y"
 					}, function(json) {
 						if (json.rt == "OK") {
 							console.log("postNoti가 개별수정 되었습니다. 수정된 postNoti : " + click_postNo);
@@ -268,9 +281,12 @@
 					});
 				}
 				
-				else if ($.this == '.newNotiCommContent') {
-					click_commNo = $(this.closest("tr.newNotiCommContent")).data("commNo");
-					
+				
+				// 콘솔 찍어서 들어오는 값 확인
+				console.log(">>> commNo = " + $(this).closest("tr").find('.newNotiCommContent').data("commno"));
+				click_commNo = $(this).closest("tr").find('.newNotiCommContent').data("commno");
+				
+				if (click_commNo !== "") {
 					$.put("${pageContext.request.contextPath}/noti", {
 						"commNo" : click_commNo,
 						"commNoti" : 1
@@ -280,10 +296,7 @@
 						}
 					});
 				}
- 				
- 				
 			});
-
 
 		/** 전체삭제 버튼 클릭시 알람 전체 삭제 */
 		  $(document).on('click', '.btn_delAll', function(e) {

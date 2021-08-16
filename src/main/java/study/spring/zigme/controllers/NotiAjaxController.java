@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import study.spring.zigme.helper.RegexHelper;
@@ -33,10 +34,15 @@ public class NotiAjaxController {
     
     /**목록 페이지 */
 	@RequestMapping(value = "/noti_ajax/noti_view_test.do", method = RequestMethod.GET)
-	public ModelAndView list(Model model){
+	public ModelAndView list(Model model,
+			@RequestParam(value = "userno", defaultValue = "0") int userno){
+		
+		
         /** 2) 데이터 조회하기 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input1 = new Post();
+		input1.setUserNo(userno);
+		System.out.println(">>>>>>>>" + userno);
 
         List<Post> output1 = null;   // 조회결과가 저장될 객체
 

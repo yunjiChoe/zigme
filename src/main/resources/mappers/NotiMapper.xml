@@ -13,6 +13,7 @@
 		<result property="postNoti" column="postNoti" />
 		<result property="commNo" column="commNo" />
 		<result property="commNoti" column="commNoti" />
+		<result property="userNo" column="userNo" />
 	</resultMap>
 	
 	<!-- 단일행 조회를 위한 기능 정의 -->
@@ -29,7 +30,7 @@
 	<!-- 게시글에 댓글이 달린 경우 다중행 조회 쿼리  -->
 	SELECT p.postNo, p.postTitle, count(commNo) as countComm FROM comment c, post p 
 		WHERE c.postNo = p.postNo
-		AND c.postNo IN (SELECT postNo FROM post WHERE postNoti = 2 AND userNo = 1)
+		AND c.postNo IN (SELECT postNo FROM post WHERE postNoti = 2 AND userNo = #{userNo})
 		GROUP BY c.postNo;
 	</select>
 	
@@ -39,7 +40,7 @@
 	<!-- 댓글에 댓글이 달린 경우(=대댓글) 다중행 조회 쿼리 -->
  	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) FROM comment A, comment B WHERE A.commNo = B.parentNo 
 		AND B.commNoti = 2 
-		AND B.userNo = 1
+		AND B.userNo = #{userNo}
 		GROUP BY A.commNo
 		ORDER BY A.commRegdate;
 	</select>
@@ -47,34 +48,12 @@
 	<!--  읽은 알림이 '읽음' 상태가 되도록 수정하는 기능 정의 -->
 	<update id= "updateItem"
 	parameterType="study.spring.zigme.model.Post">
-	UPDATE post
-	<set>
-		<if test="postNoti != null and postNoti != ''">
-			postNoti = #{postNoti}
-		</if>
-	</set>
-	<where>
-		<if test = "postNo != 0 and postNo !=''">
-			postNo = #{postNo}
-		</if>
-	</where>
-	
+	UPDATE post SET	postNoti = "Y" WHERE postNo = #{postNo}
 	</update> 
 	
  	<update id= "updateCommItem"
 	parameterType="study.spring.zigme.model.Post">
-	UPDATE comment
-	<set>
-		<if test="commNoti != null and commNoti != ''">
-			commNoti = #{commNoti}
-		</if>
-	</set>
-	<where>
-		<if test = "commNo != 0 and commNo !=''">
-			commNo = #{commNo}
-		</if>
-	</where>
-	
+	UPDATE comment SET commNoti = "Y" WHERE commNo = #{commNo} 
 	</update>
 	
 </mapper>
