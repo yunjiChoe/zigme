@@ -2,7 +2,7 @@
      Date : 2021/07/02
      Writer : 2조
      Content : Spring project 변환
-     version : V1.0.0
+     version : V1.0.0.
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
