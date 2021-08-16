@@ -423,7 +423,8 @@ p.condition {
 	display: flex;
 	width: 200px;
 	margin: 0 0px 0 0;
-	padding-top: 20px;
+	padding-top: 5px;
+	padding-left: 5px;
 	float: right;
 }
 
@@ -470,6 +471,7 @@ p.condition {
 	vertical-align: middle;
 	float: right;
 }
+
 
 /** ------------------------- menu_chart.jsp */
 .between {

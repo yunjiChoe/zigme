@@ -87,24 +87,7 @@
 	 		<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
 	 	</div>
 	 </div>
-	 <!-- 별점 주기 -->
-	<div class="rating">
-		  <span class="star star_left onn" value="0.5">&nbsp</span>
-		  <span class="star star_right onn" value="1.0">&nbsp</span>
-		
-		  <span class="star star_left onn" value="1.5">&nbsp</span>
-		  <span class="star star_right onn" value="2.0">&nbsp</span>
-		
-		  <span class="star star_left onn" value="2.5">&nbsp</span>
-		  <span class="star star_right" value="3.0">&nbsp</span>
-		
-		 <span class="star star_left" value="3.5">&nbsp</span>
-		 <span class="star star_right" value="4.0">&nbsp</span>
-		
-		 <span class="star star_left" value="4.5">&nbsp</span>
-		 <span class="star star_right" value="5.0">&nbsp</span>
-		 <p class= user_rating>2.5</p><p>/5.0</p>		
-	</div>	<!-- // 별점 주기 -->
+	 
 	
 	</div> <!-- //body 종료  -->
 		
@@ -603,9 +586,48 @@
 			
 			// 마커를 선택하여 리뷰리스트에 들어왔다면, 마커 이미지를 초기화 해야한다. 
 			map_load();
+		});   
+	   
+		$(document).on('click', '#modal_review', function(e){	
+			var star_value = 0.5;
+			var MAX_STAR = 5; 
+			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
+			$(".modal-header").html(modal_tag);
+			
+			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea>"
+			+ "<form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div id='modal_bottom_area'><div class='addfile' onclick='onclick=document.all.file.click()'>"
+			+ "<img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div><div class='rating'>";
+			
+	        while( star_value <= MAX_STAR ) {
+	        	modal_tag += "<span class='star star_left' value='" + star_value + "'></span>"
+	        	modal_tag += "<span class='star star_right' value='" + (star_value + 0.5).toFixed(1) + "'></span>"
+	                     star_value += 1;	
+	         }
+
+	        modal_tag += "<p class='user_rating'>0.0</p><p> / 5.0</p></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a></div>";
+	        
+			$(".modal-body").html(modal_tag);
+			
+			  $(".star").on('click',function(){			
+		 		   var idx = $(this).index();
+		 		   
+		 		   $(".star").removeClass("onn");
+		 		     for(var i=0; i<=idx; i++){
+		 		        $(".star").eq(i).addClass("onn");
+		 		   }
+		 		   
+		 		   var starValue = $(this).attr("value");
+		 		   $('.rating .user_rating').html(starValue);
+		 		    return false;
+		 		});
+			
 		});
 		
-	   /*
+		$(document).on('click', '.write_review_wrapper2', function(e){
+			$("#myModal").modal('hide');
+		});
+		
+		/*
 		* 사용자가 선택한 업종아이콘에 select style   
 		*/
 		// 모든 동적인 요소가 생성이 된 다음 실행된다. 
@@ -615,39 +637,9 @@
 			for(var i=0; i<sel_array.length; i++){
 					item_name = "#menu_group_" + sel_array[i];					
 					$(item_name).addClass("menu_select");										
-			}
+			}			
 			
-			$(".star").on('click',function(){
-				   var idx = $(this).index();
-				   $(".star").removeClass("onn");
-				     for(var i=0; i<=idx; i++){
-				        $(".star").eq(i).addClass("onn");
-				   }
-				   
-				   var starValue = $(this).attr("value");
-				   $('.rating .user_rating').html(starValue);
-				   return false;
-			});
-			
-			
-		});	
-	   
-		$(document).on('click', '#modal_review', function(e){			
-			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
-			$(".modal-header").html(modal_tag);
-			
-			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea>"
-			+ "<form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div id='modal_bottom_area'><div class='addfile' onclick='onclick=document.all.file.click()'>"
-			+ "<img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
-			
-			$(".modal-body").html(modal_tag);
-			
-		});
-		
-		$(document).on('click', '.write_review_wrapper2', function(e){
-			$("#myModal").modal('hide');
-		});
-		
+		});		
 		
 		
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 지도 API <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
