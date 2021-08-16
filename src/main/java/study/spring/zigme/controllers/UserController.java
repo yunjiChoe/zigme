@@ -79,7 +79,6 @@ public class UserController {
 			@RequestParam(value = "addr1", defaultValue = "") String addr1,
 			@RequestParam(value = "addr2", defaultValue = "") String addr2,
 			@RequestParam(value = "loc_xy", defaultValue = "") String loc_xy,
-			@RequestParam(value = "icon", defaultValue = "1") String icon,
 			@RequestParam(value = "blockUserflag", defaultValue = "2") String blockUserflag,
 			@RequestParam(value = "outUserflag", defaultValue = "2") String outUserflag,
 			@RequestParam(value = "checkAll", defaultValue = "") String checkAll) {
@@ -146,7 +145,6 @@ public class UserController {
 		input.setAddr1(addr1);
 		input.setAddr2(addr2);
 		input.setLoc_xy(loc_xy);
-		input.setIcon(icon);
 		input.setBlockUserflag(blockUserflag);
 		input.setOutUserflag(outUserflag);
 
@@ -211,7 +209,6 @@ public class UserController {
 			@RequestParam(value = "addr1", defaultValue = "") String addr1,
 			@RequestParam(value = "addr2", defaultValue = "") String addr2,
 			@RequestParam(value = "loc_xy", defaultValue = "") String loc_xy,
-			@RequestParam(value = "icon", defaultValue = "") String icon,
 			@RequestParam(value = "blockUserflag", defaultValue = "2") String blockUserflag,
 			@RequestParam(value = "outUserflag", defaultValue = "2") String outUserflag) {
 
@@ -269,7 +266,6 @@ public class UserController {
 		input.setAddr1(addr1);
 		input.setAddr2(addr2);
 		input.setLoc_xy(loc_xy);
-		input.setIcon(icon);
 		input.setBlockUserflag(blockUserflag);
 		input.setOutUserflag(outUserflag);
 		
@@ -519,8 +515,15 @@ public class UserController {
 	
 
 	/** 로그아웃 */
+	@RequestMapping(value = "/common/logout.do", method = RequestMethod.POST)
+	public String logout(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		request.getSession(true).invalidate();
+		
+		return "common/";
+	}
 
-	// session.invalidate();
+	
 
 
 
