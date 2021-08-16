@@ -18,7 +18,7 @@
         <!-- 메일발송 서버 비밀번호 -->
         <prop key="smtpPassword">hebmmuiirteoktkn</prop>
          <!-- 업로드 디렉토리 (server.xml의 docBase 값과 일치해야 함) -->
-        <prop key="uploadDir">D:/EZEN08/zigme/Zigme/upload</prop>
+        <prop key="uploadDir">D:/EZEN08/upload</prop>
         <!-- 업로드 디렉토리에 대한 WebPath (server.xml의 path 값과 일치해야 함) -->
         <prop key="uploadPath">/upload</prop>        
     </util:properties>   

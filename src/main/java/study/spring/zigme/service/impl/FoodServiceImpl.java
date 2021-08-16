@@ -45,7 +45,7 @@ public class FoodServiceImpl implements FoodService{
 		List<Food> result = null;
 
         try {
-            result = sqlSession.selectList("PostMapper.selectFoodList", input);
+            result = sqlSession.selectList("FoodMapper.selectFoodList", input);
 
             if (result == null) {
                 throw new NullPointerException("result=null");

@@ -32,7 +32,7 @@
       <c:import url="../inc/admin.jsp" />
 
       <p class="top_title">음식 DB 관리</p>
-         <table id="food" align="center">
+         <!-- <table id="food" align="center">
             <thead>
                <tr>
                   <th>항목</th>
@@ -64,6 +64,7 @@
                         <option value="cloudy">흐림</option>
                         <option value="rainy">비</option>
                         <option value="snowy">눈</option>
+                        <option value="air">대기오염</option>
                   </select></td>
                   <td>
                      <select class="conditions" name="by_condition">
@@ -77,20 +78,21 @@
                   </td>
                   <td class="food_Image">
                      <form action="upload" id="uploadForm" method="post"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data"> -->
                         <!--  display: none으로 변경하여 버튼 커스텀  -->
-                        <input type="file" id="fileInput" name="file"
-                           style="display: none" />
+                        <!-- <input type="file" id="fileInput" name="file"
+                           style="display: none" /> -->
                         <!-- 커스텀 버튼 추가 코드 -->
-                        <div class="addfile" onclick="onclick=document.all.file.click()">
+                        <!-- <div class="addfile" onclick="onclick=document.all.file.click()">
                            <div class="addBtn">첨부</div>
                         </div>
-                     </form> <!-- 파일 이름 표기 -->
-                     <div class="file_name">
+                     </form> -->
+                     <!-- 파일 이름 표기 -->
+                     <!-- <div class="file_name">
                         <span> <input type="text" name="uploaded" id="uploaded"
                            value="" readonly>
                         </span>
-                     </div> <!-- // 파일 이름 표기 -->
+                     </div> 
                   </td>
                   <td><button type='submit' class='add btn btn-primary btn-sm'>추가</button></td>
 
@@ -99,7 +101,7 @@
          </table>
             
             <br>
-            <br>
+            <br>-->
             
          <table id="food_List">
             <thead>
@@ -110,7 +112,6 @@
                   <th>선호날씨</th>
                   <th>건강상태정보</th>
                   <th>이미지</th>
-                  <th>수정/삭제</th>
                </tr>
             </thead>
             <tbody id= "food_List_body">
@@ -129,7 +130,7 @@
    <c:import url="../inc/footer.jsp" />
    <script type="text/javascript">
    
-      //각각의 <select> id값을 'lower_food'+index로 구분하기 위해 인덱스 사용
+  <%--//각각의 <select> id값을 'lower_food'+index로 구분하기 위해 인덱스 사용
       var foodName = '';   
       //추가버튼을 누르면 추가될 각각의 행들을 result라는 변수에 저장
       var result = '';
@@ -292,7 +293,7 @@
                $("#uploaded").val(filename);
             
             });
-      });
+      }); --%>
    </script>
 
 </body>
