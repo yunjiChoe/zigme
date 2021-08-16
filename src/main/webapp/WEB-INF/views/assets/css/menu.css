@@ -423,7 +423,7 @@ p.condition {
 	display: flex;
 	width: 200px;
 	margin: 0 0px 0 0;
-	padding: 0;
+	padding-top: 20px;
 	float: right;
 }
 
@@ -446,7 +446,7 @@ p.condition {
 	margin-left: -0.1px;
 }
 
-.star.on {
+.star.onn {
 	background-image: url("../../img/menu/rating_full.png");
 }
 

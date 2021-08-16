@@ -22,7 +22,6 @@
   <!-- 메뉴 style -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/star-rating-svg.css" />
   
 	<script type="text/javascript">
 	
@@ -88,6 +87,25 @@
 	 		<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
 	 	</div>
 	 </div>
+	 <!-- 별점 주기 -->
+	<div class="rating">
+		  <span class="star star_left onn" value="0.5">&nbsp</span>
+		  <span class="star star_right onn" value="1.0">&nbsp</span>
+		
+		  <span class="star star_left onn" value="1.5">&nbsp</span>
+		  <span class="star star_right onn" value="2.0">&nbsp</span>
+		
+		  <span class="star star_left onn" value="2.5">&nbsp</span>
+		  <span class="star star_right" value="3.0">&nbsp</span>
+		
+		 <span class="star star_left" value="3.5">&nbsp</span>
+		 <span class="star star_right" value="4.0">&nbsp</span>
+		
+		 <span class="star star_left" value="4.5">&nbsp</span>
+		 <span class="star star_right" value="5.0">&nbsp</span>
+		 <p class= user_rating>2.5</p><p>/5.0</p>		
+	</div>	<!-- // 별점 주기 -->
+	
 	</div> <!-- //body 종료  -->
 		
 		
@@ -601,9 +619,9 @@
 			
 			$(".star").on('click',function(){
 				   var idx = $(this).index();
-				   $(".star").removeClass("on");
+				   $(".star").removeClass("onn");
 				     for(var i=0; i<=idx; i++){
-				        $(".star").eq(i).addClass("on");
+				        $(".star").eq(i).addClass("onn");
 				   }
 				   
 				   var starValue = $(this).attr("value");
@@ -620,18 +638,10 @@
 			
 			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea>"
 			+ "<form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div id='modal_bottom_area'><div class='addfile' onclick='onclick=document.all.file.click()'>"
-			+ "<img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div><p id='star_point'>test</p><div class='my-rating'></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
+			+ "<img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
 			
 			$(".modal-body").html(modal_tag);
 			
-			$(".my-rating").starRating({
-				  initialRating: 4,
-				  strokeColor: '#894A00',
-				  strokeWidth: 10,
-				  starSize: 25
-			});
-			
-			console.log("rating_star_zigme!!! " + get_star());
 		});
 		
 		$(document).on('click', '.write_review_wrapper2', function(e){
