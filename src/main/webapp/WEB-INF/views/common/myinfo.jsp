@@ -265,6 +265,7 @@ img.col-md-3 {
 							<button type="button" class="btn btn-primary btn-ms btn-ttc3 btn-ttc5">
 								중복확인</button>
 							<div class="nickname" style="display: none;"><b>&nbsp;사용 가능한 닉네임 입니다.</b></div>
+							<input type="hidden" name="userno" value="${output.getUserNo()}" id="userNO">
 						</div>
 						
 						<br>
@@ -346,6 +347,7 @@ img.col-md-3 {
 	</div>
 	
 	<script src=" ${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js">
+	<script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
 		
 	</script>
 	<script type="text/javascript">

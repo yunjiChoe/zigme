@@ -288,5 +288,9 @@ font-family: 'S-CoreDream-3Light';}
 	margin: auto;
 }
 
+#logout_button{
+background-color: #fff;
+}
+
     
 </style>
