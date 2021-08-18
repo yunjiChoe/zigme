@@ -65,8 +65,9 @@
         <form class="navbar-form navbar-right" method="post" action="${pageContext.request.contextPath}/common/logout.do" name="user_logout">          
           <div class="dropdown clearfix" id="user_infobtn">
             <a id="dropdownMenu1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png" class="profile_icon" /> 
-            ${output.getNickname()} 님 
-            <input type="hidden" name="userno" value="${output.getUserNo()}" id="userNO">
+            ${zigme_user.nickname}님 
+           <input type="hidden" name="session" value="${my_session}" id="my_session">
+           <input type="hidden" name="userno" value="${zigme_user.userNo}" id="userNo">
             
             <b class="caret"></b> 
             </a>
@@ -75,7 +76,7 @@
               <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/myinfo ">내 정보수정</a></li>
               <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/noti_ajax/noti_view_test.do ">알림</a></li>
               <li role="presentation" class="divider"></li>
-              <li role="presentation" id="logout"><a role="menuitem" tabindex="-1"><button type="" id="logout_button">로그아웃</button></a></li>
+              <li role="presentation" id="logout"><a role="menuitem" tabindex="-1"><button  id="logout_button">로그아웃</button></a></li>
               
             </ul>
           </div>
@@ -83,9 +84,3 @@
         <!-- // 유저 드롭박스 종료 -->
       </div> 
     </div> <!-- // navbar 종료 --> 
-<script type="text/javascript">
-
-
-
-
-</script>     

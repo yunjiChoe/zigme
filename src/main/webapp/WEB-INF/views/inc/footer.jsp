@@ -22,10 +22,11 @@
 	  <!-- // footer 영역 종료 --> 
 	  
 	   <!-- Javascript -->
+	
       <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
       <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-       <script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
-
+       
+   <script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
       <script type="text/javascript">
 
         $(function() {
@@ -50,5 +51,16 @@
           });
 
         });
+        window.onload = function () {
+    		
+        	var userno = $("#userNo").val();
+        	if (userno == 0) {	// 입력되지 않았다면?
+        		alert("로그인을 해주세요.");	// <-- 메시지 표시
+        		window.location.href='http://localhost:8080/Zigme';
+        					
+        		
+        	}
+        	console.log('사용자가 웹페이지에 돌아왔습니다.');
+        };
 
         </script>

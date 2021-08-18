@@ -44,7 +44,7 @@ public interface UserService {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int editUser(User input) throws Exception;
+	public User editUser(User input) throws Exception;
 	
 	/**
 	 * 회원 데이터 삭제하기

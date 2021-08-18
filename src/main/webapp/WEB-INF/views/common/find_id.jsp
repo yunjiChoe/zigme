@@ -84,6 +84,7 @@
                     <p>
                         메이트님의 아이디는
                     </p>
+                    
                     <h4 class="text-primary" id="id" ></h4>
                     <h4 class="text-primary  "id="mail_check_input_box_warn"></h4>
                     <p>

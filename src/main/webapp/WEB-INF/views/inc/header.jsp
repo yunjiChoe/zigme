@@ -293,5 +293,14 @@ ul, ol {
 	padding: 35px 0;
 	margin: auto;
 }
+/* 로그인 버튼 스타일 조정 */
+#logout_button{
+background-color:transparent;
+border: none;
+}
+#logout_button:hover{
+background-color:transparent;
+
+}
 
 </style>

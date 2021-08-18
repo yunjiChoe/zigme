@@ -44,7 +44,7 @@ public class UserRestController {
 	/** 비밀번호 재설정 action  */
 	@RequestMapping(value = "/common", method = RequestMethod.PUT)
 	public Map<String, Object> find_repw_ok(Model model, HttpServletRequest request,
-			@RequestParam(value = "userno", defaultValue = "") int userno,
+			@RequestParam(value = "userno", defaultValue = "0") int userno,
 			@RequestParam(value = "password", defaultValue = "") String password
 
 	) {
@@ -55,8 +55,8 @@ public class UserRestController {
 		// --> Servlet과 동일함.
 		HttpSession session = request.getSession();
 		/** 1) 파라미터 유효성 검사 */
-		if (userno == 0)       	{ return webHelper.getJsonWarning("회원정보가 조회되지 않습니다."); }
-		 if (!regexHelper.isValue(password))     	{ return webHelper.getJsonWarning("비밀번호 조회되지 않습니다."); }
+		 if (userno == 0)       	{ return webHelper.getJsonWarning("회원정보가 조회되지 않습니다."); }
+		 if (!regexHelper.isValue(password))     	{ return webHelper.getJsonWarning("비밀번호 입력되지 않았습니다."); }
 		 
 		
 		/** 2) 데이터 조회하기 */
@@ -79,6 +79,11 @@ public class UserRestController {
         data.put("item", output);
         return webHelper.getJsonData(data);
 	}
+	
+	
+	
+	
+	
 	
 	/** 아이디 찾기 작성 폼에 대한 action 페이지 */
 	@RequestMapping(value = "/common", method = RequestMethod.GET)

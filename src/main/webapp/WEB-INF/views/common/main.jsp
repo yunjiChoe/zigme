@@ -69,7 +69,7 @@ strong {
     	<div id="main_weather">
     		<img id="wicon" src="" alt="Weather icon" width="100">
     		<span id="main_whaterdossi" class="ctemp" ></span>
-    		<input type="hidden"   id="loc_xy" name="loc_xy"  value="${output.getLoc_xy()}"/>
+    		<input type="hidden"   id="loc_xy" name="loc_xy"  value="${zigme_user.loc_xy}"/>
     	</div>    	
     	<!-- 알람 -->
     	<div id="main_alram"></div>
@@ -443,6 +443,7 @@ strong {
 		
 		var  x = document.getElementById("loc_xy").value;
 		console.log(x);
+		console.log(${zigme_user.userNo});
 		
 		var loc_xy = x.split(", ");
 		console.log(loc_xy[0]);

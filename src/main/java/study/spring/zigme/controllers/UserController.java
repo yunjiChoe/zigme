@@ -165,12 +165,7 @@ public class UserController {
 	public ModelAndView edit(Model model, HttpServletRequest request,
 			@RequestParam(value = "userno", defaultValue = "0") int userno) {
 
-		HttpSession session = request.getSession();
-		String mySession = (String) session.getAttribute("output");
-		if (mySession == null) {
-			mySession = "";
-		}
-
+		
 		/** 1) 파라미터 유효성 검사 */
 		if (userno == 0) {
 			return webHelper.redirect(null, "회원 조회번호가 없습니다.");
@@ -192,7 +187,6 @@ public class UserController {
 		}
 
 		/** 3) View 처리 */
-		model.addAttribute("my_session", session);
 		model.addAttribute("output", output);
 		model.addAttribute("deptList", userList);
 		return new ModelAndView("/myinfo");
@@ -214,11 +208,7 @@ public class UserController {
 			@RequestParam(value = "blockUserflag", defaultValue = "2") String blockUserflag,
 			@RequestParam(value = "outUserflag", defaultValue = "2") String outUserflag) {
 
-		/** 컨트롤러에서 세션을 식별하기 위한 처리 */
-		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
-		// --> Servlet과 동일함.
-		HttpSession session = request.getSession();
-
+		
 		/** 1) 사용자가 입력한 파라미터 유효성 검사 */
 		if (userno == 0) {
 			return webHelper.redirect(null, "회원번호가 없습니다");
@@ -284,53 +274,22 @@ public class UserController {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}
 
-		// 추출한 값을 View에게 전달
-		session.setAttribute("output", output);
+		
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
 		String redirectUrl = contextPath + "/main";
 		return webHelper.redirect(redirectUrl, "수정되었습니다");
 	}
 
-	/** 삭제 처리 */
-	@RequestMapping(value = "/common/delete_ok.do", method = RequestMethod.GET)
-	public ModelAndView delete_ok(Model model, @RequestParam(value = "userno", defaultValue = "0") int userno) {
-
-		/** 1) 파라미터 유효성 검사 */
-		if (userno == 0) {
-			return webHelper.redirect(null, " 회원 탈퇴 번호가 없습니다");
-		}
-
-		/** 2) 데이터 삭제하기 */
-		User input = new User();
-		input.setUserNo(userno);
-
-		try {
-			userservice.deleteUser(input); // 데이터 삭제
-		} catch (Exception e) {
-			return webHelper.redirect(null, e.getLocalizedMessage());
-		}
-
-		/** 3) 페이지 이동 */
-		return webHelper.redirect(contextPath + "/common/list.do", "삭제되었습니다");
-	}
+	
 
 	/** 로그인 작성 폼 페이지 */
 	@RequestMapping(value = "/inc/navbar.do", method = RequestMethod.GET)
 	public ModelAndView login(Model model, HttpServletRequest request,
 
-			@RequestParam(value = "userno", defaultValue = "") int userno,
+			@RequestParam(value = "userno", defaultValue = "0") int userno,
 			@CookieValue(value="my_cookie", defaultValue="") String myCookie) {
-
-		/** 컨트롤러에서 세션을 식별하기 위한 처리 */
-		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
-		// --> Servlet과 동일함.
-		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(120);
-		String mySession = (String) session.getAttribute("output");
-		if (mySession == null) {
-			mySession = "";
-		}
-
+		
+		
 		User input = new User();
 		input.setUserNo(userno);
 
@@ -348,7 +307,7 @@ public class UserController {
 		}
 
 		/** 3) View 처리 */
-		model.addAttribute("my_session", session);
+		
 		return new ModelAndView("/main");
 	}
 
@@ -357,14 +316,31 @@ public class UserController {
 	public ModelAndView login_ok(Model model, HttpServletRequest request,
 			@RequestParam(value = "id", defaultValue = "") String id,
 			@RequestParam(value = "password", defaultValue = "") String password
+			
 
 	) {
 
-		/** 컨트롤러에서 세션을 식별하기 위한 처리 */
-		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
-		// --> Servlet과 동일함.
-		HttpSession session = request.getSession();
+		  /** 1) request 객체를 사용해서 세션 객체 만들기 */
+        // --> import javax.servlet.http.HttpSession;
+        HttpSession session = request.getSession();
 
+        /** 2) 세션 저장, 삭제 */
+        // 생성된 세션 객체를 사용하는 방법은 JSP와 동일하다.
+        if (!id.equals("")) {
+            // 입력 내용이 있다면 세션 저장 처리
+            session.setAttribute("my_session", id);
+            //session.setAttribute("my_session", userNo);
+        } else {
+            // 입력 내용이 없는 경우 세션 삭제
+            session.removeAttribute("my_session");
+        }
+		// 세션 유지시간 설정(예 : 1시간)
+	    session.setMaxInactiveInterval(60*60);
+		String user = (String) session.getAttribute("id");
+		
+		
+
+		
 		/** 1) 파라미터 유효성 검사 */
 		if (!regexHelper.isValue(id)) {
 			return webHelper.redirect(null, "아이디를 입력하세요");
@@ -378,17 +354,25 @@ public class UserController {
 		input.setId(id);
 		input.setPassword(password);
 
-		User output = null;
+		User zigme_user = null;
 
 		try {
-			output = userservice.doLogin(input);
+			zigme_user = userservice.doLogin(input);
+			System.out.println(zigme_user.getLoc_xy());
+			
 
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}
-
+		
+		
+	
+		
+		
+		
 		// 추출한 값을 View에게 전달
-		session.setAttribute("output", output);
+		session.setAttribute("zigme_user", zigme_user);
+		System.out.println(zigme_user);
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
 		String redirectUrl = contextPath + "/main";
 		return webHelper.redirect(redirectUrl, "직메에 오신것을 환영합니다 ^o^ ");
@@ -399,7 +383,7 @@ public class UserController {
 	@RequestMapping(value = "/common/find.do", method = RequestMethod.GET)
 	public ModelAndView find(Model model, HttpServletRequest request,
 
-			@RequestParam(value = "userno", defaultValue = "") int userno) {
+			@RequestParam(value = "userno", defaultValue = "0") int userno) {
 
 		/** 컨트롤러에서 세션을 식별하기 위한 처리 */
 		// 세션값은 request 내장객체를 통해서 HttpSession객체를 생성해야 접근할 수 있다.
@@ -425,6 +409,7 @@ public class UserController {
 		}
 
 		/** 3) View 처리 */
+		
 		model.addAttribute("my_session", session);
 		return new ModelAndView("/find_id");
 	}
@@ -459,6 +444,7 @@ public class UserController {
 		}
 
 		session.setAttribute("output", output);
+		session.getAttribute("nickname");
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
 		Map<String, Object> data = new HashMap<String, Object>();
         data.put("item", output);
