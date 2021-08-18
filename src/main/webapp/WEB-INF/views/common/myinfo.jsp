@@ -678,6 +678,7 @@ img.col-md-3 {
 			    $("#out").click(function() {
 			    	
 			    	var nickname = document.getElementById("user_subname").value;
+			    	var retVal = confirm("정말 " + nickname + "님을(를) 삭제하시겠습니까?");
 			        var id =document.getElementById("user_id").value;
 			        var userNo = document.getElementById("userNo").value;
 			        var outUserflag = document.getElementById("check").value;
@@ -687,9 +688,9 @@ img.col-md-3 {
 			       if (!agree) {
 						alert("동의하지 않으시면 탈퇴가 불가능합니다.");
 						return false;
-		            }	else {
-			       alert("정말 " + nickname + "님을(를) 삭제하시겠습니까?");
-			       
+		            }	else if(retVal ==false) {
+		            	return false;
+	
 		            }
 						 $.ajax({
 						    	
