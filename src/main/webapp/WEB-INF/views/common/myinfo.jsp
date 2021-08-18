@@ -273,6 +273,7 @@ img.col-md-3 {
 					width="50">
 				<h2>${zigme_user.nickname}님</h2>
 				<input type="hidden" name="userNo" value="${zigme_user.userNo}" id="userNo">
+				<input type="hidden" name="id" value="${my_session}" id="user_id">
 			</div>
 			<form role="form" action="" method="get">
 				<fieldset>
@@ -348,7 +349,7 @@ img.col-md-3 {
 							onclick="foldDaumPostcode()" alt="접기 버튼">
 					</div>
 					<br /> <br /> <!-- <a href="#" onClick="history.back()"> -->
-						<button type="button" class="btn btn-primary btn-block btn-ttc5" 
+			<a href="#" onClick="location.reload()"> 			<button type="button" class="btn btn-primary btn-block btn-ttc5"  
 							id="edit" data-toggle="modal">회원 정보 수정</button></a>
 					
 				</fieldset>
@@ -390,16 +391,16 @@ img.col-md-3 {
 	
 /* 	window.onload = function () {
 		
+		
 		var userno = ${zigme_user.userNo};
+		
 		if (userno == 0) {	// 입력되지 않았다면?
 			alert("로그인을 해주세요.");	// <-- 메시지 표시
 			window.location.href='http://localhost:8080/Zigme';
-						
-			
-		}
+		} 
+		
 		console.log('사용자가 웹페이지에 돌아왔습니다.');
-	}; */
-
+	};  */
 	
 	// 우편번호 찾기 찾기 화면을 넣을 element
 	var addr = ''; // 주소 변수
@@ -519,54 +520,19 @@ img.col-md-3 {
 	
 	
 	
-		
-		/* 	var agree = false;
-			
-			$("#check").change(function() {				
-				if ($("#check").is(":checked")) {
-		            agree = true;
-		        } else {
-		            agree = false;
-		        }
-			}); */
-			
+	
+
+		 
+	    
+	   
 		
 		
-		/* $(function() {
-	        $("#out").click(function(e) {
-	            e.preventDefault();  // 링크 클릭에 대한 페이지 이동 방지
-	            
-	            let current = $(this);  // 이벤트가 발생한 객체 자신 ==> <a>태그
-	            let nick = document.getElementById("user_subname").value;     // data-profno 값을 가져옴
-	            let userno = ${output.userNo};
-	           // let position = current.data('position'); // data-position 값을 가져옴
-	            let target = nick ;      // "이름 + 공백 + 직급"형식의 문자열
-	            
-	            
-	            
-	            // 삭제 확인
-	            
-	            if (!agree) {
-					alert("동의하지 않으시면 탈퇴가 불가능합니다.");
-	            }	else {
-	            	alert("정말 " + target + "님을(를) 삭제하시겠습니까?");
-					alert("정상적으로 탈퇴되었습니다.");
-					return false;
-				}
-	           
-	            
-	            // delete 메서드로 Ajax 요청 --> <form> 전송이 아니므로 직접 구현한다.
-	            $.delete("${pageContext.request.contextPath}/myinfo", {
-	                "userno": userno
-	            }, function(json) {
-	                if (json.rt == "OK") {
-	                    alert("삭제되었습니다.");
-	                    // 삭제 완료 후 목록 페이지로 이동
-	                    window.location = "${pageContext.request.contextPath}/";
-	                }
-	            });
-	        });
-	    }); */
+		
+		
+		
+		
+		
+		
 		
 		$(function() {
 	        $("#check").click(function(e) {
@@ -685,13 +651,74 @@ img.col-md-3 {
 								
 									//console.log(json.item.userno);
 									alert("수정 완료.");
-									
 								}
 				            }
 				        });
 			    });
 			});
-	
+		 
+		 
+		 
+		 $(function() {
+			 var agree = false;
+			 
+			 $("#check").change(function() {
+				 
+				 
+			
+					if ($("#check").is(":checked")) {
+			            agree = true;
+			        } else {
+			            agree = false;
+			        }
+			 });
+			 
+			 
+			    //out 버튼을 클릭했을 때 
+			    $("#out").click(function() {
+			    	
+			    	var nickname = document.getElementById("user_subname").value;
+			        var id =document.getElementById("user_id").value;
+			        var userNo = document.getElementById("userNo").value;
+			        var outUserflag = document.getElementById("check").value;
+			       console.log(userNo);
+			       console.log(id);
+			       
+			       if (!agree) {
+						alert("동의하지 않으시면 탈퇴가 불가능합니다.");
+						return false;
+		            }	else {
+			       alert("정말 " + nickname + "님을(를) 삭제하시겠습니까?");
+			       
+		            }
+						 $.ajax({
+						    	
+						    	
+					            url:'${pageContext.request.contextPath}/user_out', //Controller에서 인식할 주소
+					            type:'PUT', //POST 방식으로 전달
+					            data:{'id' : id , 'userNo' :userNo,'outUserflag':outUserflag},
+					            
+					           success: function(json) {
+									// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
+									// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+									if (json.rt == "OK") {
+										
+										alert("탈퇴가 완료되었습니다.");
+										window.location = "${pageContext.request.contextPath}/" ;
+										
+									} else {
+										alert("탈퇴에 실패 했습니다.");
+										
+									}
+					            }
+					     
+						}); // end $.get
+				
+			    });
+			});
+			
+		  
+		
 		
 	</script>
 	

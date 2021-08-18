@@ -130,15 +130,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User doOut(User input) throws Exception {
 		int result = 0;
-		User output = null;
+		User zigme_user = null;
 		
 		try {
 			result =sqlSession.update("UserMapper.outUpdate", input);
-			output =sqlSession.selectOne("UserMapper.selectItem",input);
+			zigme_user =sqlSession.selectOne("UserMapper.selectItem",input);
 			
 			if(result ==0) {
 				throw new NullPointerException("result= 0");
-			}else if (output ==null) {
+			}else if (zigme_user ==null) {
 				throw new NullPointerException("output=null");
 			}
 		}catch (NullPointerException e) {
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService{
 			log.error(e.getLocalizedMessage());
 			throw new Exception("로그인 처리에 실패했습니다.");
 		}
-		return output;
+		return zigme_user;
 	}
 	
 	/**
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService{
 		
 		
 		try {
-			if(input.getOutUserflag() =="1") {
+			if(input.getOutUserflag() =="Y") {
 				throw new Exception("이미 탈퇴처리된 회원입니다.");
 			}else {
 			

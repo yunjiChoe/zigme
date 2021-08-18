@@ -113,7 +113,7 @@
 
 	 <!--  탈퇴 -->
 	 <update id="outUpdate" parameterType="study.spring.zigme.model.User">
-	 UPDATE user SET outUserflag = 'Y'<where>id=#{id};</where>
+	 UPDATE user SET outUserflag = 'Y'<where>userNo =#{userNo}  AND id=#{id};</where>
 	 </update>
 	 
 	 <!--  아이디 중복 체크 -->	 

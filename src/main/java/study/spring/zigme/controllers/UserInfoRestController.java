@@ -40,6 +40,10 @@ public class UserInfoRestController {
 	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
+	
+	
+	
+	
 	/** 내 정보 수정 action  */
 	@RequestMapping(value = "/myinfo", method = RequestMethod.PUT)
 	public Map<String, Object> myinfo_ok(Model model, HttpServletRequest request,
@@ -104,23 +108,31 @@ public class UserInfoRestController {
 	}
 	
 	/** 삭제 처리 */
-	@RequestMapping(value = "/myinfo", method = RequestMethod.DELETE)
-	public Map<String, Object> delete_ok(Model model,
-			@RequestParam(value = "userNo", defaultValue = "0") int userNo) {
-
+	@RequestMapping(value = "/user_out", method = RequestMethod.PUT)
+	public Map<String, Object> user_out(HttpServletRequest request,
+			@RequestParam(value = "userNo", defaultValue = "0") int userNo,
+			@RequestParam(value = "id", defaultValue = "0") String id,
+			@RequestParam(value = "outUserflag", defaultValue = "2") String outUserflag
+			) {
+		HttpSession session = request.getSession();
+		session.invalidate();  // 세션 삭제
 		
 		log.info("탈퇴 컨트롤러 확인");
 		/** 1) 파라미터 유효성 검사 */
-		 if (userNo == 0)       	{ return webHelper.getJsonWarning("회원정보가 조회되지 않습니다."); }
+		 if (userNo == 0)       	{ return webHelper.getJsonWarning("회원정보가 조회 되지않습니다."); }
 
 		/** 2) 데이터 삭제하기 */
 		User input = new User();
 		input.setUserNo(userNo);
+		input.setId(id);
+		
+		User zigme_user = null;
 
 		try {
-			 userservice.doOut(input); // 데이터 삭제
+			zigme_user = userservice.doOut(input); // 데이터 삭제
+			log.debug(zigme_user.toString());
 		} catch (Exception e) {
-			
+			return webHelper.getJsonError(e.getLocalizedMessage());
 		}
 
 		Map<String, Object> data = new HashMap<String, Object>();
