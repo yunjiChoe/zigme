@@ -106,12 +106,12 @@
          <table id="food_List">
             <thead>
                <tr>
-                  <th>번호</th>
-                  <th>음식명</th>
-                  <th>업종명</th>
-                  <th>선호날씨</th>
-                  <th>건강상태정보</th>
-                  <th>이미지</th>
+                  <th width="50">번호</th>
+                  <th width="150">음식 이름</th>
+                  <th width="100">업종</th>
+                  <th width="120">선호날씨</th>
+                  <th width="180">건강상태정보</th>
+                  <th width="100">삭제여부(Y/N)</th>
                </tr>
             </thead>
             <tbody id= "food_List_body">

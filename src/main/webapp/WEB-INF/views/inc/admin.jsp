@@ -26,16 +26,16 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
           <li class="menu-item-bumper">&nbsp;</li>
-          <li class="menu-item pull-left" data-imgname="sub_hover_bubble_menu,util.png">
+          <li class="menu-item pull-left" data-imgname="sub_hover_bubble_home.png">
             <a id="top_fir" class="top"href="${pageContext.request.contextPath}/admin/admin_food">음식DB관리</a>
           </li>
 
-          <li class="menu-item pull-left" data-imgname="sub_hover_bubble_home.png">
-            <a id="top_sec" class="top" href="${pageContext.request.contextPath}/admin/admin_category">업종관리</a>
+          <li class="menu-item pull-left" data-imgname="sub_hover_bubble_helpme.png">
+            <a id="top_sec" class="top" href="${pageContext.request.contextPath}/admin/admin_catecondi">업종/건강상태정보관리</a>
           </li>
 
-          <li class="menu-item pull-left" data-imgname="sub_hover_bubble_helpme.png">
-            <a id="top_thi" class="top" href="${pageContext.request.contextPath}/admin/admin_condition">건강상태정보관리</a>
+          <li class="menu-item pull-left" data-imgname="sub_hover_bubble_home.png">
+            <a id="top_thi" class="top" href="${pageContext.request.contextPath}/admin/admin_image">이미지 관리</a>
           </li>
 
           <li class="menu-item pull-left" data-imgname="sub_hover_bubble_menu,util.png">
