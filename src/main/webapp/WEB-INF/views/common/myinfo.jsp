@@ -609,7 +609,8 @@ img.col-md-3 {
 						}
 						
 						if (!password) {	// 입력되지 않았다면?
-							alert("비밀번호를 입력해주세요.");	// <-- 메시지 표시
+							alert("비밀번호를 입력해주세요.");
+							$('#user_pw').removeAttr("disabled");// <-- 메시지 표시
 							$("#user_pw").focus();			// <-- 커서를 강제로 넣기
 							return false;					// <-- 실행 중단
 						}
