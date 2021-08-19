@@ -32,7 +32,7 @@
 	<!-- 데이터 저장을 위한 기능 정의 -->
 	<insert id="insertItem"
 		parameterType="study.spring.zigme.model.UserSetImage"
-		useGeneratedKeys="true" keyProperty="userImgNo">
+		useGeneratedKeys="true" keyProperty="userImgNo" >
 		INSERT INTO usersetimage (userImgName, userImgSize, userImgPath)
 		VALUES (#{userImgName}, #{userImgSize}, #{userImgPath});
 	</insert>

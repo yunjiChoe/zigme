@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,10 @@
   <!-- 메뉴 style -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/menu.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+  <%-- <sec:csrfMetaTags /> 또는 --%>
+  <!-- <meta name="_csrf_header" content="${_csrf.headerName}" />
+  <meta name="_csrf" content="${_csrf.token}" />  -->
   
 	<script type="text/javascript">
 	
@@ -208,7 +213,10 @@
 		var selectedMarker = null; // 클릭한 마커를 담을 변수
 		var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 		var map;
+		
+		var now_click_placeId = "";
     	
+		
 		// ------------------------------------ JSON Data load --------------------------------------
 	   /*
 		*  JSON파일을 읽어와 각종 데이터를 세팅하는 함수 
@@ -309,7 +317,79 @@
 				
 				}
 				//console.log(review_list[926603562][1].reviewContent);
-		}		
+		}
+		
+		// review data insert
+		function review_insert() {
+			var file_name = "";
+			var file_no = "";
+			
+			// 파일 업로드. enctype 때문에 다른 String과 함께 전송이 안되는 것 같음. 
+			$.ajax({
+    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+    			// 결과를 읽어올 URL
+    			url: '${pageContext.request.contextPath}/upload/upload.review',
+    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+    			method: 'POST',
+   			    enctype: 'multipart/form-data',
+    			processData : false,
+                contentType : false,
+    			// 전달할 조건값은 JSON형식으로 구성
+    			data: new FormData($("#uploadForm")[0]), 
+    			// 읽어올 내용의 형식(생략할 경우 Json)
+    			dataType: 'json',
+    			//beforeSend: function(xhr){
+    			//	xhr.setRequestHeader(header, token);	// 헤드의 csrf meta태그를 읽어 CSRF 토큰 함께 전송
+    			//},
+    			// 읽어온 내용을 처리하기 위한 함수
+    			success: function(req) {    			
+    				
+    				file_name = req.review_item.userImgPath;
+    				file_no = req.review_item.userImgNo;
+    				//console.log("파일명 " + file_name);
+    				
+    			}
+    		}); // end $.ajax
+			
+    		var mydate = new Date();
+    		
+    		var reviewRegdate = mydate.getFullYear() + "-" + (mydate.getMonth()+1) + "-" + mydate.getDate() + " " + mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds();
+    		
+    		console.log("reviewContent : " + $('#review_content').val() );
+    		console.log("reviewScope : " + $('.user_rating').html() );
+    		console.log("reviewRegdate : " + reviewRegdate);
+    		console.log("reviewPlaceId : " + now_click_placeId);
+    		//console.log("userNo : " + );
+    		console.log("userImgNo : " + file_no);
+    		
+    		/*
+    		// form data 전송 
+    		$.ajax({
+    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+    			// 결과를 읽어올 URL
+    			url: '${pageContext.request.contextPath}/main',
+    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+    			method: 'post',
+    			// 전달할 조건값은 JSON형식으로 구성
+    			data: {
+    				   "scheCate": scheCate,
+    				   "scheContent": scheContent, 
+    				   "scheLoc": scheLoc,
+    				   "scheStartdate" : scheStartdate,
+    				   "scheEnddate" : scheEnddate,
+    				   "userNo" : userNo
+    			},
+    			// 읽어올 내용의 형식(생략할 경우 Json)
+    			dataType: 'json',
+    			// 읽어온 내용을 처리하기 위한 함수
+    			success: function(req) {
+    				
+    				location.reload(); // sche-id가 캘린더 플러그인의 값으로 자동등록되기 때문에 
+    				//console.log("통신완료" + req.item.scheNo);
+    				
+    			}
+    		}); // end $.ajax */
+		}
 		// ------------------------------------ Modal start ------------------------------------
 		$("#open_modal_btn").click(function(e){
 			// 스크립트를 사용하여 특정 modal 강제로 열기
@@ -320,14 +400,64 @@
 
 		// 파일명 textbox에 띄우기 --------------------------------------------------------------------------
 		// input 요소 중에 name이 file 인 요소의 값이 바뀌었을때 
-		$("input[name=file]").on("change", function() {	
+		$("#uploadreViewImg").on("change", function() {	
 			
-			$('#uploaded').val('');              									// 파일 이름 추출 전 초기화
+			$('#review_img').val('');              									// 파일 이름 추출 전 초기화
 			
 			if(window.FileReader) {
 				var filename = $(this)[0].files[0].name;							// 최근 브라우저의 파일명 추출			
 			} else { 
 				var filename = $(this).val().split('/').pop().split('\\').pop(); 	// 구 브라우저 파일명 추출
+			}
+			
+			// 파일 크기 확인
+			if (filename != ''){
+				var size = 5;  
+				var fileSize = document.getElementById("uploadreViewImg").files[0].size;	// 파일 사이즈 get
+				var maxSize = size * 1024 * 1024 // 5MB
+				
+				if (fileSize > maxSize) {
+					alert("첨부파일 사이즈는 " + size + "MB 이내로 등록 가능합니다.");
+					$('#uploadreViewImg').val('');
+					return;
+				}
+			}
+
+			 // 추출한 파일명 삽입
+			$("#review_img").val(filename);			
+			
+			$(".modal-header").empty();
+			$(".modal-body").empty();
+			
+			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
+			$(".modal-header").html(modal_tag);
+			
+			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div>"
+			+ "<span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'>"
+			+ "</span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
+			
+			$(".modal-body").html(modal_tag);
+		
+		});
+		
+		$("#fileInput").on("change", function() {	
+			
+			$('#uploaded').val(''); 											// 파일 이름 추출 전 초기화
+			
+			if(window.FileReader) { 								
+				var filename = $(this)[0].files[0].name;						// 최근 브라우저의 파일명 추출			
+			} else { // old IE
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 구 브라우저 파일명 추출
+			}
+			
+			// 파일 확장자 확인 -----------------------------------------------------------------------------
+			var ext = filename.split('.').pop().toLowerCase();
+			
+			// 업로드 가능한 확장자 배열처리, 이 외의 확장자에 대해 알람 창 띄우기
+			if($.inArray(ext, ['jpg', 'jpeg', 'gif', 'png']) == -1) {
+				alert('jpg, gif, png 파일만 등록이 가능합니다.');
+				$('#fileInput').val('');
+				return;
 			}
 			
 			// 파일 크기 확인
@@ -342,25 +472,21 @@
 					return;
 				}
 			}
-
-			 // 추출한 파일명 삽입
-			$("#upfile").val(filename);
-			$("#upfile").ready(function() {
-				$("#fileis").html("첨부된 파일: "); 
+			
+			// 추출한 파일명 삽입
+			$("#uploaded").val(filename);	
+			$("#uploaded").ready(function() {
+				// $(".fileis").html("첨부된 파일: "); 
 				
 			});
-			
 			
 			$(".modal-header").empty();
 			$(".modal-body").empty();
 			
-			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
+			var modal_tag = "<button type='button' class='close' data-dismiss='moda' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>방문 확인</h4></div>";
 			$(".modal-header").html(modal_tag);
 			
-			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div>"
-			+ "<span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'>"
-			+ "</span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
-			
+			modal_tag = "<div class='receiptimg'><img src='${pageContext.request.contextPath}/img/menu/receiptimage_sample.png'></div><span class='visit_dayandloc'>2021-06-25 <b>메이탄 강남점</b></span><span>방문확인 <img src='${pageContext.request.contextPath}/img/menu/checked.png'></span><div id='modal_review'><span class='write_review_wrapper'>리뷰 쓰기</span></div>";
 			$(".modal-body").html(modal_tag);
 		
 		});
@@ -468,6 +594,7 @@
 	    		var review_imgname = "";
 	    		var lstcode = bistro_no;
 	    		
+	    		now_click_placeId = bistro_no; // 현재 음식점의 id를 저장하고, 리뷰 작성 모달에서 사용한다. 음식점 목록을 클릭했을때 업데이트 
 	    		
 	    		/////////////////////////////////////// 리뷰 목록 read			    		
 	    		
@@ -594,9 +721,8 @@
 			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
 			$(".modal-header").html(modal_tag);
 			
-			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea>"
-			+ "<form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div id='modal_bottom_area'><div class='addfile' onclick='onclick=document.all.file.click()'>"
-			+ "<img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div><div class='rating'>";
+			modal_tag = "<textarea name='review_content' id='review_content' cols='50' rows='10' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'></textarea>"
+			+ "<form method='post' id='uploadForm' enctype='multipart/form-data'><div id='modal_bottom_area'><input type='file' name='uploadreViewImg' id='uploadreViewImg' /><div class='rating'>";
 			
 	        while( star_value <= MAX_STAR ) {
 	        	modal_tag += "<span class='star star_left' value='" + star_value + "'></span>"
@@ -604,7 +730,7 @@
 	                     star_value += 1;	
 	         }
 
-	        modal_tag += "<p class='user_rating'>0.0</p><p> / 5.0</p></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a></div>";
+	        modal_tag += "<p class='user_rating'>0.0</p><p> / 5.0</p></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a></form>";
 	        
 			$(".modal-body").html(modal_tag);
 			
@@ -624,7 +750,10 @@
 		});
 		
 		$(document).on('click', '.write_review_wrapper2', function(e){
-			$("#myModal").modal('hide');
+			
+			// $("#myModal").modal('hide');
+			review_insert();
+			
 		});
 		
 		/*
@@ -637,7 +766,14 @@
 			for(var i=0; i<sel_array.length; i++){
 					item_name = "#menu_group_" + sel_array[i];					
 					$(item_name).addClass("menu_select");										
-			}			
+			}
+			
+			// a href='#' 클릭 무시 스크립트
+		    $(document).ready(function() {		        
+		        $('a[href="#"]').click(function(ignore) {
+		            ignore.preventDefault();
+		        });
+		    });
 			
 		});		
 		

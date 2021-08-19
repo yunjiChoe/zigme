@@ -4,6 +4,8 @@ import java.util.List;
 
 import study.spring.zigme.model.Food;
 import study.spring.zigme.model.Review;
+import study.spring.zigme.model.Scheduler;
+import study.spring.zigme.model.UserSetImage;
 
 public interface MenuService {
 	
@@ -16,5 +18,9 @@ public interface MenuService {
 	public List<Food> getFoodList(Food input, String flag) throws Exception;
 	
 	public Food getFoodImgName(Food input) throws Exception;
+	
+	public int addReviewImg(UserSetImage input) throws Exception;
+	
+	public UserSetImage getReviewImgItem(UserSetImage input) throws Exception;
 	
 }

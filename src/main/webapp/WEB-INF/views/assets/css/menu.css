@@ -418,6 +418,23 @@ p.condition {
 	cursor: pointer;
 	float: left;
 }
+
+#modal_bottom_area {	
+	text-align: left;
+    padding-left: 20px;
+    font-size: 15px;
+}
+
+#uploadreViewImg {
+	color: black;
+	width: 200px;
+	display: inline-block;	
+}
+
+#review_img {
+	width: 100px;
+}
+
 /** 별점 부여 관련 속성 */
 .rating {
 	display: flex;
