@@ -35,7 +35,7 @@ public class FoodRestController {
 	FoodService foodService;
 
 	/** 목록 페이지 */
-	@RequestMapping(value = "/admin_food", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/admin_food", method = RequestMethod.GET)
 	public Map<String, Object> get_list(
 			// 검색어
 			@RequestParam(value = "keyword", required = false) String keyword) {
@@ -62,7 +62,7 @@ public class FoodRestController {
 	}
 
 	/** 상세 페이지 */
-	@RequestMapping(value = "/admin_food/{foodNo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/admin_food/{foodNo}", method = RequestMethod.GET)
 	public Map<String, Object> get_item(@PathVariable("foodNo") int foodNo) {
 		/** 1) 데이터 조회하기 */
 		// 데이터 조회에 필요한 조건값을 Beans에 저장하기
@@ -87,7 +87,7 @@ public class FoodRestController {
 	}
 
 	/** 작성 폼에 대한 action 페이지 */
-	@RequestMapping(value = "/admin_food", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/admin_food", method = RequestMethod.POST)
 	public Map<String, Object> post(@RequestParam(value = "foodName", defaultValue = "") String foodName,
 			@RequestParam(value = "foodCategory", defaultValue = "") String foodCategory,
 			@RequestParam(value = "foodWeather", defaultValue = "") String foodWeather,
@@ -139,7 +139,7 @@ public class FoodRestController {
 	}
 
 	/** 수정 폼에 대한 action 페이지 */
-	@RequestMapping(value = "/admin_food", method = RequestMethod.PUT)
+	@RequestMapping(value = "/admin/admin_food", method = RequestMethod.PUT)
 	public Map<String, Object> put(
 			@RequestParam(value = "foodNo", defaultValue="0") int foodNo,
 			@RequestParam(value = "foodName", defaultValue = "") String foodName,
@@ -195,7 +195,7 @@ public class FoodRestController {
 	}
 
 	/** 삭제 처리 */
-	@RequestMapping(value = "/admin_food", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/admin/admin_food", method = RequestMethod.DELETE)
 	public Map<String, Object> delete(
 			@RequestParam(value="foodNo", defaultValue="0") int foodNo) {
 		/** 1) 파라미터 유효성 검사 */

@@ -8,6 +8,8 @@
    pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -25,6 +27,7 @@
 <style type="text/css">
 </style>
 
+
 </head>
 <body>
    <div class="container">
@@ -32,6 +35,12 @@
       <c:import url="../inc/admin.jsp" />
 
       <p class="top_title">음식 DB 관리</p>
+      
+      <form method="get" action="${pageContext.request.contextPath}/admin/admin_food/list.do">
+      	<label for="keyword">음식이름: </label>
+      	<input type="search" name="keyword" placeholder="음식이름 검색" value="${keyword}" />
+      	<button type="submit" id="searchfood">검색</button>
+      </form>
          <!-- <table id="food" align="center">
             <thead>
                <tr>
@@ -98,10 +107,10 @@
 
                </tr>
             </tbody>
-         </table>
+         </table>-->
             
+            <hr/>
             <br>
-            <br>-->
             
          <table id="food_List">
             <thead>
@@ -115,6 +124,36 @@
                </tr>
             </thead>
             <tbody id= "food_List_body">
+            	<c:choose>
+            		
+            		<c:when test="${output == null || fn:length(output) == 0}">
+            			<tr>
+            				<td colspan="6" align="center">조회결과가 없습니다.</td>
+            			</tr>
+            		</c:when>
+            		
+            		<c:otherwise>
+            			
+            			<c:forEach var="item" items="${output}" varStatus="status">
+            				
+            				<c:set var="foodName" value="${item.foodName}" />
+            				
+            				
+            				<c:url value="admin_food/view.do" var="viewUrl">
+            					<c:param name="foodNo" value="${item.foodNo}" />
+            				</c:url>
+            				
+            				<tr>
+            					<td align="center">${item.foodNo}</td>
+            					<td align="center"><a href="${viewUrl}">${foodName}</a></td>
+            					<td align="center">${item.foodCategory}</td>
+            					<td align="center">${item.foodWeather}</td>
+            					<td align="center">${item.foodCondition}</td>
+            					<td align="center">${item.delFoodflag}</td>
+            				</tr>            				
+            			</c:forEach>
+            		</c:otherwise>
+            	</c:choose>
             </tbody>
          </table>
 
@@ -128,8 +167,9 @@
       <script src="../assets/js/bootstrap.min.js"></script> 
     -->   
    <c:import url="../inc/footer.jsp" />
+
    <script type="text/javascript">
-   
+	
   <%--//각각의 <select> id값을 'lower_food'+index로 구분하기 위해 인덱스 사용
       var foodName = '';   
       //추가버튼을 누르면 추가될 각각의 행들을 result라는 변수에 저장
