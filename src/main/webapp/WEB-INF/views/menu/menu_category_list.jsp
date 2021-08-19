@@ -8,7 +8,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -30,11 +29,11 @@
   
 	<script type="text/javascript">
 	
-	function report(bistro_no, i) {
+	function report(review_list, bistro_no, i) {
 		
-		$("#report_id").attr("value", review_list[i].id);
-		$("#report_content").attr("value", review_list[i].content);
-		$("#report_date").attr("value", review_list[i].date);
+		$("#report_id").attr("value", review_list[bistro_no][i].userNickname);
+		$("#report_content").attr("value", review_list[bistro_no][i].content);
+		$("#report_date").attr("value", review_list[bistro_no][i].date);
 		
 		window.open('${pageContext.request.contextPath}/report_popup', '', 'width=400, height=450, scrollbars=no, toolbar=no, menubar=no, status=no, location=no');
 	}
@@ -92,6 +91,7 @@
 	 		<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
 	 	</div>
 	 </div>
+	 <input type="hidden"  id="loc_xy" name="loc_xy"  value="${zigme_user.loc_xy}"/>
 	 
 	
 	</div> <!-- //body 종료  -->
@@ -252,14 +252,20 @@
 					SPRITE_HEIGHT = req.menu[0].SPRITE_HEIGHT;
 					SPRITE_GAP = req.menu[0].SPRITE_GAP;	
 					
-					userComp_arr = req.common[1].loc_xy.split(",");
+					//userComp_arr = req.common[1].loc_xy.split(",");					
+					
+					var userComp_arr_impl = document.getElementById("loc_xy").value;					
+					userComp_arr = userComp_arr_impl.split(", ");
+					
+					//console.log("userComp_arr " + userComp_arr);
+					
 					userCompX = userComp_arr[0];
 					userCompY = userComp_arr[1];
 					
 					Search_radius = req.menu[0].Search_radius;
 					Search_size =  req.menu[0].Serach_size;
 					
-					console.log(userCompX + "," + userCompY);
+					//console.log(userCompX + "," + userCompY);
 					
 				},
 				error: function() {
@@ -302,7 +308,7 @@
 						review_list[menu_list[i].id] = req.list;
 						review_count[i] = req.count;
 						
-						// console.log(review_list);
+						 console.log(review_list);
 						// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
 											
 					},
@@ -323,61 +329,61 @@
 		function review_insert() {
 			var file_name = "";
 			var file_no = "";
+			var file_yn =  $("#uploadreViewImg").val();
 			
-			// 파일 업로드. enctype 때문에 다른 String과 함께 전송이 안되는 것 같음. 
-			$.ajax({
-    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
-    			// 결과를 읽어올 URL
-    			url: '${pageContext.request.contextPath}/upload/upload.review',
-    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
-    			method: 'POST',
-   			    enctype: 'multipart/form-data',
-    			processData : false,
-                contentType : false,
-    			// 전달할 조건값은 JSON형식으로 구성
-    			data: new FormData($("#uploadForm")[0]), 
-    			// 읽어올 내용의 형식(생략할 경우 Json)
-    			dataType: 'json',
-    			//beforeSend: function(xhr){
-    			//	xhr.setRequestHeader(header, token);	// 헤드의 csrf meta태그를 읽어 CSRF 토큰 함께 전송
-    			//},
-    			// 읽어온 내용을 처리하기 위한 함수
-    			success: function(req) {    			
-    				
-    				file_name = req.review_item.userImgPath;
-    				file_no = req.review_item.userImgNo;
-    				//console.log("파일명 " + file_name);
-    				
-    			}
-    		}); // end $.ajax
-			
-    		var mydate = new Date();
-    		
-    		var reviewRegdate = mydate.getFullYear() + "-" + (mydate.getMonth()+1) + "-" + mydate.getDate() + " " + mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds();
-    		
-    		console.log("reviewContent : " + $('#review_content').val() );
-    		console.log("reviewScope : " + $('.user_rating').html() );
-    		console.log("reviewRegdate : " + reviewRegdate);
-    		console.log("reviewPlaceId : " + now_click_placeId);
-    		//console.log("userNo : " + );
-    		console.log("userImgNo : " + file_no);
-    		
-    		/*
+			// 첨부한 파일 유무 확인
+			if(file_yn) { 
+				// 파일 업로드. enctype 때문에 다른 String과 함께 전송이 안되는 것 같음. 
+				$.ajax({
+	    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+	    			// 결과를 읽어올 URL
+	    			url: '${pageContext.request.contextPath}/upload/upload.review',
+	    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+	    			method: 'POST',
+	   			    enctype: 'multipart/form-data',
+	    			processData : false,
+	                contentType : false,
+	    			// 전달할 조건값은 JSON형식으로 구성
+	    			data: new FormData($("#uploadForm")[0]), 
+	    			// 읽어올 내용의 형식(생략할 경우 Json)
+	    			dataType: 'json',
+	    			//beforeSend: function(xhr){
+	    			//	xhr.setRequestHeader(header, token);	// 헤드의 csrf meta태그를 읽어 CSRF 토큰 함께 전송
+	    			//},
+	    			// 읽어온 내용을 처리하기 위한 함수
+	    			success: function(req) {  
+	    				
+	    				file_name = req.review_item.userImgPath;
+	    				file_no = req.review_item.userImgNo;
+	    				//console.log("파일명 " + file_name);
+	    				
+	    			}
+	    		}); // end $.ajax    		
+			}			
+			else {				
+				console.log("첨부파일없음!");
+				file_name = "";
+				file_no = 0;
+			}
+    		var mydate = new Date();    		
+    		var reviewRegdate = mydate.getFullYear() + "-" + (mydate.getMonth()+1) + "-" + mydate.getDate() + " " + mydate.getHours() + 
+    		":" + mydate.getMinutes() + ":" + mydate.getSeconds();
+    		    		
     		// form data 전송 
     		$.ajax({
     			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
     			// 결과를 읽어올 URL
-    			url: '${pageContext.request.contextPath}/main',
+    			url: '${pageContext.request.contextPath}/menu/review.write',
     			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
     			method: 'post',
     			// 전달할 조건값은 JSON형식으로 구성
     			data: {
-    				   "scheCate": scheCate,
-    				   "scheContent": scheContent, 
-    				   "scheLoc": scheLoc,
-    				   "scheStartdate" : scheStartdate,
-    				   "scheEnddate" : scheEnddate,
-    				   "userNo" : userNo
+    				   "reviewContent": $('#review_content').val(),
+    				   "reviewScope": $('.user_rating').html(),
+    				   "reviewRegdate": reviewRegdate,
+    				   "reviewPlaceId": now_click_placeId,
+    				   "userNo": ${zigme_user.userNo},
+    				   "userImgNo": file_no
     			},
     			// 읽어올 내용의 형식(생략할 경우 Json)
     			dataType: 'json',
@@ -388,7 +394,7 @@
     				//console.log("통신완료" + req.item.scheNo);
     				
     			}
-    		}); // end $.ajax */
+    		}); // end $.ajax
 		}
 		// ------------------------------------ Modal start ------------------------------------
 		$("#open_modal_btn").click(function(e){
@@ -573,9 +579,17 @@
     			jumsu_star = "☆☆☆☆☆"; // 0.4 이하 
     		}     		
     			
+    		var address_name;
+    		
+    		if(menu_list[i].road_address_name != "") { 
+    			address_name = menu_list[i].road_address_name;    		
+    		} else {
+    			address_name = menu_list[i].address_name;
+    		}
+    		
     		tag +=  "<div class='menu_listarea' data-index='" + menu_list[i].id + "'><h3><span class='menu_label'>" + label[i] + " </span>" + menu_list[i].place_name + 
-    		"</h3><span class='jumsu_starcss'>" + jumsu_avr + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
-    		+ review_count[i] +"</a><br><span>"+ menu_list[i].road_address_name +"</span></div>";    		
+    		"</h3><span class='jumsu_starcss'>" + jumsu_avr.toFixed(1) + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
+    		+ review_count[i] +"</a><br><span>"+ address_name +"</span></div>";    		
     		}
     		
     		$("#list_side").empty();    		
@@ -639,7 +653,9 @@
 						},
 						dataType: 'JSON',
 						success: function(req) {				
-							review_imgname = req.img_name.userImgName;												
+							review_imgname = req.img_name.userImgPath;	
+							//console.log(req.img_name);
+							
 						},
 						error: function() {
 							//alert("일시적인 오류가 발생하였습니다.");
@@ -667,18 +683,19 @@
 	       		} else {
 	       			jumsu_star = "☆☆☆☆☆";  
 	       		}	
-	   			
+			
+	   		 
    			// 리뷰에 이미지가 있고 없는 경우에 대한 처리
   			if ( review_imgname != "") {	   			
-	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[lstcode][i].userNickname + " </span> "
 	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='${pageContext.request.contextPath}/img/menu/review/" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
-				+ "'><img class='review_img' src='${pageContext.request.contextPath}/img/menu/review/" + review_imgname 
-	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +" );'>신고</a></div></div>";
+	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
+				+ "'><img class='review_img' src='" + review_imgname 
+	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report(review_list," + bistro_no + "," + i +" );'>신고</a></div></div>";
   			} else {
-  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userNickname + " </span> "
 	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +");'>신고</a></div></div>";	  			
+	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report(review_list," + bistro_no + "," + i +");'>신고</a></div></div>";	  			
 	      		}
 	    		
         	}        	
@@ -730,7 +747,7 @@
 	                     star_value += 1;	
 	         }
 
-	        modal_tag += "<p class='user_rating'>0.0</p><p> / 5.0</p></div></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a></form>";
+	        modal_tag += "<p class='user_rating'>0.0</p><p> / 5.0</p></div></div><a><span class='write_review_wrapper2'>리뷰 남기기</span></a></form>";
 	        
 			$(".modal-body").html(modal_tag);
 			

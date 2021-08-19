@@ -107,7 +107,8 @@ public class ScheRestController {
         } catch (Exception e) {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
-
+        
+        
         /** 3) JSON 출력하기 */
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("item", output);

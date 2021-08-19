@@ -18,7 +18,7 @@ public class Review {
 	private int userImgNo;
 	
 	// join data
-	private String userId;
-	private String userImgName;
+	private String userNickname;
+	private String userImgPath;
 	
 }

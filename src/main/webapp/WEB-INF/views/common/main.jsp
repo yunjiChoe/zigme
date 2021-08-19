@@ -247,7 +247,7 @@ strong {
         		scheEnddate = scheEnddate.substring(0, 11) + "23:59:59";        		
         	}         	
         	
-        	var userNo = 1; // test_user
+        	var userNo = ${zigme_user.userNo}; // test_user
         	var flag = $('#dasom_save span').html();
         	console.log("flag : " + flag);
         	
@@ -313,7 +313,7 @@ strong {
     		
 		});
         
-        var userNo = 1; // test_user
+        var userNo = ${zigme_user.userNo}; // test_user
         var zigme_schedulList = new Object();
         var zigme_schedule = new Object();
         var zigme_schedulList_count;
@@ -441,15 +441,9 @@ strong {
 		
 	});
 		
-		var  x = document.getElementById("loc_xy").value;
-		console.log(x);
-		console.log(${zigme_user.userNo});
-		
+		var  x = document.getElementById("loc_xy").value;		
 		var loc_xy = x.split(", ");
-		console.log(loc_xy[0]);
-		console.log(loc_xy[1]);
-		
-	
+			
 		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat='+ loc_xy[1] +"&lon="+ loc_xy[0] +'&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric'
 				,function(data){
 			var temp = data.list[0].main.temp;

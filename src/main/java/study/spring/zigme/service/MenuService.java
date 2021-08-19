@@ -23,4 +23,6 @@ public interface MenuService {
 	
 	public UserSetImage getReviewImgItem(UserSetImage input) throws Exception;
 	
+	public int addReview(Review input) throws Exception;
+	
 }

@@ -24,7 +24,7 @@ import study.spring.zigme.service.ScheService;
 public class UploadAjaxController {
 	
 	 @Autowired WebHelper webHelper;
-	
+	 
 	 @Autowired MenuService menuService;
 	
 	/** 리뷰이미지 업로드 **/
@@ -33,8 +33,8 @@ public class UploadAjaxController {
 	   		@RequestParam(value="uploadreViewImg", defaultValue="") MultipartFile uploadreViewImg)
 	    	//@RequestParam(value="review_content", defaultValue="") String review_content)
 	    {
-		 	
-		 	UploadItem item = null;
+			
+		 	UploadItem item = null; 
 		    UserSetImage input = new UserSetImage();
 		    UserSetImage output = new UserSetImage();
 		 
