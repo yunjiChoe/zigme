@@ -308,16 +308,16 @@ img.col-md-3 {
 					<br />
 					<div class="form-group">
 						<div class="circle"></div>
-						<span>새 비밀번호 확인</span><br /> <input type="password"
+						<span id="aa">비밀번호 변경</span><br /> <input type="password"
 							id="user_pw_new" name="new_password" class="form-control"
-							placeholder="비밀번호를 한 번 더 입력해주세요." />
+							placeholder="재설정 하실 비밀번호를 입력해주세요."  />
 					</div>
 					<br />
 					<div class="form-group">
 						<div class="circle"></div>
 						<span>비밀번호 확인</span><br /> <input type="password" id="user_pw_ok"
 							name="new_password2" class="form-control"
-							placeholder="비밀번호를 한 번 더 입력해주세요." />
+							placeholder="변경하시는 비밀번호를 한 번 더 입력해주세요."  disabled="disabled" />
 							<font
 							id="chkNotice" size="2"></font> <br />
 					</div>
@@ -388,19 +388,6 @@ img.col-md-3 {
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		  <script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
 	<script type="text/javascript">
-	
-/* 	window.onload = function () {
-		
-		
-		var userno = ${zigme_user.userNo};
-		
-		if (userno == 0) {	// 입력되지 않았다면?
-			alert("로그인을 해주세요.");	// <-- 메시지 표시
-			window.location.href='http://localhost:8080/Zigme';
-		} 
-		
-		console.log('사용자가 웹페이지에 돌아왔습니다.');
-	};  */
 	
 	// 우편번호 찾기 찾기 화면을 넣을 element
 	var addr = ''; // 주소 변수
@@ -497,58 +484,25 @@ img.col-md-3 {
 	}
 	
 	
-	/** 비밀번호 일치 여부 */
-	$(function() {
-		
-		$('#user_pw_new').keyup(function() {
-			
-			$('#chkNotice').html('');
-		});
-
-		$('#user_pw_ok').keyup(function() {
-
-			if ($('#user_pw_new').val() != $('#user_pw_ok').val()) {
-				$('#chkNotice').html('비밀번호가 일치하지 않습니다<br>');
-				$('#chkNotice').attr('color', '#f82a2aa3');
-			} else {
-				$('#chkNotice').html('비밀번호가 일치 합니다.<br>');
-				$('#chkNotice').attr('color', '#199894b3');
-			}
-
-		});
-	});
-	
-	
-	
 	
 
-		 
-	    
-	   
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		/** 탈퇴동의 체크 박스 여부 '1' = 'Y' , '2' ='N' */
 		$(function() {
 	        $("#check").click(function(e) {
 	        	var value  = document.getElementById("check").value; 
 	        	
 	        	if(value == "N"){
-	        		$('#check').attr('value','1');
+	        		$('#check').attr('value','1'); 
 	        	}else
 	        	$('#check').attr('value','2');
 	        });
 		
 		});
 		
+		
+		
 		/** 닉네임 중복 확인 */
 		$(function() {
-			
 			/** 버튼 클릭시 이벤트 */
 			$("#checkNick").click(function() {
 				// 입력값을 취득하고, 내용의 존재여부를 검사한다.
@@ -564,10 +518,6 @@ img.col-md-3 {
 					$("#user_subname").focus();			// <-- 커서를 강제로 넣기
 					return false;					// <-- 실행 중단
 				}
-				
-				
-				
-				 
 
 				// 위의 if문을 무사히 통과했다면 내용이 존재한다는 의미이므로,
 				// 입력된 내용을 Ajax를 사용해서 웹 프로그램에게 전달한다.
@@ -594,13 +544,40 @@ img.col-md-3 {
 		
 		
 		
+		   /** 비밀번호 일치 여부 */
+		   $(function() {
+		      
+		      $('#user_pw_new').keyup(function() {
+		         $('#user_pw').attr("disabled","disabled");
+		          $('#user_pw_ok').removeAttr("disabled");
+		         $('#chkNotice').html('');
+		      });
+		      
+
+		      $('#user_pw_ok').keyup(function() {
+
+		         if ($('#user_pw_new').val() != $('#user_pw_ok').val()) {
+		            $('#chkNotice').html('비밀번호가 일치하지 않습니다<br>');
+		            $('#chkNotice').attr('color', '#f82a2aa3');
+		         } else {
+		            $('#chkNotice').html('비밀번호가 일치 합니다.<br>');
+		            $('#chkNotice').attr('color', '#199894b3');
+		         }
+
+		      });
+		   });
+		   
+		
+		
+		
 		 $(function() {
 			    //idck 버튼을 클릭했을 때 
 			    $("#edit").click(function() {
 			    	var nickname = document.getElementById("user_subname").value;
 					var email = document.getElementById("user_eamil").value;
 					var password =  $('#user_pw').val();
-					var new_password = document.getElementById("user_pw_new").value;
+					var new_password =  $('#user_pw_new').val();
+				
 			       var postcode = document.getElementById("user_postcode").value;
 			        var addr1 =document.getElementById("user_address").value;
 			        var addr2 =document.getElementById("user_detailAddress").value;
@@ -630,11 +607,25 @@ img.col-md-3 {
 							$("#email").focus();			// <-- 커서를 강제로 넣기
 							return false;					// <-- 실행 중단
 						}
+						
 						if (!password) {	// 입력되지 않았다면?
 							alert("비밀번호를 입력해주세요.");	// <-- 메시지 표시
 							$("#user_pw").focus();			// <-- 커서를 강제로 넣기
 							return false;					// <-- 실행 중단
 						}
+
+						if (new_password != null) {	// 입력값이 있다면
+							 password =$('#user_pw_new').val();	// <-- 메시지 표시
+							console.log( password)	;		
+							
+						}
+						
+						
+						
+						
+						
+						
+						
 						
 			    	
     $.ajax({

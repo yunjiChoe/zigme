@@ -49,16 +49,6 @@
 			#{postcode}, #{addr1}, #{addr2}, #{loc_xy},  #{blockUserflag}, #{outUserflag});
 	</insert>
 	
-	<!-- 데이터 저장을 위한 기능 정의 -->
-	<!--<insert id="insertItem"
-		parameterType = "study.spring.zigme.model.User"
-		useGeneratedKeys="true"
-		keyProperty="userNo">
-		INSERT INTO user (id, password, name, nickname, email, gender,
-			postcode, addr1, addr2, loc_xy, icon, blockUserflag, outUserflag) VALUES 
-			(#{id}, md5(#{password}), #{name}, #{nickname}, #{email}, #{gender},
-			#{postcode}, #{addr1}, #{addr2}, #{loc_xy}, #{icon}, #{blockUserflag}, #{outUserflag});
-	</insert>-->
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->
 	<delete id="deleteItem"
