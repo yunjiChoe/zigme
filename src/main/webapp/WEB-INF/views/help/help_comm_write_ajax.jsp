@@ -24,8 +24,6 @@
 	 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/help.css" />
 	 <!-- 사용자정의 스타일 위에 위치하도록 해주세요 -->
 	 <c:import url="../inc/header.jsp" />
-
-	<script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
 </head>
 <body>
     <div class="container">
@@ -34,7 +32,7 @@
 
     <p class="sub_title">커뮤니티 글쓰기</p>
     <br />
-    <form id="addPostForm" action="${pageContext.request.contextPath}/help">
+    <form id="addPostForm" action="${pageContext.request.contextPath}/help" action="POST">
         <div class="input-group input-group-lg">
             <input type="text" class="form-control editor_title" name="postTitle" placeholder="제목을 입력하세요." />
             <span class="input-group-addon">
@@ -47,7 +45,7 @@
             </span>
         </div>       
         <hr />       
-        <textarea id = "postContent" name="postContent" class="form-control ckeditor"></textarea>
+        <textarea id = "postContent" name="postContent" class="ckeditor"></textarea>
         <hr />
     	<div class="input-group" id="write_buttons">
     		<button type="reset" id="write_cancel" class="btn btn-warning">취소</button>
@@ -67,13 +65,15 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
     <!-- jQuery Ajax Setup -->
     <script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
+    
+    <script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
     <!-- User Code -->
     <script>
     
+    
     $(function() {
-    	$(document).ready(function () {
         // #addForm에 대한 submit이벤트를 가로채서 Ajax요청을 전송한다.
-        $("#addPostForm").ajaxForm({
+	$("#addPostForm").ajaxForm({
             // 전송 메서드 지정
             method: "POST",
             // 서버에서 200 응답을 전달한 경우 실행됨
@@ -86,7 +86,6 @@
                 }
             }
         });
-    });
     });
     </script>
 </body>

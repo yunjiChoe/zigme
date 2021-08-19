@@ -39,7 +39,7 @@ public class AlarmTest {
 		Alarm input = new Alarm();
 		input.setUserNo(1);
 		
-		sqlSession.selectList("AlarmMapper.selectList", input);
+		sqlSession.selectList("AlarmMapper.selectItem", input);
 	}
 	
 	@Test
@@ -48,9 +48,10 @@ public class AlarmTest {
 		Alarm input = new Alarm();
 		
 		input.setAlarmAct("1");
-		input.setAlarmContent("테스트용 알람");
-		input.setAlarmTime("2021-01-01 00:00:00");
+		input.setAlarmContent("테스트용");
+		input.setAlarmTime("00:00");
 		input.setUserNo(1);
+		input.setAlarmDate("1");
 		
 		sqlSession.insert("AlarmMapper.insertItem", input);
 	}
@@ -71,8 +72,25 @@ public class AlarmTest {
 		input.setAlarmAct("1");
 		input.setAlarmContent("수정된 테스트용 알람내용");
 		input.setAlarmTime("2021-01-01 12:12:12");
+		input.setAlarmDate("2");
 		input.setAlarmNo(2);
 		
 		sqlSession.update("AlarmMapper.updateItem", input);
+	}
+	
+	@Test
+	public void TestE() {
+		Alarm input = new Alarm();
+		
+		sqlSession.selectOne("AlarmMapper.alarmCount", input);
+	}
+	
+	@Test
+	public void TestF() {
+		Alarm input = new Alarm();
+		
+		input.setAlarmNo(2);
+		
+		sqlSession.selectOne("AlarmMapper.alarmActItem", input);
 	}
 }

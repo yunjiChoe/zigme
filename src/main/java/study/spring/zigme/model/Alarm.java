@@ -9,4 +9,5 @@ public class Alarm {
 	private String alarmContent;
 	private String alarmTime;
 	private int userNo;
+	private String alarmDate;
 }

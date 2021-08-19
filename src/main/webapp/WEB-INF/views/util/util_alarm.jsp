@@ -4,11 +4,12 @@
      Content : Spring project 변환
      version : V1.0.0
 -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -22,18 +23,10 @@
 <c:import url="../inc/header.jsp" />
 
 <!-- 스타일 지정 -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/util.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/assets/css/util.css" />
 
-<style type="text/css">
-.input-group {
-	display: inline;
-	padding-left: 80px;
-}
 
-input::-webkit-input-placeholder {
-	color: #4041ef;
-}
-</style>
 </head>
 <body>
 	<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
@@ -97,189 +90,136 @@ input::-webkit-input-placeholder {
 		<c:import url="../inc/navbar.jsp" />
 		<div class="content">
 			<div id="alarm_upper">
-				<span id="alarm_icon"> <img src="${pageContext.request.contextPath}/img/util/alarm_icon.png"
-					width="79px" height="65px" /> <span class="sub_title">알람</span>
+				<span id="alarm_icon"> <img
+					src="${pageContext.request.contextPath}/img/util/alarm_icon.png"
+					width="79px" height="65px" /> <span class="sub_title">${output.nickname}님의
+						알람</span>
 				</span>
 			</div>
 		</div>
 		<div id="alarm_body">
-			<div id="alarm_component">
-				<div class="row_elements" id="row_element_1">
-					<div class="on_off">
-						<input type="checkbox" id="check1"> <label id="on_off1"
-							for="check1"></label>
-					</div>
-					<div>10:30</div>
-					<div class="alarm_title">택배 확인하기</div>
-					<div>
-						<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
-						<span>S</span>
-					</div>
-					<div>
-						<a href="#"> <span class="glyphicon glyphicon-remove"></span>
-						</a>
-					</div>
-				</div>
+			<div id="alarm_component" data-alarmlength="${fn:length(output_alarm)}">
+				<c:choose>
+					<c:when
+						test="${output_alarm == null || fn:length(output_alarm) == 0}">
+						<tr>
+							<td colspan="9" align="center">조회결과가 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="item" items="${output_alarm}" varStatus="status">
+							<%-- <c:url value="/help_ajax/help_comm_read.do" var="viewUrl">
+                            		<c:param name="postNo" value="${item.postNo}" />
+                        		</c:url> --%>
+							<div class="row_elements">
+								<div class="on_off" data-alarmtime="${item.alarmTime}"
+									data-userno="${item.userNo}"
+									data-alarmcontent="${item.alarmContent}"
+									data-alarmdate="${item.alarmDate}"
+									data-alarmno="${item.alarmNo}" data-alarmact="${item.alarmAct}">
+							
+							 <input type="checkbox" class="check" />
+										<label class="on_off_items" for="check"></label> 
+									
+	
+									 <%--  <c:when test='${item.alarmAct == Y}'>
+										<input type="checkbox" class="check" />
+										<label class="on_off_items" for="check on_off_checked"></label>
+									</c:when>
+									<c:otherwise>
+										<input type="checkbox" class="check" />
+										<label class="on_off_items" for="check"></label>
+									</c:otherwise>   --%>
+								</div>
+								<div>
+									<!-- ${item.alarmTime} -->
+									10:30
+								</div>
+								<div class="alarm_title">${item.alarmContent}</div>
+								<div>
+									<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
+									<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
+									<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
+									<span>S</span>
+								</div>
+								<div>
+									<a href="#"> <span class="glyphicon glyphicon-remove"></span></a>
+								</div>
+							</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 
-
-				<div class="row_elements" id="row_element_2">
-					<div class="on_off">
-						<input type="checkbox" id="check2"> <label id="on_off2"
-							for="check2"></label>
-					</div>
-					<div>11:20</div>
-					<div class="alarm_title">워크샵 회의</div>
-					<div>
-						<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
-						<span>S</span>
-					</div>
-					<div>
-						<a href="#"> <span class="glyphicon glyphicon-remove"></span>
-						</a>
-					</div>
-				</div>
-				<div class="row_elements" id="row_element_3">
-					<div class="on_off">
-						<input type="checkbox" id="check3"> <label id="on_off3"
-							for="check3"></label>
-					</div>
-					<div>15:40</div>
-					<div class="alarm_title">3층 세미나실 회의</div>
-					<div>
-						<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
-						<span>S</span>
-					</div>
-					<div>
-						<a href="#"> <span class="glyphicon glyphicon-remove"></span>
-						</a>
-					</div>
-				</div>
-				<div class="row_elements" id="row_element_4">
-					<div class="on_off">
-						<input type="checkbox" id="check4"> <label id="on_off4"
-							for="check4"></label>
-					</div>
-					<div>16:40</div>
-					<div class="alarm_title">사수님 간식 챙겨드릴 시간</div>
-					<div>
-						<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-						<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
-						<span>S</span>
-					</div>
-					<div>
-						<a href="#"> <span class="glyphicon glyphicon-remove"></span>
-						</a>
-					</div>
-				</div>
 			</div>
-
 			<br /> <a href="#myModal" data-toggle="modal" class="pull-right"
-				id="add_button"> <img src="${pageContext.request.contextPath}/img/util/alarm_add_button.png"
+				id="add_button"> <img
+				src="${pageContext.request.contextPath}/img/util/alarm_add_button.png"
 				width="50px" height="50px" />
 			</a>
 		</div>
 	</div>
 	<!-- //container 종료 -->
 
-	<script type="text/javascript">
-		// 미리 준비한 틀에 출력될 내용을 JSON으로 준비
-	</script>
+	<c:import url="../inc/footer.jsp" />
 
-	<script type="text/x-handlebars-template" id="content-tmpl">
-         <div class="row_elements" id="{{row_element_num}}">
-                    <div class="on_off">
-                        <input type="checkbox" id="{{check_num}}">
-                        <label id="{{on_off_num}}" for="{{check_num}}"></label>
-                    </div>
-                    <div>{{alarm_time}}</div>
-                    <div class="alarm_title">{{alarm_title}}</div>
-                    <div>
-                        <span>M</span>
-                        <span>&nbsp;</span>
-                        <span>T</span>
-                        <span>&nbsp;</span>
-                        <span>W</span>
-                        <span>&nbsp;</span>
-                        <span>T</span>
-                        <span>&nbsp;</span>
-                        <span>F</span>
-                        <span>&nbsp;</span>
-                        <span>S</span>
-                        <span>&nbsp;</span>
-                        <span>S</span>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
+	<script id="alarm-list-tmpl" type="text/x-handlebars-template">
+		{{#each item}}
+									<div class="row_elements">
+									<div class="on_off"
+									data-alarmtime = "{{output_alarm.alarmTime}}" data-userno = "{output_alarm.userNo}}"
+									data-alarmcontent = "{{output_alarm.alarmContent}}" data-alarmdate = "{{output_alarm.alarmDate}}" 
+									data-alarmno = "{{output_alarm.alarmNo}}" data-alarmact = "{{output_alarm.alarmAct}}">
+									</div>
+									<div>10:30</div>
+									<div class="alarm_title">{{output_alarm.alarmContent}}</div>
+									<input type="checkbox" class="check" />
+									<label class="on_off_items" for="check"></label> 
+									<div>
+									<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
+									<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
+									<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
+									<span>S</span>
+									</div>
+									<div>
+										<a href="#"> <span class="glyphicon glyphicon-remove"></span></a>
+									</div>
+								</div>
+		{{/each}}
     </script>
 
-	<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/plugin/handlebars/handlebars-v4.7.6.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
+
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- Handlebar CDN 참조 -->
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
+	<!-- jQuery Ajax Setup -->
+	<script
+		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
 
 	<script type="text/javascript">
-		var index = 1;
-		var alarm_list = [ {
-			"time" : "10:30",
-			"title" : "택배 확인하기",
-			"date_active" : "[0,1,0,0,1,0,0]",
-			"active" : "true"
-		}, {
-			"time" : "10:30",
-			"title" : "워크샵 회의",
-			"date_active" : "[0,0,1,1,1,0,0]",
-			"active" : "false"
-		}, {
-			"time" : "10:30",
-			"title" : "3층 세미나실 회의",
-			"date_active" : "[1,0,0,0,1,0,0]",
-			"active" : "true"
-		}, {
-			"time" : "10:30",
-			"title" : "사수님 간식 챙겨드릴 시간",
-			"date_active" : "[1,1,1,1,1,0,0]",
-			"active" : "true"
-		} ];
-
-		function alarm_item(count) {
-			for (var i = 0; i < count; i++) {
-				result += "<span>코딩하기 싫어여</span>";
-			}
-			document.getElementById("alarm_body").innerHTML = result;
-		}
-
-		var alarm_active = true;
-
 		$(function() {
-
+			
+			function startCheck() {
+				var alarmLength = $("#alarm_component").data("alarmlength");
+				
+				for(var i =0;i<alarmLength;i++) {
+					var alarmActStart = $("#alarm_component").children().eq(i).children(".on_off").data("alarmact");
+					console.log(alarmActStart);
+					
+					if(alarmActStart == "Y") {
+						var testinput = $("#alarm_component").children().eq(i).children(".on_off").children(".check").addClass("on_off_checked");
+						$("#alarm_component").children().eq(i).css("background-color", "#CFE1FC");
+						console.log(testinput);
+					}
+				}
+			}
+			
+			
 			$("#button_s").click(function() {
-
-				content = {
-					row_element_num : "row_element_" + index,
-					check_num : "check" + index,
-					on_off_num : "on_off" + index,
-					alarm_time : "12:00",
-					alarm_title : "웹툰보기"
-				};
-
-				var template = Handlebars.compile($("#content-tmpl").html());
-
-				//custom helper등록 (row_element_num을 인자로 받아서 num과 합친다)
-
-				var html = template(content);
-				console.log(index);
-				$("#alarm_component").append(html);
-				index++;
-
+				console.log(">>>>>>>>>>>>>>알람 추가 버튼 이벤트 발생")
 			});
 
 			$(document).on('click', ".glyphicon-remove", function(e) {
@@ -287,93 +227,135 @@ input::-webkit-input-placeholder {
 				$(this).closest(".row_elements").remove();
 			});
 
-			$("#on_off1").click(function() {
-				console.log(alarm_active);
-				switch (alarm_active) {
-				case true:
-					$("#row_element_1").css("background-color", "#CFE1FC");
-					break
-				case false:
-					$("#row_element_1").css("background-color", "#E5E5E5");
-					break
-				}
-				alarm_active = !alarm_active;
-				console.log(alarm_active);
-			});
+			$(document)
+					.on(
+							'click',
+							".on_off",
+							function(e) {
+								console.log(">>>>>>>>>>>>>>>>>>클릭이벤트 구현");
+								var alarmNoItem = $(this).data("alarmno");
+								console.log(alarmNoItem);
 
-			$("#on_off2").click(function() {
-				console.log(alarm_active);
-				switch (alarm_active) {
-				case true:
-					$("#row_element_2").css("background-color", "#CFE1FC");
-					break
-				case false:
-					$("#row_element_2").css("background-color", "#E5E5E5");
-					break
-				}
-				alarm_active = !alarm_active;
-				console.log(alarm_active);
-			});
+								var alarmActItem = $(this).data("alarmact");
+								console.log(alarmActItem);
 
-			$("#on_off3").click(function() {
-				console.log(alarm_active);
-				switch (alarm_active) {
-				case true:
-					$("#row_element_3").css("background-color", "#CFE1FC");
-					break
-				case false:
-					$("#row_element_3").css("background-color", "#E5E5E5");
-					break
-				}
-				alarm_active = !alarm_active;
-				console.log(alarm_active);
-			});
+								var alarmTimeItem = $(this).data("alarmtime");
+								console.log(alarmTimeItem);
 
-			$("#on_off4").click(function() {
-				console.log(alarm_active);
-				switch (alarm_active) {
-				case true:
-					$("#row_element_4").css("background-color", "#CFE1FC");
-					break
-				case false:
-					$("#row_element_4").css("background-color", "#E5E5E5");
-					break
-				}
-				alarm_active = !alarm_active;
-				console.log(alarm_active);
-			});
+								var alarmContentItem = $(this).data(
+										"alarmcontent");
+								console.log(alarmContentItem);
 
-			$("#on_off5").click(function() {
-				console.log(alarm_active);
-				switch (alarm_active) {
-				case true:
-					$("#row_element_5").css("background-color", "#CFE1FC");
-					break
-				case false:
-					$("#row_element_5").css("background-color", "#E5E5E5");
-					break
-				}
-				alarm_active = !alarm_active;
-				console.log(alarm_active);
-			});
+								var alarmUserItem = $(this).data("userno");
+								console.log(alarmUserItem);
 
-			$("#on_off6").click(function() {
-				console.log(alarm_active);
-				switch (alarm_active) {
-				case true:
-					$("#row_element_6").css("background-color", "#CFE1FC");
-					break
-				case false:
-					$("#row_element_6").css("background-color", "#E5E5E5");
-					break
-				}
-				alarm_active = !alarm_active;
-				console.log(alarm_active);
-			});
+								var alarmDateItem = $(this).data("alarmdate");
+								console.log(alarmDateItem);
 
+								switch (alarmActItem) {
+								case 'N':
+									var test1 = $(this).children(".check")
+											.addClass("on_off_checked");
+									$(this).closest(".row_elements").css(
+											"background-color", "#CFE1FC");
+									console.log(test1);
+
+									$
+											.put(
+													"${pageContext.request.contextPath}/alarm",
+													{
+														"alarmNo" : alarmNoItem,
+														"alarmAct" : "Y",
+														"alarmContent" : alarmContentItem,
+														"alarmTime" : alarmTimeItem,
+														"userNo" : alarmUserItem,
+														"alarmDate" : alarmDateItem,
+
+													},
+													function(json) {
+														if (json.rt == "OK") {
+															console
+																	.log(">>>>>>>>>>>>>>활성화로 수정 되었습니다. alarmNo : "
+																			+ alarmNoItem);
+														}
+													});
+									
+									/* $("#alarm_component").empty();
+									$(document).ready(function() {getUpdate();}); */
+									location.reload();
+
+									break;
+								case 'Y':
+									var test2 = $(this).children(".check")
+											.removeClass("on_off_checked");
+									$(this).closest(".row_elements").css(
+											"background-color", "#E5E5E5");
+									console.log(test2);
+
+									$
+											.put(
+													"${pageContext.request.contextPath}/alarm",
+													{
+														"alarmNo" : alarmNoItem,
+														"alarmAct" : "N",
+														"alarmContent" : alarmContentItem,
+														"alarmTime" : alarmTimeItem,
+														"userNo" : alarmUserItem,
+														"alarmDate" : alarmDateItem,
+
+													},
+													function(json) {
+														if (json.rt == "OK") {
+															console
+																	.log(">>>>>>>>>>>>>>비활성화로 수정 되었습니다. alarmNo : "
+																			+ alarmNoItem);
+														}
+													});
+									
+									/* $("#alarm_component").empty();
+									$(document).ready(function() {getUpdate();});
+									 */
+									 location.reload();
+ 
+									break;
+								}
+
+							});
+
+			$(document).ready(function() {			
+				let userinfoNo = ${output.userNo};
+				
+
+				// Restful API에 GET 방식 요청
+				$.get("${pageContext.request.contextPath}/alarm", {
+					"outputNo" : userinfoNo
+				// 페이지 번호는 GET 파라미터로 전송한다.
+				}, function(json) {
+					var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
+					var template = Handlebars.compile(source); // 템플릿 코드 컴파일
+					var result = template(json); // 템플릿 컴파일 결과물에 json 전달
+					$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
+				});
+				
+				startCheck();
+			});
+			
+			function getUpdate() {
+				let userinfoNo = ${output.userNo};
+				
+
+				// Restful API에 GET 방식 요청
+				$.get("${pageContext.request.contextPath}/alarm", {
+					"outputNo" : userinfoNo
+				// 페이지 번호는 GET 파라미터로 전송한다.
+				}, function(json) {
+					var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
+					var template = Handlebars.compile(source); // 템플릿 코드 컴파일
+					var result = template(json); // 템플릿 컴파일 결과물에 json 전달
+					$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
+				});
+			}
 		});
 	</script>
-
-	<c:import url="../inc/footer.jsp" />
 </body>
 </html>

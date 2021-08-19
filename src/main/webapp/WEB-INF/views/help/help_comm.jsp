@@ -73,7 +73,7 @@
 				</thead>
 				<tbody id="comm_table">
 					 <c:choose>
-						<c:when test="${output_post == null || fn:length(output) == 0}">
+						<c:when test="${output_post == null || fn:length(output_post) == 0}">
 							<tr>
 								<td colspan="9" align="center">조회결과가 없습니다.</td>
 							</tr>

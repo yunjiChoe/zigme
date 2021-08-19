@@ -11,16 +11,23 @@
 		<result property="alarmContent" column="alarmContent" />
 		<result property="alarmTime" column="alarmTime" />
 		<result property="userNo" column="userNo" />
+		<result property="alarmDate" column="alarmDate" />
 	</resultMap>
 	
-	<!-- 단일행 조회를 위한 기능 정의(필요없음) -->
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id ="selectItem" parameterType="study.spring.zigme.model.Alarm"
+	resultMap="alarmMap">
+	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, alarmDate
+	FROM alarm
+	where userNo = #{userNo} AND alarmNo = ${alarmNo};
+	</select>
+	
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Alarm"
 	resultMap="alarmMap">
-	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo
-	FROM alarm
-	where userNo = #{userNo};
+	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, alarmDate
+	FROM alarm;
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->
@@ -28,8 +35,8 @@
 	parameterType = "study.spring.zigme.model.Alarm"
 	useGeneratedKeys="true"
 	keyProperty="alarmNo">
-	INSERT INTO alarm (alarmAct, alarmContent, alarmTime, userNo) VALUES 
-		(#{alarmAct}, #{alarmContent}, #{alarmTime}, #{userNo});
+	INSERT INTO alarm (alarmAct, alarmContent, alarmTime, userNo, alarmDate) VALUES 
+		(#{alarmAct}, #{alarmContent}, #{alarmTime}, #{userNo}, #{alarmDate);
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->
@@ -52,7 +59,24 @@
 		<if test="alarmTime != null and alarmTime != ''">
 			, alarmTime = #{alarmTime}
 		</if>
+		<if test="alarmDate != null and alarmDate != ''">
+			, alarmDate = #{alarmDate}
+		</if>
 	</set>
 	WHERE alarmNo =#{alarmNo};
 	</update>
+	
+	<select id="alarmCount"
+	 parameterType="study.spring.zigme.model.Alarm"
+	 resultType="int">
+	 SELECT COUNT(*) FROM alarm;
+	 </select>
+	 
+	 <select id="alarmActItem"
+	 parameterType="study.spring.zigme.model.Alarm"
+	 resultType="String">
+	 SELECT alarmAct 
+	 FROM alarm
+	 WHERE alarmNo = #{alarmNo};
+	 </select>
 </mapper>

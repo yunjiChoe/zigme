@@ -245,14 +245,16 @@ select:focus {
 	background-color: #fff;
 }
 
-.on_off input:checked+label {
+ .on_off_checked+label {
 	background-color: #00B794;
-}
-
-.on_off input:checked+label::before {
 	left: auto;
 	right: 1px;
 }
+
+ .on_off_checked+label::before {
+	left: auto;
+	right: 1px;
+}  
 
 .on_off input {
 	position: absolute;
