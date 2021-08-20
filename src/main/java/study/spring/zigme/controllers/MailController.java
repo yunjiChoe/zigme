@@ -57,13 +57,13 @@ public class MailController {
                 "인증 번호는 " + checkNum + "입니다." + 
                 "<br>" + 
                 "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-        /**
+        
         try {
 			mailHelper.sendMail(email, subject, content);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
         String num = Integer.toString(checkNum);  
         return num;
 		
