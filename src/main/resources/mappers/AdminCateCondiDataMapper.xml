@@ -58,5 +58,8 @@
 	</set>
 	WHERE cateCondiNo =#{cateCondiNo};
 	</update>
+	
+	
+
 	 
 </mapper>

@@ -7,4 +7,7 @@ public class AdminCateCondiData {
 	private int cateCondiNo;
 	private String cateCondiName;
 	private String cateCondiFlag;
+	
+	
+
 }
