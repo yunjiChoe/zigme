@@ -93,23 +93,26 @@ public class UserController {
 		if (!regexHelper.isValue(id)) {
 			return webHelper.redirect(null, "아이디를 입력하세요");
 		}
-		if (!regexHelper.isEngNum(id)) {
-			return webHelper.redirect(null, "아이디는 영어와 숫자로만 가능합니다");
+		if (!regexHelper.isEngNumLenght(id)) {
+			return webHelper.redirect(null, "아이디는 영어와 숫자 4~20자로 입력해주세요.");
 		}
 		if (!regexHelper.isValue(password)) {
 			return webHelper.redirect(null, " 비밀번호를 입력하세요");
+		}
+		if (!regexHelper.isKorEngNum(password)) {
+			return webHelper.redirect(null, "비밀번호 4자~20자 영문,숫자 조합입니다.");
 		}
 
 		if (!regexHelper.isValue(name)) {
 			return webHelper.redirect(null, "이름을 입력하세요");
 		}
-		if (!regexHelper.isKor(name)) {
+		if (!regexHelper.isKorLenght(name)) {
 			return webHelper.redirect(null, "이름은 한글만 가능합니다");
 		}
 		if (!regexHelper.isValue(nickname)) {
 			return webHelper.redirect(null, "닉네임을 입력하세요");
 		}
-		if (!regexHelper.isKorEng(nickname)) {
+		if (!regexHelper.isKorEngNum(nickname)) {
 			return webHelper.redirect(null, "닉네임은 한글, 영어 조합만 가능합니다.");
 		}
 		if (!regexHelper.isValue(email)) {
@@ -130,7 +133,7 @@ public class UserController {
 			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
 		if (!regexHelper.isValue(loc_xy)) {
-			return webHelper.redirect(null, "좌표을 입력하세요");
+			return webHelper.redirect(null, "주소를 다시 입력하세요");
 		}
 		
 
@@ -216,10 +219,13 @@ public class UserController {
 		if (userno == 0) {
 			return webHelper.redirect(null, "회원번호가 없습니다");
 		}
+		
 
 		if (!regexHelper.isValue(x_password)) {
 			return webHelper.redirect(null, " 현재 비밀번호를 입력하세요");
 		}
+		
+		
 		if (!regexHelper.isValue(new_password)) {
 			return webHelper.redirect(null, " 새 비밀번호를 입력하세요");
 		}

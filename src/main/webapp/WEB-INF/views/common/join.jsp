@@ -311,7 +311,7 @@ input#all_check {
 						<div class="circle"></div>
 						<label for="user_id">아이디</label><br /> <input type="text"
 							name="id" id="user_id" class="form-control"
-							placeholder="영문,숫자 조합하여 4자~20자" />
+							placeholder="영문,숫자 조합하여 4자~20자"  />
 						<button type="button" id="id_check" name="id_check"
 							class="btn btn-primary btn-ms btn-ttc1 btn-ttc5 id_input">중복확인</button>
 
@@ -337,6 +337,7 @@ input#all_check {
 							class="form-control" placeholder="비밀번호를 한 번 더 입력해주세요." /> <font
 							id="chkNotice" size="2"></font> <br />
 						<div class="form-group">
+						</div>
 
 
 
@@ -350,7 +351,7 @@ input#all_check {
 							<div class="circle"></div>
 							<label for="user_nickname">닉네임</label><br /> <input type="text"
 								id="user_subname" name="nickname" class="form-control"
-								placeholder="한글,영문,숫자 최대10자" />
+								placeholder="한글,영문,숫자 최소2차,최대 5자" />
 							<button type="button"
 								class="btn btn-primary btn-ms btn-ttc4 btn-ttc5 " id="checkNick">중복확인</button>
 							<div class="nickname" style="display: none;"></div>
@@ -416,7 +417,14 @@ input#all_check {
 								name="checkOne"><label for="checkbox1">직메:
 								직장인메이트 이용약관 동의(필수)</label>
 							<textarea class="form-control col-sm-5" disabled
-								placeholder="직메: 직장인 메이트 서비스 및 제품(이하'서비스')을 이용해주셔서 감사합니다. 본 약관은 다양한 '직메:직장인메이트직장인 메이트 서비스 및 제품(이하'서비스')을 이용해주셔서 감사합니다. 본 약관ㅇ ㄴ다양한 '직메:직장인메이트" /></textarea>
+								placeholder="" >직메: 직장인 메이트 서비스 및 제품(이하'서비스')을 이용해주셔서 감사합니다. 본 약관은 다양한 '직메:직장인메이트직장인 메이트 서비스 및 제품(이하'서비스')을 이용해주셔서 감사합니다.여러분을 환영합니다.
+ZIGME 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 ZIGME 서비스의 이용과 관련하여 ZIGME 서비스를 제공하는 ZIGME 주식회사(이하 ‘ZIGME’)와 이를 이용하는 ZIGME 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 ZIGME 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
+ZIGME 서비스를 이용하시거나 ZIGME 서비스 회원으로 가입하실 경우 여러분은 본 약관 및 관련 운영 정책을 확인하거나 동의하게 되므로, 잠시 시간을 내시어 주의 깊게 살펴봐 주시기 바랍니다.
+다양한 ZIGME 서비스를 즐겨보세요.
+ZIGME는 www.ZIGME.com을 비롯한 ZIGME 도메인의 웹사이트 및 응용프로그램(어플리케이션, 앱)을 통해 정보 검색, 다른 이용자와의 커뮤니케이션등을 회원으로 가입하시면 ZIGME 서비스를 보다 편리하게 이용할 수 있습니다.
+
+여러분이 제공한 콘텐츠를 소중히 다룰 것입니다.이러한 내용은 각각의 개별 서비스 초기 화면에서 확인해 주시기 바랍니다.
+본 약관은 한국어를 정본으로 합니다. 본 약관 또는 ZIGME 서비스와 관련된 여러분과 ZIGME와의 관계에는 대한민국의 법령이 적용됩니다. 그리고 본 약관 또는 ZIGME 서비스와 관련하여 여러분과 ZIGME 사이에 분쟁이 발생할 경우, 그 분쟁의 처리는 대한민국 '민사소송법'에서 정한 절차를 따릅니다.</textarea>
 						</div>
 						<br /> <br />
 						<div class="form-group ch-form">
@@ -424,8 +432,11 @@ input#all_check {
 							<input class="terms" id="checkbox2" type="checkbox"
 								name="checkOne"><label for="checkbox2">개인정보 수집 및
 								이용 동의(필수)</label>
-							<textarea class="form-control col-sm-5" disabled
-								placeholder="개인정보보호법에 따라 '직메'에  회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의수집 및 이용목적개인정보보호법에 따라 '직메'에  회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의수집 및 이용목적" /></textarea>
+							<textarea class="form-control col-sm-5" disabled ="disabled"
+								placeholder="" >개인정보보호법에 따라 직메에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
+ 수집하는 개인정보 이용자는 회원가입을 하지 않아도 정보 검색, 뉴스 보기 등 대부분의 직메 서비스를 회원과 동일하게 이용할 수 있습니다. 이용자가 메일, 캘린더, 카페, 블로그 등과 같이 개인화 혹은 회원제 서비스를 이용하기 위해 회원가입을 할 경우, 직메는 서비스 이용을 위해 필요한 최소한의 개인정보를 수집합니다.
+회원가입 시점에 직메가 이용자로부터 수집하는 개인정보는 개인적으로 사용하지 않습니다.
+참고로 직메는 ‘개인정보 유효기간제’에 따라 1년간 서비스를 이용하지 않은 회원의 개인정보를 별도로 분리 보관하여 관리하고 있습니다.</textarea>
 						</div>
 					</div>
 
@@ -610,6 +621,12 @@ input#all_check {
 						$("#user_id").focus();			// <-- 커서를 강제로 넣기
 						return false;					// <-- 실행 중단
 					}
+			        if (id.length > 4) {	// 입력되지 않았다면?
+						alert("4자을 입력해주세요.");	// <-- 메시지 표시
+						$("#user_id").focus();			// <-- 커서를 강제로 넣기
+						return false;					// <-- 실행 중단
+					}
+			        
 			        $.ajax({
 			            url:'${pageContext.request.contextPath}/common', //Controller에서 인식할 주소
 			            type:'POST', //POST 방식으로 전달

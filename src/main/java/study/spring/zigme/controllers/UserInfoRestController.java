@@ -68,12 +68,14 @@ public class UserInfoRestController {
 		/** 1) 파라미터 유효성 검사 */
 		 if (userNo == 0)       	{ return webHelper.getJsonWarning("회원정보가 조회되지 않습니다."); }
 		 if (!regexHelper.isValue(password))     	{ return webHelper.getJsonWarning("비밀번호 입력되지 않습니다."); }
+		 if (!regexHelper.isKorEngNum(password))     	{ return webHelper.getJsonWarning("비밀번호 4자~20자 영문,숫자 조합입니다."); }	 
 		 if (!regexHelper.isValue(nickname))     	{ return webHelper.getJsonWarning("닉네임 입력되지 않습니다."); }
+		 if (!regexHelper.isKorEngNum(nickname))     	{ return webHelper.getJsonWarning("닉네임 입력되지 않습니다."); }
 		 if (!regexHelper.isValue(email))     	{ return webHelper.getJsonWarning("이메일 입력되지 않았습니다."); }
 		if (!regexHelper.isValue(postcode))     	{ return webHelper.getJsonWarning("우편번호가 입력되지 않았습니다."); }
 		if (!regexHelper.isValue(addr1))     	{ return webHelper.getJsonWarning("본주소가 입력되지 않았습니다."); }
 		if (!regexHelper.isValue(addr2))     	{ return webHelper.getJsonWarning("상세주소가 입력되지 않았습니다."); }
-		if (!regexHelper.isValue(loc_xy))     	{ return webHelper.getJsonWarning("상세주소가 입력되지 않았습니다."); }
+		if (!regexHelper.isValue(loc_xy))     	{ return webHelper.getJsonWarning("주소를 다시 입력해주세요."); }
 		 
 		
 		/** 2) 데이터 조회하기 */

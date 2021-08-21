@@ -89,10 +89,31 @@ public class RegexHelper {
         return result;
     }
     
+    /**
+     * 한글로만 구성되었는지에 대한 형식 검사
+     * 
+     * @param str - 검사할 문자열
+     * @return boolean - 형식에 맞을 경우 true, 맞지 않을 경우 false
+     */
+    public boolean isKorLenght(String str) {
+        boolean result = false;
+        if (isValue(str)) {
+            result = Pattern.matches("^[ㄱ-ㅎ가-힣]{2,20}$", str);
+        }
+        
+        if (result) {
+            log.debug(String.format("(regex) -> `%s`(은)는 한글로만 구성되어 있습니다.", str));           
+        } else {
+            log.debug(String.format("(regex) -> `%s`(은)는 한글로만 구성되어 있지 않습니다.", str));
+        }
+        
+        return result;
+    }
+    
     
     
     /**
-     * 한글로만 구성되었는지에 대한 형식 검사
+     * 한글영 ,어로만 구성되었는지에 대한 형식 검사
      * 
      * @param str - 검사할 문자열
      * @return boolean - 형식에 맞을 경우 true, 맞지 않을 경우 false
@@ -112,6 +133,26 @@ public class RegexHelper {
         return result;
     }
     
+    /**
+     * 한글영 ,어로만 구성되었는지에 대한 형식 검사
+     * 
+     * @param str - 검사할 문자열
+     * @return boolean - 형식에 맞을 경우 true, 맞지 않을 경우 false
+     */
+    public boolean isKorEngNum(String str) {
+        boolean result = false;
+        if (isValue(str)) {
+            result = Pattern.matches("^[ㄱ-ㅎ가-힣-a-zA-Z0-9]{4,20}$", str);
+        }
+        
+        if (result) {
+            log.debug(String.format("(regex) -> `%s`(은)는 한글,영어로만 구성되어 있습니다.", str));           
+        } else {
+            log.debug(String.format("(regex) -> `%s`(은)는 한글,영어로만 구성되어 있지 않습니다.", str));
+        }
+        
+        return result;
+    }
     
 
     /**
@@ -124,6 +165,27 @@ public class RegexHelper {
         boolean result = false;
         if (isValue(str)) {
             result = Pattern.matches("^[a-zA-Z0-9]*$", str);
+        }
+        
+        if (result) {
+            log.debug(String.format("(regex) -> `%s`(은)는 영어+숫자 조합이 맞습니다.", str));           
+        } else {
+            log.debug(String.format("(regex) -> `%s`(은)는 영어+숫자 조합이 아닙니다.", str));
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 영문과 숫자,길이로만 구성되었는지에 대한 형식 검사
+     * 
+     * @param str - 검사할 문자열
+     * @return boolean - 형식에 맞을 경우 true, 맞지 않을 경우 false
+     */
+    public boolean isEngNumLenght(String str) {
+        boolean result = false;
+        if (isValue(str)) {
+            result = Pattern.matches("^[a-zA-Z0-9]{4,20}$", str);
         }
         
         if (result) {
