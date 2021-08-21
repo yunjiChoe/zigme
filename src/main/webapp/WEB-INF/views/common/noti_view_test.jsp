@@ -147,9 +147,9 @@
 				<h2>
 					<img
 						src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png">
-					${output.getNickname()} 님
+					${zigme_user.nickname} 님
 				</h2>
-				<input type="hidden" id="user_id" name="userno" value="${output.getUserNo()}">
+				<input type="text" id="user_id" name="userno" value="${zigme_user.userNo}">
 			</div>
 			<div class="summary">
 				<p class="noti_txt">
@@ -235,11 +235,12 @@
 	
 	<script id="noti-list-tmpl" type="text/x-handlebars-template">
    {{#each item}}
-   <tr>
-       <td><span>{{postTitle}}</span><span>{{commCount}}</span></td>
-       <td><span>{{commContent}}</span><span>{{commCount}}</span></td>
-       </tr>         
+   	<tr>
+		<td><span>{{postTitle}}</span><span>{{commCount}}</span></td>
+		<td><span>{{commContent}}</span><span>{{commCount}}</span></td>
+    </tr>
    {{/each}}
+   
    </script>
 		<!-- Handlebar 템플릿 코드 -->
 	<!--Google CDN 서버로부터 jQuery 참조 -->
@@ -258,7 +259,19 @@
 	<script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
 	<script type="text/javascript">
 	$(function() {
-
+		var userNo = ${zigme_user.userNo};
+ 		
+/*      // Restful API에 GET 방식 요청
+        $.get("${pageContext.request.contextPath}/noti", {
+            "userNo": userNo     // 페이지 번호는 GET 파라미터로 전송한다.
+        }, function(json) {
+        	console.log(json);
+            var source = $("#noti-list-tmpl").html();   // 템플릿 코드 가져오기
+            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
+            var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
+            $("#noti_table").append(result);      // 최종 결과물을 #list 요소에 추가한다.
+        });
+ */
 		/** X 버튼 클릭시 개별 알람 목록 삭제 */
 			$(document).on('click', 'button.close', function(e){
 				
@@ -312,17 +325,19 @@
 	    			});
 
 			});
-	
-        // Restful API에 GET 방식 요청
-        $(document).ready(function(){
-        $.get("${pageContext.request.contextPath}/noti", {
-        }, function(json) {
-            var source = $("noti-list-tmpl").html();   	// 템플릿 코드 가져오기
-            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
-            var result = template(json);    			// 템플릿 컴파일 결과물에 json 전달
-            $("#noti_table").append(result);      		// 최종 결과물을 #list 요소에 추가한다.
-        });	
-        });	
+		
+		$(document).ready(function (){
+			$.get("${pageContext.request.contextPath}/noti", {
+	            "userNo": userNo     // 페이지 번호는 GET 파라미터로 전송한다.
+	        }, function(json) {
+	        	console.log(json);
+	            var source = $("#noti-list-tmpl").html();   // 템플릿 코드 가져오기
+	            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
+	            var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
+	            $("#noti_table").append(result);      // 최종 결과물을 #list 요소에 추가한다.
+	        });
+			
+		});
 	 });
         
 	</script>

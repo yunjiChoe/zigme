@@ -38,7 +38,7 @@
 	<select id ="selectCommList" parameterType="study.spring.zigme.model.Post"
 	resultMap="notiMap">
 	<!-- 댓글에 댓글이 달린 경우(=대댓글) 다중행 조회 쿼리 -->
- 	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) FROM comment A, comment B WHERE A.commNo = B.parentNo 
+ 	SELECT A.postNo, A.commNo, A.commContent, count(A.commNo) as countComm FROM comment A, comment B WHERE A.commNo = B.parentNo 
 		AND B.commNoti = 2 
 		AND B.userNo = #{userNo}
 		GROUP BY A.commNo

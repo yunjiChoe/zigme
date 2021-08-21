@@ -119,16 +119,16 @@ public class HomeController {
 		return "common/myinfo";
 	}
 
-//   /**
-//    * 알림으로 진입하기 위한 메서드
-//    * @param model
-//    * @param request
-//    * @return String
-//    */
-//   @RequestMapping(value = "/noti", method = RequestMethod.GET)
-//   public String noti(Model model, HttpServletRequest request) {
-//      return "common/noti";
-//   }
+   /**
+    * 알림으로 진입하기 위한 메서드
+    * @param model
+    * @param request
+    * @return String
+    */
+   @RequestMapping(value = "/noti_ajax", method = RequestMethod.GET)
+   public String noti(Model model, HttpServletRequest request) {
+      return "common/noti_view_test";
+   }
 
 	/**
 	 * 신고팝업으로 진입하기 위한 메서드
