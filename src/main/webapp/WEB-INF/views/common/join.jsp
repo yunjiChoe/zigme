@@ -351,7 +351,7 @@ input#all_check {
 							<div class="circle"></div>
 							<label for="user_nickname">닉네임</label><br /> <input type="text"
 								id="user_subname" name="nickname" class="form-control"
-								placeholder="한글,영문,숫자 최소2차,최대 5자" />
+								placeholder="한글,영문,숫자 최소2자,최대 5자" />
 							<button type="button"
 								class="btn btn-primary btn-ms btn-ttc4 btn-ttc5 " id="checkNick">중복확인</button>
 							<div class="nickname" style="display: none;"></div>
@@ -611,6 +611,11 @@ ZIGME는 www.ZIGME.com을 비롯한 ZIGME 도메인의 웹사이트 및 응용�
 		//------------------------------------------------------------------------
 		/** 아이디 중복 확인 */
 		$(function() {
+			
+			
+			
+			
+			
 		    //idck 버튼을 클릭했을 때 
 		    $("#id_check").click(function() {
 		        

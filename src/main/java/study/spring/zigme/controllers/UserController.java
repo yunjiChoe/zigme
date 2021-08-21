@@ -133,7 +133,7 @@ public class UserController {
 			return webHelper.redirect(null, "상세주소을 입력하세요");
 		}
 		if (!regexHelper.isValue(loc_xy)) {
-			return webHelper.redirect(null, "주소를 다시 입력하세요");
+			return webHelper.redirect(null, "주소를 다시 한번 입력해주세요.");
 		}
 		
 

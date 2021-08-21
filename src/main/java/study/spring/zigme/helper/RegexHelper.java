@@ -113,7 +113,7 @@ public class RegexHelper {
     
     
     /**
-     * 한글영 ,어로만 구성되었는지에 대한 형식 검사
+     * 한글영 ,영어로만 구성되었는지에 대한 형식 검사
      * 
      * @param str - 검사할 문자열
      * @return boolean - 형식에 맞을 경우 true, 맞지 않을 경우 false
@@ -134,7 +134,7 @@ public class RegexHelper {
     }
     
     /**
-     * 한글영 ,어로만 구성되었는지에 대한 형식 검사
+     * 한글영 ,영어 문자 길이 2~5자로만 구성되었는지에 대한 형식 검사
      * 
      * @param str - 검사할 문자열
      * @return boolean - 형식에 맞을 경우 true, 맞지 않을 경우 false
@@ -146,9 +146,9 @@ public class RegexHelper {
         }
         
         if (result) {
-            log.debug(String.format("(regex) -> `%s`(은)는 한글,영어로만 구성되어 있습니다.", str));           
+            log.debug(String.format("(regex) -> `%s`(은)는 한글,영어로만  구성되어 있습니다.", str));           
         } else {
-            log.debug(String.format("(regex) -> `%s`(은)는 한글,영어로만 구성되어 있지 않습니다.", str));
+            log.debug(String.format("(regex) -> `%s`(은)는 한글,영어로만 2자~5자 구성되어 있지 않습니다.", str));
         }
         
         return result;
