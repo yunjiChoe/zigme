@@ -259,7 +259,7 @@
                 type:"GET",
                 url:"mailCheck?email=" + email,
                 success:function(data){
-                	console.log("data : " + data);
+                	//console.log("data : " + data);
                 	
                 	code = data;
                 }     
@@ -374,12 +374,12 @@
 			            data:{id : id ,name :name, email : email} ,
 			            
 			           success: function(req) {
-			        	   console.log(req);
+			        	 // console.log(req);
 							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
 							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
 							if (req.result != "0") {
 							
-								console.log(req.result);
+								//console.log(req.result);
 							}
 			            }
 			        });

@@ -1,11 +1,14 @@
 package study.spring.zigme.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -287,7 +290,7 @@ public class UserController {
 	public ModelAndView login(Model model, HttpServletRequest request,
 
 			@RequestParam(value = "userno", defaultValue = "0") int userno,
-			@CookieValue(value="my_cookie", defaultValue="") String myCookie) {
+			@CookieValue(value="id", defaultValue="") String myCookie) {
 		
 		
 		User input = new User();
@@ -307,13 +310,14 @@ public class UserController {
 		}
 
 		/** 3) View 처리 */
-		
-		return new ModelAndView("/main");
+		// 추출한 값을 View에게 전달
+        model.addAttribute("my_cookie", myCookie);
+		return new ModelAndView("admin/admin_main");
 	}
 
 	/** 로그인 작성 폼에 대한 action 페이지 */
 	@RequestMapping(value = "/common/login_ok.do", method = RequestMethod.POST)
-	public ModelAndView login_ok(Model model, HttpServletRequest request,
+	public ModelAndView login_ok(Model model, HttpServletRequest request,HttpServletResponse response, 
 			@RequestParam(value = "id", defaultValue = "") String id,
 			@RequestParam(value = "password", defaultValue = "") String password
 			
@@ -329,6 +333,12 @@ public class UserController {
         if (!id.equals("")) {
             // 입력 내용이 있다면 세션 저장 처리
             session.setAttribute("my_session", id);
+            try {
+				id = URLEncoder.encode(id, "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             //session.setAttribute("my_session", userNo);
         } else {
             // 입력 내용이 없는 경우 세션 삭제
@@ -339,6 +349,24 @@ public class UserController {
 		String user = (String) session.getAttribute("id");
 		
 		
+		 
+		/** 쿠키*/
+		Cookie cookie = new Cookie("my_cookie", id);  // 저장할 쿠키 객체 생성.
+        cookie.setPath("/");            // 쿠키의 유효 경로 --> 사이트 전역에 대한 설정.
+        cookie.setDomain("localhost");  // 쿠키의 유효 도메인
+        
+        if (id.equals("")) {     // 쿠키 시간을 설정하지 않으면 브라우저가 동작하는 동안 유효
+            cookie.setMaxAge(0);        // 쿠키 설정시간이 0이면 즉시 삭제된다.
+        } else {
+            cookie.setMaxAge(60*60);       // 값이 있다면 60초 동안 쿠키 저장
+        }
+        
+        response.addCookie(cookie);     // 쿠키 저장
+		
+		
+		
+		
+		 
 
 		
 		/** 1) 파라미터 유효성 검사 */

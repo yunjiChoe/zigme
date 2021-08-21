@@ -615,19 +615,12 @@ img.col-md-3 {
 							return false;					// <-- 실행 중단
 						}
 
-						if (new_password != null) {	// 입력값이 있다면
+						if (new_password != "") {	// 입력값이 있다면
 							 password =$('#user_pw_new').val();	// <-- 메시지 표시
 							console.log( password)	;		
 							
 						}
-						
-						
-						
-						
-						
-						
-						
-						
+										
 			    	
     $.ajax({
 				            url:'${pageContext.request.contextPath}/myinfo', //Controller에서 인식할 주소

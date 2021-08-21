@@ -36,6 +36,7 @@
 </head>
 
 <body>
+
 	<div class="container">
 	<!--  include :: container 바로 아래에 있어야합니다 -->	
 	<c:import url="../inc/admin.jsp" />
@@ -50,9 +51,9 @@
     <h2 id="timer"></h2>
     <br>
     <br>
-    <h2>오늘의 방문자 수:&nbsp;&nbsp;<span>123</span>명</h2>
-    <h2>오늘의 가입회원 수:&nbsp;&nbsp;<span id=countJoin><span>22</span>명</span></h2>
-    <h2>오늘의 탈퇴회원 수:&nbsp;&nbsp;<span id=countWithdraw><span>3</span>명</span></h2>
+    <h2>오늘의 방문자 수:&nbsp;&nbsp;<span></span>명</h2>
+    <h2>오늘의 가입회원 수:&nbsp;&nbsp;<span id=countJoin><span></span>명</span></h2>
+    <h2>오늘의 탈퇴회원 수:&nbsp;&nbsp;<span id=countWithdraw><span></span>명</span></h2>
     
     </div> <!-- //container 종료 -->
     
@@ -85,7 +86,7 @@
             mi = zero_padding(mi);
             ss = zero_padding(ss);// 완성된 현재 시각
             
-            var result = yy + "년 " + mm + "월 " + dd + "일 "  + is_ampm(hh) + " " + convert_12(hh) + ":" + mi;
+            var result = yy + "년 " + mm + "월 " + dd + "일 "  + is_ampm(hh) + " " + convert_12(hh) + ":" + mi +":" +ss;
                         
             // 한자리 숫자일때 숫자앞에 0더해서 출력한다.
             function zero_padding(time) {           

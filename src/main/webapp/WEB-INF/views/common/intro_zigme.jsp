@@ -75,6 +75,10 @@ label {
 	background-color: #4041fe;
 	color: #FFF;
 }
+#idSave{padding-left: 5px;
+}
+label #idSaveCheck{
+margin-bottom: 10px;}
 </style>
 
 </head>
@@ -109,7 +113,7 @@ label {
 							placeholder="패스워드" />
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id="idSaveCheck" name="remember" value="1">아이디
+						<label><input type="checkbox" id="idSaveCheck" name="remember" value="1"><span id="idSave">아이디</span>
 							저장</label>
 					</div>
 					<div class="modal-button">

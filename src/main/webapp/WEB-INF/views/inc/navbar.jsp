@@ -65,7 +65,7 @@
         <form class="navbar-form navbar-right" method="post" action="${pageContext.request.contextPath}/common/logout.do" name="user_logout">          
           <div class="dropdown clearfix" id="user_infobtn">
             <a id="dropdownMenu1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png" class="profile_icon" /> 
-            ${zigme_user.nickname}님 
+            ${zigme_user.nickname} 님 
            <input type="hidden" name="session" value="${my_session}" id="my_session">
            <input type="hidden" name="userno" value="${zigme_user.userNo}" id="userNo">
             
