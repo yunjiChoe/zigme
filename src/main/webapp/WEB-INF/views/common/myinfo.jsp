@@ -616,10 +616,15 @@ img.col-md-3 {
 						}
 
 						
-						if (new_password != "") {	// 입력값이 있다면
-							 password =$('#user_pw_new').val();	// <-- 메시지 표시
-							console.log( password)	;		
+						if (!new_password) {	// 입력값이 있다면
+							alert("비밀번호를  4~20자 입력해주세요.");
+							console.log( password)	;
+							return false;	
 							
+						}else {
+							
+							 password =$('#user_pw_new').val();	// <-- 메시지 표시
+								console.log( password)	;	
 						}
 										
 			    	
