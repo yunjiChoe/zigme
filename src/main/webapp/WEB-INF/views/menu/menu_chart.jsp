@@ -71,7 +71,7 @@ button {
 		<c:import url="../inc/navbar.jsp" />
 		<div class="content">
 			<p class="sub_title">선호 음식 순위</p>
-			<form class="form-inline pull-right">
+			<!-- <form class="form-inline pull-right">
 				<div class="form-group">
 					<select id="parent" class="form-control">
 						<option value="">--- 선택하세요 ---</option>
@@ -93,7 +93,7 @@ button {
 				<button type="button" class="btn btn-default view">
 					<b>조회</b>
 				</button>
-			</form>
+			</form> -->
 			<!-- 탭 메뉴 시작 -->
 			<ul id="myTab" class="nav nav-tabs">
 				<li class="active"><a href="#gna" data-toggle="tab">성별/연령별</a></li>

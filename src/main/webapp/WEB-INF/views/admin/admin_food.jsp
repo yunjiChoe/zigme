@@ -42,7 +42,7 @@
 				class="pull-right">
 				<label for="keyword">음식이름: </label> <input type="search"
 					name="keyword" placeholder="음식이름 검색" value="${keyword}" />
-				<button type="submit" id="searchfood">검색</button>
+				<button type="submit">검색</button>
 			</form>
 			<br>
 		</div>
@@ -50,7 +50,7 @@
 		<hr />
 		<br>
 
-		<table id="food_List">
+		<table id="admin_list">
 			<thead>
 				<tr>
 					<th width="50">번호</th>
@@ -61,7 +61,7 @@
 					<th width="100">삭제여부(Y/N)</th>
 				</tr>
 			</thead>
-			<tbody id="food_List_body">
+			<tbody>
 				<c:choose>
 
 					<c:when test="${output == null || fn:length(output) == 0}">
@@ -75,7 +75,6 @@
 						<c:forEach var="item" items="${output}" varStatus="status">
 
 							<c:set var="foodName" value="${item.foodName}" />
-
 
 							<c:url value="view.do" var="viewUrl">
 								<c:param name="foodNo" value="${item.foodNo}" />
