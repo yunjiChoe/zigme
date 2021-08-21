@@ -59,8 +59,8 @@
 			<thead>
 				<tr>
 					<th width="50">번호</th>
-					<th width="180">업종·건강상태정보 이름</th>
-					<th width="210">분류(S:업종/C:건강상태정보)</th>
+					<th width="150">업종·건강상태 이름</th>
+					<th width="200">분류 ( S: 업종 / C: 건강상태 )</th>
 				</tr>
 			</thead>
 			<tbody>

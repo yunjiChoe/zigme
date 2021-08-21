@@ -30,17 +30,19 @@
 		<%@ include file="../inc/admin.jsp"%>
 
 		<p class="top_title">이미지 관리</p>
-		<table id="condition" align="center">
-			<!--<thead>
+		<table id="admin_list">
+			<thead>
 				<tr>
-					<th>항목</th>
-					<th>건강상태</th>
-					<th>이미지</th>
-					<th>추가하기</th>
+					<th width="50">번호</th>
+					<th width="100">이름</th>
+					<th width="80">크기</th>
+					<th width="180">경로</th>
+					<th width="200">분류(음식/업종·건강상태정보)</th>
+					<th width="90">데이터 번호</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="condition_category">
+				<!--<tr class="condition_category">
 					<td class=condition_rowNumber>입력</td>
 					<td class="condition_info">
 						<input type='text' id="conditionInfoBox" class='condition_input' autofocus></td>
@@ -71,14 +73,6 @@
 					<td class=condition_emptyTd></td>
 					<td class=condition_emptyTd></td>
 				</tr> -->
-				<tr id="conditionList">
-					<th width="50">번호</th>
-					<th width="100">이름</th>
-					<th width="80">크기</th>
-					<th width="180">경로</th>
-					<th width="200">분류(음식/업종·건강상태정보)</th>
-					<th width="90">데이터 번호</th>
-				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -93,7 +87,7 @@
     -->
 	<%@ include file="../inc/footer.jsp"%>
 	<script type="text/javascript">
-		$(function() {
+		<%-- $(function() {
 			var counter = 0;
 			
 			// 파일명 textbox에 띄우기 --------------------------------------------------------------------
@@ -241,7 +235,7 @@
 				counter--;
 			});
 
-		});
+		}); --%>
 	</script>
 </body>
 </html>

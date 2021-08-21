@@ -63,7 +63,7 @@
 		foodCondition, delFoodflag FROM food
 		<where>
 			<if test="foodName != null and foodName != ''">
-				foodName = #{foodName}
+				 foodName LIKE CONCAT ('%', #{foodName}, '%')
 			</if>
 		</where>
 		ORDER BY foodNo DESC;

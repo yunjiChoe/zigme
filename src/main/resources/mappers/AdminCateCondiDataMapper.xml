@@ -31,7 +31,7 @@
 		FROM adminCateCondiData
 		<where>
 			<if test="cateCondiName != null and cateCondiName != ''">
-				cateCondiName = #{cateCondiName}
+				cateCondiName LIKE CONCAT ('%', #{cateCondiName}, '%')
 			</if>
 		</where>
 		ORDER BY cateCondiFlag;
