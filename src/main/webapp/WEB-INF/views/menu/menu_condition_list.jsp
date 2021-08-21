@@ -29,11 +29,17 @@
 
 <script type="text/javascript">
 	
-	function report(index, i) {
+	function report(reviewNo, userNickname, content, date) {
 		
-		$("#report_id").attr("value", review_list[i].userId);
-		$("#report_content").attr("value", review_list[i].reviewContent);
-		$("#report_date").attr("value", review_list[i].reviewRegdate);
+		console.log("reviewNo :" + reviewNo);
+		console.log("userNickname :" + userNickname);
+		console.log("content :" + content);
+		console.log("date :" + date);
+		
+		$("#report_no").attr("value", reviewNo);
+		$("#report_id").attr("value", userNickname);
+		$("#report_content").attr("value", content);
+		$("#report_date").attr("value", date);
 		
 		window.open('${pageContext.request.contextPath}/report_popup', '', 'width=400, height=450, scrollbars=no, toolbar=no, menubar=no, status=no, location=no');
 	}
@@ -79,6 +85,7 @@ textarea {
 					<img id="loading_img" src="${pageContext.request.contextPath}/plugin/ajax/loading2.gif" />
 				</div>					
 			</div>
+			<input type="hidden"  id="loc_xy" name="loc_xy"  value="${zigme_user.loc_xy}"/>
 		</div>
 		<!-- //body 종료  -->
 		
@@ -148,6 +155,8 @@ textarea {
 	<!--  lightbox 플러그인 -->
 	<script src="${pageContext.request.contextPath}/plugin/lightbox/js/lightbox.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ca67f5e7cd2510c89ae719dacc5c926"></script>
+	<script src="${pageContext.request.contextPath}/assets/js/jquery.star-rating-svg.js"></script>
+	
 	<script type="text/javascript">
     $(function() {  	
     	
@@ -196,6 +205,8 @@ textarea {
 		var selectedMarker = null; // 클릭한 마커를 담을 변수
 		var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 		var map;
+		
+		var now_click_placeId = "";
     	
 		// ------------------------------------ JSON Data load --------------------------------------
 	   /*
@@ -233,14 +244,20 @@ textarea {
 					SPRITE_HEIGHT = req.menu[0].SPRITE_HEIGHT;
 					SPRITE_GAP = req.menu[0].SPRITE_GAP;	
 					
-					userComp_arr = req.common[1].loc_xy.split(",");
+					//userComp_arr = req.common[1].loc_xy.split(",");					
+					
+					var userComp_arr_impl = document.getElementById("loc_xy").value;					
+					userComp_arr = userComp_arr_impl.split(", ");
+					
+					//console.log("userComp_arr " + userComp_arr);
+					
 					userCompX = userComp_arr[0];
 					userCompY = userComp_arr[1];
 					
 					Search_radius = req.menu[0].Search_radius;
 					Search_size =  req.menu[0].Serach_size;
 					
-					console.log(userCompX + "," + userCompY);					
+					//console.log(userCompX + "," + userCompY);					
 					
 				},
 				error: function() {
@@ -276,43 +293,119 @@ textarea {
 	    			i -= 1;
 	    			continue;
 	    		}
+				
+				// 리뷰 목록 read
+				$.ajax ({
+					async: false,
+					url :'${pageContext.request.contextPath}/menu/menu_list.review',
+					method: 'get',
+					data : {
+						"reviewPlaceId": menu_list[i].id
+					},
+					dataType: 'JSON',
+					success: function(req) {	
+						
+						review_list[menu_list[i].id] = req.list;
+						review_count[i] = req.count;
+						
+						// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
+											
+					},
+					error: function() {
+						// 리뷰데이터가 없는 경우 
+											
+						review_list[menu_list[i].id] = "NOREVIEW";
+						review_count[i] = 0;
+											
+					}
+				});
 			
-			// 리뷰 목록 read
-			$.ajax ({
-				async: false,
-				url :'${pageContext.request.contextPath}/menu/menu_list.review',
-				method: 'get',
-				data : {
-					"reviewPlaceId": menu_list[i].id
-				},
-				dataType: 'JSON',
-				success: function(req) {	
-					
-					review_list[menu_list[i].id] = req.list;
-					review_count[i] = req.count;
-					
-					// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
-										
-				},
-				error: function() {
-					// 리뷰데이터가 없는 경우 
-										
-					review_list[menu_list[i].id] = "NOREVIEW";
-					review_count[i] = 0;
-										
 				}
-			});
-			
-			}
 			//console.log(review_list[926603562][1].reviewContent);
-		}		
+		}
+		
+		// review data insert
+		function review_insert() {
+			var file_name = "";
+			var file_no = "";
+			var file_yn =  $("#uploadreViewImg").val();
+			
+			// 첨부한 파일 유무 확인
+			if(file_yn) { 
+				// 파일 업로드. enctype 때문에 다른 String과 함께 전송이 안되는 것 같음. 
+				$.ajax({
+	    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+	    			// 결과를 읽어올 URL
+	    			url: '${pageContext.request.contextPath}/upload/upload.review',
+	    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+	    			method: 'POST',
+	   			    enctype: 'multipart/form-data',
+	    			processData : false,
+	                contentType : false,
+	    			// 전달할 조건값은 JSON형식으로 구성
+	    			data: new FormData($("#uploadForm")[0]), 
+	    			// 읽어올 내용의 형식(생략할 경우 Json)
+	    			dataType: 'json',
+	    			//beforeSend: function(xhr){
+	    			//	xhr.setRequestHeader(header, token);	// 헤드의 csrf meta태그를 읽어 CSRF 토큰 함께 전송
+	    			//},
+	    			// 읽어온 내용을 처리하기 위한 함수
+	    			success: function(req) {  
+	    				
+	    				file_name = req.review_item.userImgPath;
+	    				file_no = req.review_item.userImgNo;
+	    				//console.log("파일명 " + file_name);
+	    				
+	    			}
+	    		}); // end $.ajax    		
+			}			
+			else {				
+				console.log("첨부파일없음!");
+				file_name = "";
+				file_no = 0;
+			}
+    		var mydate = new Date();    		
+    		var reviewRegdate = mydate.getFullYear() + "-" + (mydate.getMonth()+1) + "-" + mydate.getDate() + " " + mydate.getHours() + 
+    		":" + mydate.getMinutes() + ":" + mydate.getSeconds();
+    		    		
+    		// form data 전송 
+    		$.ajax({
+    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+    			// 결과를 읽어올 URL
+    			url: '${pageContext.request.contextPath}/menu/review.write',
+    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+    			method: 'post',
+    			// 전달할 조건값은 JSON형식으로 구성
+    			data: {
+    				   "reviewContent": $('#review_content').val(),
+    				   "reviewScope": $('.user_rating').html(),
+    				   "reviewRegdate": reviewRegdate,
+    				   "reviewPlaceId": now_click_placeId,
+    				   "userNo": ${zigme_user.userNo},
+    				   "userImgNo": file_no
+    			},
+    			// 읽어올 내용의 형식(생략할 경우 Json)
+    			dataType: 'json',
+    			// 읽어온 내용을 처리하기 위한 함수
+    			success: function(req) {
+    				
+    				location.reload(); // sche-id가 캘린더 플러그인의 값으로 자동등록되기 때문에 
+    				//console.log("통신완료" + req.item.scheNo);
+    				
+    			}
+    		}); // end $.ajax
+		}
+		
 		// ------------------------------------ Modal start ------------------------------------
+		/* 영수증인증 작업시에 다시 코드 살리는 걸로 dasom_modify 
 		$("#open_modal_btn").click(function(e){
 			// 스크립트를 사용하여 특정 modal 강제로 열기
 			$("#myModal").modal('show');
 			// 아래는 창을 강제로 닫기 처리
 			//$("#myModal").modal('hide');
+			
 		});	
+		*/	
 
 		// 파일명 textbox에 띄우기 --------------------------------------------------------------------------
 		// input 요소 중에 name이 file 인 요소의 값이 바뀌었을때 
@@ -416,7 +509,8 @@ textarea {
     		for(var i=0; i < count; i++) {
     		jumsu_sum = 0.0;
     		jumsu_var = 0.0;
-    		lstcode = menu_list[i].id; // 음식점 ID 
+    		lstcode = menu_list[i].id; // 음식점 ID 		
+    		
     		
     		//////////////////////////////////////// 리뷰 목록 read 
     		
@@ -447,9 +541,17 @@ textarea {
     			jumsu_star = "☆☆☆☆☆"; // 0.4 이하 
     		}     		
     			
+    		var address_name;
+    		
+    		if(menu_list[i].road_address_name != "") { 
+    			address_name = menu_list[i].road_address_name;    		
+    		} else {
+    			address_name = menu_list[i].address_name;
+    		}
+    		
     		tag +=  "<div class='menu_listarea' data-index='" + menu_list[i].id + "'><h3><span class='menu_label'>" + label[i] + " </span>" + menu_list[i].place_name + 
-    		"</h3><span class='jumsu_starcss'>" + jumsu_avr + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
-    		+ review_count[i] +"</a><br><span>"+ menu_list[i].road_address_name +"</span></div>";    		
+    		"</h3><span class='jumsu_starcss'>" + jumsu_avr.toFixed(1) + " " + jumsu_star + " </span>  |  <a class='list_review'> 리뷰 " 
+    		+ review_count[i] +"</a><br><span>"+ address_name +"</span></div>";    		
     		}
     		
     		$("#list_side").empty();    		
@@ -468,6 +570,7 @@ textarea {
 	    		var review_imgname = "";
 	    		var lstcode = bistro_no;
 	    		
+	    		now_click_placeId = bistro_no; // 현재 음식점의 id를 저장하고, 리뷰 작성 모달에서 사용한다. 음식점 목록을 클릭했을때 업데이트 
 	    		
 	    		/////////////////////////////////////// 리뷰 목록 read			    		
 	    		
@@ -512,17 +615,18 @@ textarea {
 						},
 						dataType: 'JSON',
 						success: function(req) {				
-							review_imgname = req.img_name.userImgName;												
+							review_imgname = req.img_name.userImgPath;	
+							//console.log(req.img_name);
+							
 						},
 						error: function() {
 							//alert("일시적인 오류가 발생하였습니다.");
 						}
-					});
-	    			
+					});	    			
 	    		}
 	    			
 	    		if(i==0) { // 신고하려는 리뷰 정보를 신고 팝업창으로 넘기기 위한 input 요소 
-	       			review_tag = "<input type='hidden' id='report_id' /><input type='hidden' id='report_content' /><input type='hidden' id='report_date' />";
+	       			review_tag = "<input type='hidden' id='report_no' /><input type='hidden' id='report_id' /><input type='hidden' id='report_content' /><input type='hidden' id='report_date' />";
 	       		}		
 
 	    			
@@ -540,18 +644,19 @@ textarea {
 	       		} else {
 	       			jumsu_star = "☆☆☆☆☆";  
 	       		}	
-	   			
+			
+	   		 
    			// 리뷰에 이미지가 있고 없는 경우에 대한 처리
   			if ( review_imgname != "") {	   			
-	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+	   			review_tag += "<div class='review_listarea' data-index='" + i + "'><div class='pull-left'><span class='menu_label'>" + review_list[lstcode][i].userNickname + " </span> "
 	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='${pageContext.request.contextPath}/img/menu/review/" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
-				+ "'><img class='review_img' src='${pageContext.request.contextPath}/img/menu/review/" + review_imgname 
-	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +" );'>신고</a></div></div>";
+	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
+				+ "'><img class='review_img' src='" + review_imgname 
+	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ review_list[bistro_no][i].reviewNo + ",\"" + review_list[bistro_no][i].userNickname + "\",\"" + review_list[bistro_no][i].reviewContent + "\",\"" + review_list[bistro_no][i].reviewRegdate +"\" );'>신고</a></div></div>";
   			} else {
-  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userId + " </span> "
+  				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userNickname + " </span> "
 	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ bistro_no +"," + i +");'>신고</a></div></div>";	  			
+	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report(" + review_list[bistro_no][i].reviewNo + ",\"" + review_list[bistro_no][i].userNickname + "\",\"" + review_list[bistro_no][i].reviewContent + "\",\"" + review_list[bistro_no][i].reviewRegdate +"\" );'>신고</a></div></div>";	  			
 	      		}
 	    		
         	}        	
@@ -587,8 +692,54 @@ textarea {
 			// 마커를 선택하여 리뷰리스트에 들어왔다면, 마커 이미지를 초기화 해야한다. 
 			map_load();
 		});
+	  
+	   
+		//$(document).on('click', '#open_modal_btn', function(e){	
+		$("#open_modal_btn").click(function(e){
+			
+			$("#myModal").modal('show');
+			
+			var star_value = 0.5;
+			var MAX_STAR = 5; 
+			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
+			$(".modal-header").html(modal_tag);
+			
+			modal_tag = "<textarea name='review_content' id='review_content' cols='50' rows='10' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'></textarea>"
+			+ "<form method='post' id='uploadForm' enctype='multipart/form-data'><div id='modal_bottom_area'><input type='file' name='uploadreViewImg' id='uploadreViewImg' /><div class='rating'>";
+			
+	        while( star_value <= MAX_STAR ) {
+	        	modal_tag += "<span class='star star_left' value='" + star_value + "'></span>"
+	        	modal_tag += "<span class='star star_right' value='" + (star_value + 0.5).toFixed(1) + "'></span>"
+	                     star_value += 1;	
+	         }
+
+	        modal_tag += "<p class='user_rating'>0.0</p><p> / 5.0</p></div></div><a><span class='write_review_wrapper2'>리뷰 남기기</span></a></form>";
+	        
+			$(".modal-body").html(modal_tag);
+			
+			  $(".star").on('click',function(){			
+		 		   var idx = $(this).index();
+		 		   
+		 		   $(".star").removeClass("onn");
+		 		     for(var i=0; i<=idx; i++){
+		 		        $(".star").eq(i).addClass("onn");
+		 		   }
+		 		   
+		 		   var starValue = $(this).attr("value");
+		 		   $('.rating .user_rating').html(starValue);
+		 		    return false;
+		 		});
+			
+		});
 		
-	   /*
+		$(document).on('click', '.write_review_wrapper2', function(e){
+			
+			// $("#myModal").modal('hide');
+			review_insert();
+			
+		});
+		
+		 /*
 		* 사용자가 선택한 업종아이콘에 select style   
 		*/
 		// 모든 동적인 요소가 생성이 된 다음 실행된다. 
@@ -599,31 +750,19 @@ textarea {
 					item_name = "#menu_group_" + sel_array[i];					
 					$(item_name).addClass("menu_select");
 				}
-			});
-	   
-		$(document).on('click', '#modal_review', function(e){			
-			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
-			$(".modal-header").html(modal_tag);
 			
-			modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea><form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div class='addfile' onclick='onclick=document.all.file.click()'><img class='addfile_btn' src='${pageContext.request.contextPath}/img/menu/addfile_btn.png'></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
-			//modal_tag = "<textarea name='리뷰작성창' cols='50' rows='10' wrap='hard' placeholder='오늘의 식사는 어떠셨나요? 메이트님의 소중한 후기를 작성해주세요!(최대 250자)'>${board.content}</textarea><form action='upload' id='uploadForm' method='post' enctype='multipart/form-data'><input type='file' name='file' style='display: none' /></form><div class='addfile' onclick='onclick=document.all.file.click()'><img class='addfile_btn' src='../img/menu/addfile_btn.png'></div><div class='rating'><span class='star star_left on' value='0.5'></span><span class='star star_right on' value='1.0'></span><span class='star star_left on' value='1.5'></span><span class='star star_right on' value='2.0'></span><span class='star star_left on' value='2.5'></span><span class='star star_right' value='3.0'></span><span class='star star_left' value='3.5'></span><span class='star star_right' value='4.0'></span><span class='star star_left' value='4.5'></span><span class='star star_right' value='5.0'></span><p class= user_rating>2.5</p><p>/5.0</p></div><a href='#'><span class='write_review_wrapper2'>리뷰 남기기</span></a>";
-			$(".modal-body").html(modal_tag);
-		});
-		
-		$(document).on('click', '.write_review_wrapper2', function(e){
-			$("#myModal").modal('hide');
-		});
-		
-		$(".star").on('click',function(){
-			   var idx = $(this).index();
-			   $(".star").removeClass("on");
-			     for(var i=0; i<=idx; i++){
-			        $(".star").eq(i).addClass("on");
-			   }
-			   
-			   var starValue = $(this).attr("value");
-			   $('.rating .user_rating').html(starValue);
-			   return false;
+			// a href='#' 클릭 무시 스크립트
+	        $('a[href="#"]').click(function(ignore) {
+	            ignore.preventDefault();
+	        });
+		    
+	        $(document).on('keyup', '#review_content', function(e){
+				
+				if($(this).val().length > 250) {
+	                $(this).val($(this).val().substring(0, 250));
+	                alert("리뷰는 최대 250자까지 작성가능합니다.");
+	            }			
+			});
 		});
 		
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 지도 API <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

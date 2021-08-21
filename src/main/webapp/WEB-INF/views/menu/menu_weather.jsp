@@ -63,7 +63,7 @@
 				<p class=" text-center sub_text">
 					현재 날씨는 [<span class="csky"></span>] 입니다.
 				</p>
-				<input type="hidden"   id="loc_xy" name="loc_xy"  value="${output.getLoc_xy()}"/>
+				<input type="hidden"   id="loc_xy" name="loc_xy"  value="${zigme_user.loc_xy}"/>
 			</div>
 		</div>
 		<div class="text-center box1" id="weather_food">
@@ -225,8 +225,7 @@
 			console.log(loc_xy[1]);
 
 			
-			$.getJSON
-			('http://api.openweathermap.org/data/2.5/forecast?lat='+ loc_xy[1] +"&lon="+ loc_xy[0] +'&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric',
+		$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat='+ loc_xy[1] +"&lon="+ loc_xy[0] +'&APPID=c689a368e2df5f6e70c8758bec4b5496&units=metric',
 		function(data) {
 			var $temp = data.list[0].main.temp;
 			var $sky = data.list[0].weather[0].main;

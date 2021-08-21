@@ -29,11 +29,17 @@
   
 	<script type="text/javascript">
 	
-	function report(review_list, bistro_no, i) {
+	function report(reviewNo, userNickname, content, date) {
 		
-		$("#report_id").attr("value", review_list[bistro_no][i].userNickname);
-		$("#report_content").attr("value", review_list[bistro_no][i].content);
-		$("#report_date").attr("value", review_list[bistro_no][i].date);
+		console.log("reviewNo :" + reviewNo);
+		console.log("userNickname :" + userNickname);
+		console.log("content :" + content);
+		console.log("date :" + date);
+		
+		$("#report_no").attr("value", reviewNo);
+		$("#report_id").attr("value", userNickname);
+		$("#report_content").attr("value", content);
+		$("#report_date").attr("value", date);
 		
 		window.open('${pageContext.request.contextPath}/report_popup', '', 'width=400, height=450, scrollbars=no, toolbar=no, menubar=no, status=no, location=no');
 	}
@@ -292,7 +298,15 @@
 				}
 			});
 			
-			for(var i=0; i < menu_list.length; i++) {	
+			for(var i=0; i < menu_list.length; i++) {
+				
+				// 음식점이 아닌 검색결과는 빼버림
+				if(menu_list[i].category_group_code != "FD6")
+	    		{
+	    			menu_list.pop(menu_list[i]);
+	    			i -= 1;
+	    			continue;
+	    		}
 				
 				// 리뷰 목록 read
 				$.ajax ({
@@ -308,7 +322,7 @@
 						review_list[menu_list[i].id] = req.list;
 						review_count[i] = req.count;
 						
-						 console.log(review_list);
+						 //console.log(review_list);
 						// review_data[menu_list[i].id] 각 음식점에 대한 리뷰를 array로 가지고 있음. 
 											
 					},
@@ -397,12 +411,16 @@
     		}); // end $.ajax
 		}
 		// ------------------------------------ Modal start ------------------------------------
+		
+		/* 영수증인증 작업시에 다시 코드 살리는 걸로 dasom_modify 
 		$("#open_modal_btn").click(function(e){
 			// 스크립트를 사용하여 특정 modal 강제로 열기
 			$("#myModal").modal('show');
 			// 아래는 창을 강제로 닫기 처리
 			//$("#myModal").modal('hide');
+			
 		});	
+		*/
 
 		// 파일명 textbox에 띄우기 --------------------------------------------------------------------------
 		// input 요소 중에 name이 file 인 요소의 값이 바뀌었을때 
@@ -660,12 +678,11 @@
 						error: function() {
 							//alert("일시적인 오류가 발생하였습니다.");
 						}
-					});
-	    			
+					});	    			
 	    		}
 	    			
 	    		if(i==0) { // 신고하려는 리뷰 정보를 신고 팝업창으로 넘기기 위한 input 요소 
-	       			review_tag = "<input type='hidden' id='report_id' /><input type='hidden' id='report_content' /><input type='hidden' id='report_date' />";
+	       			review_tag = "<input type='hidden' id='report_no' /><input type='hidden' id='report_id' /><input type='hidden' id='report_content' /><input type='hidden' id='report_date' />";
 	       		}		
 
 	    			
@@ -691,11 +708,11 @@
 	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
 	      		+ review_list[lstcode][i].reviewContent +"</span></div><div class='pull-right'><a href='" + review_imgname + "' data-lightbox='review_img" + bistro_no + "_" + i 
 				+ "'><img class='review_img' src='" + review_imgname 
-	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report(review_list," + bistro_no + "," + i +" );'>신고</a></div></div>";
+	      		+ "'/></a></div><div class='clear'></div><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report("+ review_list[bistro_no][i].reviewNo + ",\"" + review_list[bistro_no][i].userNickname + "\",\"" + review_list[bistro_no][i].reviewContent + "\",\"" + review_list[bistro_no][i].reviewRegdate +"\" );'>신고</a></div></div>";
   			} else {
   				review_tag += "<div class='review_listarea' data-index='" + i + "'><span class='menu_label'>" + review_list[lstcode][i].userNickname + " </span> "
 	      		+ "<span class='jumsu_starcss'>" + review_list[lstcode][i].reviewScope + " " + jumsu_star + "</span><br><span class='review_content'>" 
-	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report(review_list," + bistro_no + "," + i +");'>신고</a></div></div>";	  			
+	      		+ review_list[lstcode][i].reviewContent +"</span><br><div class='review_bottom'>"+ review_list[lstcode][i].reviewRegdate +"   |   <a class='list_review' onclick='report(" + review_list[bistro_no][i].reviewNo + ",\"" + review_list[bistro_no][i].userNickname + "\",\"" + review_list[bistro_no][i].reviewContent + "\",\"" + review_list[bistro_no][i].reviewRegdate +"\" );'>신고</a></div></div>";	  			
 	      		}
 	    		
         	}        	
@@ -732,7 +749,12 @@
 			map_load();
 		});   
 	   
-		$(document).on('click', '#modal_review', function(e){	
+		
+		//$(document).on('click', '#open_modal_btn', function(e){	
+		$("#open_modal_btn").click(function(e){
+			
+			$("#myModal").modal('show');
+			
 			var star_value = 0.5;
 			var MAX_STAR = 5; 
 			var modal_tag = "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title'>리뷰 쓰기</h4>";
@@ -771,8 +793,8 @@
 			// $("#myModal").modal('hide');
 			review_insert();
 			
-		});
-		
+		});	
+
 		/*
 		* 사용자가 선택한 업종아이콘에 select style   
 		*/
@@ -786,12 +808,18 @@
 			}
 			
 			// a href='#' 클릭 무시 스크립트
-		    $(document).ready(function() {		        
-		        $('a[href="#"]').click(function(ignore) {
-		            ignore.preventDefault();
-		        });
-		    });
-			
+	        $('a[href="#"]').click(function(ignore) {
+	            ignore.preventDefault();
+	        });
+		    
+	        $(document).on('keyup', '#review_content', function(e){
+				
+				if($(this).val().length > 250) {
+	                $(this).val($(this).val().substring(0, 250));
+	                alert("리뷰는 최대 250자까지 작성가능합니다.");
+	            }			
+			});  	
+		    
 		});		
 		
 		
