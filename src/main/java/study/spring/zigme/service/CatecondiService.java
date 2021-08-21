@@ -8,31 +8,24 @@ import study.spring.zigme.model.AdminCateCondiData;
 
 public interface CatecondiService {
 	/** 
-	 *  admincatecondidata 상세 조회
-	 * @param admincatecondidata  조회할 교수의 일련번호를 담고 있는 Beans
+	 * admincatecondidata 상세 조회
+	 * @param admincatecondidata  조회할 데이터의 일련번호를 담고 있는 Beans
 	 * @return 조회된 데이터가 저장된 Beans
 	 * @throws Exception
 	 */
 	public AdminCateCondiData getAdminCateCondiDataItem(AdminCateCondiData input) throws Exception;
 	
 	/** 
-	 * admincatecondidata 상세 조회
-	 * @param admincatecondidata 검색조건과 페이지 구현 정보를 담고 있는 Beans
+	 * admincatecondidata 전체 조회
+	 * @param admincatecondidata Beans
 	 * @return 조회 결과에 대한 컬렉션
 	 * @throws Exception
 	 */
 	public List<AdminCateCondiData> getAdminCateCondiDataList(AdminCateCondiData input) throws Exception;
-	/** 
-	 * admincatecondidata 저장되어 있는 갯수 조회
-	 * @param Professor 검색조건을 담고 있는 Beans
-	 * @return input
-	 * @throws Exception
-	 */
-	public int getAdminCateCondiDataCount(AdminCateCondiData input) throws Exception;
 	
 	/** 
 	 *  admincatecondidata 데이터 등록하기
-	 * @param Professor  저장할 정보를 담고 있는 Beans
+	 * @param admincatecondidata  저장할 정보를 담고 있는 Beans
 	 * @return int
 	 * @throws Exception
 	 */
@@ -40,7 +33,7 @@ public interface CatecondiService {
 	
 	/** 
 	 * admincatecondidata 데이터 수정하기
-	 * @param Professor 수정할 정보를 담고 있는 Beans
+	 * @param admincatecondidata 수정할 정보를 담고 있는 Beans
 	 * @return int
 	 * @throws Exception
 	 */
@@ -48,7 +41,7 @@ public interface CatecondiService {
 	
 	/** 
 	 * admincatecondidata 데이터 삭제하기
-	 * @param Professor 삭제항 교수의 일련번호를 담고 있는 Beans
+	 * @param admincatecondidata 삭제항 교수의 일련번호를 담고 있는 Beans
 	 * @return input
 	 * @throws Exception
 	 */

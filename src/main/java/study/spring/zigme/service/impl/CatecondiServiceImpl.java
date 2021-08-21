@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.model.AdminCateCondiData;
-import study.spring.zigme.model.Food;
 import study.spring.zigme.service.CatecondiService;
 
 /** 교수 데이터 관리 기능을 제공하기 위한 Service 계층에 대한 구현체 */
@@ -65,11 +64,6 @@ public class CatecondiServiceImpl implements CatecondiService{
 	}
 
 	@Override
-	public int getAdminCateCondiDataCount(AdminCateCondiData input) throws Exception {
-		return 0;
-		
-	}
-	@Override
 	public int addAdminCateCondiData(AdminCateCondiData input) throws Exception {
 		int result = 0;
 
@@ -110,6 +104,7 @@ public class CatecondiServiceImpl implements CatecondiService{
 
         return result;
 	}
+	
 	@Override
 	public int deleteAdminCateCondiData(AdminCateCondiData input) throws Exception {
 		int result = 0;

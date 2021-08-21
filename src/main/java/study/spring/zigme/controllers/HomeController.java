@@ -119,16 +119,16 @@ public class HomeController {
 		return "common/myinfo";
 	}
 
-//   /**
-//    * 알림으로 진입하기 위한 메서드
-//    * @param model
-//    * @param request
-//    * @return String
-//    */
-//   @RequestMapping(value = "/noti", method = RequestMethod.GET)
-//   public String noti(Model model, HttpServletRequest request) {
-//      return "common/noti";
-//   }
+   /**
+    * 알림으로 진입하기 위한 메서드
+    * @param model
+    * @param request
+    * @return String
+    */
+   @RequestMapping(value = "/noti_ajax", method = RequestMethod.GET)
+   public String noti(Model model, HttpServletRequest request) {
+      return "common/noti_view_test";
+   }
 
 	/**
 	 * 신고팝업으로 진입하기 위한 메서드
@@ -386,16 +386,20 @@ public class HomeController {
 	}
 
 	/**
-	 * [관리자]업종/건강상태정보관리로 진입하기 위한 메서드
+	 * [관리자]업종/건강상태 관리로 진입하기 위한 메서드
 	 * 
 	 * @param model
 	 * @param request
 	 * @return String
 	 */
-	@RequestMapping(value = "/admin/admin_catecondi", method = RequestMethod.GET)
-	public String adminCategory(Model model, HttpServletRequest request) {
-		return "admin/admin_catecondi";
-	}
+	/**
+	 * CateCondiController에서 따로 관리함.
+	 * 
+	 * @RequestMapping(value = "/admin/admin_catecondi", method = RequestMethod.GET)
+	 *	public String adminCategory(Model model, HttpServletRequest request) {
+	 *		return "admin/admin_catecondi";
+	 *	}
+	 */
 
 	/**
 	 * [관리자]음식DB관리로 진입하기 위한 메서드

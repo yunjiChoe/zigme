@@ -73,8 +73,8 @@
 				<br>
 				<div>
 					<label for="delFoodflag">삭제여부: </label>
-					<label><input type="radio" name="delFoodflag" id="delFoodflag_Y" value="Y"/>Y</label>
-					<label><input type="radio" name="delFoodflag" id="delFoodflag_N" value="N" checked/>N</label>
+					<label><input type="radio" name="delFoodflag" id="delFoodflag_Y" value="Y"/> Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					<label><input type="radio" name="delFoodflag" id="delFoodflag_N" value="N" checked/> N</label>
 				</div>
 				<hr/>
 				<button type="submit">저장하기</button>

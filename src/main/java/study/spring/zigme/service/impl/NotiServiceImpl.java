@@ -88,7 +88,7 @@ public class NotiServiceImpl implements NotiService{
             log.error(e.getLocalizedMessage());
             throw new Exception("데이터 조회에 실패했습니다.");
         }
-
+		
 		return result;
 	}
 

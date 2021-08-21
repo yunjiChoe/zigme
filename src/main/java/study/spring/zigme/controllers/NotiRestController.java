@@ -32,16 +32,19 @@ public class NotiRestController {
 	
 	/**목록 페이지 */
 	@RequestMapping(value = "/noti", method = RequestMethod.GET)
-	public Map<String, Object> get_list(){
+	public Map<String, Object> get_list(
+			@RequestParam(value = "userNo", defaultValue = "0") int userNo){
         /** 1) 데이터 조회하기 - 게시글의 댓글 */
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input1 = new Post();
         List<Post> output1 = null;   // 조회결과가 저장될 객체
+        input1.setUserNo(userNo);
+        System.out.println(">>>>>>>>>>" +userNo);
 
         try {
             // 데이터 조회하기
             output1 = notiService.getNotiList(input1);
-       
+        System.out.println("아웃풋 제발 나와줘 " + output1);
         } catch (Exception e) {
             return webHelper.getJsonError(e.getLocalizedMessage());
         }
@@ -50,11 +53,11 @@ public class NotiRestController {
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input2 = new Post();
         List<Post> output2 = null;   // 조회결과가 저장될 객체
-        
+        input2.setUserNo(userNo);
         try {
         	// 데이터 조회하기
         	output2 = notiService.getNotiCommList(input2);
-        	
+        	System.out.println("아웃풋222 제발 나와줘 " + output2);
         } catch (Exception e) {
         	return webHelper.getJsonError(e.getLocalizedMessage());
         }
@@ -63,6 +66,8 @@ public class NotiRestController {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("item1", output1);
         data.put("item2", output2);
+        System.out.println("데이터확인하기 : " + data);
+
         return webHelper.getJsonData(data);
     } 
 

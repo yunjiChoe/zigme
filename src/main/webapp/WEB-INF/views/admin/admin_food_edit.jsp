@@ -75,8 +75,8 @@
 				<br>
 				<div>
 					<label for="delFoodflag">삭제여부: </label>
-					<label><input type="radio" name="delFoodflag" id="delFoodflag_Y" value="Y" <c:if test="${output.delFoodflag == 'Y'}">checked</c:if>/>Y</label>
-					<label><input type="radio" name="delFoodflag" id="delFoodflag_N" value="N" <c:if test="${output.delFoodflag == 'N'}">checked</c:if> checked/>N</label>
+					<label><input type="radio" name="delFoodflag" id="delFoodflag_Y" value="Y" <c:if test="${output.delFoodflag == 'Y'}">checked</c:if>/> Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					<label><input type="radio" name="delFoodflag" id="delFoodflag_N" value="N" <c:if test="${output.delFoodflag == 'N'}">checked</c:if> checked/> N</label>
 				</div>
 				<hr/>
 				<button type="submit">저장하기</button>

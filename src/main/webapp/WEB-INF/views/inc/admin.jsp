@@ -31,7 +31,7 @@
           </li>
 
           <li class="menu-item pull-left" data-imgname="sub_hover_bubble_helpme.png">
-            <a id="top_sec" class="top" href="${pageContext.request.contextPath}/admin/admin_catecondi/list.do">업종·건강상태정보관리</a>
+            <a id="top_sec" class="top" href="${pageContext.request.contextPath}/admin/admin_catecondi/list.do">업종·건강상태 관리</a>
           </li>
 
           <li class="menu-item pull-left" data-imgname="sub_hover_bubble_home.png">
