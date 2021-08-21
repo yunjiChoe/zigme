@@ -99,7 +99,7 @@ public class UserController {
 		if (!regexHelper.isValue(password)) {
 			return webHelper.redirect(null, " 비밀번호를 입력하세요");
 		}
-		if (!regexHelper.isKorEngNum(password)) {
+		if (!regexHelper.isEngNumLenght(password)) {
 			return webHelper.redirect(null, "비밀번호 4자~20자 영문,숫자 조합입니다.");
 		}
 
@@ -113,7 +113,7 @@ public class UserController {
 			return webHelper.redirect(null, "닉네임을 입력하세요");
 		}
 		if (!regexHelper.isKorEngNum(nickname)) {
-			return webHelper.redirect(null, "닉네임은 한글, 영어 조합만 가능합니다.");
+			return webHelper.redirect(null, "닉네임은 한글,영어,숫자 2자~5자 조합만 가능합니다.");
 		}
 		if (!regexHelper.isValue(email)) {
 			return webHelper.redirect(null, "이메일을 입력하세요");

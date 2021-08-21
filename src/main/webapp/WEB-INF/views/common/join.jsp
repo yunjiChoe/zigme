@@ -621,11 +621,7 @@ ZIGME는 www.ZIGME.com을 비롯한 ZIGME 도메인의 웹사이트 및 응용�
 						$("#user_id").focus();			// <-- 커서를 강제로 넣기
 						return false;					// <-- 실행 중단
 					}
-			        if (id.length > 4) {	// 입력되지 않았다면?
-						alert("4자을 입력해주세요.");	// <-- 메시지 표시
-						$("#user_id").focus();			// <-- 커서를 강제로 넣기
-						return false;					// <-- 실행 중단
-					}
+			        
 			        
 			        $.ajax({
 			            url:'${pageContext.request.contextPath}/common', //Controller에서 인식할 주소

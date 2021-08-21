@@ -68,7 +68,7 @@ public class UserInfoRestController {
 		/** 1) 파라미터 유효성 검사 */
 		 if (userNo == 0)       	{ return webHelper.getJsonWarning("회원정보가 조회되지 않습니다."); }
 		 if (!regexHelper.isValue(password))     	{ return webHelper.getJsonWarning("비밀번호 입력되지 않습니다."); }
-		 if (!regexHelper.isKorEngNum(password))     	{ return webHelper.getJsonWarning("비밀번호 4자~20자 영문,숫자 조합입니다."); }	 
+		 if (!regexHelper.isEngNumLenght(password))     	{ return webHelper.getJsonWarning("비밀번호 4자~20자 영문,숫자 조합입니다."); }	 
 		 if (!regexHelper.isValue(nickname))     	{ return webHelper.getJsonWarning("닉네임 입력되지 않습니다."); }
 		 if (!regexHelper.isKorEngNum(nickname))     	{ return webHelper.getJsonWarning("닉네임 입력되지 않습니다."); }
 		 if (!regexHelper.isValue(email))     	{ return webHelper.getJsonWarning("이메일 입력되지 않았습니다."); }

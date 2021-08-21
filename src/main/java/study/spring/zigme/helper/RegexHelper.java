@@ -142,7 +142,7 @@ public class RegexHelper {
     public boolean isKorEngNum(String str) {
         boolean result = false;
         if (isValue(str)) {
-            result = Pattern.matches("^[ㄱ-ㅎ가-힣-a-zA-Z0-9]{4,20}$", str);
+            result = Pattern.matches("^[ㄱ-ㅎ가-힣-a-zA-Z0-9]{2,5}$", str);
         }
         
         if (result) {
@@ -153,6 +153,8 @@ public class RegexHelper {
         
         return result;
     }
+    
+    
     
 
     /**
