@@ -74,11 +74,25 @@ label {
 	border-color: #4041fe;
 	background-color: #4041fe;
 	color: #FFF;
+	
 }
 #idSave{padding-left: 5px;
 }
 label #idSaveCheck{
 margin-bottom: 10px;}
+
+
+
+.footer{
+text-align:center;
+display:inline-block;
+margin:auto;
+width:100%;
+
+
+}
+
+
 </style>
 
 </head>
@@ -152,7 +166,13 @@ margin-bottom: 10px;}
 					src="${pageContext.request.contextPath}/img/common/logo.png"></a>
 			</div>
 		</div>
+		
 	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<div class="footer">
+	로그인을 하시려면 로고 혹은 우측상단에 로그인을 클릭해주세요.
+	</div>
+	
 
 	<script type="text/javascript">
 	
