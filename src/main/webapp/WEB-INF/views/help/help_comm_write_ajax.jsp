@@ -29,12 +29,12 @@
     <div class="container">
       <!--  include :: container 바로 아래에 있어야합니다 -->
 	  <c:import url="../inc/navbar.jsp" />
-
     <p class="sub_title">커뮤니티 글쓰기</p>
     <br />
-    <form id="addPostForm" action="${pageContext.request.contextPath}/help" action="POST">
+    <form id="addPostForm" action="${pageContext.request.contextPath}/help" method="POST">
         <div class="input-group input-group-lg">
             <input type="text" class="form-control editor_title" name="postTitle" placeholder="제목을 입력하세요." />
+            <input type= "hidden" name="userNo" value = "${zigme_user.userNo}"/>
             <span class="input-group-addon">
                 <select class="editor_cate" name="postSubtitle">
                 <option value="">말머리</option>
@@ -66,11 +66,10 @@
     <!-- jQuery Ajax Setup -->
     <script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
     
-    <script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    
     <!-- User Code -->
-    <script>
-    
-    
+    <script> 
     $(function() {
         // #addForm에 대한 submit이벤트를 가로채서 Ajax요청을 전송한다.
 	$("#addPostForm").ajaxForm({

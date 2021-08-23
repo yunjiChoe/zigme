@@ -46,7 +46,7 @@
 	useGeneratedKeys="true"
 	keyProperty="commNo">
 	INSERT INTO comment (commContent, commUpCount, parentNo, commRegdate, commNoti, postNo, userNo) VALUES 
-		(#{commContent}, 0, NULL, NOW(), 'Y', #{postNo}, 1);
+		(#{commContent}, 0, NULL, NOW(), 'Y', #{postNo}, #{userNo});
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->

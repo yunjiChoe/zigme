@@ -105,19 +105,22 @@ public class PostRestController {
 	public Map<String, Object> post(
 			@RequestParam(value="postSubtitle", defaultValue="") String postSubtitle,
 			@RequestParam(value="postTitle", defaultValue="") String postTitle,
-			@RequestParam(value="postContent", defaultValue="") String postContent) {
+			@RequestParam(value="postContent", defaultValue="") String postContent,
+			@RequestParam(value="userNo", defaultValue="") int userNo) {
 		
 		/** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
 		// 일반 문자열 입력 컬럼 --> String으로 파라미터가 선언되어 있는 경우는 값이 입력되지 않으면 빈 문자열로 처리된다.
         if (!regexHelper.isValue(postSubtitle))     { return webHelper.getJsonWarning("소제목을 입력하세요."); }
         if (!regexHelper.isValue(postTitle))     { return webHelper.getJsonWarning("제목을 입력하세요."); }
         if (!regexHelper.isValue(postContent))     { return webHelper.getJsonWarning("내용을 입력하세요."); }
+        if (userNo == 0)     { return webHelper.getJsonWarning("회원 일련번호가 넘어오지 않았습니다."); }
 		
         /** 2) 데이터 저장하기 */
 		Post input = new Post();
 		input.setPostSubtitle(postSubtitle);
 		input.setPostTitle(postTitle);
 		input.setPostContent(postContent);
+		input.setUserNo(userNo);
 		
 		// 저장된 결과를 조회하기 위한 객체
 		Post output = null;

@@ -126,12 +126,11 @@
 						<c:forEach var="item" items="${output_comm}" varStatus="status">
 
 							<%-- 상세페이지로 이동하기 위한 URL --%>
-							<c:url value="/help_ajax/help_comm_read.ajax" var="viewUrl">
-							</c:url>
+							<%-- <c:url value="/help_ajax/help_comm_read.ajax" var="viewUrl">
+							</c:url> --%>
 							<%-- 추후에 추가할 예정임 --%>
 
-							<div style="cursor: pointer;"
-								onClick=" location.href='${viewUrl}'">
+							<div>
 								<div class="pull-left">
 									<span>${item.nickname}</span>
 								</div>
