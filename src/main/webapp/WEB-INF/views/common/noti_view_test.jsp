@@ -143,13 +143,13 @@
 		<div class="page-header">
 			<h1>알 림</h1>
 			<div class="table-header">
-				<!-- 이미지 삽입 테스트 필요 -->
 				<h2>
 					<img
 						src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png">
 					${zigme_user.nickname} 님
 				</h2>
 				<input type="text" id="user_id" name="userno" value="${zigme_user.userNo}">
+				
 			</div>
 			<div class="summary">
 				<p class="noti_txt">
@@ -186,11 +186,10 @@
 									
 									<tr>
 										<td>
-											
 											<span class="token">'</span>
 											<span class="newNotiPostTitle" style = "cursor:pointer;" onClick="location.href='${viewUrl}'" data-postNo="${item.postNo}">${item.postTitle}</span>
 											<span class="token">'</span> 게시글에 댓글이
-											<span class="token">${fn:length(output2)}</span>개 달렸습니다.
+											<span class="token">${item.countComm}</span>개 달렸습니다.
 										</td>
 										<td class="delnoti">
 											<button type="button" class="close close-btn" aria-hidden="true">&times;</button>
@@ -201,6 +200,7 @@
 						</c:choose>
 						<c:choose>
 							<%-- 게시글에 대한 새로운 댓글 조회결과가 없는 경우 --%>
+							
 							<c:when test="${output2 == null || fn:length(output2) == 0}">
 								<tr>
 									<td colspan="9" align="center">조회결과가 없습니다.</td>
@@ -219,7 +219,7 @@
 									<tr>
 										<td style = "cursor:pointer;"><span class="token">'</span><span class="newNotiCommContent" 
 										onClick="location.href='${viewUrl}'" data-commNo="${item.commNo}">${item.postTitle}${item.commContent}
-										</span><span class="token">'</span> 댓글에 댓글이 <span class="token">${fn:length(output2)}</span>개 달렸습니다.</td>
+										</span><span class="token">'</span> 댓글에 댓글이 <span class="token">${item.countComm}</span>개 달렸습니다.</td>
 										<td class="delnoti"><button type="button"
 								class="close close-btn" aria-hidden="true">&times;</button></td>
 									</tr>
@@ -231,19 +231,7 @@
 			</div>
 		</div>
 	</div>
-	
-	
-	<script id="noti-list-tmpl" type="text/x-handlebars-template">
-   {{#each item}}
-   	<tr>
-		<td><span>{{postTitle}}</span><span>{{commCount}}</span></td>
-		<td><span>{{commContent}}</span><span>{{commCount}}</span></td>
-    </tr>
-   {{/each}}
-   
-   </script>
-		<!-- Handlebar 템플릿 코드 -->
-	<!--Google CDN 서버로부터 jQuery 참조 -->
+
 	<!--Google CDN 서버로부터 jQuery 참조 -->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -259,19 +247,7 @@
 	<script src="${pageContext.request.contextPath}/plugin/ajax/ajax_helper.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		var userNo = ${zigme_user.userNo};
- 		
-/*      // Restful API에 GET 방식 요청
-        $.get("${pageContext.request.contextPath}/noti", {
-            "userNo": userNo     // 페이지 번호는 GET 파라미터로 전송한다.
-        }, function(json) {
-        	console.log(json);
-            var source = $("#noti-list-tmpl").html();   // 템플릿 코드 가져오기
-            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
-            var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
-            $("#noti_table").append(result);      // 최종 결과물을 #list 요소에 추가한다.
-        });
- */
+
 		/** X 버튼 클릭시 개별 알람 목록 삭제 */
 			$(document).on('click', 'button.close', function(e){
 				
@@ -316,8 +292,8 @@
 				$('.noti-table').html("새로운 알람이 없습니다.");
 				
 				$.put("${pageContext.request.contextPath}/noti", {
-	  				   "postNoti" : 1,
-	  				   "commNoti" : 1
+	  				   "postNoti" : "Y",
+	  				   "commNoti" : "Y"
 		    		},
 	    			function(json) {
 	    				if (json.rt == "OK") {
@@ -326,20 +302,28 @@
 
 			});
 		
-		$(document).ready(function (){
-			$.get("${pageContext.request.contextPath}/noti", {
-	            "userNo": userNo     // 페이지 번호는 GET 파라미터로 전송한다.
-	        }, function(json) {
-	        	console.log(json);
-	            var source = $("#noti-list-tmpl").html();   // 템플릿 코드 가져오기
-	            var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
-	            var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
-	            $("#noti_table").append(result);      // 최종 결과물을 #list 요소에 추가한다.
-	        });
-			
-		});
-	 });
-        
+
+		var userNo = ${zigme_user.userNo};
+		console.log("###########" + userNo);
+		
+			$.ajax({
+		 
+         	async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+ 			// 결과를 읽어올 URL
+ 			url: '${pageContext.request.contextPath}/noti_ajax/noti_view_test.do',
+ 			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+ 			method: 'get',
+ 			// 읽어온 내용을 처리하기 위한 함수
+ 			data: {"userNo" : userNo},
+ 			
+ 			dataType: 'json',
+ 			
+ 			success: function(req) {
+ 				console.log(success);
+ 			}
+ 		}); // end $.ajax
+	 }); 
+	 
 	</script>
 
 	
