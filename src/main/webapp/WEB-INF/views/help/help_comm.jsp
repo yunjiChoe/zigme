@@ -207,13 +207,7 @@
 	<script
 		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
 	<!-- User code -->
-	<script type="text/javascript">
-	
-		window.onload = function () {
-			alert("로딩완료");
-			window.href = "${pageContext.request.contextPath}/help_ajax/help_comm.do";
-		}
-		
+	<script type="text/javascript">		
 		let nowPage = 1;    // 현재 페이지의 기본값
 		
 		$(function() {

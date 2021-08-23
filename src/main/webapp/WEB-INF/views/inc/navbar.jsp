@@ -44,7 +44,7 @@
             <div class="event_bumper">&nbsp;</div>
             <ul class="sub pull-left">
               <li><a href="#"></a></li>
-              <li><a href="${pageContext.request.contextPath}/help/help_comm ">커뮤니티</a></li>
+              <li><a href="${pageContext.request.contextPath}/help_ajax/help_comm.do ">커뮤니티</a></li>
               <li><a href="${pageContext.request.contextPath}/help/help_chart ">메이트들의 고민은?</a></li>
             </ul>
           </li>
@@ -54,7 +54,7 @@
             <div class="event_bumper">&nbsp;</div>
             <ul class="sub pull-left">
               <li><a href="#"></a></li>
-              <li><a href="${pageContext.request.contextPath}/util/util_alarm ">알람</a></li>
+              <li><a href="${pageContext.request.contextPath}/util/util_alarm.do ">알람</a></li>
               <li><a href="${pageContext.request.contextPath}/util/util_5min ">5분 스트레칭</a></li>
               <li><a href="${pageContext.request.contextPath}/util/util_lotto ">돌려돌려 공돌려</a></li>
             </ul>

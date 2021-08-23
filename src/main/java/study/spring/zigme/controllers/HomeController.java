@@ -162,10 +162,11 @@ public class HomeController {
 	 * @return String
 	 */
 
-	@RequestMapping(value = "/help/help_comm", method = RequestMethod.GET)
-	public String helpCommRead(Model model, HttpServletRequest request) {
-		return "help/help_comm";
-	}
+	/*
+	 * @RequestMapping(value = "/help/help_comm", method = RequestMethod.GET) public
+	 * String helpCommRead(Model model, HttpServletRequest request) { return
+	 * "help/help_comm"; }
+	 */
 
 	/**
 	 * 커뮤니티 글쓰기로 진입하기 위한 메서드

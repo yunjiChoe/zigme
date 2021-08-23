@@ -67,29 +67,49 @@ public class AlarmAjaxController {
 
 		return new ModelAndView("util/util_alarm");
 	}
-
-	/** alarmAct 조회 */
-
-	/*
-	 * @RequestMapping(value = "/util_ajax/util_alarm_act.do", method =
-	 * RequestMethod.GET) public ModelAndView alarmAct_item(Model model,
-	 * 
-	 * @RequestParam(value = "alarmNo", defaultValue = "0") int alarmNo) {
-	 * 
-	 * Alarm input_act = new Alarm(); input_act.setAlarmNo(alarmNo);
-	 * 
-	 * String alarmAct = ""; List<Alarm> output_alarm = null;
-	 * 
-	 * 
-	 * try {
-	 * 
-	 * alarmAct = alarmService.selectAlarmAct(input_act); } catch (Exception e) {
-	 * return webHelper.redirect(null, e.getLocalizedMessage()); }
-	 * 
-	 * model.addAttribute("alarmAct", alarmAct);
-	 * 
-	 * return new ModelAndView("util/util_alarm");
-	 * 
-	 * }
-	 */
+		
+	/** 알람 추가 action 페이지 */
+	@RequestMapping(value = "/util/util_alarm_add.do", method = RequestMethod.POST)
+	public ModelAndView add(Model model,
+			@RequestParam(value="hour", defaultValue="") String hour,
+			@RequestParam(value="min", defaultValue="") String min,
+			@RequestParam(value="monAct", defaultValue="N") String monAct,
+			@RequestParam(value="tueAct", defaultValue="N") String tueAct,
+			@RequestParam(value="wedAct", defaultValue="N") String wedAct,
+			@RequestParam(value="thuAct", defaultValue="N") String thuAct,
+			@RequestParam(value="friAct", defaultValue="N") String friAct,
+			@RequestParam(value="satAct", defaultValue="N") String satAct,
+			@RequestParam(value="sunAct", defaultValue="N") String sunAct,
+			@RequestParam(value="alarmContent", defaultValue="") String alarmContent,
+			@RequestParam(value="userNo", defaultValue= "0") int userNo) {
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>삽입 action controller 진입 완료");
+		
+		Alarm input = new Alarm();
+		input.setAlarmTime(hour+ ":" +min);
+		input.setMonAct(monAct);
+		input.setTueAct(tueAct);
+		input.setWedAct(wedAct);
+		input.setThuAct(thuAct);
+		input.setFriAct(friAct);
+		input.setSatAct(satAct);
+		input.setSunAct(sunAct);
+		input.setAlarmContent(alarmContent);
+		input.setUserNo(userNo);
+		
+		List<Alarm> output_alarm = null;
+		
+		try {
+			alarmService.addAlarm(input);
+			output_alarm = alarmService.getAlarmList(input);
+			
+		} catch (Exception e) {
+			return webHelper.redirect(null, e.getLocalizedMessage());
+		}
+		
+		model.addAttribute("output_alarm", output_alarm);
+		
+		return  new ModelAndView("util/util_alarm.do");
+	}
+	
 }

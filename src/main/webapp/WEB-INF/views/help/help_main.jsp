@@ -41,7 +41,7 @@
 			<p class="top_title">직장생활, 도와줘!</p>
 			<div class="hbody">
 				<div class="col-sm-12 col-md-6 pull-left">
-					<a href="${pageContext.request.contextPath}/help/help_comm"><img alt="커뮤니티"
+					<a href="${pageContext.request.contextPath}/help_ajax/help_comm.do"><img alt="커뮤니티"
 						src="${pageContext.request.contextPath}/img/help/main_community.png"></a>
 				</div>
 				<div class="col-sm-12 col-md-6 pull-left">

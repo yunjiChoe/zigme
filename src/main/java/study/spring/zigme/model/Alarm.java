@@ -9,5 +9,11 @@ public class Alarm {
 	private String alarmContent;
 	private String alarmTime;
 	private int userNo;
-	private String alarmDate;
+	private String monAct;
+	private String tueAct;
+	private String wedAct;
+	private String thuAct;
+	private String friAct;
+	private String satAct;
+	private String sunAct;
 }

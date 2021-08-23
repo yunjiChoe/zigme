@@ -119,13 +119,13 @@ public class AlarmRestController {
         
 		
 		//수정된 결과를 조회하기 위한 객체 생성
-        Alarm output = null;
+        List<Alarm> output = null;
 		
 		try {
 			//데이터 수정
 			alarmService.editAlarm(input);
 			//수정 결과 조회
-			output = alarmService.getAlarmItem(input);
+			output = alarmService.getAlarmList(input);
 		} catch (Exception e) {
 			return webHelper.getJsonError(e.getLocalizedMessage());
 		}
@@ -142,7 +142,7 @@ public class AlarmRestController {
 	public Map<String, Object> delete(
 			@RequestParam(value="alarmNo", defaultValue = "0") int alarmNo) {
 		
-		System.out.println("restful로 넘어옴");
+		System.out.println(">>>>>>>>>>>restful로 넘어옴" +alarmNo);
 		/** 1) 파라미터 유효성 검사*/
 		if(alarmNo == 0) {
 			return webHelper.getJsonWarning("알람번호가 없습니다.");

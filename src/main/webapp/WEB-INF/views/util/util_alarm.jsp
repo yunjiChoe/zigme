@@ -26,61 +26,76 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/assets/css/util.css" />
 
-
+<script type="text/javascript">
+function getCheckboxValue(event) {
+	let result = '';
+	  if(event.target.checked)  {
+	    result = event.target.value;
+	  }else {
+	    result = '';
+	  }
+	  
+	  console.log(">>>>>>>>>>>>>>>>>>체크된 항목의 value값: "+result);
+}
+</script>
 </head>
 <body>
 	<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hiddendden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<div class="modal-title" id="myModalLabel">
-						<select id="AP" name="mal" style="border: none;">
-							<option value="am" selected style="color: #4041ef;">AM</option>
-							<option value="pm" style="color: #4041ef;">PM</option>
-						</select> <input type="text" id="hour" class="time" name="hour"
-							placeholder="00" /> <span>&nbsp;</span> <span id="seperator">:</span>
-						<span>&nbsp;</span> <input type="text" id="min" class="time"
-							name="min" placeholder="00" />
-					</div>
-				</div>
-				<div class="modal-body">
-					<span class="modal_dis">반복 </span>
-					<div class="input-group">
-						<div class="check_date" id="check_mon">
-							<input type="checkbox" id="mon"> <label for="mon"></label>
-						</div>
-						<div class="check_date" id="check_tue">
-							<input type="checkbox" id="tue"> <label for="tue"></label>
-						</div>
-						<div class="check_date" id="check_wed">
-							<input type="checkbox" id="wed"> <label for="wed"></label>
-						</div>
-						<div class="check_date" id="check_thu">
-							<input type="checkbox" id="thu"> <label for="thu"></label>
-						</div>
-						<div class="check_date" id="check_fri">
-							<input type="checkbox" id="fri"> <label for="fri"></label>
-						</div>
-						<div class="check_date" id="check_sat">
-							<input type="checkbox" id="sat"> <label for="sat"></label>
-						</div>
-						<div class="check_date" id="check_sun">
-							<input type="checkbox" id="sun"> <label for="sun"></label>
+				<form id="addalarmForm"
+					action="${pageContext.request.contextPath}/util/util_alarm_add.do" method="POST">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<div class="modal-title" id="myModalLabel">
+							<select id="AP" name="mal" style="border: none;">
+								<option value="am" selected style="color: #4041ef;">AM</option>
+								<option value="pm" style="color: #4041ef;">PM</option>
+							</select> <input type="text" id="hour" class="time" name="hour"
+								placeholder="00" /> <span>&nbsp;</span> <span id="seperator">:</span>
+							<span>&nbsp;</span> <input type="text" id="min" class="time"
+								name="min" placeholder="00" />
 						</div>
 					</div>
-					<div>
-						<label for="alarm_name" class="modal_dis">알람 내용</label> <input
-							type="text" name="alarm_name" id="alarm_name" />
+					<div class="modal-body">
+						<span class="modal_dis">반복 </span>
+						<div class="input-group">
+							<div class="check_date" id="check_mon">
+								<input type="checkbox" name="monAct" id="mon" value="Y" > <label for="mon"></label>
+							</div>
+							<div class="check_date" id="check_tue">
+								<input type="checkbox" name="tueAct" id="tue" value="Y"> <label for="tue"></label>
+							</div>
+							<div class="check_date" id="check_wed">
+								<input type="checkbox" name="wedAct" id="wed" value="Y"> <label for="wed"></label>
+							</div>
+							<div class="check_date" id="check_thu">
+								<input type="checkbox" name="thuAct" id="thu" value="Y"> <label for="thu"></label>
+							</div>
+							<div class="check_date" id="check_fri">
+								<input type="checkbox" name="friAct" id="fri" value="Y"> <label for="fri"></label>
+							</div>
+							<div class="check_date" id="check_sat">
+								<input type="checkbox" name="satAct" id="sat" value="Y"> <label for="sat"></label>
+							</div>
+							<div class="check_date" id="check_sun">
+								<input type="checkbox" name="sunAct" id="sun" value="Y"> <label for="sun"></label>
+							</div>
+						</div>
+						<div>
+							<label for="alarm_name" class="modal_dis">알람 내용</label> <input
+								type="text" name="alarmContent" id="alarm_name" />
+								<input type="hidden" name= "userNo" value="${zigme_user.userNo}" />
+						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" id="button_c" data-dismiss="modal">취소</button>
-					<span>&nbsp;</span>
-					<button type="button" id="button_s" data-dismiss="modal">저장</button>
-				</div>
+					<div class="modal-footer">
+						<button type="button" id="button_c" data-dismiss="modal">취소</button>
+						<span>&nbsp;</span>
+						<button type="submit" id="button_s">저장</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -92,13 +107,14 @@
 			<div id="alarm_upper">
 				<span id="alarm_icon"> <img
 					src="${pageContext.request.contextPath}/img/util/alarm_icon.png"
-					width="79px" height="65px" /> <span class="sub_title">${output.nickname}님의
+					width="79px" height="65px" /> <span class="sub_title">${zigme_user.nickname}님의
 						알람</span>
 				</span>
 			</div>
 		</div>
 		<div id="alarm_body">
-			<div id="alarm_component" data-alarmlength="${fn:length(output_alarm)}">
+			<div id="alarm_component"
+				data-alarmlength="${fn:length(output_alarm)}">
 				<c:choose>
 					<c:when
 						test="${output_alarm == null || fn:length(output_alarm) == 0}">
@@ -115,14 +131,13 @@
 								<div class="on_off" data-alarmtime="${item.alarmTime}"
 									data-userno="${item.userNo}"
 									data-alarmcontent="${item.alarmContent}"
-									data-alarmdate="${item.alarmDate}"
 									data-alarmno="${item.alarmNo}" data-alarmact="${item.alarmAct}">
-							
-							 <input type="checkbox" class="check" />
-										<label class="on_off_items" for="check"></label> 
-									
-	
-									 <%--  <c:when test='${item.alarmAct == Y}'>
+
+									<input type="checkbox" class="check" /> <label
+										class="on_off_items" for="check"></label>
+
+
+									<%--  <c:when test='${item.alarmAct == Y}'>
 										<input type="checkbox" class="check" />
 										<label class="on_off_items" for="check on_off_checked"></label>
 									</c:when>
@@ -132,8 +147,7 @@
 									</c:otherwise>   --%>
 								</div>
 								<div>
-									<!-- ${item.alarmTime} -->
-									10:30
+									${item.alarmTime}
 								</div>
 								<div class="alarm_title">${item.alarmContent}</div>
 								<div>
@@ -143,7 +157,7 @@
 									<span>S</span>
 								</div>
 								<div>
-									<a href="#"> <span class="glyphicon glyphicon-remove"></span></a>
+									<a href="#"> <span class="glyphicon glyphicon-remove" data-alarmno="${item.alarmNo}"></span></a>
 								</div>
 							</div>
 						</c:forEach>
@@ -170,7 +184,7 @@
 									data-alarmcontent = "{{output_alarm.alarmContent}}" data-alarmdate = "{{output_alarm.alarmDate}}" 
 									data-alarmno = "{{output_alarm.alarmNo}}" data-alarmact = "{{output_alarm.alarmAct}}">
 									</div>
-									<div>10:30</div>
+									<div>{{output_alarm.alarmTime}}</div>
 									<div class="alarm_title">{{output_alarm.alarmContent}}</div>
 									<input type="checkbox" class="check" />
 									<label class="on_off_items" for="check"></label> 
@@ -181,7 +195,7 @@
 									<span>S</span>
 									</div>
 									<div>
-										<a href="#"> <span class="glyphicon glyphicon-remove"></span></a>
+										<a href="#"> <span class="glyphicon glyphicon-remove" data-alarmno="{{output_alarm.alarmNo}}"></span></a>
 									</div>
 								</div>
 		{{/each}}
@@ -204,26 +218,46 @@
 			
 			function startCheck() {
 				var alarmLength = $("#alarm_component").data("alarmlength");
-				
-				for(var i =0;i<alarmLength;i++) {
-					var alarmActStart = $("#alarm_component").children().eq(i).children(".on_off").data("alarmact");
+
+				for (var i = 0; i < alarmLength; i++) {
+					var alarmActStart = $("#alarm_component").children().eq(i)
+							.children(".on_off").data("alarmact");
 					console.log(alarmActStart);
-					
-					if(alarmActStart == "Y") {
-						var testinput = $("#alarm_component").children().eq(i).children(".on_off").children(".check").addClass("on_off_checked");
-						$("#alarm_component").children().eq(i).css("background-color", "#CFE1FC");
-						console.log(testinput);
+
+					if (alarmActStart == "Y") {
+						var testinput = $("#alarm_component").children().eq(i)
+								.children(".on_off").children(".check")
+								.addClass("on_off_checked");
+						$("#alarm_component").children().eq(i).css(
+								"background-color", "#CFE1FC");
+						console.log(">>>>>>>>>>>>>>>>>>>>>>>>>" +testinput);
 					}
 				}
 			}
-			
-			
+
 			$("#button_s").click(function() {
-				console.log(">>>>>>>>>>>>>>알람 추가 버튼 이벤트 발생")
+				console.log(">>>>>>>>>>>>>>알람 추가 버튼 이벤트 발생");
 			});
 
 			$(document).on('click', ".glyphicon-remove", function(e) {
-				e.preventDefault();
+				e.preventDefault();						
+				var alarmNoItem = $(this).data("alarmno");
+				console.log(alarmNoItem);
+				console.log(">>>>>>>>>>>>>>데이터 타입: " + typeof alarmNoItem);
+				
+				$.delete(
+						"${pageContext.request.contextPath}/alarm",
+						{
+							"alarmNo" : alarmNoItem,
+						},
+						function(json) {
+							if (json.rt == "OK") {
+								console
+										.log(">>>>>>>>>>>>>>해당 알람이 삭제 되었습니다. alarmNo : "
+												+ alarmNoItem);
+							}
+						});
+				
 				$(this).closest(".row_elements").remove();
 			});
 
@@ -232,6 +266,7 @@
 							'click',
 							".on_off",
 							function(e) {
+								e.preventDefault();
 								console.log(">>>>>>>>>>>>>>>>>>클릭이벤트 구현");
 								var alarmNoItem = $(this).data("alarmno");
 								console.log(alarmNoItem);
@@ -249,9 +284,6 @@
 								var alarmUserItem = $(this).data("userno");
 								console.log(alarmUserItem);
 
-								var alarmDateItem = $(this).data("alarmdate");
-								console.log(alarmDateItem);
-
 								switch (alarmActItem) {
 								case 'N':
 									var test1 = $(this).children(".check")
@@ -260,8 +292,7 @@
 											"background-color", "#CFE1FC");
 									console.log(test1);
 
-									$
-											.put(
+											$.put(
 													"${pageContext.request.contextPath}/alarm",
 													{
 														"alarmNo" : alarmNoItem,
@@ -269,22 +300,24 @@
 														"alarmContent" : alarmContentItem,
 														"alarmTime" : alarmTimeItem,
 														"userNo" : alarmUserItem,
-														"alarmDate" : alarmDateItem,
 
 													},
 													function(json) {
 														if (json.rt == "OK") {
-															console
-																	.log(">>>>>>>>>>>>>>활성화로 수정 되었습니다. alarmNo : "
-																			+ alarmNoItem);
+															var test_empty = $("#alarm_conponent").empty();
+															console.log(">>>>>>>>>>>>>>>>>>"+test_empty);
+															console.log(">>>>>>>>>>>>>>활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
+															var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
+															var template = Handlebars.compile(source); // 템플릿 코드 컴파일
+															var result = template(json); // 템플릿 컴파일 결과물에 json 전달
+															$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
 														}
 													});
+											
+													startCheck();
+													break;
 									
-									/* $("#alarm_component").empty();
-									$(document).ready(function() {getUpdate();}); */
-									location.reload();
-
-									break;
+									
 								case 'Y':
 									var test2 = $(this).children(".check")
 											.removeClass("on_off_checked");
@@ -292,8 +325,8 @@
 											"background-color", "#E5E5E5");
 									console.log(test2);
 
-									$
-											.put(
+									
+											$.put(
 													"${pageContext.request.contextPath}/alarm",
 													{
 														"alarmNo" : alarmNoItem,
@@ -301,48 +334,47 @@
 														"alarmContent" : alarmContentItem,
 														"alarmTime" : alarmTimeItem,
 														"userNo" : alarmUserItem,
-														"alarmDate" : alarmDateItem,
 
 													},
 													function(json) {
 														if (json.rt == "OK") {
-															console
-																	.log(">>>>>>>>>>>>>>비활성화로 수정 되었습니다. alarmNo : "
-																			+ alarmNoItem);
+															var test_empty = $("#alarm_conponent").empty();
+															console.log(">>>>>>>>>>>>>>>>>>empty 결과 확인"+test_empty);
+															console.log(">>>>>>>>>>>>>>비활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
+															var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
+															var template = Handlebars.compile(source); // 템플릿 코드 컴파일
+															var result = template(json); // 템플릿 컴파일 결과물에 json 전달
+															$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
 														}
 													});
-									
-									/* $("#alarm_component").empty();
-									$(document).ready(function() {getUpdate();});
-									 */
-									 location.reload();
- 
-									break;
+											
+													startCheck();
+													break;
 								}
 
 							});
 
-			$(document).ready(function() {			
-				let userinfoNo = ${output.userNo};
+			$(document).ready(function() {
+				let userinfoNo = ${zigme_user.userNo};
 				
-
 				// Restful API에 GET 방식 요청
 				$.get("${pageContext.request.contextPath}/alarm", {
 					"outputNo" : userinfoNo
 				// 페이지 번호는 GET 파라미터로 전송한다.
 				}, function(json) {
+					console.log(">>>>>>>>>>>>>>>>>>>>>처음 페이지 진입후 $.get 이 샐행됨");
 					var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
 					var template = Handlebars.compile(source); // 템플릿 코드 컴파일
 					var result = template(json); // 템플릿 컴파일 결과물에 json 전달
 					$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
 				});
 				
+
 				startCheck();
 			});
 			
 			function getUpdate() {
-				let userinfoNo = ${output.userNo};
-				
+				let userinfoNo = ${zigme_user.userNo};
 
 				// Restful API에 GET 방식 요청
 				$.get("${pageContext.request.contextPath}/alarm", {

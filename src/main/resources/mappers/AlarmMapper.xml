@@ -11,13 +11,19 @@
 		<result property="alarmContent" column="alarmContent" />
 		<result property="alarmTime" column="alarmTime" />
 		<result property="userNo" column="userNo" />
-		<result property="alarmDate" column="alarmDate" />
+		<result property="monAct" column="monAct" />
+		<result property="monAct" column="tueAct" />
+		<result property="monAct" column="wedAct" />
+		<result property="monAct" column="thuAct" />
+		<result property="monAct" column="friAct" />
+		<result property="monAct" column="satAct" />
+		<result property="monAct" column="sunAct" />
 	</resultMap>
 	
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id ="selectItem" parameterType="study.spring.zigme.model.Alarm"
 	resultMap="alarmMap">
-	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, alarmDate
+	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct
 	FROM alarm
 	where userNo = #{userNo} AND alarmNo = ${alarmNo};
 	</select>
@@ -26,7 +32,7 @@
 	<!-- 다중행 조회를 위한 기능 정의 -->
 	<select id ="selectList" parameterType="study.spring.zigme.model.Alarm"
 	resultMap="alarmMap">
-	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, alarmDate
+	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct
 	FROM alarm;
 	</select>
 	
@@ -35,8 +41,8 @@
 	parameterType = "study.spring.zigme.model.Alarm"
 	useGeneratedKeys="true"
 	keyProperty="alarmNo">
-	INSERT INTO alarm (alarmAct, alarmContent, alarmTime, userNo, alarmDate) VALUES 
-		(#{alarmAct}, #{alarmContent}, #{alarmTime}, #{userNo}, #{alarmDate);
+	INSERT INTO alarm (alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct) VALUES 
+		("Y", #{alarmContent}, #{alarmTime}, #{userNo}, #{monAct}, #{tueAct}, #{wedAct}, #{thuAct}, #{friAct}, #{satAct}, #{sunAct});
 	</insert>
 	
 	<!-- 데이터 삭제를 위한 기능 정의 -->
@@ -59,8 +65,26 @@
 		<if test="alarmTime != null and alarmTime != ''">
 			, alarmTime = #{alarmTime}
 		</if>
-		<if test="alarmDate != null and alarmDate != ''">
-			, alarmDate = #{alarmDate}
+		<if test="monAct != null and monAct != ''">
+			, monAct = #{monAct}
+		</if>
+		<if test="tueAct != null and tueAct != ''">
+			, tueAct = #{tueAct}
+		</if>
+		<if test="wedAct != null and wedAct != ''">
+			, wedAct = #{wedAct}
+		</if>
+		<if test="thuAct != null and thuAct != ''">
+			, thuAct = #{thuAct}
+		</if>
+		<if test="friAct != null and friAct != ''">
+			, friAct = #{friAct}
+		</if>
+		<if test="satAct != null and satAct != ''">
+			, satAct = #{satAct}
+		</if>
+		<if test="sunAct != null and sunAct != ''">
+			, sunAct = #{sunAct}
 		</if>
 	</set>
 	WHERE alarmNo =#{alarmNo};
