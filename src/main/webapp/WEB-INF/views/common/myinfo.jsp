@@ -269,7 +269,7 @@ img.col-md-3 {
 			<br /> <br /> <br />
 			<div class="icon">
 				<img
-					src="${pageContext.request.contextPath}/img/common/reward_icon_posting.png"
+					src="${pageContext.request.contextPath}/img/common/reward_icon_influencer.png"
 					width="50">
 				<h2>${zigme_user.nickname}님</h2>
 				<input type="hidden" name="userNo" value="${zigme_user.userNo}" id="userNo">
