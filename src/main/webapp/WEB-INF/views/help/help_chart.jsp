@@ -164,7 +164,7 @@ option {
 				</button>
 			</form> -->
 
-			<br> <br> <br>
+			
 
 			<div class="textmining">
 				<br> <img src="${pageContext.request.contextPath}/img/help/wordcloud.png">
@@ -184,27 +184,27 @@ option {
 				<tbody>
 					<tr>
 						<td class="no chartrank">1</td>
-						<td class="chartrank"><h1 class="click first" onClick="location.href='${pageContext.request.contextPath}/help/help_comm'">코로나</h1></td>
+						<td class="chartrank"><h1 class="click first" onClick="location.href='${pageContext.request.contextPath}/help_ajax/help_comm.do'">코로나</h1></td>
 						<td class="count chartrank">126</td>
 					</tr>
 					<tr>
 						<td class="no chartrank">2</td>
-						<td class="chartrank"><h2 class="click second" onClick="location.href='${pageContext.request.contextPath}/help/help_comm'">상사</h2></td>
+						<td class="chartrank"><h2 class="click second" onClick="location.href='${pageContext.request.contextPath}/help_ajax/help_comm.do'">상사</h2></td>
 						<td class="count chartrank">98</td>
 					</tr>
 					<tr>
 						<td class="no chartrank">3</td>
-						<td class="chartrank"><h3 class="click third" onClick="location.href='${pageContext.request.contextPath}/help/help_comm'">월요일</h3></td>
+						<td class="chartrank"><h3 class="click third" onClick="location.href='${pageContext.request.contextPath}/help_ajax/help_comm.do'">월요일</h3></td>
 						<td class="count chartrank">85</td>
 					</tr>
 					<tr>
 						<td class="no chartrank">4</td>
-						<td class="chartrank"><h4 class="click fourth" onClick="location.href='${pageContext.request.contextPath}/help/help_comm'">회식</h4></td>
+						<td class="chartrank"><h4 class="click fourth" onClick="location.href='${pageContext.request.contextPath}/help_ajax/help_comm.do'">회식</h4></td>
 						<td class="count chartrank">56</td>
 					</tr>
 					<tr>
 						<td class="no chartrank">5</td>
-						<td class="chartrank"><h5 class="click fifth" onClick="location.href='${pageContext.request.contextPath}/help/help_comm'">업무</h5></td>
+						<td class="chartrank"><h5 class="click fifth" onClick="location.href='${pageContext.request.contextPath}/help_ajax/help_comm.do'">업무</h5></td>
 						<td class="count chartrank">48</td>
 					</tr>
 				</tbody>
