@@ -336,7 +336,7 @@ textarea {
 				$.ajax({
 	    			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
 	    			// 결과를 읽어올 URL
-	    			url: '${pageContext.request.contextPath}/upload/upload.review',
+	    			url: '${pageContext.request.contextPath}/upload.review',
 	    			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
 	    			method: 'POST',
 	   			    enctype: 'multipart/form-data',

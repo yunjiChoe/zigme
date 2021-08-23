@@ -51,7 +51,7 @@ public class AlarmTest {
 		input.setAlarmContent("테스트용");
 		input.setAlarmTime("00:00");
 		input.setUserNo(1);
-		input.setAlarmDate("1");
+		//input.setAlarmDate("1");
 		
 		sqlSession.insert("AlarmMapper.insertItem", input);
 	}
@@ -72,7 +72,7 @@ public class AlarmTest {
 		input.setAlarmAct("1");
 		input.setAlarmContent("수정된 테스트용 알람내용");
 		input.setAlarmTime("2021-01-01 12:12:12");
-		input.setAlarmDate("2");
+		//input.setAlarmDate("2");
 		input.setAlarmNo(2);
 		
 		sqlSession.update("AlarmMapper.updateItem", input);

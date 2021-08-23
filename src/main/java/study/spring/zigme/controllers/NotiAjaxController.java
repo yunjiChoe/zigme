@@ -36,7 +36,7 @@ public class NotiAjaxController {
     String contextPath;
     
     /**목록 페이지 */
-	@RequestMapping(value = "/noti_ajax/noti_view_test.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/noti/noti_view_test.do", method = RequestMethod.GET)
 	public ModelAndView list(Model model,
 			@RequestParam(value = "userNo", defaultValue = "0") int userNo,
 			HttpSession session, RedirectAttributes redirectAttr){
@@ -46,7 +46,7 @@ public class NotiAjaxController {
         // 조회에 필요한 조건값(검색어)를 Beans에 담는다.
         Post input1 = new Post();
 		input1.setUserNo(userNo);
-		System.out.println(">>>>컨트롤러(게시글 댓글) userno>>>>" + userNo);
+		//System.out.println(">>>>컨트롤러(게시글 댓글) userno>>>>" + userNo);
 
         List<Post> output1 = null;   // 조회결과가 저장될 객체
 
@@ -62,7 +62,7 @@ public class NotiAjaxController {
         /** 2) 데이터 조회하기 */
         Post input2 = new Post();
         input2.setUserNo(userNo);
-        System.out.println(">>>>컨트롤러(대댓글) userno>>>>" + userNo);
+        //System.out.println(">>>>컨트롤러(대댓글) userno>>>>" + userNo);
         List<Post> output2 = null;   // 조회결과가 저장될 객체
         
         try {
@@ -77,7 +77,7 @@ public class NotiAjaxController {
         model.addAttribute("output1", output1);
         model.addAttribute("output2", output2);
         
-        return new ModelAndView("common/noti_view_test");
+        return new ModelAndView("common/noti");
         
     } 
 }

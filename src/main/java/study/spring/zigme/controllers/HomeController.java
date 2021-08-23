@@ -125,9 +125,9 @@ public class HomeController {
     * @param request
     * @return String
     */
-   @RequestMapping(value = "/noti_ajax", method = RequestMethod.GET)
+   @RequestMapping(value = "/noti", method = RequestMethod.GET)
    public String noti(Model model, HttpServletRequest request) {
-      return "common/noti_view_test";
+      return "common/noti";
    }
 
 	/**

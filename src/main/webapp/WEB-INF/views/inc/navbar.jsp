@@ -73,8 +73,8 @@
             </a>
             
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/myinfo ">내 정보수정</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/noti_ajax ">알림</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/myinfo">내 정보수정</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/noti">알림</a></li>
               <li role="presentation" class="divider"></li>
               <li role="presentation" id="logout"><a role="menuitem" tabindex="-1"><button  id="logout_button">로그아웃</button></a></li>
               

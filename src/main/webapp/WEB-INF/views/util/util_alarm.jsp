@@ -25,7 +25,20 @@
 <!-- 스타일 지정 -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/assets/css/util.css" />
+<style type="text/css">
 
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    padding-left: 170px;
+}
+
+#button_s {
+    color: white;
+}
+
+</style>
 <script type="text/javascript">
 function getCheckboxValue(event) {
 	let result = '';
@@ -35,7 +48,7 @@ function getCheckboxValue(event) {
 	    result = '';
 	  }
 	  
-	  console.log(">>>>>>>>>>>>>>>>>>체크된 항목의 value값: "+result);
+	  //console.log(">>>>>>>>>>>>>>>>>>체크된 항목의 value값: "+result);
 }
 </script>
 </head>
@@ -61,7 +74,7 @@ function getCheckboxValue(event) {
 					</div>
 					<div class="modal-body">
 						<span class="modal_dis">반복 </span>
-						<div class="input-group">
+						<div class="input-group">							
 							<div class="check_date" id="check_mon">
 								<input type="checkbox" name="monAct" id="mon" value="Y" > <label for="mon"></label>
 							</div>
@@ -85,7 +98,7 @@ function getCheckboxValue(event) {
 							</div>
 						</div>
 						<div>
-							<label for="alarm_name" class="modal_dis">알람 내용</label> <input
+							<label for="alarm_name" class="modal_dis2">알람 내용</label> <input
 								type="text" name="alarmContent" id="alarm_name" />
 								<input type="hidden" name= "userNo" value="${zigme_user.userNo}" />
 						</div>
@@ -230,20 +243,20 @@ function getCheckboxValue(event) {
 								.addClass("on_off_checked");
 						$("#alarm_component").children().eq(i).css(
 								"background-color", "#CFE1FC");
-						console.log(">>>>>>>>>>>>>>>>>>>>>>>>>" +testinput);
+						//console.log(">>>>>>>>>>>>>>>>>>>>>>>>>" +testinput);
 					}
 				}
 			}
 
 			$("#button_s").click(function() {
-				console.log(">>>>>>>>>>>>>>알람 추가 버튼 이벤트 발생");
+				//console.log(">>>>>>>>>>>>>>알람 추가 버튼 이벤트 발생");
 			});
 
 			$(document).on('click', ".glyphicon-remove", function(e) {
 				e.preventDefault();						
 				var alarmNoItem = $(this).data("alarmno");
 				console.log(alarmNoItem);
-				console.log(">>>>>>>>>>>>>>데이터 타입: " + typeof alarmNoItem);
+				//console.log(">>>>>>>>>>>>>>데이터 타입: " + typeof alarmNoItem);
 				
 				$.delete(
 						"${pageContext.request.contextPath}/alarm",
@@ -252,9 +265,7 @@ function getCheckboxValue(event) {
 						},
 						function(json) {
 							if (json.rt == "OK") {
-								console
-										.log(">>>>>>>>>>>>>>해당 알람이 삭제 되었습니다. alarmNo : "
-												+ alarmNoItem);
+								//console.log(">>>>>>>>>>>>>>해당 알람이 삭제 되었습니다. alarmNo : " + alarmNoItem);
 							}
 						});
 				
@@ -267,7 +278,7 @@ function getCheckboxValue(event) {
 							".on_off",
 							function(e) {
 								e.preventDefault();
-								console.log(">>>>>>>>>>>>>>>>>>클릭이벤트 구현");
+								//console.log(">>>>>>>>>>>>>>>>>>클릭이벤트 구현");
 								var alarmNoItem = $(this).data("alarmno");
 								console.log(alarmNoItem);
 
@@ -305,8 +316,8 @@ function getCheckboxValue(event) {
 													function(json) {
 														if (json.rt == "OK") {
 															var test_empty = $("#alarm_conponent").empty();
-															console.log(">>>>>>>>>>>>>>>>>>"+test_empty);
-															console.log(">>>>>>>>>>>>>>활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
+															//console.log(">>>>>>>>>>>>>>>>>>"+test_empty);
+															//console.log(">>>>>>>>>>>>>>활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
 															var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
 															var template = Handlebars.compile(source); // 템플릿 코드 컴파일
 															var result = template(json); // 템플릿 컴파일 결과물에 json 전달
@@ -339,8 +350,8 @@ function getCheckboxValue(event) {
 													function(json) {
 														if (json.rt == "OK") {
 															var test_empty = $("#alarm_conponent").empty();
-															console.log(">>>>>>>>>>>>>>>>>>empty 결과 확인"+test_empty);
-															console.log(">>>>>>>>>>>>>>비활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
+															//console.log(">>>>>>>>>>>>>>>>>>empty 결과 확인"+test_empty);
+															//console.log(">>>>>>>>>>>>>>비활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
 															var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
 															var template = Handlebars.compile(source); // 템플릿 코드 컴파일
 															var result = template(json); // 템플릿 컴파일 결과물에 json 전달
@@ -362,7 +373,7 @@ function getCheckboxValue(event) {
 					"outputNo" : userinfoNo
 				// 페이지 번호는 GET 파라미터로 전송한다.
 				}, function(json) {
-					console.log(">>>>>>>>>>>>>>>>>>>>>처음 페이지 진입후 $.get 이 샐행됨");
+					//console.log(">>>>>>>>>>>>>>>>>>>>>처음 페이지 진입후 $.get 이 샐행됨");
 					var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
 					var template = Handlebars.compile(source); // 템플릿 코드 컴파일
 					var result = template(json); // 템플릿 컴파일 결과물에 json 전달

@@ -28,7 +28,7 @@ public class UploadAjaxController {
 	 @Autowired MenuService menuService;
 	
 	/** 리뷰이미지 업로드 **/
-	@RequestMapping(value = "/upload/upload.review", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload.review", method = RequestMethod.POST)
 	    public Map<String, Object> post(	   		
 	   		@RequestParam(value="uploadreViewImg", defaultValue="") MultipartFile uploadreViewImg)
 	    	//@RequestParam(value="review_content", defaultValue="") String review_content)
