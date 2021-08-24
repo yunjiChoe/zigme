@@ -461,6 +461,17 @@ ZIGME는 www.ZIGME.com을 비롯한 ZIGME 도메인의 웹사이트 및 응용�
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 	<script type="text/javascript">
+	
+	
+	
+	window.onbeforeunload = function(e){
+		document.getElementById("user_address").value = "";
+		document.getElementById("user_postcode").value = "";
+		document.getElementById("user_detailAddress").value = "";
+	}
+
+
+
 		// 우편번호 찾기 찾기 화면을 넣을 element
 		var addr = ''; // 주소 변수
 		var extraAddr = ''; // 참고항목 변수
