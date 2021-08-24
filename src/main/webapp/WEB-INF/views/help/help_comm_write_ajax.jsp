@@ -31,11 +31,9 @@
 	  <c:import url="../inc/navbar.jsp" />
     <p class="sub_title">커뮤니티 글쓰기</p>
     <br />
-    <form id="addPostForm" action="${pageContext.request.contextPath}/help" method="POST">
+    <form id="addPostForm" action= "${pageContext.request.contextPath}/help" method="POST">
         <div class="input-group input-group-lg">
-            <input type="text" class="form-control editor_title" name="postTitle" placeholder="제목을 입력하세요." />
-            <input type= "hidden" name="userNo" value = "${zigme_user.userNo}"/>
-            <span class="input-group-addon">
+        	<span class="input-group-addon">
                 <select class="editor_cate" name="postSubtitle">
                 <option value="">말머리</option>
                 <option value="도움">도움</option>
@@ -43,9 +41,23 @@
                 <option value="넋두리">넋두리</option>
             	</select>
             </span>
+            <input type="text" class="form-control editor_title" name="postTitle" placeholder="제목을 입력하세요." />
+            <input type= "hidden" name="userNo" value = "${zigme_user.userNo}"/>
         </div>       
         <hr />       
-        <textarea id = "postContent" name="postContent" class="ckeditor"></textarea>
+                <div id="editor" name="postContent" data-editor="ClassicEditor" data-collaboration="false">
+        <main>
+            <div class="centered" name="postContent">
+                <div class="row row-editor" name="postContent">
+                    <textarea class="editor" name="postContent">
+                        
+                            <figure class="image image-style-side" name="postContent">
+                            </figure>
+                    </textarea>
+                </div>
+            </div>
+        </main>
+        </div>
         <hr />
     	<div class="input-group" id="write_buttons">
     		<button type="reset" id="write_cancel" class="btn btn-warning">취소</button>
@@ -55,6 +67,43 @@
     	</div>
     </form>
 	</div>
+	<script src="${pageContext.request.contextPath}/plugin/editor/js/ckeditor.js"></script>
+
+    <script>ClassicEditor
+      .create( document.querySelector( '.editor' ), {
+
+        toolbar: {
+          items: [
+            'bold',
+            'italic',
+            'underline',
+            '|',
+            'undo',
+            'redo',
+            '|',
+            'alignment',
+            'fontFamily',
+            'fontSize',
+            'fontBackgroundColor',
+            'fontColor'
+          ]
+        },
+        language: 'ko',
+        licenseKey: '',
+
+
+      } )
+      .then( editor => {
+        window.editor = editor;
+      } )
+      .catch( error => {
+        console.error( 'Oops, something went wrong!' );
+        console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+        console.warn( 'Build id: movktqy00cii-6cl6jsxaig66' );
+        console.error( error );
+      } );
+  </script>
+	
 	
     <c:import url="../inc/footer.jsp" />
   
@@ -70,7 +119,7 @@
     
     <!-- User Code -->
     <script> 
-    $(function() {
+ $(function() {
         // #addForm에 대한 submit이벤트를 가로채서 Ajax요청을 전송한다.
 	$("#addPostForm").ajaxForm({
             // 전송 메서드 지정
