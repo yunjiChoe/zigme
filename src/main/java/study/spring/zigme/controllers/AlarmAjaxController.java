@@ -47,10 +47,12 @@ public class AlarmAjaxController {
 
 	/** 목록 페이지 */
 	@RequestMapping(value = "/util/util_alarm.do", method = RequestMethod.GET)
-	public ModelAndView list(Model model) {
+	public ModelAndView list(Model model,
+			@RequestParam(value="userNo", defaultValue= "0") int userNo) {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>controller 진입완료");
 		
 		Alarm input = new Alarm();
+		input.setUserNo(userNo);
 
 		List<Alarm> output_alarm = null;
 		int alarmCount = 0;
@@ -109,7 +111,7 @@ public class AlarmAjaxController {
 		
 		model.addAttribute("output_alarm", output_alarm);
 		
-		return  new ModelAndView("util/util_alarm.do");
+		return  new ModelAndView("util/util_alarm");
 	}
 	
 }

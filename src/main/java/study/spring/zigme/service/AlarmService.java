@@ -10,6 +10,8 @@ public interface AlarmService {
 	public Alarm getAlarmItem(Alarm input) throws Exception;
 	
 	public List<Alarm> getAlarmList(Alarm input) throws Exception;
+	
+	public List<Alarm> getAlarmselList(Alarm input) throws Exception;
 			
 	public int addAlarm(Alarm input) throws Exception;
 	

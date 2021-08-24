@@ -27,6 +27,10 @@
 	href="${pageContext.request.contextPath}/assets/css/util.css" />
 <style type="text/css">
 
+.date_colored {
+	color: #4041FE;
+}
+
 .input-group {
     position: relative;
     display: table;
@@ -40,6 +44,7 @@
 
 </style>
 <script type="text/javascript">
+
 function getCheckboxValue(event) {
 	let result = '';
 	  if(event.target.checked)  {
@@ -67,9 +72,9 @@ function getCheckboxValue(event) {
 								<option value="am" selected style="color: #4041ef;">AM</option>
 								<option value="pm" style="color: #4041ef;">PM</option>
 							</select> <input type="text" id="hour" class="time" name="hour"
-								placeholder="00" /> <span>&nbsp;</span> <span id="seperator">:</span>
+								 /> <span>&nbsp;</span> <span id="seperator">:</span>
 							<span>&nbsp;</span> <input type="text" id="min" class="time"
-								name="min" placeholder="00" />
+								name="min"/>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -132,7 +137,7 @@ function getCheckboxValue(event) {
 					<c:when
 						test="${output_alarm == null || fn:length(output_alarm) == 0}">
 						<tr>
-							<td colspan="9" align="center">조회결과가 없습니다.</td>
+							<td colspan="9" align="center">알람을 추가해주세요!</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -163,11 +168,13 @@ function getCheckboxValue(event) {
 									${item.alarmTime}
 								</div>
 								<div class="alarm_title">${item.alarmContent}</div>
-								<div>
-									<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-									<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
-									<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
-									<span>S</span>
+								<div class="dates" data-monact= "${item.monAct}" data-tueact= "${item.tueAct}" data-wedact= "${item.wedAct}" 
+									data-thuact= "${item.thuAct}" data-friact= "${item.friAct}" 
+									data-satact= "${item.satAct}" data-sunact= "${item.sunAct}" >
+									<span class="mon">M</span> <span>&nbsp;</span> <span class="tue">T</span> <span>&nbsp;</span>
+									<span class="wed">W</span> <span>&nbsp;</span> <span class="thu">T</span> <span>&nbsp;</span>
+									<span class="fri">F</span> <span>&nbsp;</span> <span class="sat">S</span> <span>&nbsp;</span>
+									<span class="sun">S</span>
 								</div>
 								<div>
 									<a href="#"> <span class="glyphicon glyphicon-remove" data-alarmno="${item.alarmNo}"></span></a>
@@ -201,7 +208,10 @@ function getCheckboxValue(event) {
 									<div class="alarm_title">{{output_alarm.alarmContent}}</div>
 									<input type="checkbox" class="check" />
 									<label class="on_off_items" for="check"></label> 
-									<div>
+									<div class="dates" data-monact= "{{output_alarm.monAct}}" 
+									data-tueact= "{{output_alarm.tueAct}}" data-wedact= "{{output_alarm.wedAct}}" 
+									data-thuact= "{{output_alarm.thuAct}}" data-friact= "{{output_alarm.friAct}}" 
+									data-satact= "{{output_alarm.satAct}}" data-sunact= "{{output_alarm.sunAct}}">
 									<span>M</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
 									<span>W</span> <span>&nbsp;</span> <span>T</span> <span>&nbsp;</span>
 									<span>F</span> <span>&nbsp;</span> <span>S</span> <span>&nbsp;</span>
@@ -228,6 +238,58 @@ function getCheckboxValue(event) {
 
 	<script type="text/javascript">
 		$(function() {
+			function updateDates() {
+				var alarmLength = $("#alarm_component").data("alarmlength");
+				
+				for (var i=0; i < alarmLength;i++) {
+					
+					var dates = new Array();
+					var words = [".mon", ".tue", ".wed", ".thu", ".fri", ".sat", ".sun"];
+					
+					dates[0] = $("#alarm_component").children().eq(i)
+							.children(".dates").data("monact");
+					
+					dates[1] = $("#alarm_component").children().eq(i)
+						.children(".dates").data("tueact");
+					
+					dates[2] = $("#alarm_component").children().eq(i)
+						.children(".dates").data("wedact");
+					
+					dates[3] = $("#alarm_component").children().eq(i)
+						.children(".dates").data("thuact");
+					
+					dates[4] = $("#alarm_component").children().eq(i)
+						.children(".dates").data("friact");
+					
+					dates[5] = $("#alarm_component").children().eq(i)
+						.children(".dates").data("satact");
+					
+					dates[6] = $("#alarm_component").children().eq(i)
+						.children(".dates").data("sunact");
+					
+					console.log(dates);
+					
+					for(var j = 0; j < 7; j++) {
+						if(dates[j] == "Y") {
+							var testinput = $("#alarm_component").children().eq(i)
+								.children(".dates").children(words[j]).addClass("date_colored");
+						}
+					}
+					
+					/* if(dates[0] == "Y") {
+						var testinput = $("#alarm_component").children().eq(i)
+							.children(".dates").children(words[0]).addClass("date_colored");
+					} */
+					
+					/* if(mon == "Y") {
+						var testinput = $("#alarm_component").children().eq(i)
+								.children(".on_off").children(".dates").children(".mon")
+								.addClass("date_colored");
+						
+						console.log(">>>>>>>>>>>>>>>>>>>>>>>>>" +testinput);
+					} */
+				}
+			}
 			
 			function startCheck() {
 				var alarmLength = $("#alarm_component").data("alarmlength");
@@ -272,60 +334,56 @@ function getCheckboxValue(event) {
 				$(this).closest(".row_elements").remove();
 			});
 
-			$(document)
-					.on(
-							'click',
-							".on_off",
-							function(e) {
-								e.preventDefault();
-								//console.log(">>>>>>>>>>>>>>>>>>클릭이벤트 구현");
-								var alarmNoItem = $(this).data("alarmno");
-								console.log(alarmNoItem);
+			$(".on_off").click(function() {
+				//console.log(">>>>>>>>>>>>>>>>>>클릭이벤트 구현");
+				var alarmNoItem = $(this).data("alarmno");
+				console.log(alarmNoItem);
 
-								var alarmActItem = $(this).data("alarmact");
-								console.log(alarmActItem);
+				var alarmActItem = $(this).data("alarmact");
+				console.log(alarmActItem);
 
-								var alarmTimeItem = $(this).data("alarmtime");
-								console.log(alarmTimeItem);
+				var alarmTimeItem = $(this).data("alarmtime");
+				console.log(alarmTimeItem);
 
-								var alarmContentItem = $(this).data(
-										"alarmcontent");
-								console.log(alarmContentItem);
+				var alarmContentItem = $(this).data("alarmcontent");
+				console.log(alarmContentItem);
 
-								var alarmUserItem = $(this).data("userno");
-								console.log(alarmUserItem);
+				var alarmUserItem = $(this).data("userno");
+				console.log(alarmUserItem);
+				
+				var currentAct = "";
 
-								switch (alarmActItem) {
-								case 'N':
-									var test1 = $(this).children(".check")
-											.addClass("on_off_checked");
-									$(this).closest(".row_elements").css(
-											"background-color", "#CFE1FC");
-									console.log(test1);
+				switch (alarmActItem) {
+					case 'N':
+						var test1 = $(this).children(".check").addClass("on_off_checked");
+									$(this).closest(".row_elements").css("background-color", "#CFE1FC");
+									console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<" +test1);
 
-											$.put(
-													"${pageContext.request.contextPath}/alarm",
+									$.put("${pageContext.request.contextPath}/alarm",
 													{
 														"alarmNo" : alarmNoItem,
 														"alarmAct" : "Y",
 														"alarmContent" : alarmContentItem,
 														"alarmTime" : alarmTimeItem,
 														"userNo" : alarmUserItem,
-
+														
 													},
 													function(json) {
 														if (json.rt == "OK") {
-															var test_empty = $("#alarm_conponent").empty();
-															//console.log(">>>>>>>>>>>>>>>>>>"+test_empty);
-															//console.log(">>>>>>>>>>>>>>활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
-															var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
-															var template = Handlebars.compile(source); // 템플릿 코드 컴파일
-															var result = template(json); // 템플릿 컴파일 결과물에 json 전달
-															$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
+															let userinfoNo = ${zigme_user.userNo};
+															
+															$.get("${pageContext.request.contextPath}/alarm", {
+																"outputNo" : userinfoNo
+															// 페이지 번호는 GET 파라미터로 전송한다.
+															}, function(json) {
+																console.log(">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<처음 페이지 진입후 $.get 이 샐행됨");
+																var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
+																var template = Handlebars.compile(source); // 템플릿 코드 컴파일
+																var result = template(json); // 템플릿 컴파일 결과물에 json 전달
+																$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
+															});
 														}
 													});
-											
-													startCheck();
 													break;
 									
 									
@@ -349,20 +407,25 @@ function getCheckboxValue(event) {
 													},
 													function(json) {
 														if (json.rt == "OK") {
-															var test_empty = $("#alarm_conponent").empty();
-															//console.log(">>>>>>>>>>>>>>>>>>empty 결과 확인"+test_empty);
-															//console.log(">>>>>>>>>>>>>>비활성화로 수정 되었습니다. alarmNo : "+ alarmNoItem);
-															var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
-															var template = Handlebars.compile(source); // 템플릿 코드 컴파일
-															var result = template(json); // 템플릿 컴파일 결과물에 json 전달
-															$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
-														}
-													});
-											
-													startCheck();
+															let userinfoNo = ${zigme_user.userNo};
+															
+															$.get("${pageContext.request.contextPath}/alarm", {
+																"outputNo" : userinfoNo
+															// 페이지 번호는 GET 파라미터로 전송한다.
+															}, function(json) {
+																console.log(">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<처음 페이지 진입후 $.get 이 샐행됨");
+																var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
+																var template = Handlebars.compile(source); // 템플릿 코드 컴파일
+																var result = template(json); // 템플릿 컴파일 결과물에 json 전달
+																$("#alarm_component").append(result); // 최종 결과물을 #list 요소에 추가한다.
+															});
+														}													
+													});												
 													break;
 								}
-
+								window.setTimeout(function(){
+									location.replace("${pageContext.request.contextPath}/util/util_alarm.do")
+	                  			}, 700);
 							});
 
 			$(document).ready(function() {
@@ -370,10 +433,10 @@ function getCheckboxValue(event) {
 				
 				// Restful API에 GET 방식 요청
 				$.get("${pageContext.request.contextPath}/alarm", {
-					"outputNo" : userinfoNo
+					"userNo" : userinfoNo
 				// 페이지 번호는 GET 파라미터로 전송한다.
 				}, function(json) {
-					//console.log(">>>>>>>>>>>>>>>>>>>>>처음 페이지 진입후 $.get 이 샐행됨");
+					console.log(">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<처음 페이지 진입후 $.get 이 샐행됨");
 					var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기
 					var template = Handlebars.compile(source); // 템플릿 코드 컴파일
 					var result = template(json); // 템플릿 컴파일 결과물에 json 전달
@@ -382,6 +445,7 @@ function getCheckboxValue(event) {
 				
 
 				startCheck();
+				updateDates();	
 			});
 			
 			function getUpdate() {
@@ -389,7 +453,7 @@ function getCheckboxValue(event) {
 
 				// Restful API에 GET 방식 요청
 				$.get("${pageContext.request.contextPath}/alarm", {
-					"outputNo" : userinfoNo
+					"userNo" : userinfoNo
 				// 페이지 번호는 GET 파라미터로 전송한다.
 				}, function(json) {
 					var source = $("alarm-list-tmpl").html(); // 템플릿 코드 가져오기

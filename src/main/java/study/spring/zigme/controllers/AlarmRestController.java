@@ -31,9 +31,7 @@ public class AlarmRestController {
 	@RequestMapping(value = "/alarm", method = RequestMethod.GET)
 	public Map<String, Object> get_list() {
 		Alarm input = new Alarm();
-		
-		input.setUserNo(1);
-		
+
 		List<Alarm> output = null;
 		
 		try {
@@ -50,6 +48,30 @@ public class AlarmRestController {
        
         return webHelper.getJsonData(data);
 	}
+	
+	//사용자별 알람 목록 리스트
+	/*
+	 * @RequestMapping(value = "/alarm", method = RequestMethod.GET) public
+	 * Map<String, Object> get_user_list(
+	 * 
+	 * @RequestParam(value="userNo", defaultValue="0") int userNo) {
+	 * 
+	 * Alarm input = new Alarm();
+	 * 
+	 * input.setUserNo(userNo);
+	 * 
+	 * List<Alarm> output = null;
+	 * 
+	 * try { // 데이터 조회하기 output = alarmService.getAlarmselList(input); } catch
+	 * (Exception e) { return webHelper.getJsonError(e.getLocalizedMessage());
+	 * 
+	 * }
+	 * 
+	 * Map<String, Object> data = new HashMap<String, Object>();
+	 * data.put("output_alarm", output);
+	 * 
+	 * return webHelper.getJsonData(data); }
+	 */
 	
 	//알람데이터 삽입에대한 action페이지 구현
 	@RequestMapping(value= "/alarm", method = RequestMethod.POST)

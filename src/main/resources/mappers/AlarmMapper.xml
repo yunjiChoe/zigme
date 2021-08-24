@@ -12,12 +12,12 @@
 		<result property="alarmTime" column="alarmTime" />
 		<result property="userNo" column="userNo" />
 		<result property="monAct" column="monAct" />
-		<result property="monAct" column="tueAct" />
-		<result property="monAct" column="wedAct" />
-		<result property="monAct" column="thuAct" />
-		<result property="monAct" column="friAct" />
-		<result property="monAct" column="satAct" />
-		<result property="monAct" column="sunAct" />
+		<result property="tueAct" column="tueAct" />
+		<result property="wedAct" column="wedAct" />
+		<result property="thuAct" column="thuAct" />
+		<result property="friAct" column="friAct" />
+		<result property="satAct" column="satAct" />
+		<result property="sunAct" column="sunAct" />
 	</resultMap>
 	
 	<!-- 단일행 조회를 위한 기능 정의 -->
@@ -25,15 +25,23 @@
 	resultMap="alarmMap">
 	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct
 	FROM alarm
-	where userNo = #{userNo} AND alarmNo = ${alarmNo};
+	WHERE userNo = #{userNo} AND alarmNo = ${alarmNo};
 	</select>
 	
 	
 	<!-- 다중행 조회를 위한 기능 정의 -->
-	<select id ="selectList" parameterType="study.spring.zigme.model.Alarm"
+	<select id ="selectAllList" parameterType="study.spring.zigme.model.Alarm"
 	resultMap="alarmMap">
 	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct
 	FROM alarm;
+	</select>
+	
+	<!-- 사용자별 다중행 조회를 위한 기능 정의 -->
+	<select id ="selectList" parameterType="study.spring.zigme.model.Alarm"
+	resultMap="alarmMap">
+	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct
+	FROM alarm
+	WHERE userNo = #{userNo};
 	</select>
 	
 	<!-- 데이터 저장을 위한 기능 정의 -->
