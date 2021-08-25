@@ -15,18 +15,19 @@
 					 ],
 					 
    	"menu" : [
-   				{ "MARKER_WIDTH" : 33, 
-				  "MARKER_HEIGHT" : 43, 
+   				{ 
+				  "MARKER_WIDTH" : 33, 
+				  "MARKER_HEIGHT" : 36, 
 				  "OFFSET_X" : 12,
 				  "OVER_MARKER_WIDTH" : 40, 
-				  "OVER_MARKER_HEIGHT" : 47, 
+				  "OVER_MARKER_HEIGHT" : 42, 
 				  "OVER_OFFSET_X" : 13,
-				  "SPRITE_MARKER_URL" : "/img/menu/markers.png", 
-				  "SPRITE_WIDTH" : 170, 
-				  "SPRITE_HEIGHT" : 651, 
-				  "SPRITE_GAP" : 25,
+				  "SPRITE_MARKER_URL" : "/img/menu/marker.png", 
+				  "SPRITE_WIDTH" : 126, 
+				  "SPRITE_HEIGHT" : 458, 
+				  "SPRITE_GAP" : 10,
 				  "Search_radius" : 300, 
-				  "Serach_size" : 9   					
+				  "Serach_size" : 9
    				}
    			],
    	"help" : [{ }],
