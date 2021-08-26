@@ -110,7 +110,7 @@ public class PostRestController {
 		
 		/** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
 		// 일반 문자열 입력 컬럼 --> String으로 파라미터가 선언되어 있는 경우는 값이 입력되지 않으면 빈 문자열로 처리된다.
-        if (!regexHelper.isValue(postSubtitle))     { return webHelper.getJsonWarning("소제목을 입력하세요."); }
+        if (!regexHelper.isValue(postSubtitle))     { return webHelper.getJsonWarning("말머리를 선택하세요."); }
         if (!regexHelper.isValue(postTitle))     { return webHelper.getJsonWarning("제목을 입력하세요."); }
         if (!regexHelper.isValue(postContent))     { return webHelper.getJsonWarning("내용을 입력하세요."); }
         if (userNo == 0)     { return webHelper.getJsonWarning("회원 일련번호가 넘어오지 않았습니다."); }

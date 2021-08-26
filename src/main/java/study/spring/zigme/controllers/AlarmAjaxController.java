@@ -2,6 +2,7 @@ package study.spring.zigme.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,29 +47,26 @@ public class AlarmAjaxController {
 	String contextPath;
 
 	/** 목록 페이지 */
-	@RequestMapping(value = "/util/util_alarm.do", method = RequestMethod.GET)
-	public ModelAndView list(Model model,
-			@RequestParam(value="userNo", defaultValue= "0") int userNo) {
-		System.out.println(">>>>>>>>>>>>>>>>>>>>controller 진입완료");
-		
-		Alarm input = new Alarm();
-		input.setUserNo(userNo);
-
-		List<Alarm> output_alarm = null;
-		int alarmCount = 0;
-
-		try {
-			output_alarm = alarmService.getAlarmList(input);
-			alarmCount = alarmService.countAlarm(input);
-		} catch (Exception e) {
-			return webHelper.redirect(null, e.getLocalizedMessage());
-		}
-
-		model.addAttribute("output_alarm", output_alarm);
-		model.addAttribute("alarmCount", alarmCount);
-
-		return new ModelAndView("util/util_alarm");
-	}
+	
+	  @RequestMapping(value = "/util/util_alarm.do", method = RequestMethod.GET)
+	  public ModelAndView list(Model model,
+	  
+	  @RequestParam(value="userNo", defaultValue= "0") int userNo) {
+	  System.out.println(">>>>>>>>>>>>>>>>>>>>controller 진입완료");
+	  
+	  Alarm input = new Alarm(); input.setUserNo(userNo);
+	  
+	  List<Alarm> output_alarm = null; int alarmCount = 0;
+	  
+	  try { output_alarm = alarmService.getAlarmselList(input); alarmCount =
+	  alarmService.countAlarm(input); } catch (Exception e) { return
+	  webHelper.redirect(null, e.getLocalizedMessage()); }
+	  
+	  model.addAttribute("output_alarm", output_alarm);
+	  model.addAttribute("alarmCount", alarmCount);
+	  
+	  return new ModelAndView("util/util_alarm"); }
+	 
 		
 	/** 알람 추가 action 페이지 */
 	@RequestMapping(value = "/util/util_alarm_add.do", method = RequestMethod.POST)
@@ -103,7 +101,7 @@ public class AlarmAjaxController {
 		
 		try {
 			alarmService.addAlarm(input);
-			output_alarm = alarmService.getAlarmList(input);
+			output_alarm = alarmService.getAlarmselList(input);
 			
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());

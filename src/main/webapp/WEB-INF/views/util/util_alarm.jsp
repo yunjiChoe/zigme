@@ -27,6 +27,11 @@
 	href="${pageContext.request.contextPath}/assets/css/util.css" />
 <style type="text/css">
 
+.noAlarm{
+	font-size: 20px;
+	font-weight: bold;
+}
+
 .date_colored {
 	color: #4041FE;
 }
@@ -136,8 +141,12 @@ function getCheckboxValue(event) {
 				<c:choose>
 					<c:when
 						test="${output_alarm == null || fn:length(output_alarm) == 0}">
-						<tr>
-							<td colspan="9" align="center">알람을 추가해주세요!</td>
+						<tr align="right">
+							<td colspan="9" align="center">
+								<font size="20px" weight= "bold">
+								알람을 추가해주세요!
+								</font>
+							</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -372,8 +381,8 @@ function getCheckboxValue(event) {
 														if (json.rt == "OK") {
 															let userinfoNo = ${zigme_user.userNo};
 															
-															$.get("${pageContext.request.contextPath}/alarm", {
-																"outputNo" : userinfoNo
+															$.get("${pageContext.request.contextPath}/alarm?userNo=" +userinfoNo, {
+
 															// 페이지 번호는 GET 파라미터로 전송한다.
 															}, function(json) {
 																console.log(">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<처음 페이지 진입후 $.get 이 샐행됨");
@@ -409,8 +418,7 @@ function getCheckboxValue(event) {
 														if (json.rt == "OK") {
 															let userinfoNo = ${zigme_user.userNo};
 															
-															$.get("${pageContext.request.contextPath}/alarm", {
-																"outputNo" : userinfoNo
+															$.get("${pageContext.request.contextPath}/alarm?userNo=" +userinfoNo, {
 															// 페이지 번호는 GET 파라미터로 전송한다.
 															}, function(json) {
 																console.log(">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<처음 페이지 진입후 $.get 이 샐행됨");
@@ -424,7 +432,8 @@ function getCheckboxValue(event) {
 													break;
 								}
 								window.setTimeout(function(){
-									location.replace("${pageContext.request.contextPath}/util/util_alarm.do")
+									let userinfoNo = ${zigme_user.userNo};
+									location.replace("${pageContext.request.contextPath}/util/util_alarm.do?userNo=" +userinfoNo)
 	                  			}, 700);
 							});
 
@@ -432,8 +441,8 @@ function getCheckboxValue(event) {
 				let userinfoNo = ${zigme_user.userNo};
 				
 				// Restful API에 GET 방식 요청
-				$.get("${pageContext.request.contextPath}/alarm", {
-					"userNo" : userinfoNo
+				$.get("${pageContext.request.contextPath}/alarm?userNo=" +userinfoNo, {
+		
 				// 페이지 번호는 GET 파라미터로 전송한다.
 				}, function(json) {
 					console.log(">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<처음 페이지 진입후 $.get 이 샐행됨");

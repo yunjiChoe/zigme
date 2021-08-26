@@ -29,14 +29,17 @@ public class AlarmRestController {
 	
 	//알람 목록 페이지
 	@RequestMapping(value = "/alarm", method = RequestMethod.GET)
-	public Map<String, Object> get_list() {
+	public Map<String, Object> get_list(
+			@RequestParam(value="userNo", required=false) int userNo) {
 		Alarm input = new Alarm();
+		
+		input.setUserNo(userNo);
 
 		List<Alarm> output = null;
 		
 		try {
 			// 데이터 조회하기
-            output = alarmService.getAlarmList(input);
+            output = alarmService.getAlarmselList(input);
 		} catch (Exception e) {
 			return webHelper.getJsonError(e.getLocalizedMessage());
 		
