@@ -45,7 +45,7 @@
             <input type= "hidden" name="userNo" value = "${zigme_user.userNo}"/>
         </div>       
         <hr />       
-                <div id="editor" name="postContent" data-editor="ClassicEditor" data-collaboration="false">
+        <div id="editor" name="postContent" data-editor="ClassicEditor" data-collaboration="false">
         <main>
             <div class="centered" name="postContent">
                 <div class="row row-editor" name="postContent">

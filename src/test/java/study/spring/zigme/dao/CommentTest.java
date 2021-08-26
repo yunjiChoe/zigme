@@ -44,5 +44,13 @@ public class CommentTest {
 		sqlSession.update("CommentMapper.updateItem", input);
 	}
 	
+	@Test
+	public void TestG() {
+		Comment input = new Comment();
+		input.setPostNo(1);
+
+		sqlSession.selectList("CommentMapper.selectList", input);
+	}
+	
 	
 }

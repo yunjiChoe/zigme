@@ -41,7 +41,7 @@
 		<div class="content">
 			<div id="comm_upper">
 				<p class="sub_title">커뮤니티</p>
-				<p>직장내 고민을 서로에게 털어놓고 직장생활 노하우 나눔터!${output_post[0].postNo}</p>
+				<p>직장내 고민을 서로에게 털어놓고 직장생활 노하우 나눔터!</p>
 			</div>
 
 			<form id="comm_middle" class="form-inline pull-right">

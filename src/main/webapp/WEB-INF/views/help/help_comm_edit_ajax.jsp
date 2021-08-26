@@ -48,7 +48,20 @@
             </span>
         </div>       
         <hr />       
-        <textarea type="text" name="postContent" class="ckeditor">${output.postContent}</textarea>
+        <div id="editor" name="postContent" data-editor="ClassicEditor" data-collaboration="false">
+        <main>
+            <div class="centered" name="postContent">
+                <div class="row row-editor" name="postContent">
+                    <textarea class="editor" name="postContent">
+                        
+                            <figure class="image image-style-side" name="postContent">
+                            	${output.postContent}
+                            </figure>
+                    </textarea>
+                </div>
+            </div>
+        </main>
+        </div>
         <input type="hidden" id="postNo_hidden" name= "postNo" value="${output.postNo}"/>
         <hr />
     	<div class="input-group" id="write_buttons">
@@ -59,6 +72,43 @@
     	</div>
     </form>
 	</div>
+	
+	<script src="${pageContext.request.contextPath}/plugin/editor/js/ckeditor.js"></script>
+
+    <script>
+    ClassicEditor.create( document.querySelector( '.editor' ), {
+
+        toolbar: {
+          items: [
+            'bold',
+            'italic',
+            'underline',
+            '|',
+            'undo',
+            'redo',
+            '|',
+            'alignment',
+            'fontFamily',
+            'fontSize',
+            'fontBackgroundColor',
+            'fontColor'
+          ]
+        },
+        language: 'ko',
+        licenseKey: '',
+
+
+      } )
+      .then( editor => {
+        window.editor = editor;
+      } )
+      .catch( error => {
+        console.error( 'Oops, something went wrong!' );
+        console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+        console.warn( 'Build id: movktqy00cii-6cl6jsxaig66' );
+        console.error( error );
+      } );
+  </script>
 	
     <c:import url="../inc/footer.jsp" />
     
