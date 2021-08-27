@@ -106,7 +106,7 @@ button {
 			<div class="tab-content">
 				<div class="tab-pane fade in active" id="gna">
 					<br />
-					<div class="selection">
+					<!-- <div class="selection">
 						
 						<strong><span id="none">l</span>&nbsp;&nbsp;성별&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</strong>
@@ -140,7 +140,7 @@ button {
 								<b>50대 이상</b>
 							</button>
 						</div>
-					</div>
+					</div> -->
 					<div class="chart1">
 						<br />
 						<!-- <p class="type1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;방문횟수</p> -->
@@ -151,19 +151,9 @@ button {
 								<br> <br> <br> <br> <br> <br> <br>
 								<br> <br> <br>
 							</div>
-							<div class="pull-left">
-								<br><br><br>
-								<div id="male" class="off">남성 데이터 가져오기 / 다중선택 가능 (Python)</div>
-								<br>
-								<div id="female" class="off">여성 데이터 가져오기 / 다중선택 가능 (Python)</div>
-								<br>
-								<div id="zg" class="off">20대 데이터 가져오기 / 다중선택 가능 (Python)</div>
-								<br>
-								<div id="yg" class="off">30대 데이터 가져오기 / 다중선택 가능 (Python)</div>
-								<br>
-								<div id="xg" class="off">40대 데이터 가져오기 / 다중선택 가능 (Python)</div>
-								<br>
-								<div id="old" class="off">50대 데이터 가져오기 / 다중선택 가능 (Python)</div>
+							<div class="pull-left"  >
+							<canvas id="line-chart" width="1000" height="500"></canvas>
+								
 							</div>
 						</div>
 						<!-- <p class="type2">업종&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -233,7 +223,8 @@ button {
 								<br> <br> <br>
 							</div>
 							<div class="pull-left">
-								<div id="food"></div>
+							<canvas id="myChart" width="1000"></canvas>
+								
 							</div>
 						</div>
 					</div>
@@ -253,7 +244,65 @@ button {
       </body> 바로 위에 위치해야합니다. 
     -->
 	<c:import url="../inc/footer.jsp" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 	<script type="text/javascript">
+	new Chart(document.getElementById("line-chart"), {
+		  type: 'line',
+		  data: {
+		    labels: ["한식","양식","일식","중식","분식","그외"],
+		    datasets: [{ 
+		        data: [17,6,7,10,3,2],
+		        label: "남성 ",
+		        borderColor: "#3e95cd",
+		        fill: false
+		      }, { 
+		        data: [8,19,9,8,11,5],
+		        label: "여성 ",
+		        borderColor: "#8e5ea2",
+		        fill: false
+		      }, { 
+		        data: [10,15,12,10,3,8],
+		        label: "20대 ",
+		        borderColor: "#3cba9f",
+		        fill: false
+		      }, 
+		      { 
+		        data: [1,11,15,11,13,4],
+		        label: "30대",
+		        borderColor: "#e8c3b9",
+		        fill: false
+		      }, 
+		      { 
+			     data: [11,4,15,7,3,2],
+			     label: "40대",
+			     borderColor: "#999",
+			     fill: false
+			   }, 
+			   { 
+		        data: [18,1,11,3,3,2],
+		        label: "50대 이상",
+		        borderColor: "#c45850",
+		        fill: false
+		      }
+		    ]
+		  },
+		  options: {
+		    title: {
+		      display: true,
+		      text: ''
+		    }
+		  }
+		});
+	
+	
+	
+	
+	
+	
 		$(function() {
 			$("#men").click(function() {
 				$("#male").toggleClass("on off");
@@ -279,40 +328,192 @@ button {
 				$("#old").toggleClass("on off");
 			});
 
+			
 			$("#sunny")
 					.click(
 							function() {
 								$("#day").html("맑은");
-								$("#food")
-										.html(
-												"<img src='${pageContext.request.contextPath}/img/menu/topsunny.png' width='840' style='margin: 8px 0 0 20px;'>")
+								var ctx = document.getElementById('myChart').getContext('2d');
+								var chart = new Chart(ctx, {
+								    // The type of chart we want to create
+								    type: 'pie',
+
+								    // The data for our dataset
+								    data: {
+								    	labels: ['냉면', '딤섬', '닭가슴살샐러드', '스테이크', '또띠아'],
+								        datasets: [{
+								            label: 'My First dataset',
+								            backgroundColor: [
+								            	'rgb(116, 140, 65)',								            	
+								            	'rgb(133, 165, 78)',
+								            	'rgb(155, 187, 89)',
+								            	'rgb(185, 205, 150)',
+								            	'rgb(209, 222, 190)'
+								            	],
+								            borderColor: 'white',
+								            data: [35, 23, 21, 14, 7],
+								            fontSize: 20
+								        }]
+								    },
+
+								    // Configuration options go here
+								    options: {
+									    title: {
+									      display: true,
+									      
+									      text: "",
+									      fontColor: 'black'
+									      
+									    },
+							            legend: {
+							                labels: {
+							                	fontColor: 'black',
+							                	fontSize: 20
+							                }
+							            }
+								    }
+								});
+								
 							});
 
 			$("#cloudy")
 					.click(
 							function() {
 								$("#day").html("흐린");
-								$("#food")
-										.html(
-												"<img src='${pageContext.request.contextPath}/img/menu/topcloudy.png' width='825'>")
+								var ctx = document.getElementById('myChart').getContext('2d');
+								var chart = new Chart(ctx, {
+								    // The type of chart we want to create
+								    type: 'pie',
+
+								    // The data for our dataset
+								    data: {
+								    	labels: ['우동', '칼국수', '마라탕', '만두전골', '설렁탕'],
+								        datasets: [{
+								            label: 'My First dataset',
+								            backgroundColor: [
+								            	'rgb(54, 129, 149)',								            	
+								            	'rgb(65, 152, 175)',
+								            	'rgb(75, 172, 198)',
+								            	'rgb(145, 195, 213)',
+								            	'rgb(187, 215, 227)'
+								            	],
+								            borderColor: 'white',
+								            data: [28, 26, 21, 14, 11]
+								        }]
+								    },
+
+								    // Configuration options go here
+								    options: {
+								    	title: {
+										      display: true,
+										      
+										      text: "",
+										      fontColor: 'black'
+										      
+										    },
+								            legend: {
+								                labels: {
+								                	fontColor: 'black',
+								                	fontSize: 20
+								                }
+								            }
+								    }
+								});
 							});
 
 			$("#rainy")
 					.click(
 							function() {
 								$("#day").html("비 오는");
-								$("#food")
-										.html(
-												"<img src='${pageContext.request.contextPath}/img/menu/toprainy.png' width='825'>")
+								var ctx = document.getElementById('myChart').getContext('2d');
+								var chart = new Chart(ctx, {
+								    // The type of chart we want to create
+								    type: 'pie',
+
+								    // The data for our dataset
+								    data: {
+								    	labels: ['파전', '수제비', '삼곁살', '라면', '부대찌개'],
+								        datasets: [{
+								            label: 'My First dataset',
+								            backgroundColor: [
+								            	'rgb(57, 96, 142)',								            	
+								            	'rgb(69, 114, 167)',
+								            	'rgb(79, 129, 189)',
+								            	'rgb(147, 169, 207)',
+								            	'rgb(188, 200, 223)'
+								            	],
+								            borderColor: 'white',
+								            data: [30, 24, 22, 13, 11]
+								        }]
+								    },
+
+								    // Configuration options go here
+								    
+								    	options: {
+									    	title: {
+											      display: true,
+											      
+											      text: "",
+											      fontColor: 'black'
+											      
+											    },
+									            legend: {
+									                labels: {
+									                	fontColor: 'black',
+									                	fontSize: 20
+									                }
+									            }
+								    }
+								});
 							});
 
 			$("#snowy")
 					.click(
 							function() {
 								$("#day").html("눈 오는");
-								$("#food")
-										.html(
-												"<img src='${pageContext.request.contextPath}/img/menu/topsnowy.png' width='835' style='margin: 10px 0 0 8px;'>")
+								var ctx = document.getElementById('myChart').getContext('2d');
+								var chart = new Chart(ctx, {
+								    // The type of chart we want to create
+								    type: 'pie',
+
+								    // The data for our dataset
+								    data: {
+								    	labels: ['어묵탕', '김치전', '떡볶이', '콩나물국밥', '짬뽕'],
+								        datasets: [{
+								            label: 'My First dataset',
+								            backgroundColor:[
+								            	'rgb(95, 73, 121)',								            	
+								            	'rgb(113, 88, 143)',
+								            	'rgb(128, 100, 162)',
+								            	'rgb(182, 173, 194)',
+								            	'rgb(200, 192, 212)'
+								            	],
+								            borderColor: 'white',
+								            data: [26, 24, 20, 19, 11],
+								            category:["자동송금"]
+								        }]
+								    },
+
+								    // Configuration options go here
+								    
+								    	options: {
+									    	title: {
+											      display: true,
+											      
+											      text: "",
+											      fontColor: 'black'
+											      
+											    },
+									            legend: {
+									                labels: {
+									                	fontColor: 'black',
+									                	fontSize: 20
+									                }
+									            }
+								    
+								    	
+								    }
+								});
 							});
 		});
 	</script>
