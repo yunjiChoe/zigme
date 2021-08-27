@@ -38,7 +38,7 @@
 						src="${pageContext.request.contextPath}/img/util/main_alarm.png"></a>
 				</div>
 				<div class="col-sm-12 hidden-lg hidden-md">
-					<a href="${pageContext.request.contextPath}/util/util_alarm"><img alt="알람"
+					<a href="${pageContext.request.contextPath}/util/util_alarm.do?userNo=${zigme_user.userNo}"><img alt="알람"
 						src="${pageContext.request.contextPath}/img/util/main_alarm.png"></a>
 				</div>
 				<div class="col-md-6 col-sm-12 pull-left">

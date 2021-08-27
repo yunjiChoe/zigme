@@ -123,8 +123,7 @@ public class AlarmRestController {
 			@RequestParam(value="alarmNo", defaultValue="0") int alarmNo,
 			@RequestParam(value="alarmAct", defaultValue="") String alarmAct,
 			@RequestParam(value="alarmTime", defaultValue="") String alarmTime,
-			@RequestParam(value="alarmContent", defaultValue="") String alarmContent,
-			@RequestParam(value="userNo", defaultValue="") int userNo) {
+			@RequestParam(value="alarmContent", defaultValue="") String alarmContent) {
 		
 		
 		/** 1)사용자가 입력한 파라미터 유효성 찾기 */
@@ -137,7 +136,6 @@ public class AlarmRestController {
         Alarm input = new Alarm();
         input.setAlarmTime(alarmTime);
         input.setAlarmContent(alarmContent);
-        input.setUserNo(userNo);
         input.setAlarmAct(alarmAct);
         input.setAlarmNo(alarmNo);
         

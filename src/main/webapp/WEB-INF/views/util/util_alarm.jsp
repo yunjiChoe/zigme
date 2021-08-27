@@ -373,9 +373,7 @@ function getCheckboxValue(event) {
 														"alarmNo" : alarmNoItem,
 														"alarmAct" : "Y",
 														"alarmContent" : alarmContentItem,
-														"alarmTime" : alarmTimeItem,
-														"userNo" : alarmUserItem,
-														
+														"alarmTime" : alarmTimeItem												
 													},
 													function(json) {
 														if (json.rt == "OK") {

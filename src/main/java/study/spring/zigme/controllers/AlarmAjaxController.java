@@ -54,16 +54,19 @@ public class AlarmAjaxController {
 	  @RequestParam(value="userNo", defaultValue= "0") int userNo) {
 	  System.out.println(">>>>>>>>>>>>>>>>>>>>controller 진입완료");
 	  
-	  Alarm input = new Alarm(); input.setUserNo(userNo);
+	  Alarm input = new Alarm(); 
+	  input.setUserNo(userNo);
 	  
-	  List<Alarm> output_alarm = null; int alarmCount = 0;
+	  List<Alarm> output_alarm = null; 
 	  
-	  try { output_alarm = alarmService.getAlarmselList(input); alarmCount =
-	  alarmService.countAlarm(input); } catch (Exception e) { return
-	  webHelper.redirect(null, e.getLocalizedMessage()); }
+	  try { 
+		  output_alarm = alarmService.getAlarmselList(input); 
+	  } 
+	  catch (Exception e) { 
+		  return webHelper.redirect(null, e.getLocalizedMessage()); 
+		  }
 	  
 	  model.addAttribute("output_alarm", output_alarm);
-	  model.addAttribute("alarmCount", alarmCount);
 	  
 	  return new ModelAndView("util/util_alarm"); }
 	 
