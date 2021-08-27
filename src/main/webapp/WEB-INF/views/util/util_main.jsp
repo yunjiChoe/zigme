@@ -34,7 +34,7 @@
 			<p class="top_title">부가 기능</p>
 			<div class="ubody">
 				<div class="hidden-sm hidden-xs">
-					<a href="${pageContext.request.contextPath}/util/util_alarm"><img id="alram" alt="알람"
+					<a href="${pageContext.request.contextPath}/util/util_alarm.do?userNo=${zigme_user.userNo}"><img id="alram" alt="알람"
 						src="${pageContext.request.contextPath}/img/util/main_alarm.png"></a>
 				</div>
 				<div class="col-sm-12 hidden-lg hidden-md">

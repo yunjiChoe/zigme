@@ -52,7 +52,10 @@ strong {
 	pointer-events: none; 
 }
 
-
+.alarm_temp {
+	font-size: 20px;
+	color: #fff;
+}
 </style>	
     
 </head>
@@ -72,7 +75,12 @@ strong {
     		<input type="hidden"   id="loc_xy" name="loc_xy"  value="${zigme_user.loc_xy}"/>
     	</div>    	
     	<!-- 알람 -->
-    	<div id="main_alram"></div>
+    	<div id="main_alram">
+    		<br>
+    		<a class="alram_area" href='${pageContext.request.contextPath}/util/util_alarm.do?userNo=${zigme_user.userNo}'>
+    		알람 바로가기 &nbsp;&nbsp;&nbsp; →
+    		</a>
+    	</div>
   </div>
   
   	<!-- body 영역 시작 -->
@@ -195,7 +203,7 @@ strong {
         function main_getalram(count) {            
             
         	var result="";
-            var test_txt = ["10:30  택배 확인하기","11:20  워크샵 회의", "15:40  3층 세미나실 회의", "16:40  사수님 간식 챙겨드리기"];
+            <%--var test_txt = ["10:30  택배 확인하기","11:20  워크샵 회의", "15:40  3층 세미나실 회의", "16:40  사수님 간식 챙겨드리기"];--%>
         	
         	for(var i=0; i < count; i++) {
         		result += "<a class='alram_area' href='${pageContext.request.contextPath}/util/util_alarm'>" + test_txt[i] +"</a>";        		

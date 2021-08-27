@@ -435,7 +435,7 @@ input#all_check {
 .alram_area {
       position: relative;
       display: inline-block;
-      width: 204px;
+      width: /**204px*/160px;
       height: 40px;
       border-radius: 20px;   
       background-color: #00D3D3;
