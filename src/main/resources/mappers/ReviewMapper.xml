@@ -20,7 +20,7 @@
 	<!-- 단일행 조회를 위한 기능 정의 : 리뷰이미지 파일명 가져오기 -->
 	<select id="selectItem" parameterType= "study.spring.zigme.model.Review"
 		resultMap = "reviewMap">
-		SELECT userImgPath FROM review r, userSetImage i where reviewNo = #{reviewNo} AND r.userImgNo = i.userImgNo;		
+		SELECT userImgPath FROM review r, usersetimage i where reviewNo = #{reviewNo} AND r.userImgNo = i.userImgNo;		
 	</select>
 	
 	<!-- 다중행 조회를 위한 기능 정의 : 해당 음식점에 대한 리뷰 목록 가져오기 -->

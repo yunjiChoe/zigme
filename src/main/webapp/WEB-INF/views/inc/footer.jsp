@@ -56,7 +56,7 @@
         	var userno = $("#userNo").val();
         	if (userno == 0) {	// 입력되지 않았다면?
         		alert("로그인을 해주세요.");	// <-- 메시지 표시
-        		window.location.href='http://localhost:8080/Zigme';
+        		window.location.href='http://localhost:8080/zigme';
         					
         		
         	}

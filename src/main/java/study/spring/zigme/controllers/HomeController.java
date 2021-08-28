@@ -438,5 +438,17 @@ public class HomeController {
 
 		return null;
 	}
+	
+	/**
+	 * 알람 테스트
+	 * 
+	 * @param model
+	 * @param request
+	 * @return String
+	 */
+	@RequestMapping(value = "/test_alarm", method = RequestMethod.GET)
+	public String testAlarm(Model model, HttpServletRequest request) {
+		return "util/test_alarm";
+	}
 
 }
