@@ -298,10 +298,7 @@ button {
 		  }
 		});
 	
-	
-	
-	
-	
+
 	
 		$(function() {
 			$("#men").click(function() {
@@ -328,10 +325,10 @@ button {
 				$("#old").toggleClass("on off");
 			});
 
-			
-			$("#sunny")
-					.click(
-							function() {
+		});
+		
+		$(function(){
+			$("#sunny").click(function() {
 								$("#day").html("맑은");
 								var ctx = document.getElementById('myChart').getContext('2d');
 								var chart = new Chart(ctx, {
@@ -376,145 +373,134 @@ button {
 								
 							});
 
-			$("#cloudy")
-					.click(
-							function() {
-								$("#day").html("흐린");
-								var ctx = document.getElementById('myChart').getContext('2d');
-								var chart = new Chart(ctx, {
-								    // The type of chart we want to create
-								    type: 'pie',
+			$("#cloudy").click(function() {
+				
+				
+						$("#day").html("흐린");
+						
+						var ctx = document.getElementById('myChart').getContext('2d');
+						var chart = new Chart(ctx, {
+						    // The type of chart we want to create
+						    type: 'pie',
 
-								    // The data for our dataset
-								    data: {
-								    	labels: ['우동', '칼국수', '마라탕', '만두전골', '설렁탕'],
-								        datasets: [{
-								            label: 'My First dataset',
-								            backgroundColor: [
-								            	'rgb(54, 129, 149)',								            	
-								            	'rgb(65, 152, 175)',
-								            	'rgb(75, 172, 198)',
-								            	'rgb(145, 195, 213)',
-								            	'rgb(187, 215, 227)'
-								            	],
-								            borderColor: 'white',
-								            data: [28, 26, 21, 14, 11]
-								        }]
+						    // The data for our dataset
+						    data: {
+						    	labels: ['우동', '칼국수', '마라탕', '만두전골', '설렁탕'],
+						        datasets: [{
+						            label: 'My First dataset',
+						            backgroundColor: [
+						            	'rgb(54, 129, 149)',								            	
+						            	'rgb(65, 152, 175)',
+						            	'rgb(75, 172, 198)',
+						            	'rgb(145, 195, 213)',
+						            	'rgb(187, 215, 227)'
+						            	],
+						            borderColor: 'white',
+						            data: [28, 26, 21, 14, 11]
+						        }]
+						    },
+						    options: {
+						    	title: {
+								      display: true,
+								      
+								      text: "",
+								      fontColor: 'black'
+								      
 								    },
+				            legend: {
+				                labels: {
+				                	fontColor: 'black',
+				                	fontSize: 20
+						           }
+						       }
+						    }
+						});
+					});
 
-								    // Configuration options go here
-								    options: {
-								    	title: {
-										      display: true,
-										      
-										      text: "",
-										      fontColor: 'black'
-										      
-										    },
-								            legend: {
-								                labels: {
-								                	fontColor: 'black',
-								                	fontSize: 20
-								                }
-								            }
-								    }
-								});
-							});
+			$("#rainy").click(function() {
+					$("#day").html("비 오는");
+					var ctx = document.getElementById('myChart').getContext('2d');
+					var chart = new Chart(ctx, {
+					    // The type of chart we want to create
+					    type: 'pie',
 
-			$("#rainy")
-					.click(
-							function() {
-								$("#day").html("비 오는");
-								var ctx = document.getElementById('myChart').getContext('2d');
-								var chart = new Chart(ctx, {
-								    // The type of chart we want to create
-								    type: 'pie',
+					    // The data for our dataset
+					    data: {
+					    	labels: ['파전', '수제비', '삼곁살', '라면', '부대찌개'],
+					        datasets: [{
+					            label: 'My First dataset',
+					            backgroundColor: [
+					            	'rgb(57, 96, 142)',								            	
+					            	'rgb(69, 114, 167)',
+					            	'rgb(79, 129, 189)',
+					            	'rgb(147, 169, 207)',
+					            	'rgb(188, 200, 223)'
+					            	],
+					            borderColor: 'white',
+					            data: [30, 24, 22, 13, 11]
+					        }]
+					    },
+		    	options: {
+			    	title: {
+					      display: true,
+					      
+					      text: "",
+					      fontColor: 'black'
+					      
+					    },
+			            legend: {
+			                labels: {
+			                	fontColor: 'black',
+			                	fontSize: 20
+			                }
+			            }
+					    }
+					});
+				});
 
-								    // The data for our dataset
-								    data: {
-								    	labels: ['파전', '수제비', '삼곁살', '라면', '부대찌개'],
-								        datasets: [{
-								            label: 'My First dataset',
-								            backgroundColor: [
-								            	'rgb(57, 96, 142)',								            	
-								            	'rgb(69, 114, 167)',
-								            	'rgb(79, 129, 189)',
-								            	'rgb(147, 169, 207)',
-								            	'rgb(188, 200, 223)'
-								            	],
-								            borderColor: 'white',
-								            data: [30, 24, 22, 13, 11]
-								        }]
-								    },
+			$("#snowy").click(function() {
+					$("#day").html("눈 오는");
+					var ctx = document.getElementById('myChart').getContext('2d');
+					var chart = new Chart(ctx, {
+					    // The type of chart we want to create
+					    type: 'pie',
 
-								    // Configuration options go here
-								    
-								    	options: {
-									    	title: {
-											      display: true,
-											      
-											      text: "",
-											      fontColor: 'black'
-											      
-											    },
-									            legend: {
-									                labels: {
-									                	fontColor: 'black',
-									                	fontSize: 20
-									                }
-									            }
-								    }
-								});
-							});
-
-			$("#snowy")
-					.click(
-							function() {
-								$("#day").html("눈 오는");
-								var ctx = document.getElementById('myChart').getContext('2d');
-								var chart = new Chart(ctx, {
-								    // The type of chart we want to create
-								    type: 'pie',
-
-								    // The data for our dataset
-								    data: {
-								    	labels: ['어묵탕', '김치전', '떡볶이', '콩나물국밥', '짬뽕'],
-								        datasets: [{
-								            label: 'My First dataset',
-								            backgroundColor:[
-								            	'rgb(95, 73, 121)',								            	
-								            	'rgb(113, 88, 143)',
-								            	'rgb(128, 100, 162)',
-								            	'rgb(182, 173, 194)',
-								            	'rgb(200, 192, 212)'
-								            	],
-								            borderColor: 'white',
-								            data: [26, 24, 20, 19, 11],
-								            category:["자동송금"]
-								        }]
-								    },
-
-								    // Configuration options go here
-								    
-								    	options: {
-									    	title: {
-											      display: true,
-											      
-											      text: "",
-											      fontColor: 'black'
-											      
-											    },
-									            legend: {
-									                labels: {
-									                	fontColor: 'black',
-									                	fontSize: 20
-									                }
-									            }
+					    // The data for our dataset
+					    data: {
+					    	labels: ['어묵탕', '김치전', '떡볶이', '콩나물국밥', '짬뽕'],
+					        datasets: [{
+					            label: 'My First dataset',
+					            backgroundColor:[
+					            	'rgb(95, 73, 121)',								            	
+					            	'rgb(113, 88, 143)',
+					            	'rgb(128, 100, 162)',
+					            	'rgb(182, 173, 194)',
+					            	'rgb(200, 192, 212)'
+					            	],
+					            borderColor: 'white',
+					            data: [26, 24, 20, 19, 11]
+					           
+					        }]
+					    },								    
+		    	options: {
+			    	title: {
+					      display: true,
+					      
+					      text: "",
+					      fontColor: 'black'
+					      
+					    },
+			            legend: {
+			                labels: {
+			                	fontColor: 'black',
+			                	fontSize: 20
+			                }
+			            }
 								    
 								    	
-								    }
-								});
-							});
+					}
+				});
+			});
 		});
 	</script>
 </body>
