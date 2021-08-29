@@ -74,6 +74,7 @@ public class AlarmAjaxController {
 	/** 알람 추가 action 페이지 */
 	@RequestMapping(value = "/util/util_alarm_add.do", method = RequestMethod.POST)
 	public ModelAndView add(Model model,
+			@RequestParam(value="AP", defaultValue="") String AP,
 			@RequestParam(value="hour", defaultValue="") String hour,
 			@RequestParam(value="min", defaultValue="") String min,
 			@RequestParam(value="monAct", defaultValue="N") String monAct,
@@ -88,7 +89,15 @@ public class AlarmAjaxController {
 		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>삽입 action controller 진입 완료");
 		
+		if (!regexHelper.isValue(AP))     { return webHelper.redirect(null, "AM/PM값이 없습니다.");}
+		System.out.println(AP);
+		
 		Alarm input = new Alarm();
+		
+		if(AP == "PM") {
+			hour = hour + 12;
+		}
+		
 		input.setAlarmTime(hour+ ":" +min);
 		input.setMonAct(monAct);
 		input.setTueAct(tueAct);

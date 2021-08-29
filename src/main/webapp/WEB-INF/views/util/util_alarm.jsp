@@ -73,7 +73,7 @@ function getCheckboxValue(event) {
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
 						<div class="modal-title" id="myModalLabel">
-							<select id="AP" name="mal" style="border: none;">
+							<select id="AP" name="AP" style="border: none;">
 								<option value="am" selected style="color: #4041ef;">AM</option>
 								<option value="pm" style="color: #4041ef;">PM</option>
 							</select> <input type="text" id="hour" class="time" name="hour"
