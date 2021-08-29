@@ -116,6 +116,7 @@ public class PostAjaxController {
 
 		// 댓글 데이터 조회에 필요한 조건값을 Beans에 저장하기
 		Comment input_comm = new Comment();
+		input_comm.setPostNo(postNo);
 
 		// 다음글/이전글 번호 데이터 조회에 필요한 조건값을 Beans에 저장하기(추후에)
 

@@ -244,7 +244,7 @@
 	    	  window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ ${prevNum};
 		   });
 		   */ 	
-			      
+		
           var source = $("comm-list-tmpl").html();   // 템플릿 코드 가져오기
           var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
           var result = template(json);    // 템플릿 컴파일 결과물에 json 전달

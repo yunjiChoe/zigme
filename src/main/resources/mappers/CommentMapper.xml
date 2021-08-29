@@ -37,6 +37,7 @@
 		c.userNo, nickname, blockUserflag, outUserflag
 	FROM comment c
 	INNER JOIN user u ON c.userNo = u.userNo
+	where postNo = ${postNo}
 	ORDER BY commNo DESC;
 	</select>
 	
