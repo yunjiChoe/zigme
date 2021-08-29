@@ -94,6 +94,13 @@ public class AlarmAjaxController {
 		
 		Alarm input = new Alarm();
 		
+		if(AP == "AM") {
+			if(hour == "12") {
+				hour = "00";
+			}
+		}
+		
+		
 		if(AP == "PM") {
 			hour = hour + 12;
 		}
