@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:beans="http://www.springframework.org/schema/beans"
-   xmlns:context="http://www.springframework.org/schema/context"
-   xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-      http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
    
@@ -35,6 +37,19 @@
    <!--  컨트롤러나 서비스의 구현체가 포함되어 있는 패키지들 나열 -->
    <context:component-scan base-package="study.spring.zigme.controllers" />
    <context:component-scan base-package="study.spring.zigme" />
+   
+   <!-- 스케쥴러 어노테이션 선언 -->
+   <task:annotation-driven />    
+	   <!-- 스케쥴러로 동작할 객체 생성 -->
+	   <beans:bean id="scheduleJob" class="study.spring.zigme.controllers.AlarmScheduleController" />
+	   <!-- 생성한 스케쥴러 객체에 대한 작업 스케쥴 지정 -->
+	   <task:scheduled-tasks>
+	   	<!--  매 정각마다 실행되는 작업 -->
+	   	<!-- 매 시간 <task:scheduled ref="scheduleJob" method="everyHours" cron="0 0 0/1 1/1 * ? *" />  -->
+	   	<!-- 테스트 3분마다-->
+	   	<task:scheduled ref="scheduleJob" method="everyHours" cron="0 0/1 * 1/1 * ?" />
+   </task:scheduled-tasks>
+   
    
    <!-- 인터셉터 등록 -->
     <interceptors>

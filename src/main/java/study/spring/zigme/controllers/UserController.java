@@ -326,8 +326,6 @@ public class UserController {
 	public ModelAndView login_ok(Model model, HttpServletRequest request,HttpServletResponse response, 
 			@RequestParam(value = "id", defaultValue = "") String id,
 			@RequestParam(value = "password", defaultValue = "") String password
-			
-
 	) {
 
 		  /** 1) request 객체를 사용해서 세션 객체 만들기 */
@@ -353,8 +351,6 @@ public class UserController {
 		// 세션 유지시간 설정(예 : 1시간)
 	    session.setMaxInactiveInterval(60*60);
 		String user = (String) session.getAttribute("id");
-		
-		
 		 
 		/** 쿠키*/
 		Cookie cookie = new Cookie("my_cookie", id);  // 저장할 쿠키 객체 생성.
@@ -367,12 +363,7 @@ public class UserController {
             cookie.setMaxAge(60*60);       // 값이 있다면 60초 동안 쿠키 저장
         }
         
-        response.addCookie(cookie);     // 쿠키 저장
-		
-		
-		
-		
-		 
+        response.addCookie(cookie);     // 쿠키 저장 
 
 		
 		/** 1) 파라미터 유효성 검사 */
@@ -397,11 +388,7 @@ public class UserController {
 
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());
-		}
-		
-		
-	
-		
+		}	
 		
 		
 		// 추출한 값을 View에게 전달

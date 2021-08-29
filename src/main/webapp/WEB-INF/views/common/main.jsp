@@ -169,6 +169,7 @@ strong {
             
             var result = "<p id='ampm'>" + is_ampm(hh) + "</p> <p id='time_digit'>" + convert_12(hh) + ":" + mi + "</p>";            
             document.getElementById("main_time").innerHTML = result;
+            
         }
 
         function startTimer() {
@@ -437,6 +438,26 @@ strong {
 			
 			$('.tui-full-calendar-section-allday').removeClass('nonclick');
 		});
+		
+		$.ajax({
+			async: false, // 데이터를 읽어올 때까지 다음으로 넘어가지 않는다.
+			// 결과를 읽어올 URL
+			url: '${pageContext.request.contextPath}/util/sche_alarm.do',
+			// 웹 프로그램에게 데이터를 전송하는 방식.(생략할 경우 get)
+			method: 'post',
+			// 전달할 조건값은 JSON형식으로 구성
+			data: {
+				   "userNo" : userNo
+			},
+			// 읽어올 내용의 형식(생략할 경우 Json)
+			dataType: 'json',
+			// 읽어온 내용을 처리하기 위한 함수
+			success: function(req) {
+				
+				console.log("스케쥴러 set OK");
+				
+			}
+		}); // end $.ajax   
 		
 		
 		load_Sche();		
