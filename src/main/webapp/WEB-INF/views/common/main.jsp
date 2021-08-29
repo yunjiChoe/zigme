@@ -144,9 +144,14 @@ strong {
     <script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/calendar/app.js"></script>
     
-    <c:import url="../inc/footer.jsp" />
-	
-	
+    <!-- 중복선언 -->
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>       
+    <script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
+    
+   	<!--  AjaxHelper -->
+  	<script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
+    
 	<!--  AjaxHelper -->
   	<script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
   	
@@ -528,7 +533,7 @@ strong {
 		
 	</script>	
 	
-	
+	<c:import url="../inc/footer.jsp" />
 	
 	
 </body>

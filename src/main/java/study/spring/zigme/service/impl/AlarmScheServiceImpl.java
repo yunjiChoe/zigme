@@ -1,6 +1,7 @@
 package study.spring.zigme.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -32,15 +33,38 @@ public class AlarmScheServiceImpl implements AlarmScheService{
     @Override
     public List<Alarm> getAlarmList() throws Exception {
 
-    	User input = new User();        
-    	List<Alarm> result = null;
+    	Alarm input = new Alarm();        
+    	List<Alarm> result = null;    	
     	
     	if (userNo != 0) {
+    		Calendar cal = Calendar.getInstance();    		
+    		int day = cal.get(Calendar.DAY_OF_WEEK);
+    		String today = "Y";
     		
-	    	input.setUserNo(userNo);
-	
+    		log.debug("오늘은 " + day + " 입니다");
+    		
+    		// 현재 요일을 조회하여 오늘에 해당되는 알람 목록을 조회한다. 
+    		if(day == 1) {
+    			input.setSunAct(today);
+    		} else if(day == 2) {
+    			input.setMonAct(today);
+    		} else if(day == 3) {
+    			input.setTueAct(today);
+    		} else if(day == 4) {
+    			input.setWedAct(today);
+    		} else if(day == 5) {
+    			input.setThuAct(today);
+    		} else if(day == 6) {
+    			input.setFriAct(today);
+    		} else if(day == 7) {
+    			input.setSatAct(today);
+    		}
+    		
+    		input.setUserNo(userNo);
+	    	
+	    	
 	        try {
-	            result = sqlSession.selectList("AlarmMapper.selectList", input);
+	            result = sqlSession.selectList("AlarmMapper.selectAlarmList", input);
 	
 	            if (result == null) {
 	                throw new NullPointerException("result=null");
@@ -70,6 +94,11 @@ public class AlarmScheServiceImpl implements AlarmScheService{
 	    	}
     	}
     	alarm_list.add(input);
+    }
+    
+    @Override
+    public void setAlarmListClear() {
+    	this.alarm_list.clear();
     }
     
     @Override

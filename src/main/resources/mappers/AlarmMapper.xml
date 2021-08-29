@@ -111,4 +111,35 @@
 	 FROM alarm
 	 WHERE alarmNo = #{alarmNo};
 	 </select>
+	 
+	 <!-- 요일별 알람목록 가져오기 위한 쿼리 -->	 
+	<select id ="selectAlarmList" parameterType="study.spring.zigme.model.Alarm"
+	resultMap="alarmMap">
+	SELECT alarmNo, alarmAct, alarmContent, alarmTime, userNo, monAct, tueAct, wedAct, thuAct, friAct, satAct, sunAct
+	FROM alarm WHERE userNo = #{userNo}
+		<!-- 여기서의 Act 값은 받아오는 값이므로, 이는 오늘의 요일에만 Y일 것이다. -->
+		<choose>
+			<when test='monAct == "Y"' >
+				 AND monAct = #{monAct}
+			</when>
+			<when test='tueAct == "Y"' >
+				 AND tueAct = #{tueAct}
+			</when>
+			<when test='wedAct == "Y"' >
+				 AND wedAct = #{wedAct}
+			</when>
+			<when test='thuAct == "Y"' >
+				 AND thuAct = #{thuAct}
+			</when>
+			<when test='friAct == "Y"' >
+				 AND friAct = #{friAct}
+			</when>
+			<when test='satAct == "Y"' >
+				 AND satAct = #{satAct}
+			</when>
+			<when test='sunAct == "Y"' >
+				 AND sunAct = #{sunAct}
+			</when>	
+		</choose>
+	</select>
 </mapper>

@@ -239,6 +239,7 @@ ul, ol {
 
 .footer address {
 	display: inline-block;
+	margin-bottom: 0px;
 }
 
 .footer a {

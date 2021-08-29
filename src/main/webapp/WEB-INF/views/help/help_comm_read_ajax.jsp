@@ -182,7 +182,7 @@
 	</script>
 	<script
 		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-
+	
 	<!--  AjaxHelper -->
 	<script
 		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>

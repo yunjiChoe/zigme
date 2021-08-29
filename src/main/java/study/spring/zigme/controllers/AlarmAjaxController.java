@@ -87,22 +87,25 @@ public class AlarmAjaxController {
 			@RequestParam(value="alarmContent", defaultValue="") String alarmContent,
 			@RequestParam(value="userNo", defaultValue= "0") int userNo) {
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>삽입 action controller 진입 완료");
-		
 		if (!regexHelper.isValue(AP))     { return webHelper.redirect(null, "AM/PM값이 없습니다.");}
-		System.out.println(AP);
 		
 		Alarm input = new Alarm();
+		String AP_AM = "am";
+		String AP_PM = "pm";
+		int hour_int = Integer.parseInt(hour);
 		
-		if(AP == "AM") {
-			if(hour == "12") {
+		if(AP.equals(AP_AM)) {
+			if(hour_int == 12) {
+				System.out.println("[SYS]am이 00으로 변환되었습니다.");
 				hour = "00";
 			}
-		}
+		}		
 		
-		
-		if(AP == "PM") {
-			hour = hour + 12;
+		if(AP.equals(AP_PM)) {
+			if(hour_int < 12) {
+				System.out.println("[SYS]pm이 24시간 포맷으로 변환되었습니다.");
+				hour = String.valueOf(hour_int + 12);
+			}
 		}
 		
 		input.setAlarmTime(hour+ ":" +min);

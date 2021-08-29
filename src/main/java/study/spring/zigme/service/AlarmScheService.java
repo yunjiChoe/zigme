@@ -9,5 +9,6 @@ public interface AlarmScheService {
 	public List<Alarm> getAlarmList() throws Exception;
 	public void setAlarmUserNo(int userNo);
 	public void setAlarmList(Alarm input);
+	public void setAlarmListClear();
 	public List<Alarm> getAlarmListData();
 }

@@ -36,16 +36,16 @@
     <br />
     <form id="editForm" method="post" action="${pageContext.request.contextPath}/help">
         <div class="input-group input-group-lg">
+	        <span class="input-group-addon">
+	                <select class="editor_cate" name="postSubtitle">
+	                <option value="">말머리</option>
+	                <option value="도움">도움</option>
+	                <option value="꿀팁">꿀팁</option>
+	                <option value="넋두리">넋두리</option>
+	            	</select>
+	        </span>
             <input type="text" class="form-control editor_title" name="postTitle" placeholder="제목을 입력하세요." 
             value= "${output.postTitle}"/>
-            <span class="input-group-addon">
-                <select class="editor_cate" name="postSubtitle">
-                <option value="">말머리</option>
-                <option value="도움">도움</option>
-                <option value="꿀팁">꿀팁</option>
-                <option value="넋두리">넋두리</option>
-            	</select>
-            </span>
         </div>       
         <hr />       
         <div id="editor" name="postContent" data-editor="ClassicEditor" data-collaboration="false">

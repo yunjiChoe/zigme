@@ -16,16 +16,15 @@
        <span>서울 서초구 서초대로 77길 55, 에이프로 스퀘어 3층 (서초동) | 사업자번호 : 120-00-67890</span>
        <br>
        <span>대표전화 : 1600-1234 | 팩스 : 050-6000-4646 | 대표메일 : <address><a href="mailto:zigme2021@gmail.com">zigme2021@gmail.com</a></address>
-       <a href="${pageContext.request.contextPath}/admin">관리자</a>
+       <!-- <a href="${pageContext.request.contextPath}/admin">관리자</a>  -->
        </span><br>       
-       <span>EZEN.2021 2조 김태현 안다솜 이솔 최윤지 정희선 김바른이</span>
+       <span><font color="RED">♥</font> EZEN.2021 2조 김태현 안다솜 이솔 최윤지 정희선 김바른이 <font color="RED">♥</font></span><br>
       </div>
 	  <!-- // footer 영역 종료 --> 
 	  
-	   <!-- Javascript -->
-	
-      <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-      <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+	<!-- Javascript -->	
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
        
     <script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
    	<!--  AjaxHelper -->
@@ -34,8 +33,8 @@
       <script type="text/javascript">
 
         $(function() {
-
-          // sub navbar slide
+          
+         // sub navbar slide
           $(".menu-item").hover(function() {
               $(this).find(".sub").slideToggle(300);
           });
@@ -67,12 +66,48 @@
           			dataType: 'json',
           			// 읽어온 내용을 처리하기 위한 함수
           			success: function(req) {
+						
+          				var todate = new Date();
+          				var Alarm_list = req.item;      
           				
-          				console.log("Alarm Data" + req);
+          				for(var i=0; i<Alarm_list.length; i++){     
+          					
+          					//console.log("Alarm Data " + Alarm_list[i].alarmTime);
+              				//console.log("Alarm length " + Alarm_list.length);
+              				//console.log("JSON 데이터 시 " + parseInt(Alarm_list[i].alarmTime.substring(0,2)));
+              				//console.log("JSON 데이터 분! " + parseInt(Alarm_list[i].alarmTime.substring(3)));
+              				//console.log("현재 데이터 시 " + todate.getHours());
+              				//console.log("현재 데이터 분 " + todate.getMinutes());
+              				
+	          				// DB값과 현재시각이 동일할 경우 True
+	          				if((parseInt(todate.getHours()) == parseInt(Alarm_list[i].alarmTime.substring(0,2))) &&    // 시 비교
+	          				 ((parseInt(todate.getMinutes())) == parseInt(Alarm_list[i].alarmTime.substring(3)))) 	// 분 비교
+	          				{
+	          					//console.log("동일함!!");
+	          					body_text = "["+ Alarm_list[i].alarmTime +"] " + Alarm_list[i].alarmContent;
+	          					notify(body_text);
+	          				}
+          				}
           				
           			}
           		}); // end $.ajax 
           	}, 60000);
+          }
+          
+          function notify(body_text) {
+              if (Notification.permission != 'granted') {
+                  alert('[ZIGME]알림 접근권한을 허용해주세요.');
+              }
+              else {
+                  var notification = new Notification('ZIGME Alarm!', {
+                      icon: 'http://pds18.egloos.com/pds/202106/01/23/d0116923_60b6410e48cab.png',
+                      body: body_text,
+                  });
+   
+                  notification.onclick = function () {                 	  
+                      window.open('${pageContext.request.contextPath}/util/util_alarm.do?userNo=${zigme_user.userNo}');
+                  };
+              }
           }
           
           calculate();
@@ -83,9 +118,14 @@
         	var userno = $("#userNo").val();
         	if (userno == 0) {	// 입력되지 않았다면?
         		alert("로그인을 해주세요.");	// <-- 메시지 표시
-        		window.location.href='http://localhost:8080/zigme';
+        		window.location.href='${pageContext.request.contextPath}';
         	}
-        	console.log('사용자가 웹페이지에 돌아왔습니다.');
+        	
+        	// 윈도우 알람 혀용 	
+         	if (window.Notification) {
+               Notification.requestPermission();
+            }
+        	
         };
         
         
