@@ -34,10 +34,10 @@
 	
 	function report(reviewNo, userNickname, content, date) {
 		
-		console.log("reviewNo :" + reviewNo);
-		console.log("userNickname :" + userNickname);
-		console.log("content :" + content);
-		console.log("date :" + date);
+		//console.log("reviewNo :" + reviewNo);
+		//console.log("userNickname :" + userNickname);
+		//console.log("content :" + content);
+		//console.log("date :" + date);
 		
 		$("#report_no").attr("value", reviewNo);
 		$("#report_id").attr("value", userNickname);

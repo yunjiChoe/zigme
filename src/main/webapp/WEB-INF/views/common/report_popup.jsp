@@ -40,7 +40,7 @@
 		
 		<hr />
 		<div id="btn-div">
-				<input type=submit class="btn btn-danger" value="신고하기" />
+				<input type=submit class="btn btn-danger" value="신고하기" onclick="window.close();"/>
 				<input type=submit class="btn btn-default" value="취소" onclick="window.close();" />
 		</div>
 </div>
