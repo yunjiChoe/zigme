@@ -105,7 +105,7 @@
                   });
    
                   notification.onclick = function () {                 	  
-                      window.open('${pageContext.request.contextPath}/util/util_alarm.do?userNo=${zigme_user.userNo}');
+                      window.open('${pageContext.request.contextPath}/util/util_alarm.do?type=${zigme_user.userNo}');
                   };
               }
           }

@@ -77,7 +77,7 @@ strong {
     	<!-- 알람 -->
     	<div id="main_alram">
     		<br>
-    		<a class="alram_area" href='${pageContext.request.contextPath}/util/util_alarm.do?userNo=${zigme_user.userNo}'>
+    		<a class="alram_area" href='${pageContext.request.contextPath}/util/util_alarm.do?type=${zigme_user.userNo}'>
     		알람 바로가기 &nbsp;&nbsp;&nbsp; →
     		</a>
     	</div>

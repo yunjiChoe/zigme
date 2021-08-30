@@ -177,6 +177,13 @@ public class UserController {
 			
 			// 오늘의 통계 정보를 select 하여 update  
 			today_stats = adminstatsService.getstatsItem(to_date);
+			
+			// 없는 경우에 insert 
+			if(today_stats==null) {
+				adminstatsService.addstatsItem(to_date);
+				today_stats = adminstatsService.getstatsItem(to_date);
+			}
+			
 			today_stats.setAdminJoin(today_stats.getAdminJoin()+1); 
 			adminstatsService.editstatsItem(today_stats);
 			
@@ -411,18 +418,18 @@ public class UserController {
 			
 			// 오늘의 통계가 있는지 확인한 후, 
 			today_stats = adminstatsService.getstatsItem(to_date);
-				
-				// 없는 경우에 insert 
-				if(today_stats==null) {
-					adminstatsService.addstatsItem(to_date);
-					today_stats = adminstatsService.getstatsItem(to_date);
-				}
-				
-				if(!(zigme_user.getId().equals(admin_yn))) { // 관리자가 아닌 경우에만 사용자 통계를 쌓는다.	
-					// 방문자수 +1 카운트 
-					today_stats.setAdminVisit(today_stats.getAdminVisit()+1); 
-					adminstatsService.editstatsItem(today_stats);			
-				}
+			
+			// 없는 경우에 insert 
+			if(today_stats==null) {
+				adminstatsService.addstatsItem(to_date);
+				today_stats = adminstatsService.getstatsItem(to_date);
+			}
+			
+			if(!(zigme_user.getId().equals(admin_yn))) { // 관리자가 아닌 경우에만 사용자 통계를 쌓는다.	
+				// 방문자수 +1 카운트 
+				today_stats.setAdminVisit(today_stats.getAdminVisit()+1); 
+				adminstatsService.editstatsItem(today_stats);			
+			}
 			
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());

@@ -26,7 +26,7 @@
 	<select id ="selectItem" parameterType="study.spring.zigme.model.Post"
 	resultMap="postMap">
 	SELECT postNo, postSubtitle, postTitle, postContent, postUpcount, postViewcount,
-		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%m:%s') AS postRegdate, postNoti, 
+		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%i:%s') AS postRegdate, postNoti, 
 		p.userNo, nickname, blockUserflag, outUserflag
 	FROM post p
 	INNER JOIN user u ON p.userNo = u.userNo
@@ -37,7 +37,7 @@
 	<select id ="selectList" parameterType="study.spring.zigme.model.Post"
 	resultMap="postMap">
 	SELECT postNo, postSubtitle, postTitle, postContent, postUpcount, postViewcount,
-		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%m:%s') AS postRegdate, postNoti, 
+		DATE_FORMAT(postRegdate, '%Y-%m-%d %H:%i:%s') AS postRegdate, postNoti, 
 		p.userNo, nickname, blockUserflag, outUserflag
 	FROM post p
 	INNER JOIN user u ON p.userNo = u.userNo	

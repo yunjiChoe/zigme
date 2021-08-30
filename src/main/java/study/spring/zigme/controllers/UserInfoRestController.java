@@ -151,6 +151,13 @@ public class UserInfoRestController {
 			
 			// 오늘의 통계 정보를 select 하여 update  
 			today_stats = adminstatsService.getstatsItem(to_date);
+			
+			// 없는 경우에 insert 
+			if(today_stats==null) {
+				adminstatsService.addstatsItem(to_date);
+				today_stats = adminstatsService.getstatsItem(to_date);
+			}
+			
 			today_stats.setAdminSecession(today_stats.getAdminSecession()+1); 
 			adminstatsService.editstatsItem(today_stats);		
 			
