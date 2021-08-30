@@ -3,6 +3,7 @@ package study.spring.zigme.controllers;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,10 @@ import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.helper.MailHelper;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
+import study.spring.zigme.model.AdminStats;
 import study.spring.zigme.model.Scheduler;
 import study.spring.zigme.model.User;
+import study.spring.zigme.service.AdminStatsService;
 import study.spring.zigme.service.UserService;
 
 @Slf4j
@@ -48,6 +51,9 @@ public class UserController {
 	/** UserService */
 	@Autowired
 	UserService userservice;
+	
+	/** 관리자 유저통계를 쌓기 위함 **/ 
+	@Autowired AdminStatsService adminstatsService;
 
 	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
 	@Value("#{servletContext.contextPath}")
@@ -155,15 +161,31 @@ public class UserController {
 		input.setLoc_xy(loc_xy);
 		input.setBlockUserflag(blockUserflag);
 		input.setOutUserflag(outUserflag);
+		
+		// 유저통계 데이터 확인
+		AdminStats today_stats = null;
+		AdminStats to_date = new AdminStats();
+		Calendar cal = Calendar.getInstance();
+		
+		String yy = String.valueOf(cal.get(Calendar.YEAR)); 
+		String mm = String.valueOf(cal.get(Calendar.MONTH) + 1 < 10 ? "0" + (cal.get(Calendar.MONTH)+1) : (cal.get(Calendar.MONTH)+1));		
+		String dd = String.valueOf(cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + cal.get(Calendar.DAY_OF_MONTH) : cal.get(Calendar.DAY_OF_MONTH));
+		to_date.setAdminStatisDate(yy + mm + dd);
 
 		try {
 			userservice.addUser(input);
+			
+			// 오늘의 통계 정보를 select 하여 update  
+			today_stats = adminstatsService.getstatsItem(to_date);
+			today_stats.setAdminJoin(today_stats.getAdminJoin()+1); 
+			adminstatsService.editstatsItem(today_stats);
+			
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
 		String redirectUrl = contextPath + "/";
-		return webHelper.redirect(redirectUrl, "회원가입 완료");
+		return webHelper.redirect(redirectUrl, "새로운 메이트님 환영합니다!");
 	}
 
 	/** 수정 폼 페이지 */
@@ -367,25 +389,59 @@ public class UserController {
 		User input = new User();
 		input.setId(id);
 		input.setPassword(password);
-
+		
 		User zigme_user = null;
-
+		
+		// 유저통계 데이터 확인
+		AdminStats today_stats = null;
+		AdminStats to_date = new AdminStats();
+		Calendar cal = Calendar.getInstance();
+		
+		String yy = String.valueOf(cal.get(Calendar.YEAR)); 
+		String mm = String.valueOf(cal.get(Calendar.MONTH) + 1 < 10 ? "0" + (cal.get(Calendar.MONTH)+1) : (cal.get(Calendar.MONTH)+1));		
+		String dd = String.valueOf(cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + cal.get(Calendar.DAY_OF_MONTH) : cal.get(Calendar.DAY_OF_MONTH));
+		to_date.setAdminStatisDate(yy + mm + dd);
+		
+		String admin_yn = "admin";
+		String redirectUrl = null;
+		
 		try {
+			// 로그인시에 유저 정보 조회
 			zigme_user = userservice.doLogin(input);
-			System.out.println(zigme_user.getLoc_xy());
 			
-
+			// 오늘의 통계가 있는지 확인한 후, 
+			today_stats = adminstatsService.getstatsItem(to_date);
+				
+				// 없는 경우에 insert 
+				if(today_stats==null) {
+					adminstatsService.addstatsItem(to_date);
+					today_stats = adminstatsService.getstatsItem(to_date);
+				}
+				
+				if(!(zigme_user.getId().equals(admin_yn))) { // 관리자가 아닌 경우에만 사용자 통계를 쌓는다.	
+					// 방문자수 +1 카운트 
+					today_stats.setAdminVisit(today_stats.getAdminVisit()+1); 
+					adminstatsService.editstatsItem(today_stats);			
+				}
+			
 		} catch (Exception e) {
 			return webHelper.redirect(null, e.getLocalizedMessage());
 		}	
-		
 		
 		// 추출한 값을 View에게 전달
 		session.setAttribute("zigme_user", zigme_user);
 		System.out.println(zigme_user);
 		/** 3) 결과를 확인하기 위한 페이지 이동 */
-		String redirectUrl = contextPath + "/main";
-		return webHelper.redirect(redirectUrl, "직메에 오신것을 환영합니다 ^o^ ");
+		
+		if(zigme_user.getId().equals(admin_yn)) { // 로그인한 사용자가 관리자일 경우, 관리자페이지로 이동 
+			redirectUrl = contextPath + "/admin";
+			return webHelper.redirect(redirectUrl, "관리자님 어서오세요! ^o^ ");
+		} else {
+			redirectUrl = contextPath + "/main";
+			return webHelper.redirect(redirectUrl, "직메에 오신것을 환영합니다 ^o^ ");
+		}
+		
+		
 
 	}
 

@@ -143,17 +143,8 @@ strong {
     <script src="${pageContext.request.contextPath}/assets/js/calendar/data/schedules.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/calendar/default.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/calendar/app.js"></script>
-    
-    <!-- 중복선언 -->
-    <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>       
-    <script src="${pageContext.request.contextPath}/assets/js/session.js"></script>
-    
-   	<!--  AjaxHelper -->
-  	<script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
-    
-	<!--  AjaxHelper -->
-  	<script src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
+        
+  	<c:import url="../inc/footer.jsp" />
   	
     <script type="text/javascript">    
 		$(function() {	
@@ -209,13 +200,14 @@ strong {
         function main_getalram(count) {            
             
         	var result="";
-            <%--var test_txt = ["10:30  택배 확인하기","11:20  워크샵 회의", "15:40  3층 세미나실 회의", "16:40  사수님 간식 챙겨드리기"];--%>
+            <%--var test_txt = ["10:30  택배 확인하기","11:20  워크샵 회의", "15:40  3층 세미나실 회의", "16:40  사수님 간식 챙겨드리기"];
         	
         	for(var i=0; i < count; i++) {
-        		result += "<a class='alram_area' href='${pageContext.request.contextPath}/util/util_alarm'>" + test_txt[i] +"</a>";        		
+        		result += "<a class='alram_area' href='${pageContext.request.contextPath}/util/util_alarm'>" + test_txt[i] +"</a>"; 
+        		
         	}
         	
-        	document.getElementById("main_alram").innerHTML = result;       	
+        	document.getElementById("main_alram").innerHTML = result; --%>
         	
         }        
         
@@ -322,8 +314,6 @@ strong {
         	else {
         		
         	}
-        	
-        	
     		
 		});
         
@@ -531,10 +521,7 @@ strong {
 			$('.csky').append(sky);			
 		});
 		
-	</script>	
-	
-	<c:import url="../inc/footer.jsp" />
-	
+	</script>
 	
 </body>
 </html>

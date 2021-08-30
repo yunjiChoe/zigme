@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+/** ------------------------- admin_main.jsp */
+h2 {
+    text-align: center;
+}
+
+#admin_title {
+	padding : 90px 0px;
+}
+
+#countJoin {
+    color: #0000ff;
+}
+
+#countWithdraw {
+    color: #ff0000;
+}
+
+#timer {
+	padding : 0px 0px 90px 0px;
+}

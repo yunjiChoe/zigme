@@ -1,5 +1,6 @@
 package study.spring.zigme.controllers;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
+import study.spring.zigme.model.AdminStats;
 import study.spring.zigme.model.User;
+import study.spring.zigme.service.AdminStatsService;
 import study.spring.zigme.service.UserService;
 
 @Slf4j
@@ -41,7 +44,8 @@ public class UserInfoRestController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
-	
+	/** 관리자 유저통계를 쌓기 위함 **/ 
+	@Autowired AdminStatsService adminstatsService;
 	
 	
 	/** 내 정보 수정 action  */
@@ -129,10 +133,27 @@ public class UserInfoRestController {
 		input.setId(id);
 		
 		User zigme_user = null;
+		
+		// 유저통계 데이터 확인
+		AdminStats today_stats = null;
+		AdminStats to_date = new AdminStats();
+		Calendar cal = Calendar.getInstance();
+		
+		String yy = String.valueOf(cal.get(Calendar.YEAR)); 
+		String mm = String.valueOf(cal.get(Calendar.MONTH) + 1 < 10 ? "0" + (cal.get(Calendar.MONTH)+1) : (cal.get(Calendar.MONTH)+1));		
+		String dd = String.valueOf(cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + cal.get(Calendar.DAY_OF_MONTH) : cal.get(Calendar.DAY_OF_MONTH));
+		to_date.setAdminStatisDate(yy + mm + dd);
+		
 
 		try {
+			
 			zigme_user = userservice.doOut(input); // 데이터 삭제
-			log.debug(zigme_user.toString());
+			
+			// 오늘의 통계 정보를 select 하여 update  
+			today_stats = adminstatsService.getstatsItem(to_date);
+			today_stats.setAdminSecession(today_stats.getAdminSecession()+1); 
+			adminstatsService.editstatsItem(today_stats);		
+			
 		} catch (Exception e) {
 			return webHelper.getJsonError(e.getLocalizedMessage());
 		}
