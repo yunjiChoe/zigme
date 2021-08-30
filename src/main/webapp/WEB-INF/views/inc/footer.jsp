@@ -95,7 +95,7 @@
           }
           
           function notify(body_text) {
-              if (Notification.permission != 'granted') {
+              if (Notification.permission !== 'granted') {
                   alert('[ZIGME]알림 접근권한을 허용해주세요.');
               }
               else {
@@ -127,7 +127,5 @@
             }
         	
         };
-        
-        
 
         </script>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "AdminStatsMapper">
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="AdminStatsMap" type= "study.spring.zigme.model.AdminStats">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="adminStatisNo" column="adminStatisNo" />
+		<result property="adminVisit" column="adminVisit" />
+		<result property="adminJoin" column="adminJoin" />
+		<result property="adminSecession" column="adminSecession" />
+		<result property="adminStatisDate" column="adminStatisDate" />		
+	</resultMap>
+	
+	<!-- 단일행 조회를 위한 기능 정의. 오늘의 데이터를 조회하기 위한 쿼리(관리자 메인) -->
+	<select id ="selectItem" parameterType="study.spring.zigme.model.AdminStats" resultMap="AdminStatsMap">
+		SELECT * FROM adminstats WHERE adminStatisDate = #{adminStatisDate};
+	</select>
+	
+	<!-- 오늘 날짜 데이터가 등록되어있는지 확인 -->
+	<select id="statisCount" parameterType="study.spring.zigme.model.AdminStats" resultType="int">
+	 	SELECT COUNT(*) FROM adminstats WHERE adminStatisDate = #{adminStatisDate};
+	 </select>
+	
+	<!-- 매 자정마다 DB에 자동생성 -->
+	<insert id="insertItem" parameterType = "study.spring.zigme.model.AdminStats" useGeneratedKeys="true" keyProperty="adminStatisNo">
+		INSERT INTO adminstats (adminVisit, adminJoin, adminSecession, adminStatisDate) VALUES (0, 0, 0, date_format(now(), "%Y-%c-%d"));
+	</insert>
+	
+	<!-- 유저통계 갱신 -->
+	<update id= "updateItem" parameterType="study.spring.zigme.model.AdminStats">
+		UPDATE adminstats
+			<set>
+				<if test="adminVisit != 0 and adminVisit != ''">
+					adminVisit = #{adminVisit}
+				</if>
+				<if test="adminJoin != 0 and adminJoin != ''">
+					, adminJoin = #{adminJoin}
+				</if>
+				<if test="adminSecession != 0 and adminSecession != ''">
+					, adminSecession = #{adminSecession}
+				</if>		
+			</set>
+		WHERE adminStatisDate =#{adminStatisDate};
+	</update>
+
+</mapper>

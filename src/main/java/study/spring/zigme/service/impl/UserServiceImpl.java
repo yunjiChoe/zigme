@@ -160,16 +160,13 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User doLogin(User input) throws Exception {
 		int result =0;
-		User zigme_user = null;
-		
+		User zigme_user = null;		
 		
 		try {
 			if(input.getOutUserflag() =="Y") {
 				throw new Exception("이미 탈퇴처리된 회원입니다.");
-			}else {
-			
-				
-				zigme_user =sqlSession.selectOne("UserMapper.selectlogin",input);
+			}else {	
+				zigme_user = sqlSession.selectOne("UserMapper.selectlogin",input);
 			}
 			if(zigme_user ==null){
 				throw new NullPointerException("output=null");
