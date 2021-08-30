@@ -59,10 +59,10 @@ public class AlarmRestController {
 			@RequestParam(value="userNo", defaultValue="0") int userNo){
 		
 		/** 1) 데이터가 잘 넘어왔는지 검사 */
-		if (!regexHelper.isValue(alarmAct))     { return webHelper.getJsonWarning("�븣�엺 �솢�꽦�솕瑜� �엯�젰�븯�꽭�슂."); }
-        if (!regexHelper.isValue(alarmTime))     { return webHelper.getJsonWarning("�븣�엺 �떆媛꾩쓣 �엯�젰�븯�꽭�슂."); }
-        if (!regexHelper.isValue(alarmContent))     { return webHelper.getJsonWarning("�븣�엺 �궡�슜�쓣 �엯�젰�븯�꽭�슂.");}        
-        if (userNo == 0)                    { return webHelper.getJsonWarning("�궗�슜�옄 �씪�젴 踰덊샇瑜� �엯�젰�븯�꽭�슂."); }
+		if (!regexHelper.isValue(alarmAct))     { return webHelper.getJsonWarning("알람 활성화를 확인해주세요."); }
+        if (!regexHelper.isValue(alarmTime))     { return webHelper.getJsonWarning("알람 시간을 입력해수제요."); }
+        if (!regexHelper.isValue(alarmContent))     { return webHelper.getJsonWarning("알람 내용을 입력해주세요.");}        
+        if (userNo == 0)                    { return webHelper.getJsonWarning("사용자 일련번호가 넘어오지 않았습니다."); }
 		
         /** 2) input 데이터 편집 */
         Alarm input = new Alarm();
@@ -100,8 +100,8 @@ public class AlarmRestController {
 		
 		
 		/** 1) 데이터가 잘 넘어왔는지 검사 */
-		if (!regexHelper.isValue(alarmTime))     { return webHelper.getJsonWarning("�븣�엺�떆媛꾩쓣 �엯�젰�븯�꽭�슂."); }
-        if (!regexHelper.isValue(alarmContent))     { return webHelper.getJsonWarning("�븣�엺�궡�슜�쓣 �엯�젰�븯�꽭�슂."); }
+		if (!regexHelper.isValue(alarmTime))     { return webHelper.getJsonWarning("알람 시간을 입력하세요"); }
+        if (!regexHelper.isValue(alarmContent))     { return webHelper.getJsonWarning("알람 내용을 입력하세요."); }
        
         /** 2) input 데이터 편집 */
         Alarm input = new Alarm();
