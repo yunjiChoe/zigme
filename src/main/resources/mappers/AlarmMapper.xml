@@ -10,7 +10,7 @@
 		<result property="alarmAct" column="alarmAct" />
 		<result property="alarmContent" column="alarmContent" />
 		<result property="alarmTime" column="alarmTime" />
-		<result property="ddd" column="userNo" />
+		<result property="userNo" column="userNo" />
 		<result property="monAct" column="monAct" />
 		<result property="tueAct" column="tueAct" />
 		<result property="wedAct" column="wedAct" />
