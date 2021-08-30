@@ -223,7 +223,7 @@ button {
 								<br> <br> <br>
 							</div>
 							<div class="pull-left">
-							<canvas id="myChart" width="1000"></canvas>
+							<canvas id="myChart" width="1000" ></canvas>
 								
 							</div>
 						</div>
@@ -377,7 +377,7 @@ button {
 				
 				
 						$("#day").html("흐린");
-						
+						document.getElementById('myChart').value="";
 						var ctx = document.getElementById('myChart').getContext('2d');
 						var chart = new Chart(ctx, {
 						    // The type of chart we want to create

@@ -153,8 +153,8 @@
 		            
 		           success: function(json) {
 		        	   console.log(json);
-						// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
-						// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+						// 조회해왔을 떄 경우 --> req = { result: "OK" }
+						// 조회 못했을때  경우 --> req = { result: "FAIL" }
 						if (json.rt =="OK" ) {
 						
 							console.log(json.item.id);

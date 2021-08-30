@@ -611,7 +611,7 @@ p.condition {
 .show {
 	width: 80%;
 	margin: auto;
-	border: 1px dotted #0ff;
+	/* border: 1px dotted #0ff; */
 }
 
 #food {

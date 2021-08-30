@@ -571,7 +571,7 @@ img.col-md-3 {
 		
 		
 		 $(function() {
-			    //idck 버튼을 클릭했을 때 
+			    // 버튼을 클릭했을 때 
 			    $("#edit").click(function() {
 			    	var nickname = document.getElementById("user_subname").value;
 					var email = document.getElementById("user_eamil").value;

@@ -354,8 +354,7 @@
                 }
                });
 
-                // 백엔드 페이지에게 데이터를 전송해야 할 경우 사용해야 한다.
-                // $(this).submit();
+                
             });
         });
         
@@ -374,9 +373,7 @@
 			            data:{id : id ,name :name, email : email} ,
 			            
 			           success: function(req) {
-			        	 // console.log(req);
-							// 사용 가능한 아이디인 경우 --> req = { result: "OK" }
-							// 사용 불가능한 아이디인 경우 --> req = { result: "FAIL" }
+			        	
 							if (req.result != "0") {
 							
 								//console.log(req.result);

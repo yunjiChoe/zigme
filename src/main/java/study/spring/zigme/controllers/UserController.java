@@ -352,18 +352,7 @@ public class UserController {
 	    session.setMaxInactiveInterval(60*60);
 		String user = (String) session.getAttribute("id");
 		 
-		/** 쿠키*/
-		Cookie cookie = new Cookie("my_cookie", id);  // 저장할 쿠키 객체 생성.
-        cookie.setPath("/");            // 쿠키의 유효 경로 --> 사이트 전역에 대한 설정.
-        cookie.setDomain("localhost");  // 쿠키의 유효 도메인
-        
-        if (id.equals("")) {     // 쿠키 시간을 설정하지 않으면 브라우저가 동작하는 동안 유효
-            cookie.setMaxAge(0);        // 쿠키 설정시간이 0이면 즉시 삭제된다.
-        } else {
-            cookie.setMaxAge(60*60);       // 값이 있다면 60초 동안 쿠키 저장
-        }
-        
-        response.addCookie(cookie);     // 쿠키 저장 
+		
 
 		
 		/** 1) 파라미터 유효성 검사 */
