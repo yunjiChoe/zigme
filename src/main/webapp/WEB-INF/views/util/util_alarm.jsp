@@ -164,14 +164,6 @@ function getCheckboxValue(event) {
 										class="on_off_items" for="check"></label>
 
 
-									<%--  <c:when test='${item.alarmAct == Y}'>
-										<input type="checkbox" class="check" />
-										<label class="on_off_items" for="check on_off_checked"></label>
-									</c:when>
-									<c:otherwise>
-										<input type="checkbox" class="check" />
-										<label class="on_off_items" for="check"></label>
-									</c:otherwise>   --%>
 								</div>
 								<div>
 									${item.alarmTime}
@@ -314,20 +306,13 @@ function getCheckboxValue(event) {
 								.addClass("on_off_checked");
 						$("#alarm_component").children().eq(i).css(
 								"background-color", "#CFE1FC");
-						//console.log(">>>>>>>>>>>>>>>>>>>>>>>>>" +testinput);
 					}
 				}
 			}
 
-			$("#button_s").click(function() {
-				//console.log(">>>>>>>>>>>>>>알람 추가 버튼 이벤트 발생");
-			});
-
 			$(document).on('click', ".glyphicon-remove", function(e) {
 				e.preventDefault();						
 				var alarmNoItem = $(this).data("alarmno");
-				console.log(alarmNoItem);
-				//console.log(">>>>>>>>>>>>>>데이터 타입: " + typeof alarmNoItem);
 				
 				$.delete(
 						"${pageContext.request.contextPath}/alarm",
@@ -336,7 +321,7 @@ function getCheckboxValue(event) {
 						},
 						function(json) {
 							if (json.rt == "OK") {
-								//console.log(">>>>>>>>>>>>>>해당 알람이 삭제 되었습니다. alarmNo : " + alarmNoItem);
+								alert("해당 알람이 삭제 되었습니다.");
 							}
 						});
 				

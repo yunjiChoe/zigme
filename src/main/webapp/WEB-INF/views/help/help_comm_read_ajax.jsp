@@ -75,9 +75,9 @@
 					<span class="links"><a
 						href="${pageContext.request.contextPath}/help_ajax/help_comm_edit.do?postNo=${output.postNo}"
 						class="help_read_a">수정</a></span>&nbsp; <span class="links"><a
-						href="#" id="deletePost" data-postNo="${output.postNo}"
-						data-postTitle="${output.postTitle}"
-						data-postSubtitle="${output.postSubtitle}" class="help_read_a">삭제</a></span>
+						href="#" id="deletePost" data-postno="${output_post.postNo}"
+						data-postTitle="${output_post.postTitle}"
+						data-postSubtitle="${output_post.postSubtitle}" class="help_read_a">삭제</a></span>
 				</div>
 			</div>
 
@@ -86,31 +86,32 @@
 				<div id="content_group">
 					<div id="content_title">
 						<h1>
-							<span>[${output.postSubtitle}]</span>${output.postTitle}</h1>
+							<span>[${output_post.postSubtitle}]</span>${output_post.postTitle}</h1>
 					</div>
-					<span id="content_nick" class="content_sub">${output.nickname}</span>
-					<span id="content_date" class="content_sub">${output.postRegdate}</span>
+					<span id="content_nick" class="content_sub">${output_post.nickname}</span>
+					<span id="content_date" class="content_sub">${output_post.postRegdate}</span>
 				</div>
 
 
-				<div id="content_body">${output.postContent}</div>
+				<div id="content_body">${output_post.postContent}</div>
 			</div>
 
 			<!-- <div id="comments-container"></div>-->
 
 			<div>
 				<label for="content">comment</label>
-				<form name="commentInsertForm" method="post" action = "${pageContext.request.contextPath}/help_ajax/help_comm_comment.do">
+				<form id="addCommForm" action= "${pageContext.request.contextPath}/comment" method="POST">
 					<div class="input-group">
-						<input type="hidden" name="postNo" value="${output.postNo}" />
+						<input type="hidden" id= "postNoItem" name="postNo" value="${output_post.postNo}" />
+						<input type="hidden" id= "userNoItem" name="userNo" value="${zigme_user.userNo}" />
 						<textarea id="commContent_writing" cols="160" rows="5"
 							name="commContent" placeholder="여러분의 소중한 댓글을 입력하세요."></textarea>
 						<button id="cmt_btn" class="btn btn-primary pull-right"
-							type="submit" name="commentSubmit">댓글달기</button>
+							type="submit">댓글달기</button>
 					</div>
 				</form>
 			</div>
-
+			
 			<br /> <br />
 
 			<div id="comment_list">
@@ -168,14 +169,14 @@
 	{{#each item}}
           <div>
 								<div>
-									{{nickname}}
-									{{commRegdate}}
+									{{output_comm.nickname}}
+									{{output_comm.commRegdate}}
 								</div>
 								<div>
-									{{commContent}}
+									{{output_comm.commContent}}
 								</div>
 								<div>
-									{{commUpCount}}
+									{{output_comm.commUpCount}}
 								</div>
 							</div>		
 	{{/each}}
@@ -188,43 +189,51 @@
 		src="${pageContext.request.contextPath}/assets/ajax/ajax_helper.js"></script>
 
 	<script type="text/javascript">
-     
-	  $(function() {
-		  
-		  	/* $(".commentUpcount").click(function(){
-		  		window.location.href = "${pageContext.request.contextPath}/help_ajax/help_commentUpCount.do";
-		  	}); */
-		  
-		  	$("#cmt_btn").click(function(){
-		  		window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm_commInsert.do";	
-		  	});
-		  
+	  $(function() {		  
 			 $("#writings").click(function() {
 	          window.location.href = "${pageContext.request.contextPath}/help_ajax/help_comm.do";
 	        });
+			 	 
+/* 				$(document).on('click', "#deletePost", function(e) {
+					e.preventDefault();						
+					var postNoItem = $(this).data("postno");
+					
+					$.delete(
+							"${pageContext.request.contextPath}/help",
+							{
+								"postNo" : postNoItem,
+							},
+							function(json) {
+								if (json.rt == "OK") {
+									alert("해당 게시글이 삭제 되었습니다.");
+									window.location = "${pageContext.request.contextPath}/help_ajax/help_comm.do"
+								}
+							});
+				}); */
 			 
-			 $("#deletePost").click(function(e) {
+			 
+			  $("#deletePost").click(function(e) {
 				 e.preventDefault();	//링크 클릭에 대한 페이지 이동 방지
-				 let postNo = "${output.postNo}";
-				 let target = "(" +postNo+ ") 의 게시글";
+				 let postno =${output_post.postNo};
+				 var target = "(" +postno+ ") 의 게시글";
 				 
 				 //삭제확인
 				 if(!confirm("정말 " +target+ "을 삭제하겠습니까?")) {
 					 return false;
 				 } 
 				 
-				console.log(target);
+				console.log(target); 
 				 
 				 //delete 메서드를 Ajax 요청 --> <form> 전송이 아니므로 직접 구현한다.
-				 $.delete("${pageContext.request.contextPath}/help",{
-					 "postNo":postNo
+		 $.delete("${pageContext.request.contextPath}/help",{
+					 "postNo":postno
 				 }, function(json){
 					 if(json.rt == "OK") {
 						 alert("삭제되었습니다.");
 						 //삭제 완료후 목록 페이지로 이동
 						 window.location = "${pageContext.request.contextPath}/help_ajax/help_comm.do"
 					 }
-			 });
+			 }); 
 			 });
 		 
 			 /** 이전글/다을 글 버튼은 나중에.....ㅠ
@@ -249,6 +258,22 @@
           var template = Handlebars.compile(source);  // 템플릿 코드 컴파일
           var result = template(json);    // 템플릿 컴파일 결과물에 json 전달
           $("#comment_list").append(result);      // 최종 결과물을 #list 요소에 추가한다.
+          
+          
+		  
+		  $("#addCommForm").ajaxForm({
+	            // 전송 메서드 지정
+	            method: "POST",
+	            // 서버에서 200 응답을 전달한 경우 실행됨
+	            success: function(json) {
+	                console.log(json);
+	                console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ajaxfrom까지 접근완료");
+	                // json에 포함된 데이터를 활용하여 상세페이지로 이동한다.
+	                if (json.rt == "OK") {
+	                	window.location = "${pageContext.request.contextPath}/help_ajax/help_comm_read.do?postNo="+ json.item.postNo;
+	                }
+	            }
+	        });
 	  });
 </script>
 </body>

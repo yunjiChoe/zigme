@@ -60,7 +60,7 @@ public class CommentRestController {
 			@RequestParam(value="userNo", defaultValue = "0")int userNo,
 			@RequestParam(value="postNo", defaultValue = "0")int postNo) {
 		
-		if (!regexHelper.isValue(commContent))     { return webHelper.getJsonWarning("알람 활성화를 입력하세요."); }      
+		if (!regexHelper.isValue(commContent))     { return webHelper.getJsonWarning("댓글을 입력하세요."); }      
         if (userNo == 0)                    { return webHelper.getJsonWarning("사용자 일련 번호가 넘어오지 않았습니다."); }
         if (postNo == 0)                    { return webHelper.getJsonWarning("게시글 일련 번호가 넘어오지 않았습니다."); }
         

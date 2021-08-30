@@ -121,7 +121,7 @@ public class PostAjaxController {
 		// 다음글/이전글 번호 데이터 조회에 필요한 조건값을 Beans에 저장하기(추후에)
 
 		// 조회결과를 저장할 객체 선언
-		Post output = null;
+		Post output_post = null;
 		List<Comment> output_comm = null;
 
 		try {
@@ -129,7 +129,7 @@ public class PostAjaxController {
 			postService.addpostViewcount(input);
 			// 데이터 조회
 			// 게시글 단일행 조회
-			output = postService.getPostItem(input);
+			output_post = postService.getPostItem(input);
 			// 해당 게시글에 해당하는 댓글 조회
 			output_comm = commentService.getCommentList(input_comm);
 
@@ -138,7 +138,7 @@ public class PostAjaxController {
 		}
 
 		/** 3) View 처리 */
-		model.addAttribute("output", output);
+		model.addAttribute("output_post", output_post);
 		model.addAttribute("output_comm", output_comm);
 		return new ModelAndView("help/help_comm_read_ajax");
 	}
@@ -148,52 +148,9 @@ public class PostAjaxController {
 		return new ModelAndView("help/help_comm_write_ajax");
 	}
 
-	/** 작성 폼에 대한 action 페이지 */
-	/*
-	 * @RequestMapping(value = "/help_ajax/help_comm_write.do", method =
-	 * RequestMethod.POST) public ModelAndView add_ok(Model model,
-	 * 
-	 * @RequestParam(value = "postSubtitle", defaultValue = "") String postSubtitle,
-	 * 
-	 * @RequestParam(value = "postTitle", defaultValue = "") String postTitle,
-	 * 
-	 * @RequestParam(value = "postContent", defaultValue = "") String postContent,
-	 * 
-	 * @RequestParam(value = "userNo", defaultValue = "") int userNo) {
-	 * 
-	 *//** 1) 사용자가 입력한 파라미터에 대한 유효성 검사 */
-	/*
-	 * if (!regexHelper.isValue(postSubtitle)) { return webHelper.redirect(null,
-	 * "말머리를 입력하세요."); } if (!regexHelper.isValue(postTitle)) { return
-	 * webHelper.redirect(null, "제목을 입력하세요."); } if
-	 * (!regexHelper.isValue(postContent)) { return webHelper.redirect(null,
-	 * "내용을 입력하세요."); }
-	 * 
-	 * if (userNo == 0) { return webHelper.redirect(null, "사용자 일련번호가 넘어오지 않습니다."); }
-	 *//** 2) 데이터 저장하기 *//*
-							 * Post input = new Post(); input.setPostSubtitle(postSubtitle);
-							 * input.setPostTitle(postTitle); input.setPostContent(postContent);
-							 * input.setUserNo(userNo);
-							 * 
-							 * int postNo = 0; // 저장된 결과를 조회하기 위한 객체 Post output = null;
-							 * 
-							 * try { // 데이터 저장 // --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
-							 * postService.addPost(input);
-							 * 
-							 * postNo = input.getPostNo();
-							 * 
-							 * // 데이터 조회 output = postService.getPostItem(input); } catch (Exception e) {
-							 * return webHelper.redirect(null, e.getLocalizedMessage()); }
-							 * 
-							 * model.addAttribute("postNo", postNo); return new
-							 * ModelAndView("help/help_comm_read_ajax"); }
-							 */
-
 	/** 수정 폼 페이지 */
 	@RequestMapping(value = "/help_ajax/help_comm_edit.do", method = RequestMethod.GET)
 	public ModelAndView edit_ok(Model model, @RequestParam(value = "postNo", defaultValue = "0") int postNo) {
-
-		System.out.println("확인용");
 
 		/** 1) 파라미터 유효성 검사 */
 		// 이 값이 존재하지 않는다면 데이터 조회가 불가능하므로 반드시 필수값으로 처리해야 한다.

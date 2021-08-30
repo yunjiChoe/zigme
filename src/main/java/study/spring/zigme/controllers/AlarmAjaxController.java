@@ -25,34 +25,34 @@ import study.spring.zigme.service.AlarmService;
 @Controller
 public class AlarmAjaxController {
 	
-	/** WebHelper 주입 */
+	/** WebHelper 二쇱엯 */
 	// --> import org.springframework.beans.factory.annotation.Autowired;
 	// --> import study.spring.springhelper.helper.WebHelper;
 	@Autowired
 	WebHelper webHelper;
 
-	/** RegexHelper 주입 */
+	/** RegexHelper 二쇱엯 */
 	// --> import study.spring.springhelper.helper.RegexHelper;
 	@Autowired
 	RegexHelper regexHelper;
 
-	/** Service 패턴 구현체 주입 */
+	/** Service �뙣�꽩 援ы쁽泥� 二쇱엯 */
 	// --> import study.spring.springhelper.service.ProfessorService;
 	@Autowired
 	AlarmService alarmService;
 
-	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
+	/** "/�봽濡쒖젥�듃�씠由�" �뿉 �빐�떦�븯�뒗 ContextPath 蹂��닔 二쇱엯 */
 	// --> import org.springframework.beans.factory.annotation.Value;
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 
-	/** 목록 페이지 */
+	/** 紐⑸줉 �럹�씠吏� */
 	
 	  @RequestMapping(value = "/util/util_alarm.do", method = RequestMethod.GET)
 	  public ModelAndView list(Model model,
 	  
-	  @RequestParam(value="userNo", defaultValue= "0") int userNo) {
-	  System.out.println(">>>>>>>>>>>>>>>>>>>>controller 진입완료");
+	  @RequestParam(value="nickname", defaultValue= "0") int userNo) {
+	  System.out.println(">>>>>>>>>>>>>>>>>>>>controller 吏꾩엯�셿猷�");
 	  
 	  Alarm input = new Alarm(); 
 	  input.setUserNo(userNo);
@@ -71,7 +71,7 @@ public class AlarmAjaxController {
 	  return new ModelAndView("util/util_alarm"); }
 	 
 		
-	/** 알람 추가 action 페이지 */
+	/** �븣�엺 異붽� action �럹�씠吏� */
 	@RequestMapping(value = "/util/util_alarm_add.do", method = RequestMethod.POST)
 	public ModelAndView add(Model model,
 			@RequestParam(value="AP", defaultValue="") String AP,
@@ -87,7 +87,7 @@ public class AlarmAjaxController {
 			@RequestParam(value="alarmContent", defaultValue="") String alarmContent,
 			@RequestParam(value="userNo", defaultValue= "0") int userNo) {
 		
-		if (!regexHelper.isValue(AP))     { return webHelper.redirect(null, "AM/PM값이 없습니다.");}
+		if (!regexHelper.isValue(AP))     { return webHelper.redirect(null, "AM/PM媛믪씠 �뾾�뒿�땲�떎.");}
 		
 		Alarm input = new Alarm();
 		String AP_AM = "am";
@@ -96,14 +96,14 @@ public class AlarmAjaxController {
 		
 		if(AP.equals(AP_AM)) {
 			if(hour_int == 12) {
-				System.out.println("[SYS]am이 00으로 변환되었습니다.");
+				System.out.println("[SYS]am�씠 00�쑝濡� 蹂��솚�릺�뿀�뒿�땲�떎.");
 				hour = "00";
 			}
 		}		
 		
 		if(AP.equals(AP_PM)) {
 			if(hour_int < 12) {
-				System.out.println("[SYS]pm이 24시간 포맷으로 변환되었습니다.");
+				System.out.println("[SYS]pm�씠 24�떆媛� �룷留룹쑝濡� 蹂��솚�릺�뿀�뒿�땲�떎.");
 				hour = String.valueOf(hour_int + 12);
 			}
 		}
