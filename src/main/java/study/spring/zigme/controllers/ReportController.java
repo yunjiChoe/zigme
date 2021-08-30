@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
 import study.spring.zigme.helper.RegexHelper;
 import study.spring.zigme.helper.WebHelper;
 
+@Slf4j
 @Controller
 public class ReportController {
 	
@@ -33,6 +35,13 @@ public class ReportController {
 			@RequestParam(defaultValue = "") String repo_content_input,
 			@RequestParam(defaultValue = "") String repo_date_input,
 			@RequestParam(defaultValue = "") String repo_textarea) {
+		
+		
+		log.debug(">>> repo_id_input " + repo_id_input);
+		log.debug(">>> repo_content_input " + repo_content_input);
+		log.debug(">>> repo_date_input " + repo_date_input);
+		log.debug(">>> repo_textarea " + repo_textarea);
+		
 		
 		/** 입력여부 검사후, 입력되지 않은 경우 이전 페이지로 보내기 */
         // 받는 메일 주소 입력 여부 확인

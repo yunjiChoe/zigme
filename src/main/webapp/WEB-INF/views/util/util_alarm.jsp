@@ -416,7 +416,7 @@ function getCheckboxValue(event) {
 								}
 								window.setTimeout(function(){
 									let userinfoNo = ${zigme_user.userNo};
-									location.replace("${pageContext.request.contextPath}/util/util_alarm.do?userNo=" +userinfoNo)
+									location.replace("${pageContext.request.contextPath}/util/util_alarm.do?type=" +userinfoNo)
 	                  			}, 700);
 							});
 
