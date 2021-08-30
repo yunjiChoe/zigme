@@ -72,29 +72,6 @@ button {
 		<c:import url="../inc/navbar.jsp" />
 		<div class="content">
 			<p class="sub_title">선호 음식 순위</p>
-			<!-- <form class="form-inline pull-right">
-				<div class="form-group">
-					<select id="parent" class="form-control">
-						<option value="">--- 선택하세요 ---</option>
-						<option value="202010">2020년 10월</option>
-						<option value="202011">2020년 11월</option>
-						<option value="202012">2020년 12월</option>
-					</select>
-				</div>
-				<span class="between"> &nbsp;<strong>~</strong>&nbsp;
-				</span>
-				<div class="form-group">
-					<select id="parent" class="form-control">
-						<option value="">--- 선택하세요 ---</option>
-						<option value="202106">2021년 6월</option>
-						<option value="202107">2021년 7월</option>
-						<option value="202108">2021년 8월</option>
-					</select>
-				</div>
-				<button type="button" class="btn btn-default view">
-					<b>조회</b>
-				</button>
-			</form> -->
 			<!-- 탭 메뉴 시작 -->
 			<ul id="myTab" class="nav nav-tabs">
 				<li class="active"><a href="#gna" data-toggle="tab">성별/연령별</a></li>
@@ -106,44 +83,8 @@ button {
 			<div class="tab-content">
 				<div class="tab-pane fade in active" id="gna">
 					<br />
-					<!-- <div class="selection">
-						
-						<strong><span id="none">l</span>&nbsp;&nbsp;성별&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						</strong>
-						<div class="btn-group" data-toggle="buttons">
-							<button type="button" class="pull-left btn btn-sm" id="men">
-								&nbsp;&nbsp;&nbsp;<b>남성</b>&nbsp;&nbsp;&nbsp;
-							</button>
-							<button type="button" class="pull-left btn btn-sm" id="women">
-								&nbsp;&nbsp;&nbsp;<b>여성</b>&nbsp;&nbsp;&nbsp;
-							</button>
-						</div>
-
-						<br /> <br />
-						
-						<strong>&nbsp;연령별&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-						<div class="btn-group" data-toggle="buttons">
-							<button type="button" class="pull-left btn btn-sm btn-success"
-								id="twenties">
-								&nbsp;&nbsp;&nbsp;<b>20대</b>&nbsp;&nbsp;&nbsp;
-							</button>
-							<button type="button" class="pull-left btn btn-sm btn-info"
-								id="thirties">
-								&nbsp;&nbsp;&nbsp;<b>30대</b>&nbsp;&nbsp;&nbsp;
-							</button>
-							<button type="button" class="pull-left btn btn-sm btn-warning"
-								id="fourties">
-								&nbsp;&nbsp;&nbsp;<b>40대</b>&nbsp;&nbsp;&nbsp;
-							</button>
-							<button type="button" class="pull-left btn btn-sm btn-primary"
-								id="fifties">
-								<b>50대 이상</b>
-							</button>
-						</div>
-					</div> -->
 					<div class="chart1">
 						<br />
-						<!-- <p class="type1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;방문횟수</p> -->
 						<div class="axis clearfix">
 							<div class="pull-left">
 								<br> <br> <br> <br> <br> <br> <br>
@@ -156,25 +97,6 @@ button {
 								
 							</div>
 						</div>
-						<!-- <p class="type2">업종&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-						<p class="category">
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							한식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							분식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							양식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 그
-							외&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							일식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							중식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p> -->
 					</div>
 				</div>
 
