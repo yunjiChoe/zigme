@@ -25,28 +25,28 @@ import study.spring.zigme.service.AlarmService;
 @Controller
 public class AlarmAjaxController {
 	
-	/** WebHelper 二쇱엯 */
+	/** WebHelper 주입 */
 	// --> import org.springframework.beans.factory.annotation.Autowired;
 	// --> import study.spring.springhelper.helper.WebHelper;
 	@Autowired
 	WebHelper webHelper;
 
-	/** RegexHelper 二쇱엯 */
+	/** RegexHelper 주입 */
 	// --> import study.spring.springhelper.helper.RegexHelper;
 	@Autowired
 	RegexHelper regexHelper;
 
-	/** Service �뙣�꽩 援ы쁽泥� 二쇱엯 */
+	/** Service 주입 */
 	// --> import study.spring.springhelper.service.ProfessorService;
 	@Autowired
 	AlarmService alarmService;
 
-	/** "/�봽濡쒖젥�듃�씠由�" �뿉 �빐�떦�븯�뒗 ContextPath 蹂��닔 二쇱엯 */
+	/** "ContextPath 주입*/
 	// --> import org.springframework.beans.factory.annotation.Value;
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 
-	/** 紐⑸줉 �럹�씠吏� */
+	/**알람 조회 페이지 */
 	
 	  @RequestMapping(value = "/util/util_alarm.do", method = RequestMethod.GET)
 	  public ModelAndView list(Model model,
@@ -71,7 +71,7 @@ public class AlarmAjaxController {
 	  return new ModelAndView("util/util_alarm"); }
 	 
 		
-	/** �븣�엺 異붽� action �럹�씠吏� */
+	/** 알람 추가 페이지*/
 	@RequestMapping(value = "/util/util_alarm_add.do", method = RequestMethod.POST)
 	public ModelAndView add(Model model,
 			@RequestParam(value="AP", defaultValue="") String AP,
